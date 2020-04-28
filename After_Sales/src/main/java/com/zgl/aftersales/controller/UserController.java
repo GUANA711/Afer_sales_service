@@ -126,7 +126,7 @@ public class UserController {
 
                 //登陆成功，创建session
                 HttpSession seesion=req.getSession(true);
-                seesion.setAttribute("username",loginUsername);
+                seesion.setAttribute("userID",user.getUser_id());
                 System.out.println("session id:"+seesion.getId());
 
                 //将sessionId存进cookie
@@ -200,7 +200,7 @@ public class UserController {
         String checkCode=(String)servletContext.getAttribute("code");
 
         String postCheckCode=json.getString("checkcode");
-       System.out.println(checkCode+";"+postCheckCode);
+        System.out.println(checkCode+";"+postCheckCode);
         String newPwd=json.getString("newPwd");
         String rePwd=json.getString("rePwd");
 
@@ -223,9 +223,6 @@ public class UserController {
         }else {
            status.setMsg("重置失败，验证码错误");
        }
-
-
-
         return status;
    }
 
