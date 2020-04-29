@@ -2,7 +2,6 @@ package com.zgl.aftersales.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.zgl.aftersales.AftersalesApplication;
 import com.zgl.aftersales.pojo.Status;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.MailService;
@@ -11,7 +10,6 @@ import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.ContextLoader;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
@@ -126,7 +124,7 @@ public class UserController {
 
                 //登陆成功，创建session
                 HttpSession seesion=req.getSession(true);
-                seesion.setAttribute("userID",user.getUser_id());
+                seesion.setAttribute("username",loginUsername);
                 System.out.println("session id:"+seesion.getId());
 
                 //将sessionId存进cookie
@@ -200,7 +198,7 @@ public class UserController {
         String checkCode=(String)servletContext.getAttribute("code");
 
         String postCheckCode=json.getString("checkcode");
-        System.out.println(checkCode+";"+postCheckCode);
+       System.out.println(checkCode+";"+postCheckCode);
         String newPwd=json.getString("newPwd");
         String rePwd=json.getString("rePwd");
 
@@ -223,7 +221,18 @@ public class UserController {
         }else {
            status.setMsg("重置失败，验证码错误");
        }
+
+
+
         return status;
    }
+
+    @PostMapping("/logout")
+    public void logout(@RequestBody JSONObject json, HttpServletRequest req) {
+        int User_id = (int) req.getSession(true).getAttribute("userID");
+
+        req.removeAttribute("userID");
+    }
+
 
 }
