@@ -14,6 +14,6 @@ public class Status {
     private Boolean status=false;
     private Object data=null;
     private String msg;
-    private int code;//判断是否登录
+    private int code=0;
 
 }

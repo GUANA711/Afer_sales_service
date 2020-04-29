@@ -1,8 +1,10 @@
 package com.zgl.aftersales;
 
 import com.zgl.aftersales.pojo.FAQs;
+import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.FAQService;
+import com.zgl.aftersales.service.ItemsService;
 import com.zgl.aftersales.service.UserService;
 import com.zgl.aftersales.service.WorkerService;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
@@ -83,5 +85,26 @@ class AftersalesApplicationTests {
 
         workerService.worker_updateByUsername(map);
         System.out.println(map);
+    }
+    @Autowired
+    ItemsService itemsService;
+    @Test
+    void itme_selectall() {
+
+
+        List<Items> itemsList = itemsService.selectAllItems();
+        for (Items item : itemsList) {
+            System.out.println(item);
+
+        }
+    }
+
+    @Test
+    void fuzzyQuery(){
+        List<Items> itemsList=itemsService.fuzzyQuery("2");
+        for (Items item : itemsList) {
+            System.out.println(item);
+
+        }
     }
 }
