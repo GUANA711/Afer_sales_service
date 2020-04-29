@@ -29,7 +29,21 @@ public class QuestionController {
         return db.checkQuestion(Question_id);
     }
 
+    @GetMapping("/checkQuestionsubmited")
+    public List<Question> checkQuestionsubmited(Integer User_id){
+        return db.checkQuestionsubmited(User_id);
+    }
 
+
+    @GetMapping("/checkQuestionfinished")
+    public List<Question> checkQuestionfinished(Integer User_id) {
+        return db.checkQuestionfinished(User_id);
+    }
+
+    @GetMapping("/checkQuestiondealing")
+    public List<Question> checkQuestiondealing(Integer User_id) {
+        return db.checkQuestiondealing(User_id);
+    }
 
     @GetMapping("/checkPostMan")
     public Users checkPostMan(int User_id){

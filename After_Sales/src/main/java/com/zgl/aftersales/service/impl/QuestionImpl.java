@@ -26,6 +26,20 @@ public class QuestionImpl implements QuestionService {
         return db.checkQuestion(Question_id);
     }
 
+    @Override
+    public List<Question> checkQuestionsubmited(Integer User_id) {
+        return db.checkQuestionsubmited(User_id);
+    }
+
+    @Override
+    public List<Question> checkQuestionfinished(Integer User_id) {
+        return db.checkQuestionfinished(User_id);
+    }
+
+    @Override
+    public List<Question> checkQuestiondealing(Integer User_id) {
+        return db.checkQuestiondealing(User_id);
+    }
 //    @Override
 //    public int DeleteUser(int User_id) {
 //        return db.DeleteUser(User_id);
