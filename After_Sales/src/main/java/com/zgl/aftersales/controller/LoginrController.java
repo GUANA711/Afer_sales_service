@@ -2,7 +2,6 @@ package com.zgl.aftersales.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.zgl.aftersales.AftersalesApplication;
 import com.zgl.aftersales.pojo.Status;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.MailService;
@@ -11,7 +10,7 @@ import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.ContextLoader;
+
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
@@ -29,13 +28,13 @@ import java.util.regex.Pattern;
 @RequestMapping(value ="/user",method = RequestMethod.POST)
 @Slf4j
 
-public class UserController {
+public class LoginrController {
     @Autowired
     private UserService userService;
     @Autowired
     private MailService mailService;
 
-    public UserController(UserService userService) {
+    public LoginrController(UserService userService) {
         this.userService = userService;
     }
 
@@ -130,10 +129,15 @@ public class UserController {
                 System.out.println("session id:"+seesion.getId());
 
                 //将sessionId存进cookie
-                Cookie cookie=new Cookie("USER_SESSION_ID",seesion.getId());
-                cookie.setPath("/");
-                cookie.setMaxAge(10*60);//存在时间为十分钟
-                resp.addCookie(cookie);
+                Cookie cookie_name=new Cookie("USER_NAME",loginUsername);
+                cookie_name.setPath("/");
+                cookie_name.setMaxAge(10*60);//存在时间为十分钟
+                resp.addCookie(cookie_name);
+
+                Cookie cookie_pwd=new Cookie("USER_PWD",loginPwd);
+                cookie_pwd.setPath("/");
+                cookie_pwd.setMaxAge(10*60);//存在时间为十分钟
+                resp.addCookie(cookie_pwd);
 
 
                 if(user.getRole_id()==1){
