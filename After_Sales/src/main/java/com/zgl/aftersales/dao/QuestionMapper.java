@@ -17,6 +17,8 @@ public interface QuestionMapper {
     List<Question> checkQuestionsubmited(Integer User_id);
     List<Question> checkQuestionfinished(Integer User_id);
     List<Question> checkQuestiondealing(Integer User_id);
+    List<Question> showAllQuestions();
+    List<Question> fuzzyQuery(String key);
 
     //int DeleteUser(int User_id);
     Users checkPostMan(int User_id);

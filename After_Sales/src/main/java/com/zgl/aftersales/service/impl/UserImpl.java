@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Service
 @Transactional
-public class UserImpl implements UserService {
+public class  UserImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
     @Override
@@ -38,8 +38,5 @@ public class UserImpl implements UserService {
         userMapper.updateByEmailToPwd(map);
     }
 
-    @Override
-    public void logout(){
-        userMapper.logout();
-    };
+
 }
