@@ -37,4 +37,9 @@ public class UserImpl implements UserService {
     public void updateByEmailToPwd(Map<String, String> map) {
         userMapper.updateByEmailToPwd(map);
     }
+
+    @Override
+    public void logout(){
+        userMapper.logout();
+    };
 }

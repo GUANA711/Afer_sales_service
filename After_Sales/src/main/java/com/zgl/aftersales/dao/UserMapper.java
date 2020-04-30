@@ -15,5 +15,6 @@ public interface UserMapper {
     Users selectByUsername(String username);
     Users selectByEmail(String mail);
     void  updateByEmailToPwd(Map<String,String> map);
+    void logout();
 
 }
