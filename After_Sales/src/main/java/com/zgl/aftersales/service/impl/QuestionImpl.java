@@ -40,6 +40,7 @@ public class QuestionImpl implements QuestionService {
     public List<Question> checkQuestiondealing(Integer User_id) {
         return db.checkQuestiondealing(User_id);
     }
+
 //    @Override
 //    public int DeleteUser(int User_id) {
 //        return db.DeleteUser(User_id);
