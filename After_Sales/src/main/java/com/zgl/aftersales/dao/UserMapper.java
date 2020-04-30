@@ -16,5 +16,4 @@ public interface UserMapper {
     Users selectByEmail(String mail);
     void  updateByEmailToPwd(Map<String,String> map);
 
-
 }
