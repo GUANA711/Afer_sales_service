@@ -230,4 +230,11 @@ public class LoginrController {
         return status;
    }
 
+    @PostMapping("/logout")
+    public void logout(@RequestBody JSONObject json, HttpServletRequest req) {
+        int User_id = (int) req.getSession(true).getAttribute("userID");
+
+        req.removeAttribute("userID");
+    }
+
 }
