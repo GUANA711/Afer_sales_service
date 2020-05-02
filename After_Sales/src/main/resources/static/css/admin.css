@@ -1,12 +1,30 @@
 /* 登录后用户个人信息 */
+html,body { height: 100%; padding: 0; margin: 0; }
+li{list-style: none;}
 .index_title{
     font-size: 16px;
     font-weight: bolder;
     color: #B5C3D4;
 }
-li{
-    list-style: none;
-    margin-bottom: 20px;
+/* .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+    color: #fff;
+    background-color: #337ab7;
+} */
+.nav>li.active a{
+    text-decoration: none;
+    background-color: #337ab7;
+}
+.nav>li>a:hover{
+    color: #fff;
+    background-color: #eee;
+}
+#form_userinfo{
+    margin-top:20px ;
+}
+#form_userinfo li{
+    padding: 15px;
+    display:flex;
+    justify-content: center;
 }
 .left_frame{
     z-index: 9999;
@@ -15,6 +33,10 @@ li{
 .nav-pills{
     background-color: #232f3a;
     color: #fff;
+    margin-top: 20px;
+}
+.nav-pills li[role="presentation"]{
+    height: 60px;
 }
 .ma_top{
     height:20vh;
@@ -22,13 +44,14 @@ li{
     margin: 0px;
     
 }
-.mage1{
-    background-color:#232f3a;
-    height: 30px;
+.logoImg{
+    /* color: #B5C3D4; */
+    padding: 5px 20px;
+    font-size: 17px;
+    height: 70px;
 }
-.mage{
-    background-color:#232f3a;
-    height:100vh;
+.logoImg > img{
+    margin-right: 10px;
 }
 .glyphicon{
     color: rgb(169, 190, 214);
@@ -79,6 +102,7 @@ li{
    background-color:#fff;
     margin: 0px 0px 24px;
     padding: 20px;
+    height: 50%;
     box-shadow: 0px 1px 12px rgb(206, 203, 203);
 }
 .sidebar-widget {
@@ -98,14 +122,22 @@ li{
 }
 .mm{
     background-color:#f3f6fa ;
+    /* width: inherit; */
+    
 }
 .panel{
     box-shadow: 0px 1px 12px rgb(206, 203, 203);
+    background-color:#F5F5F5;
+    height: 500px;
+}
+.message{
+    margin-top: 20px;
+    height: 475px;
 }
 .panel> .panel-heading{
     background-color: #323652;
     color: #fff;
-    
+    margin-bottom: 10px;
 }
 .panel-title{
     font-weight: bolder;
@@ -113,17 +145,16 @@ li{
 label{
     cursor: pointer;
     display: inline-block;
-    padding: 3px 6px;
+    /* padding: 2px 6px; */
     text-align: right;
-    width: 150px;
+    /* width: 150px; */
+    font-size: 16px;
     vertical-align: top;
 }
 input{
     font-size: inherit;
-}
-.bt_list{
-    margin-top: 20px;
-    margin-left: 100px;
+    width: 200px;
+    height: 30px;
 }
 .btn-primary{
     margin-left: 20px;

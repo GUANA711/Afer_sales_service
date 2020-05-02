@@ -21,7 +21,7 @@ $(document).ready(function(){
                         $(this).addClass('active').siblings().removeClass('active');
                         $('#forms .itme').eq(i).addClass('active').siblings().removeClass('active');
                 }
-        })
+        });
         //验证码的计时timer处理函数
         var InterValObj; //timer变量，控制时间
         var count = 60; //间隔函数，1秒执行
@@ -87,7 +87,7 @@ $(document).ready(function(){
                 }
                 
         });    
-})
+});
 //登录的检验
 $(".itme form").validate({
         rules:{
@@ -99,7 +99,7 @@ $(".itme form").validate({
                 login_pwd : {
                     required: true,
                     minlength: 6,
-                    maxlength: 20
+                    maxlength: 20  
                 }
             },
             messages: {
