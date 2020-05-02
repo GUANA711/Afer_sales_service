@@ -121,6 +121,12 @@
             </exclusions>
         </dependency>
 
+<!--      fastjson的依赖  json转换的-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.68</version>
+        </dependency>
 
     </dependencies>
 

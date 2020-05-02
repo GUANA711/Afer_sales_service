@@ -27,4 +27,9 @@ public class FAQImpl implements FAQService {
         list=faqMapper.selectAllFAQ();
         return list;
     }
+
+    @Override
+    public void addFAQ(FAQs faQs) {
+        faqMapper.addFAQ(faQs);
+    }
 }

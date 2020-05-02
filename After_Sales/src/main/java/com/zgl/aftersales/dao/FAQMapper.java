@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface FAQMapper {
     List<FAQs> selectAllFAQ();
+
+    void addFAQ(FAQs faQs);
 }

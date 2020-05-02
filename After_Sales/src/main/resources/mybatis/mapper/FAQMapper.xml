@@ -8,4 +8,8 @@
          select * from faq
     </select>
 
+    <insert id="addFAQ" parameterType="com.zgl.aftersales.pojo.FAQs">
+        insert into faq (Faq_question,Faq_answer) values(#{Faq_question},#{Faq_answer})
+    </insert>
+
 </mapper>

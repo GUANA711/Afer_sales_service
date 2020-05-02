@@ -9,4 +9,6 @@ import java.util.List;
 @Resource
 public interface FAQService {
     List<FAQs> selectAllFAQ();
+
+    void addFAQ(FAQs faQs);
 }
