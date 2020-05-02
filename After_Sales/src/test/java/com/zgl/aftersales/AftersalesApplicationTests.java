@@ -1,10 +1,9 @@
 package com.zgl.aftersales;
 
 import com.zgl.aftersales.pojo.FAQs;
+import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Users;
-import com.zgl.aftersales.service.FAQService;
-import com.zgl.aftersales.service.UserService;
-import com.zgl.aftersales.service.WorkerService;
+import com.zgl.aftersales.service.*;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @SpringBootTest
 class AftersalesApplicationTests {
@@ -94,4 +92,46 @@ class AftersalesApplicationTests {
         workerService.worker_updateBy_Session_UserId(map);
         System.out.println(map);
     }
+    @Autowired
+    ItemsService itemsService;
+    @Test
+    void itme_selectall() {
+
+
+        List<Items> itemsList = itemsService.selectAllItems();
+        for (Items item : itemsList) {
+            System.out.println(item);
+
+        }
+    }
+
+    @Test
+    void fuzzyQuery(){
+        List<Items> itemsList=itemsService.fuzzyQuery("2");
+        for (Items item : itemsList) {
+            System.out.println(item);
+
+        }
+    }
+    @Test
+    void dateShow(){
+        Date date=new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println(formatter.format(date).toString());
+
+    }
+    @Test
+    void dateDiff() throws ParseException {
+        SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
+        /*天数差*/
+        String date="2018-03-01";
+        Date fromDate1 = simpleFormat.parse(date);
+        Date toDate1 = simpleFormat.parse("2018-04-12");
+        long from1 = fromDate1.getTime();
+        long to1 = toDate1.getTime();
+        int days = (int) ((to1 - from1) / (1000 * 60 * 60 * 24));
+        System.out.println("两个时间之间的天数差为：" + days);
+
+    }
+
 }

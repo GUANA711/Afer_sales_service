@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        <!--namespace=绑定一个对应的DAO/Mapper接口-->
+<mapper namespace="com.zgl.aftersales.dao.MaintenanceMapper">
+
+<select id="selectAll"  resultType="com.zgl.aftersales.pojo.Maintenance">
+         select * from maintenance
+    </select>
+<select id="fuzzyQuery" parameterType="String" resultType="com.zgl.aftersales.pojo.Maintenance">
+        select * from maintenance where  Question_id like CONCAT(CONCAT('%', #{text}), '%') or User_id  like  CONCAT(CONCAT('%', #{text}), '%') or  Start_time like  CONCAT(CONCAT('%', #{text}), '%');
+ </select>
+
+<select id="insert"  parameterType="com.zgl.aftersales.pojo.Maintenance">
+        insert  into maintenance (Question_id,User_id,Start_time) values (#{Question_id},#{User_id},#{Start_time})
+</select>
+
+</mapper>
