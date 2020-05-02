@@ -12,5 +12,8 @@
         select * from maintenance where  Question_id like CONCAT(CONCAT('%', #{text}), '%') or User_id  like  CONCAT(CONCAT('%', #{text}), '%') or  Start_time like  CONCAT(CONCAT('%', #{text}), '%');
  </select>
 
+<select id="insert"  parameterType="com.zgl.aftersales.pojo.Maintenance">
+        insert  into maintenance (Question_id,User_id,Start_time) values (#{Question_id},#{User_id},#{Start_time})
+</select>
 
 </mapper>
