@@ -5,12 +5,12 @@
 <!--namespace=绑定一个对应的DAO/Mapper接口-->
 <mapper namespace="com.zgl.aftersales.dao.WorkerMapper">
     <select id="worker_selectBy_Session_UserId" parameterType="int" resultType="com.zgl.aftersales.pojo.Users">
-         select * from users where User_id=#{User_id} and Role_id=2;
+         select * from users where User_id=#{User_id};
     </select>
 
     <update id="worker_updateBy_Session_UserId" parameterType="map">
     update users set User_name = #{User_name},Password = #{Password},Tel = #{Tel},Email = #{Email}
-    where User_id=#{User_id} and Role_id=2;
+    where User_id=#{User_id};
   </update>
 
 </mapper>
