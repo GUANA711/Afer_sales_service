@@ -19,6 +19,9 @@ public interface QuestionService {
     List<Question> checkQuestiondealing(Integer User_id);
     List<Question> showAllQuestions();
     List<Question> fuzzyQuery(String key);
+    List<Integer> selectAll_id();
+    List<String> selectWorkerByQuesID(String quesID);
+    void updateStatus(String questionID);
 
     //int DeleteUser(int User_id);
     Users checkPostMan(int User_id);

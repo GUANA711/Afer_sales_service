@@ -17,8 +17,17 @@ public interface QuestionMapper {
     List<Question> checkQuestionsubmited(Integer User_id);
     List<Question> checkQuestionfinished(Integer User_id);
     List<Question> checkQuestiondealing(Integer User_id);
+
+    /**
+     * zgl
+     * @return
+     */
     List<Question> showAllQuestions();
     List<Question> fuzzyQuery(String key);
+    List<Integer> selectAll_id();
+    List<String> selectWorkerByQuesID(String quesID);
+    void updateStatus(String questionID);
+
 
     //int DeleteUser(int User_id);
     Users checkPostMan(int User_id);

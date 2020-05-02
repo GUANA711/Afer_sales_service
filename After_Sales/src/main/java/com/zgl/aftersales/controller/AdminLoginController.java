@@ -1,18 +1,15 @@
 package com.zgl.aftersales.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zgl.aftersales.pojo.Items;
-import com.zgl.aftersales.pojo.Log;
-import com.zgl.aftersales.pojo.Maintenance;
-import com.zgl.aftersales.pojo.Question;
-import com.zgl.aftersales.service.ItemsService;
-import com.zgl.aftersales.service.LogServive;
-import com.zgl.aftersales.service.MaintenanceService;
-import com.zgl.aftersales.service.QuestionService;
+import com.zgl.aftersales.pojo.*;
+import com.zgl.aftersales.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -91,12 +88,83 @@ public class AdminLoginController {
         return  questionList;
     }
 
+    /**
+     *问题查找
+     * @param json
+     * @return
+     */
+
     @PostMapping("/searchquestion")
     public List<Question> serchQuestion(@RequestBody JSONObject json){
         String key=json.getString("key");
         List<Question> questionList=questionService.fuzzyQuery(key);
         return questionList;
     }
+
+    /**
+     * 任务分配——下拉框问题ID显示
+     * @return
+     */
+    @PostMapping("/droplistID")
+    public List<Integer> dropListID(){
+        List<Integer> integerList=questionService.selectAll_id();
+        Collections.sort(integerList);
+        return integerList;
+
+    }
+
+    /**
+     * 任务分配---根据问题号显示维修人员，且该维修人员先项目数<10
+      * @param json
+     * @return
+     */
+    @PostMapping("/wokername")
+    public List<String> dropListWorker(@RequestBody JSONObject json){
+        String questionID=json.getString("key");
+        List<String> stringList=questionService.selectWorkerByQuesID(questionID);
+        return stringList;
+    }
+
+    @Autowired
+    UserService userService;
+    @PostMapping("/allocation")
+    public Status allocationTask(@RequestBody JSONObject json){
+        Status status=new Status();
+        String questionID_String=json.getString("questionID");
+        int questionID=Integer.parseInt(questionID_String);
+        String workerName=json.getString("workerName");
+        Maintenance maintenance=new Maintenance();
+
+        Date date_Date=new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String date=formatter.format(date_Date ).toString();
+
+        try {
+            Users user=userService.selectByUsername(workerName);
+            maintenance.setQuestion_id(questionID);
+            maintenance.setUser_id(user.getUser_id());
+            maintenance.setStart_time(date);
+
+            userService.updateTask_num(workerName);
+            questionService.updateStatus(questionID_String);
+            maintenanceService.insert(maintenance);
+
+            status.setMsg("分配任务成功");
+            status.setStatus(true);
+        }catch (Exception e){
+            status.setMsg("分配任务失败");
+        }
+
+        return status;
+
+
+
+    }
+
+
+
+
+
 
 
 

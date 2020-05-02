@@ -43,9 +43,16 @@
     <select id="fuzzyQuery" parameterType="String" resultType="com.zgl.aftersales.pojo.Question">
         select * from questions where item_id like CONCAT(CONCAT('%', #{text}), '%') or Question_type like CONCAT(CONCAT('%', #{text}), '%') or Question_status like CONCAT(CONCAT('%', #{text}), '%') or Question_detail like CONCAT(CONCAT('%', #{text}), '%') or User_id like CONCAT(CONCAT('%', #{text}), '%') or Commit_time like CONCAT(CONCAT('%', #{text}), '%')
     </select>
-<!--    <delete id="DeleteUser" parameterType="int">-->
-<!--             DELETE FROM  users WHERE User_id = #{ User_id }-->
-<!--    </delete>-->
+    <select id="selectAll_id" resultType="integer">
+        select Question_id from questions
+    </select>
+    <select id="selectWorkerByQuesID" parameterType="String" resultType="String">
+       select distinct User_name from users s,questions t where s.Item_id=t.Item_id and t.Question_id=#{id} and s.Task_num &lt; 10
+    </select>
+    <update id="updateStatus" parameterType="String">
+        update questions set Question_status='accepted' where Question_id=#{questionID}
+    </update>
+
 
     <update id="updateUser" parameterType="com.zgl.aftersales.pojo.Users">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">

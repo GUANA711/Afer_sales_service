@@ -12,4 +12,5 @@ public interface MaintenanceMapper {
 
     List<Maintenance> selectAll();
     List<Maintenance> fuzzyQuery(String key);
+    void insert(Maintenance maintenance);
 }

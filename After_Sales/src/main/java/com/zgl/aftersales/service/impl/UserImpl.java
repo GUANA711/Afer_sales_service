@@ -41,5 +41,10 @@ public class  UserImpl implements UserService {
         userMapper.updateByEmailToPwd(map);
     }
 
+    @Override
+    public void updateTask_num(String name) {
+        userMapper.updateTask_num(name);
+    }
+
 
 }

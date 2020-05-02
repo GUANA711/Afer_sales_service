@@ -47,6 +47,21 @@ public class QuestionImpl implements QuestionService {
     }
 
     @Override
+    public List<Integer> selectAll_id() {
+        return db.selectAll_id();
+    }
+
+    @Override
+    public void updateStatus(String questionID) {
+        db.updateStatus(questionID);
+    }
+
+    @Override
+    public List<String> selectWorkerByQuesID(String quesID) {
+        return db.selectWorkerByQuesID(quesID);
+    }
+
+    @Override
     public List<Question> fuzzyQuery(String key) {
         return db.fuzzyQuery(key);
     }
