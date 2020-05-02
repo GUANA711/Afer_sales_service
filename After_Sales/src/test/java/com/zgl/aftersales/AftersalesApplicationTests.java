@@ -57,13 +57,23 @@ class AftersalesApplicationTests {
         System.out.println(faQs);
     }
 
+    @Test
+    void addFAQ(){
+        FAQs faQs=new FAQs();
+        faQs.setFaq_question("question");
+        faQs.setFaq_answer("answer");
+        faqService.addFAQ(faQs);
+        System.out.println(faQs);
+    }
+
+
     @Autowired
     WorkerService workerService;
     @Test
-    void worker_selectByUsername() {
+    void worker_selectBy_Session_UserId() {
         DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
-        String username = "ctt";
-        Users user = userService.selectByUsername(username);
+        int userID=47;
+        Users user = workerService.worker_selectBy_Session_UserId(userID);
         //密码解密之后输出
         user.setPassword(desDecodeUtiles.getDecryptString(user.getPassword()));
 
@@ -71,7 +81,7 @@ class AftersalesApplicationTests {
     }
 
     @Test
-    void worker_updateByUsername() {
+    void worker_updateBy_Session_UserId() {
         DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
         //需要传一个map
         Map<String,Object> map=new HashMap<String, Object>();
@@ -81,7 +91,7 @@ class AftersalesApplicationTests {
         map.put("Email","3428986827@qq.com");
         map.put("User_id","47");
 
-        workerService.worker_updateByUsername(map);
+        workerService.worker_updateBy_Session_UserId(map);
         System.out.println(map);
     }
 }
