@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 
 
 @RestController
-@ResponseBody
 @CrossOrigin //允许跨域
 @Slf4j
 public class WorkerController {

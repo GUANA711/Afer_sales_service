@@ -1,0 +1,203 @@
+/* 登录后用户个人信息 */
+html,body { height: 100%; padding: 0; margin: 0; }
+li{list-style: none;}
+.index_title{
+    font-size: 16px;
+    font-weight: bolder;
+    color: #B5C3D4;
+}
+/* .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+    color: #fff;
+    background-color: #337ab7;
+} */
+.nav>li.active a{
+    text-decoration: none;
+    background-color: #337ab7;
+}
+.nav>li>a:hover{
+    color: #fff;
+    background-color: #eee;
+}
+#form_userinfo{
+    margin-top:20px ;
+}
+#form_userinfo li{
+    padding: 15px;
+    display:flex;
+    justify-content: center;
+}
+.left_frame{
+    z-index: 9999;
+    margin: 0px;
+}
+.nav-pills{
+    background-color: #232f3a;
+    color: #fff;
+    margin-top: 20px;
+}
+.nav-pills li[role="presentation"]{
+    height: 60px;
+}
+.ma_top{
+    height:20vh;
+    background-color:#1c252e;
+    margin: 0px;
+    
+}
+.logoImg{
+    /* color: #B5C3D4; */
+    padding: 5px 20px;
+    font-size: 17px;
+    height: 70px;
+}
+.logoImg > img{
+    margin-right: 10px;
+}
+.glyphicon{
+    color: rgb(169, 190, 214);
+    margin-right: 10px;
+    margin-left: 20px;
+}
+.fram1{
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+}
+.fram2{
+    margin-left: 0px;
+    margin-bottom: 0px;
+}
+.right_title{
+    background-color: #F3F3F4;
+    color: #676a6c;
+    font-size: 14px;
+    font-weight: bold;
+    height: 100px;
+    width: 100%;     
+}
+.sp{
+    color:rgb(165, 161, 161);
+    margin-right: 10px;
+    margin-left: 20px; 
+}
+.right_info{
+    vertical-align:middle;
+    font-weight: bolder;
+    text-align: center;
+    margin-top: 15px;
+}
+.right_info_heading{
+    font-weight: bolder;
+    text-align: center;
+    margin-top: 15px;
+    color: rgb(131, 130, 130);
+}
+.info{
+    color: rgb(131, 130, 130);
+}
+.pa_all{
+    margin-top: 20px;
+}
+.sidebar{
+   background-color:#fff;
+    margin: 0px 0px 24px;
+    padding: 20px;
+    height: 50%;
+    box-shadow: 0px 1px 12px rgb(206, 203, 203);
+}
+.sidebar-widget {
+    padding: 2.5rem;
+    background: #f5f5f5!important;
+}
+.sidebar-widget-heading{
+    color: #212529;
+    font-weight: bolder;
+    font-size: 24px;
+}
+.bott{
+    margin:0px;
+}
+.navbar-static-top{
+    margin: 0px;
+}
+.mm{
+    background-color:#f3f6fa ;
+    /* width: inherit; */
+    
+}
+.panel{
+    box-shadow: 0px 1px 12px rgb(206, 203, 203);
+    background-color:#F5F5F5;
+    height: 500px;
+}
+.message{
+    margin-top: 20px;
+    height: 475px;
+}
+.panel> .panel-heading{
+    background-color: #323652;
+    color: #fff;
+    margin-bottom: 10px;
+}
+.panel-title{
+    font-weight: bolder;
+}
+label{
+    cursor: pointer;
+    display: inline-block;
+    /* padding: 2px 6px; */
+    text-align: right;
+    /* width: 150px; */
+    font-size: 16px;
+    vertical-align: top;
+}
+input{
+    font-size: inherit;
+    width: 200px;
+    height: 30px;
+}
+.btn-primary{
+    margin-left: 20px;
+}
+.btn-recieve{
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    /* vertical-align: middle; */
+    color: #fff;
+    background-color: #e90c0c;
+    border-color: #ce2020;
+    display:block;
+    margin:0 auto
+    
+}
+.btn-task-ing{
+    text-align: center;
+    margin-left: 15px;
+}
+.select_form{
+    width: 300px;
+    height: 40px;
+}
+.select_lable{
+   margin-right: 20px;
+
+}
+.select_lable_clear{
+  height: 80px;
+  width: 300px;
+}
+.task_check_tb_th{
+    height:50px;
+    overflow: hidden;
+}
+.task_check_tb_td{
+    height:30px;
+}
+
+

@@ -26,6 +26,46 @@ public class QuestionImpl implements QuestionService {
         return db.checkQuestion(Question_id);
     }
 
+    @Override
+    public List<Question> checkQuestionsubmited(Integer User_id) {
+        return db.checkQuestionsubmited(User_id);
+    }
+
+    @Override
+    public List<Question> checkQuestionfinished(Integer User_id) {
+        return db.checkQuestionfinished(User_id);
+    }
+
+    @Override
+    public List<Question> checkQuestiondealing(Integer User_id) {
+        return db.checkQuestiondealing(User_id);
+    }
+
+    @Override
+    public List<Question> showAllQuestions() {
+        return db.showAllQuestions();
+    }
+
+    @Override
+    public List<Integer> selectAll_id() {
+        return db.selectAll_id();
+    }
+
+    @Override
+    public void updateStatus(String questionID) {
+        db.updateStatus(questionID);
+    }
+
+    @Override
+    public List<String> selectWorkerByQuesID(String quesID) {
+        return db.selectWorkerByQuesID(quesID);
+    }
+
+    @Override
+    public List<Question> fuzzyQuery(String key) {
+        return db.fuzzyQuery(key);
+    }
+
 //    @Override
 //    public int DeleteUser(int User_id) {
 //        return db.DeleteUser(User_id);

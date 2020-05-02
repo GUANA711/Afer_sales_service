@@ -2,29 +2,35 @@ package com.zgl.aftersales.pojo;
 
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 
 public class Question implements Serializable {
 
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+    Calendar calendar = Calendar.getInstance();
+
     private int Question_id;
     private int item_id;
-    private enum Question_type1{
-        Y,N;
-    }
-    private Question_type1 Question_type;
+    private String Question_type;
     private enum Question_status1{
-        accepted,processing,done,overtime;
+        unaccepted,accepted,done,overtime;
     }
     private Question_status1 Question_status;
     private String Question_detail;
     private int User_id;
+    private String Commit_time;
 
-    public Question(int question_id, int item_id, String question_type, String question_status, String question_detail, int user_id) {
-        Question_id = question_id;
+    public Question(int question_id,int item_id, String question_type, String question_status, String question_detail, int user_id,String commit_time) {
+        Question_id=question_id;
         this.item_id = item_id;
-        Question_type= Question_type1.valueOf(question_type);
+        Question_type= question_type;
         Question_status= Question_status1.valueOf(question_status);
         Question_detail = question_detail;
         User_id = user_id;
+        Commit_time = commit_time;
     }
 
     public Question(){
@@ -43,11 +49,11 @@ public class Question implements Serializable {
         return item_id;
     }
 
-    public Question_type1 getQuestion_type() {
+    public String getQuestion_type() {
         return Question_type;
     }
 
-    public void setQuestion_type(Question_type1 question_type) {
+    public void setQuestion_type(String question_type) {
         Question_type = question_type;
     }
 
@@ -79,13 +85,24 @@ public class Question implements Serializable {
         User_id = user_id;
     }
 
+    public String getCommit_time() {
+        return Commit_time;
+    }
+
+    public void setCommit_time(String commit_time) {
+        Commit_time = commit_time;
+    }
+
     @Override
     public String toString() {
         return "Question{" +
                 "Question_id=" + Question_id +
                 ", item_id=" + item_id +
+                ", Question_type='" + Question_type + '\'' +
+                ", Question_status=" + Question_status +
                 ", Question_detail='" + Question_detail + '\'' +
                 ", User_id=" + User_id +
+                ", Commit_time=" + Commit_time +
                 '}';
     }
 }

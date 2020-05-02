@@ -21,7 +21,7 @@ $(document).ready(function(){
                         $(this).addClass('active').siblings().removeClass('active');
                         $('#forms .itme').eq(i).addClass('active').siblings().removeClass('active');
                 }
-        })
+        });
         //验证码的计时timer处理函数
         var InterValObj; //timer变量，控制时间
         var count = 60; //间隔函数，1秒执行
@@ -69,7 +69,7 @@ $(document).ready(function(){
                                 if (data.status) {      //登录成功
                                     alert("验证码发送成功，请注意查收！");
                                 } else {
-                                    alert("error:"+data.msg);
+                                    alert(data.msg);
                                 }
 
                             },
@@ -87,7 +87,7 @@ $(document).ready(function(){
                 }
                 
         });    
-})
+});
 //登录的检验
 $(".itme form").validate({
         rules:{
@@ -99,7 +99,7 @@ $(".itme form").validate({
                 login_pwd : {
                     required: true,
                     minlength: 6,
-                    maxlength: 20
+                    maxlength: 20  
                 }
             },
             messages: {
@@ -136,6 +136,8 @@ function login_check(){
         $.ajax({
 
                 type:'POST',
+
+                async:false,                //同步请求
         
                 data:JSON.stringify(user),
 
@@ -148,9 +150,10 @@ function login_check(){
                 success :function(data) {
                     // console.dir(data.status);
                     if (data.status) {      //登录成功
-                        alert();
-                        $(window).attr("location",data.data);
-                        $(window).attr("location","http://www.baidu.com");
+                        // alert();
+                        console.log(data.msg);
+                        // $(window).attr("location",data.data);       //网页重定向
+                        // $(window).attr("location","http://www.baidu.com");
                         // location.href();
                     } else {
                         alert(data.msg);
@@ -214,6 +217,8 @@ function register_check(){
         $.ajax({
 
                 type:'POST',
+
+                // async:false,                //同步请求
         
                 data:JSON.stringify(user),
         
@@ -226,22 +231,21 @@ function register_check(){
                 success :function(data) {
 
                     if (data.status) {      //注册成功
-                        alert(jsonData.data);
-                        // location.href("http://www.baidu.com");
+                        alert(data.msg);
+                        $('form')[1].reset();
                     } else {
                         alert(data.msg);
                     }
                 },
-
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                // 状态码
-                // alert("test");
-                console.log(XMLHttpRequest.status);
-                // 状态
-                console.log(XMLHttpRequest.readyState);
-                // 错误信息
-                alert(textStatus);
-            }
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    // 状态码
+                    // alert("test");
+                    console.log(XMLHttpRequest.status);
+                    // 状态
+                    console.log(XMLHttpRequest.readyState);
+                    // 错误信息
+                    alert(textStatus);
+                }
         });
         return true;
 
@@ -285,7 +289,9 @@ function find_check() {
         $.ajax({
 
                 type:'POST',
-        
+
+                // async:false,                //同步请求
+
                 data:JSON.stringify(user),
         
                 contentType :'application/json',
@@ -297,9 +303,10 @@ function find_check() {
                 success :function(data) {
 
                     if (data.status) {      //验证成功
-                        // alert(jsonData.msg);
-                    } else {
                         alert(data.msg);
+                        $('form')[2].reset();
+                    } else {
+                        alert("error:"+data.msg);
                     }
                 },
             error: function (XMLHttpRequest, textStatus, errorThrown) {

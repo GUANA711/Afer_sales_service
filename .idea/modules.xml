@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/After_Sales/.mvn/.mvn.iml" filepath="$PROJECT_DIR$/After_Sales/.mvn/.mvn.iml" />
       <module fileurl="file://$PROJECT_DIR$/After_Sales/src/main/main.iml" filepath="$PROJECT_DIR$/After_Sales/src/main/main.iml" />
       <module fileurl="file://$PROJECT_DIR$/After_Sales/src/test/test.iml" filepath="$PROJECT_DIR$/After_Sales/src/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Afer_sales_service.iml" filepath="$PROJECT_DIR$/.idea/Afer_sales_service.iml" />
     </modules>
   </component>
 </project>
