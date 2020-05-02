@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,17 +33,18 @@ public class WorkerController {
     根据user_id来显示维修人员的信息
     测试时需先登录
      */
-    @RequestMapping("/worker_selectBy_Session_UserId")
+    @PostMapping("/worker_selectBy_Session_UserId")
     public Users worker_selectBy_Session_UserId(HttpServletRequest req){
-        DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
+
 
         //将登录的session的User_id取出来
-        int User_id= (int) req.getSession(true).getAttribute("userID");
+
+        int User_id= (int) req.getSession(false).getAttribute("userID");
 
         Users user=workerService.worker_selectBy_Session_UserId(User_id);
 
         //密码解密之后输出
-        user.setPassword(desDecodeUtiles.getDecryptString(user.getPassword()));
+        user.setPassword( DesDecodeUtiles.getDecryptString(user.getPassword()));
         return user;
     }
 

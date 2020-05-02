@@ -53,6 +53,9 @@
         update questions set Question_status='accepted' where Question_id=#{questionID}
     </update>
 
+    <select id="showOvertimeAccepte" resultType="com.zgl.aftersales.pojo.Question">
+        select * from questions q ,maintenance m where q.Question_id=m.Question_id and Question_status='overtime'
+    </select>
 
     <update id="updateUser" parameterType="com.zgl.aftersales.pojo.Users">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">

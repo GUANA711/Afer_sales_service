@@ -27,6 +27,8 @@ public interface QuestionMapper {
     List<Integer> selectAll_id();
     List<String> selectWorkerByQuesID(String quesID);
     void updateStatus(String questionID);
+    List<Question> showOvertimeAccepte();
+
 
 
     //int DeleteUser(int User_id);

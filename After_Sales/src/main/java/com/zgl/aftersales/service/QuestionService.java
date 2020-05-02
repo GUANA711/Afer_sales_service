@@ -22,6 +22,7 @@ public interface QuestionService {
     List<Integer> selectAll_id();
     List<String> selectWorkerByQuesID(String quesID);
     void updateStatus(String questionID);
+    List<Question> showOvertimeAccepte();
 
     //int DeleteUser(int User_id);
     Users checkPostMan(int User_id);

@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -117,6 +118,19 @@ class AftersalesApplicationTests {
         Date date=new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         System.out.println(formatter.format(date).toString());
+
+    }
+    @Test
+    void dateDiff() throws ParseException {
+        SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
+        /*天数差*/
+        String date="2018-03-01";
+        Date fromDate1 = simpleFormat.parse(date);
+        Date toDate1 = simpleFormat.parse("2018-04-12");
+        long from1 = fromDate1.getTime();
+        long to1 = toDate1.getTime();
+        int days = (int) ((to1 - from1) / (1000 * 60 * 60 * 24));
+        System.out.println("两个时间之间的天数差为：" + days);
 
     }
 

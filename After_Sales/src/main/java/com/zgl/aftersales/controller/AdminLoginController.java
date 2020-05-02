@@ -125,6 +125,11 @@ public class AdminLoginController {
         return stringList;
     }
 
+
+    /**
+     *管理员直接分配任务
+     *
+     */
     @Autowired
     UserService userService;
     @PostMapping("/allocation")
@@ -157,9 +162,16 @@ public class AdminLoginController {
 
         return status;
 
-
-
     }
+
+    @PostMapping("/overtim_accepted")
+    public List<Question> overtimeAccepter(){
+        List<Question> questionList=questionService.showOvertimeAccepte();
+        return questionList;
+    }
+
+
+
 
 
 

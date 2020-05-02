@@ -27,22 +27,22 @@ public class MyWevMvcConfig implements WebMvcConfigurer {
                 .maxAge(3600)
                 .allowCredentials(true);
         }
-    @Autowired
-    private LoginInterceptor loginInterceptor;
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        List<String> patterns = new ArrayList();
-        patterns.add("/webjars/**");
-        patterns.add("/druid/**");
-        patterns.add("/sys/login");
-        patterns.add("/swagger/**");
-        patterns.add("/v2/api-docs");
-        patterns.add("/swagger-ui.html");
-        patterns.add("/swagger-resources/**");
-        patterns.add("/login");
-
-        registry.addInterceptor(loginInterceptor).addPathPatterns("/**").addPathPatterns(patterns);
-    }
-
+//    @Autowired
+//    private LoginInterceptor loginInterceptor;
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        List<String> patterns = new ArrayList();
+//        patterns.add("/webjars/**");
+//        patterns.add("/druid/**");
+//        patterns.add("/sys/login");
+//        patterns.add("/swagger/**");
+//        patterns.add("/v2/api-docs");
+//        patterns.add("/swagger-ui.html");
+//        patterns.add("/swagger-resources/**");
+//        patterns.add("/login");
+//
+//        registry.addInterceptor(loginInterceptor).addPathPatterns("/**").addPathPatterns(patterns);
+//    }
+//
 
 }

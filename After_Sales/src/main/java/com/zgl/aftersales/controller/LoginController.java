@@ -145,6 +145,8 @@ public class LoginController {
                 HttpSession seesion=req.getSession(true);
                 seesion.setAttribute("userID",user.getUser_id());
                 System.out.println("session id:"+seesion.getId());
+                System.out.println("session userID:"+seesion.getAttribute("userID"));
+
 
                 //将sessionId存进cookie
                 Cookie cookie_name=new Cookie("USER_NAME",loginUsername);
