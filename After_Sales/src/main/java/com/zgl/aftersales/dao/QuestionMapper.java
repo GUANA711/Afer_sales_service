@@ -28,6 +28,7 @@ public interface QuestionMapper {
     List<String> selectWorkerByQuesID(String quesID);
     void updateStatus(String questionID);
     List<Question> showOvertimeAccepte();
+    List<Question> shoeOvertimeUnaccepte();
 
 
 
