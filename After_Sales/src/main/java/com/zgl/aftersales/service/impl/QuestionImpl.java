@@ -52,6 +52,11 @@ public class QuestionImpl implements QuestionService {
     }
 
     @Override
+    public List<Question> shoeOvertimeUnaccepte() {
+        return db.shoeOvertimeUnaccepte();
+    }
+
+    @Override
     public List<Question> showOvertimeAccepte() {
         return db.showOvertimeAccepte();
     }

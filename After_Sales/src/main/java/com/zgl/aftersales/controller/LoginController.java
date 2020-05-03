@@ -162,13 +162,13 @@ public class LoginController {
 
                 if(user.getRole_id()==1){
                     status.setMsg("登录成功，该用户为管理员");
-                    status.setData("admin_login.hmtl");//role_id=1,为管理员
+                    status.setData("admin.html");//role_id=1,为管理员
                 }else if (user.getRole_id()==2){
                     status.setMsg("登录成功，该用户为维修人员");
-                    status.setData("worker_login.hmtl");//role_id=2,为维修人员
+                    status.setData("maintainer_homepage_login.html");//role_id=2,为维修人员
                 }else if (user.getRole_id()==3){
                     status.setMsg("登录成功，该用户为普通用户");
-                    status.setData("user_login.hmtl");//role_id=3,为普通用户
+                    status.setData("user_homepage_login.html");//role_id=3,为普通用户
                 }
             }else {
                 status.setMsg("登录失败，密码错误");

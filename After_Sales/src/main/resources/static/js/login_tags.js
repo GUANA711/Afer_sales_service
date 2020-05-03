@@ -156,7 +156,7 @@ function login_check(){
                         $(window).attr("location","admin.html");
 
                         // $(window).attr("location",data.data);       //网页重定向
-                        // $(window).attr("location","http://www.baidu.com");
+                        $(window).attr("location","admin.html");
                         // location.href();
                     } else {
                         alert(data.msg);

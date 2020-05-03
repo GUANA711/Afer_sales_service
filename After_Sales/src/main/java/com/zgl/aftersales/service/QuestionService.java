@@ -23,6 +23,8 @@ public interface QuestionService {
     List<String> selectWorkerByQuesID(String quesID);
     void updateStatus(String questionID);
     List<Question> showOvertimeAccepte();
+    List<Question> shoeOvertimeUnaccepte();
+
 
     //int DeleteUser(int User_id);
     Users checkPostMan(int User_id);
