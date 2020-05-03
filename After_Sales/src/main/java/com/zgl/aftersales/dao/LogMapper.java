@@ -1,18 +1,15 @@
 package com.zgl.aftersales.dao;
 
-import com.zgl.aftersales.pojo.FAQs;
+import com.zgl.aftersales.pojo.Log;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
-/**
- * @author Alice
- */
+import java.util.Map;
 @Mapper
 @Repository
-public interface FAQMapper {
-    List<FAQs> selectAllFAQ();
+public interface LogMapper {
+    List<Log> showLog();
+//    void insertLog(Map<String,Object> map);
 
-    void addFAQ(FAQs faQs);
 }

@@ -1,20 +1,23 @@
 package com.zgl.aftersales.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.zgl.aftersales.dao.FAQMapper;
+import com.zgl.aftersales.pojo.FAQStatus;
 import com.zgl.aftersales.pojo.FAQs;
 import com.zgl.aftersales.pojo.Status;
-import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.FAQService;
-import com.zgl.aftersales.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author Alice
+ */
 @RestController
 @ResponseBody
+@CrossOrigin //允许跨域
+@Slf4j
 public class FAQController {
     @Autowired
     private FAQService faqService;
@@ -23,8 +26,46 @@ public class FAQController {
         this.faqService = faqService;
     }
 
+    /**
+     * 查看所有的FAQ
+     * @return
+     */
     @RequestMapping("/selectAllFAQ")
     public List<FAQs> selectAllFAQ(){
         return faqService.selectAllFAQ();
+    }
+
+
+    /**
+     * 添加FAQ
+     * 因为没有新建关于faq的json
+     * JSONObject faqJson=json.getJSONObject("faq");
+     * 所以用接口测时也不需要写成faq类的形式
+     * @param json
+     * @return
+     */
+    @PostMapping("/addFAQ")
+    public FAQStatus addFAQ(@RequestBody JSONObject json) {
+        FAQStatus faqStatus=new FAQStatus();
+
+        FAQs faQs = new FAQs();
+
+        faQs.setFaq_question(json.getString("Faq_question"));
+        faQs.setFaq_answer(json.getString("Faq_answer"));
+
+        if (faQs.getFaq_question().equals("")||faQs.getFaq_answer().equals("")) {
+            faqStatus.setFaqstatus(false);
+            faqStatus.setFaqmsg("添加的FAQ为空，请重新添加");
+        }else {
+            try {
+                faqService.addFAQ(faQs);
+                faqStatus.setFaqstatus(true);
+                faqStatus.setFaqmsg("FAQ添加成功");
+            }
+            catch (Exception e){
+                faqStatus.setFaqmsg("已存在此FAQ，FAQ添加失败");
+            }
+        }
+        return faqStatus;
     }
 }

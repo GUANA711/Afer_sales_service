@@ -3,10 +3,7 @@ package com.zgl.aftersales;
 import com.zgl.aftersales.pojo.FAQs;
 import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Users;
-import com.zgl.aftersales.service.FAQService;
-import com.zgl.aftersales.service.ItemsService;
-import com.zgl.aftersales.service.UserService;
-import com.zgl.aftersales.service.WorkerService;
+import com.zgl.aftersales.service.*;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @SpringBootTest
 class AftersalesApplicationTests {
@@ -59,13 +55,23 @@ class AftersalesApplicationTests {
         System.out.println(faQs);
     }
 
+    @Test
+    void addFAQ(){
+        FAQs faQs=new FAQs();
+        faQs.setFaq_question("question");
+        faQs.setFaq_answer("answer");
+        faqService.addFAQ(faQs);
+        System.out.println(faQs);
+    }
+
+
     @Autowired
     WorkerService workerService;
     @Test
-    void worker_selectByUsername() {
+    void worker_selectBy_Session_UserId() {
         DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
-        String username = "ctt";
-        Users user = userService.selectByUsername(username);
+        int userID=47;
+        Users user = workerService.worker_selectBy_Session_UserId(userID);
         //密码解密之后输出
         user.setPassword(desDecodeUtiles.getDecryptString(user.getPassword()));
 
@@ -73,7 +79,7 @@ class AftersalesApplicationTests {
     }
 
     @Test
-    void worker_updateByUsername() {
+    void worker_updateBy_Session_UserId() {
         DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
         //需要传一个map
         Map<String,Object> map=new HashMap<String, Object>();
@@ -83,7 +89,7 @@ class AftersalesApplicationTests {
         map.put("Email","3428986827@qq.com");
         map.put("User_id","47");
 
-        workerService.worker_updateByUsername(map);
+        workerService.worker_updateBy_Session_UserId(map);
         System.out.println(map);
     }
     @Autowired
@@ -107,4 +113,25 @@ class AftersalesApplicationTests {
 
         }
     }
+    @Test
+    void dateShow(){
+        Date date=new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println(formatter.format(date).toString());
+
+    }
+    @Test
+    void dateDiff() throws ParseException {
+        SimpleDateFormat simpleFormat = new SimpleDateFormat("yyyy-MM-dd");
+        /*天数差*/
+        String date="2018-03-01";
+        Date fromDate1 = simpleFormat.parse(date);
+        Date toDate1 = simpleFormat.parse("2018-04-12");
+        long from1 = fromDate1.getTime();
+        long to1 = toDate1.getTime();
+        int days = (int) ((to1 - from1) / (1000 * 60 * 60 * 24));
+        System.out.println("两个时间之间的天数差为：" + days);
+
+    }
+
 }

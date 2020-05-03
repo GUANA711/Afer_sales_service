@@ -3,6 +3,7 @@ package com.zgl.aftersales.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Alice
@@ -10,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FAQs {
-    private int Faq_id;
-    private String Faq_question;
-    private String Faq_answer;
+@Component
+public class WorkerStatus {
+    private Boolean status=false;
+    private String msg;
 }

@@ -21,7 +21,7 @@ $(document).ready(function(){
                         $(this).addClass('active').siblings().removeClass('active');
                         $('#forms .itme').eq(i).addClass('active').siblings().removeClass('active');
                 }
-        })
+        });
         //验证码的计时timer处理函数
         var InterValObj; //timer变量，控制时间
         var count = 60; //间隔函数，1秒执行
@@ -87,7 +87,7 @@ $(document).ready(function(){
                 }
                 
         });    
-})
+});
 //登录的检验
 $(".itme form").validate({
         rules:{
@@ -99,7 +99,7 @@ $(".itme form").validate({
                 login_pwd : {
                     required: true,
                     minlength: 6,
-                    maxlength: 20
+                    maxlength: 20  
                 }
             },
             messages: {
@@ -152,6 +152,9 @@ function login_check(){
                     if (data.status) {      //登录成功
                         // alert();
                         console.log(data.msg);
+
+                        $(window).attr("location","admin.html");
+
                         // $(window).attr("location",data.data);       //网页重定向
                         // $(window).attr("location","http://www.baidu.com");
                         // location.href();

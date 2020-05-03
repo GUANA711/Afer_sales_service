@@ -15,22 +15,24 @@ public class QuestionController {
     @Qualifier("questionImpl")
     @Autowired
     QuestionService db;
+
     @RequestMapping("/web")  //路径注解
-    public String web(){
-        return  "Hello Spring Boot!";   //显示文字内容
+    public String web() {
+        return "Hello Spring Boot!";   //显示文字内容
     }
+
     @PostMapping("/addQuestion")
     public int addQuestion(@RequestBody Question question) {
         return db.addQuestion(question);
     }
 
     @GetMapping("/checkQuestion")
-    public Question checkQuestion(int Question_id){
+    public Question checkQuestion(int Question_id) {
         return db.checkQuestion(Question_id);
     }
 
     @GetMapping("/checkQuestionsubmited")
-    public List<Question> checkQuestionsubmited(Integer User_id){
+    public List<Question> checkQuestionsubmited(Integer User_id) {
         return db.checkQuestionsubmited(User_id);
     }
 
@@ -45,8 +47,9 @@ public class QuestionController {
         return db.checkQuestiondealing(User_id);
     }
 
+
     @GetMapping("/checkPostMan")
-    public Users checkPostMan(int User_id){
+    public Users checkPostMan(int User_id) {
         return db.checkPostMan(User_id);
     }
 
@@ -56,13 +59,7 @@ public class QuestionController {
 //    }
 
     @GetMapping("/updateUser")
-    public int updateUser(@RequestBody List<Users> list){
+    public int updateUser(@RequestBody List<Users> list) {
         return db.updateUser(list);
     }
-
-
-
-
-
-
 }

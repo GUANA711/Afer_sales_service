@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FAQs {
-    private int Faq_id;
-    private String Faq_question;
-    private String Faq_answer;
+public class FAQStatus {
+    private Boolean faqstatus=false;
+    private String faqmsg;
 }

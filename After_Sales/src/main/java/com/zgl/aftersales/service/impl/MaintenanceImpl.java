@@ -17,6 +17,11 @@ public class MaintenanceImpl implements MaintenanceService {
     }
 
     @Override
+    public void insert(Maintenance maintenance) {
+         maintenanceMapper.insert(maintenance);
+    }
+
+    @Override
     public List<Maintenance> fuzzyQuery(String key) {
         return maintenanceMapper.fuzzyQuery(key);
     }

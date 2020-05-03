@@ -40,6 +40,37 @@ public class QuestionImpl implements QuestionService {
     public List<Question> checkQuestiondealing(Integer User_id) {
         return db.checkQuestiondealing(User_id);
     }
+
+    @Override
+    public List<Question> showAllQuestions() {
+        return db.showAllQuestions();
+    }
+
+    @Override
+    public List<Integer> selectAll_id() {
+        return db.selectAll_id();
+    }
+
+    @Override
+    public List<Question> showOvertimeAccepte() {
+        return db.showOvertimeAccepte();
+    }
+
+    @Override
+    public void updateStatus(String questionID) {
+        db.updateStatus(questionID);
+    }
+
+    @Override
+    public List<String> selectWorkerByQuesID(String quesID) {
+        return db.selectWorkerByQuesID(quesID);
+    }
+
+    @Override
+    public List<Question> fuzzyQuery(String key) {
+        return db.fuzzyQuery(key);
+    }
+
 //    @Override
 //    public int DeleteUser(int User_id) {
 //        return db.DeleteUser(User_id);

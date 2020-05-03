@@ -18,6 +18,5 @@ public class Users implements Serializable {
     private String Email;
     private int Task_num;
     private int Role_id;
-
-
+    private int Item_id;
 }

@@ -15,5 +15,8 @@ public interface UserMapper {
     Users selectByUsername(String username);
     Users selectByEmail(String mail);
     void  updateByEmailToPwd(Map<String,String> map);
+    List<String> selectByQuesion_name(String qestID);
+    void updateTask_num(String name);
+
 
 }

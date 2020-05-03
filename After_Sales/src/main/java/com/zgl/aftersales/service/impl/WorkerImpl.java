@@ -1,17 +1,17 @@
 package com.zgl.aftersales.service.impl;
 
-import com.zgl.aftersales.dao.FAQMapper;
 import com.zgl.aftersales.dao.WorkerMapper;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.WorkerService;
-import com.zgl.aftersales.utiles.DesDecodeUtiles;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
+/**
+ * @author Alice
+ */
 @Service
 @Transactional
 public class WorkerImpl implements WorkerService {
@@ -19,16 +19,33 @@ public class WorkerImpl implements WorkerService {
     private WorkerMapper workerMapper;
 
     @Override
-    public Users worker_selectByUsername(String username) {
-        return workerMapper.worker_selectByUsername(username);
+    public Users worker_selectBy_Session_UserId(int userID) {
+        return workerMapper.worker_selectBy_Session_UserId(userID);
     }
 
     @Override
-    public void worker_updateByUsername(Map<String, Object> map) {
-//        DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
-//        //将输入的密码加密
-//        String codePwd=desDecodeUtiles.getEncryptString(user.getPassword());
-//        user.setPassword(codePwd);
-        workerMapper.worker_updateByUsername(map);
+    public void worker_updateBy_Session_UserId(Map<String, Object> map) {
+        workerMapper.worker_updateBy_Session_UserId(map);
     }
+
+    @Override
+    public void worker_update_ques_accept(String questionID) {
+        workerMapper.worker_update_ques_accept(questionID);
+    }
+
+    @Override
+    public void worker_update_addtaskNum(int userID) {
+        workerMapper.worker_update_addtaskNum(userID);
+    }
+
+    @Override
+    public void worker_update_ques_done(String questionID) {
+        workerMapper.worker_update_ques_done(questionID);
+    }
+
+    @Override
+    public void worker_update_reducetaskNum(int userID) {
+        workerMapper.worker_update_reducetaskNum(userID);
+    }
+
 }
