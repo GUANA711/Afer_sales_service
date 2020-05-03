@@ -37,7 +37,7 @@ public class WorkerController {
     public Users worker_selectBy_Session_UserId(HttpServletRequest req){
 
         //将登录的session的User_id取出来
-        int User_id= (int) req.getSession(true).getAttribute("userID");
+        int User_id= (int) req.getSession(false).getAttribute("userID");
 
         Users user=workerService.worker_selectBy_Session_UserId(User_id);
 
@@ -57,7 +57,7 @@ public class WorkerController {
     public Map<String, Object> worker_updateBy_Session_UserId(@RequestBody JSONObject json, HttpServletRequest req) {
 
         //将登录的session的User_id取出来
-        int User_id = (int) req.getSession(true).getAttribute("userID");
+        int User_id = (int) req.getSession(false).getAttribute("userID");
 
         Map<String, Object> map = new HashMap<String, Object>();
 
