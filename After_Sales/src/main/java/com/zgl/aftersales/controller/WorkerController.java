@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -19,6 +20,7 @@ import java.util.regex.Pattern;
 @RestController
 @ResponseBody
 @CrossOrigin //允许跨域
+@RequestMapping(method = RequestMethod.GET)
 @Slf4j
 public class WorkerController {
     @Autowired
@@ -37,9 +39,11 @@ public class WorkerController {
     public Users worker_selectBy_Session_UserId(HttpServletRequest req){
 
         //将登录的session的User_id取出来
-        int User_id= (int) req.getSession(true).getAttribute("userID");
+        HttpSession session=req.getSession(false);
+        System.out.println(session.getId());
+        //int User_id= (int) req.getSession(true).getAttribute("userID");
 
-        Users user=workerService.worker_selectBy_Session_UserId(User_id);
+        Users user=workerService.worker_selectBy_Session_UserId(25);
 
         //密码解密之后输出
         user.setPassword(DesDecodeUtiles.getDecryptString(user.getPassword()));

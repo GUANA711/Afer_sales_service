@@ -136,7 +136,38 @@ $(function(){
 
 // 预处理
 $(document).ready(function(){
-   //  二级菜单的滑动处理
+    $.ajax({
+        type:'GET',
+
+        data:'',
+
+        contentType :'application/json',
+
+
+        dataType:'json',
+        crossDomain:true, //设置跨域为true
+        xhrFields: {
+            withCredentials: true //默认情况下，标准的跨域请求是不会发送cookie的
+        },
+
+        url :'http://localhost:5050/worker_selectBy_Session_UserId',
+
+        success :function(data) {
+            // console.dir(data.status);
+        },
+
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            // 状态码
+            // alert("test");
+            console.log(XMLHttpRequest.status);
+            // 状态
+            console.log(XMLHttpRequest.readyState);
+            // 错误信息
+            alert(textStatus);
+        }
+    });
+
+    //  二级菜单的滑动处理
   $("#questions_check").click(function(){
       $("#info").slideToggle("slow");
   });

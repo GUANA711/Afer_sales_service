@@ -16,6 +16,10 @@ import java.util.List;
 @CrossOrigin //允许跨域
 @RequestMapping(value ="/adminLoing",method = RequestMethod.POST)
 @Slf4j
+
+/**
+ * @author 赵官凌
+ */
 public class AdminLoginController {
     @Autowired
     ItemsService itemsService;
@@ -164,11 +168,26 @@ public class AdminLoginController {
 
     }
 
-    @PostMapping("/overtim_accepted")
+    /**
+     * 显示处理超时的任务
+     * @return
+     */
+    @PostMapping("/overtim_deal")
     public List<Question> overtimeAccepter(){
         List<Question> questionList=questionService.showOvertimeAccepte();
         return questionList;
     }
+
+    /**
+     * 显示超时未接收任务
+     * @return
+     */
+    @PostMapping("/overtime_unaccept")
+    public List<Question> overtimeUnaccepter(){
+        List<Question> questionList=questionService.shoeOvertimeUnaccepte();
+        return questionList;
+    }
+
 
 
 

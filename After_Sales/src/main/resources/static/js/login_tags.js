@@ -153,7 +153,7 @@ function login_check(){
                         // alert();
                         console.log(data.msg);
                         // $(window).attr("location",data.data);       //网页重定向
-                        // $(window).attr("location","http://www.baidu.com");
+                        $(window).attr("location","admin.html");
                         // location.href();
                     } else {
                         alert(data.msg);

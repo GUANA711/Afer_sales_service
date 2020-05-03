@@ -33,7 +33,7 @@
     </select>
 
 
-
+<!--   zgl-->
     <select id="checkPostMan" parameterType="int" resultType="com.zgl.aftersales.pojo.Users">
              SELECT * FROM users WHERE User_id = #{ User_id }
     </select>
@@ -56,6 +56,13 @@
     <select id="showOvertimeAccepte" resultType="com.zgl.aftersales.pojo.Question">
         select * from questions q ,maintenance m where q.Question_id=m.Question_id and Question_status='overtime'
     </select>
+    <select id="shoeOvertimeUnaccepte" resultType="com.zgl.aftersales.pojo.Question">
+        select * from questions where Question_status='overtime' and Question_id not in (select q.Question_id  from questions q ,maintenance m where q.Question_id=m.Question_id and Question_status='overtime')
+    </select>
+
+
+
+
 
     <update id="updateUser" parameterType="com.zgl.aftersales.pojo.Users">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
