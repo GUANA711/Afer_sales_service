@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @author Alice
+ */
 @Mapper
 @Repository
 public interface FAQMapper {

@@ -2,8 +2,6 @@ package com.zgl.aftersales.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zgl.aftersales.pojo.Users;
-import com.zgl.aftersales.pojo.WorkerStatus;
-import com.zgl.aftersales.service.UserService;
 import com.zgl.aftersales.service.WorkerService;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +14,9 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 
+/**
+ * @author Alice
+ */
 @RestController
 @ResponseBody
 @CrossOrigin //允许跨域
@@ -28,15 +29,17 @@ public class WorkerController {
         this.workerService = workerService;
     }
 
-    /*
-    login之后会产生一个session，session里面保存的为当前登录的user_id,
-    根据user_id来显示维修人员的信息
-    测试时需先登录
+    /**
+     * login之后会产生一个session，session里面保存的为当前登录的user_id,
+     *      根据user_id来显示维修人员的信息
+     *      测试时需先登录
+     * @param req
+     * @return
      */
     @RequestMapping(value = "/worker_selectBy_Session_UserId",method = RequestMethod.GET)
     public Users worker_selectBy_Session_UserId(HttpServletRequest req){
 
-        //将登录的session的User_id取出来
+       //将登录的session的User_id取出来
         int User_id= (int) req.getSession(false).getAttribute("userID");
 
         Users user=workerService.worker_selectBy_Session_UserId(User_id);
@@ -47,11 +50,13 @@ public class WorkerController {
     }
 
 
-
-    /*
-    login之后会产生一个session，session里面保存的为当前登录的user_id,
-    根据user_id来修改维修人员的信息
-    测试时需先登录
+    /**
+     * login之后会产生一个session，session里面保存的为当前登录的user_id,
+     *     根据user_id来修改维修人员的信息
+     *     测试时需先登录
+     * @param json
+     * @param req
+     * @return
      */
     @PostMapping("/worker_updateBy_Session_UserId")
     public Map<String, Object> worker_updateBy_Session_UserId(@RequestBody JSONObject json, HttpServletRequest req) {
@@ -63,7 +68,8 @@ public class WorkerController {
 
         //修改信息时要注意是否满足要求
 
-        String username = json.getString("User_name");//从前端输入的username
+        //从前端输入的username
+        String username = json.getString("User_name");
         String password = json.getString("Password");
         String tel = json.getString("Tel");
         String email = json.getString("Email");
@@ -80,9 +86,10 @@ public class WorkerController {
          * @return
          */
 
-
-        String patternUserName = "^(?!\\d+$)[\\da-zA-Z_\\u4E00-\\u9FA5]+$";//不能全为数字，可以包含下划线
-        String patternPwd = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$";//必须由数字和字母组成，且长度大于6
+        //不能全为数字，可以包含下划线
+        String patternUserName = "^(?!\\d+$)[\\da-zA-Z_\\u4E00-\\u9FA5]+$";
+        //必须由数字和字母组成，且长度大于6
+        String patternPwd = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$";
         String patternTel = "^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$";
         String patternMail = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
         if (Pattern.matches(patternUserName, username) && !username.equals("")) {

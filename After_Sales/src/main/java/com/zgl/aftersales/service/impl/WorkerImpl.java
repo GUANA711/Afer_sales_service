@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
+/**
+ * @author Alice
+ */
 @Service
 @Transactional
 public class WorkerImpl implements WorkerService {

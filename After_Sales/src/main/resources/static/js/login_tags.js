@@ -152,6 +152,9 @@ function login_check(){
                     if (data.status) {      //登录成功
                         // alert();
                         console.log(data.msg);
+
+                        $(window).attr("location","admin.html");
+
                         // $(window).attr("location",data.data);       //网页重定向
                         // $(window).attr("location","http://www.baidu.com");
                         // location.href();
