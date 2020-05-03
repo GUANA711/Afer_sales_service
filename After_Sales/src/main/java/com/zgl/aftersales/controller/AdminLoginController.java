@@ -136,6 +136,8 @@ public class AdminLoginController {
      */
     @Autowired
     UserService userService;
+    @Autowired
+    MailService mailService;
     @PostMapping("/allocation")
     public Status allocationTask(@RequestBody JSONObject json){
         Status status=new Status();
@@ -143,6 +145,8 @@ public class AdminLoginController {
         int questionID=Integer.parseInt(questionID_String);
         String workerName=json.getString("workerName");
         Maintenance maintenance=new Maintenance();
+
+        Users worker=userService.selectByUsername(workerName);
 
         Date date_Date=new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -157,6 +161,12 @@ public class AdminLoginController {
             userService.updateTask_num(workerName);
             questionService.updateStatus(questionID_String);
             maintenanceService.insert(maintenance);
+
+            //给维修人员发送邮箱提醒
+            mailService.sendMail(worker.getEmail(),"您被分配了一条新任务，请查收","问题ID:"+questionID);
+
+
+
 
             status.setMsg("分配任务成功");
             status.setStatus(true);
