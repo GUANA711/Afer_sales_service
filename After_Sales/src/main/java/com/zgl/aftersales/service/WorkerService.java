@@ -19,7 +19,7 @@ public interface WorkerService {
     Users worker_selectBy_Session_UserId(int userID);
 
     /**
-     * 维修人员可以修改名字，邮箱，电话，密码
+     * 维修人员可以修改名字，邮箱，电话
      * @param map
      */
     void worker_updateBy_Session_UserId(Map<String, Object> map);

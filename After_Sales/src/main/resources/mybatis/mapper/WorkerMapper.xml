@@ -9,7 +9,7 @@
     </select>
 
     <update id="worker_updateBy_Session_UserId" parameterType="map">
-    update users set User_name = #{User_name},Password = #{Password},Tel = #{Tel},Email = #{Email}
+    update users set User_name = #{User_name},Tel = #{Tel},Email = #{Email}
     where User_id=#{User_id};
   </update>
 
