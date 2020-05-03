@@ -1,5 +1,5 @@
 $(document).ready(function(){
-        var bgs = new Array();
+        var bgs = new Array(4);
         bgs[0] = "img/bg4.jpg";
         bgs[3] = "img/bg2.jpg";
         bgs[1] = "img/bg3.jpg";
@@ -50,9 +50,9 @@ $(document).ready(function(){
                         InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
                         document.getElementById("getCode").style.fontSize = 12 + 'px';
                         //向后台发送处理数据
-                    let user = {
-                        "mail":pwd_email
-                    };
+                        var user = {
+                            "mail":pwd_email
+                        };
                         $.ajax({
                             type:'POST',
 
@@ -115,8 +115,8 @@ $(".itme form").validate({
             }
 });
 function login_check(){
-        let num_reg = RegExp("[0-9]");
-        let letter_reg = RegExp("[A-Za-z]");
+        var num_reg = RegExp("[0-9]");
+        var letter_reg = RegExp("[A-Za-z]");
         var name = $("input[name=login_name]").val();
         var pwd = $("input[name=login_pwd]").val();
         console.log(name);
@@ -128,7 +128,7 @@ function login_check(){
                 alert("密码应包含字母和数字！");
                 return false; 
         }
-        let user={
+        var user={
                 "username":name,
                 "pwd":pwd
              };
@@ -150,14 +150,8 @@ function login_check(){
                 success :function(data) {
                     // console.dir(data.status);
                     if (data.status) {      //登录成功
-                        // alert();
-                        console.log(data.msg);
-
-                        $(window).attr("location","admin.html");
-
-                        // $(window).attr("location",data.data);       //网页重定向
-                        // $(window).attr("location","http://www.baidu.com");
-                        // location.href();
+                        // console.log(data.msg);
+                        $(window).attr("location",data.data);       //网页重定向
                     } else {
                         alert(data.msg);
                     }
@@ -184,10 +178,10 @@ function register_check(){
         var repwd = $("input[name=register_repwd]").val();
         var tel = $("input[name=register_tel]").val();
         var email = $("input[name=register_email]").val();
-        let tel_reg = RegExp("^1(3|4|5|7|8)\\d{9}$");
-        let email_reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
-        let num_reg = RegExp("[0-9]");
-        let letter_reg = RegExp("[A-Za-z]");
+        var tel_reg = RegExp("^1(3|4|5|7|8)\\d{9}$");
+        var email_reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+        var num_reg = RegExp("[0-9]");
+        var letter_reg = RegExp("[A-Za-z]");
         if (name=='') {
                 alert("用户名不能为空！");
                 return false;
@@ -197,7 +191,7 @@ function register_check(){
                 return false;
         }
         if(pwd!=repwd){
-                alert("两次密码不一致！")
+                alert("两次密码不一致！");
                 return false;
         }
         if (!tel_reg.test(tel)) {
@@ -259,9 +253,9 @@ function find_check() {
         var code = $("input[name=pwd_code]").val();
         var pwd = $("input[name=pwd_pwd]").val();
         var repwd = $("input[name=pwd_repwd]").val();
-        let email_reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); 
-        let num_reg = RegExp("[0-9]");
-        let letter_reg = RegExp("[A-Za-z]");
+        var email_reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); 
+        var num_reg = RegExp("[0-9]");
+        var letter_reg = RegExp("[A-Za-z]");
         // console.log(pwd_email);
         // console.log(pwd_code);
         // console.log(pwd_pwd);
@@ -279,7 +273,7 @@ function find_check() {
                 return false; 
         }
         if(pwd!=repwd){
-                alert("两次密码不一致！")
+                alert("两次密码不一致！");
                 return false; 
         }      
         var user={
