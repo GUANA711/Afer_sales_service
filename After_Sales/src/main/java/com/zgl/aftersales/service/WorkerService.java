@@ -23,4 +23,20 @@ public interface WorkerService {
      * @param map
      */
     void worker_updateBy_Session_UserId(Map<String, Object> map);
+
+    /**
+     * 接收任务后
+     * @param questionID
+     */
+    void worker_update_ques_accept(String questionID);
+
+    void worker_update_addtaskNum(int userID);
+
+    /**
+     * 完成任务后
+     */
+    void worker_update_ques_done(String questionID);
+
+    void worker_update_reducetaskNum(int userID);
+
 }

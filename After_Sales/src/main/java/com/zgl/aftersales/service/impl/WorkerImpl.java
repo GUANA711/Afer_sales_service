@@ -27,4 +27,25 @@ public class WorkerImpl implements WorkerService {
     public void worker_updateBy_Session_UserId(Map<String, Object> map) {
         workerMapper.worker_updateBy_Session_UserId(map);
     }
+
+    @Override
+    public void worker_update_ques_accept(String questionID) {
+        workerMapper.worker_update_ques_accept(questionID);
+    }
+
+    @Override
+    public void worker_update_addtaskNum(int userID) {
+        workerMapper.worker_update_addtaskNum(userID);
+    }
+
+    @Override
+    public void worker_update_ques_done(String questionID) {
+        workerMapper.worker_update_ques_done(questionID);
+    }
+
+    @Override
+    public void worker_update_reducetaskNum(int userID) {
+        workerMapper.worker_update_reducetaskNum(userID);
+    }
+
 }

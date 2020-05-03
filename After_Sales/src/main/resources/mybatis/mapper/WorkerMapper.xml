@@ -13,4 +13,20 @@
     where User_id=#{User_id};
   </update>
 
+    <update id="worker_update_ques_accept" parameterType="String">
+        update questions set Question_status='accepted' where Question_id=#{questionID};
+    </update>
+
+    <update id="worker_update_addtaskNum" parameterType="int">
+        update users u set u.Task_num=u.Task_num+1 where User_id=#{User_id};
+    </update>
+
+    <update id="worker_update_ques_done" parameterType="String">
+        update questions set Question_status='done' where Question_id=#{questionID};
+    </update>
+
+    <update id="worker_update_reducetaskNum" parameterType="int">
+        update users u set u.Task_num=u.Task_num-1 where User_id=#{User_id};
+    </update>
+
 </mapper>

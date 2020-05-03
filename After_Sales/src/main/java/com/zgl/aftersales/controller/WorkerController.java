@@ -1,7 +1,10 @@
 package com.zgl.aftersales.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zgl.aftersales.pojo.Maintenance;
 import com.zgl.aftersales.pojo.Users;
+import com.zgl.aftersales.pojo.WorkerStatus;
+import com.zgl.aftersales.service.MaintenanceService;
 import com.zgl.aftersales.service.WorkerService;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -147,6 +152,82 @@ public class WorkerController {
        return map;
     }
 
+    /**
+     * 维修人员接收任务后将数据插入到maintenance
+     * 修改question表问题的状态为accept
+     * 修改task-Num+1
+     */
+    @Autowired
+    private MaintenanceService maintenanceService;
+    @PostMapping("/worker_receive")
+    public WorkerStatus worker_receive(@RequestBody JSONObject json, HttpServletRequest req) {
 
+        //将登录的session的User_id取出来
+        int User_id = (int) req.getSession(false).getAttribute("userID");
+
+        WorkerStatus workerStatus=new WorkerStatus();
+        String questionID_String=json.getString("questionID");
+        int questionID=Integer.parseInt(questionID_String);
+        Maintenance maintenance=new Maintenance();
+
+        Date date_Date=new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String date=formatter.format(date_Date ).toString();
+
+        try {
+            maintenance.setQuestion_id(questionID);
+            maintenance.setUser_id(User_id);
+            maintenance.setStart_time(date);
+
+            maintenanceService.insert(maintenance);
+            workerService.worker_update_ques_accept(questionID_String);
+            workerService.worker_update_addtaskNum(User_id);
+
+            workerStatus.setMsg("接收任务成功");
+            workerStatus.setStatus(true);
+        }catch (Exception e){
+            workerStatus.setMsg("接收任务失败");
+        }
+        return workerStatus;
+    }
+
+    /**
+     * 维修人员完成任务后修改question表问题的状态为done
+     * 修改task_Num-1
+     */
+    @PostMapping("/worker_finish")
+    public WorkerStatus worker_finish(@RequestBody JSONObject json, HttpServletRequest req) {
+
+        //将登录的session的User_id取出来
+        int User_id = (int) req.getSession(false).getAttribute("userID");
+
+        WorkerStatus workerStatus=new WorkerStatus();
+        String questionID_String=json.getString("questionID");
+
+        Date date_Date=new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String date=formatter.format(date_Date ).toString();
+
+        try {
+            workerService.worker_update_ques_done(questionID_String);
+            workerService.worker_update_reducetaskNum(User_id);
+
+            workerStatus.setMsg("已完成任务");
+            workerStatus.setStatus(true);
+        }catch (Exception e){
+            workerStatus.setMsg("未完成任务");
+        }
+        return workerStatus;
+    }
+
+    /**
+     * 维修人员超过三天未接受任务，将问题的状态设置为overtime，任务由管理人员直接分配
+     *
+     * 维修人员接收任务三天未处理，将问题的状态设置为overtime，此时维修人员会被提醒，还是可以处理任务
+     *
+     * 已提醒维修人员超时，三天后维修人员还是未处理任务，更改question状态unaccepted，将maintenance表
+     * 中这一记录删掉，任务由管理人员直接分配
+     *
+     */
 
 }

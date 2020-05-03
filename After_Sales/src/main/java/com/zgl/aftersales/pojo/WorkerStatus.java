@@ -13,10 +13,6 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Component
 public class WorkerStatus {
-    //是否点击接收按钮
-    private Boolean is_accepted_status=false;
-    //是否点击提交按钮
-    private Boolean is_finish_status=false;
-    //显示提示信息
+    private Boolean status=false;
     private String msg;
 }
