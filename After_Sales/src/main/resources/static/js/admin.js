@@ -136,13 +136,14 @@ $(function(){
 
 // 预处理
 $(document).ready(function(){
+
+    //加载页面信息
     $.ajax({
         type:'GET',
 
         data:'',
 
         contentType :'application/json',
-
 
         dataType:'json',
         crossDomain:true, //设置跨域为true

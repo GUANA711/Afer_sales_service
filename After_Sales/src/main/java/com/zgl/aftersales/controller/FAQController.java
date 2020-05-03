@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author Alice
+ */
 @RestController
 @ResponseBody
 @CrossOrigin //允许跨域
@@ -23,20 +26,26 @@ public class FAQController {
         this.faqService = faqService;
     }
 
+    /**
+     * 查看所有的FAQ
+     * @return
+     */
     @RequestMapping("/selectAllFAQ")
     public List<FAQs> selectAllFAQ(){
         return faqService.selectAllFAQ();
     }
 
 
+    /**
+     * 添加FAQ
+     * 因为没有新建关于faq的json
+     * JSONObject faqJson=json.getJSONObject("faq");
+     * 所以用接口测时也不需要写成faq类的形式
+     * @param json
+     * @return
+     */
     @PostMapping("/addFAQ")
     public FAQStatus addFAQ(@RequestBody JSONObject json) {
-
-        /*因为没有新建关于faq的json
-        JSONObject faqJson=json.getJSONObject("faq");
-        所以用接口测时也不需要写成faq类的形式
-         */
-
         FAQStatus faqStatus=new FAQStatus();
 
         FAQs faQs = new FAQs();
