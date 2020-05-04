@@ -38,19 +38,19 @@
                             <ul class="nav nav-pills nav-stacked second_list" style="display: none;" id="info">
                                 <li role="presentation" id="unrecieved_task"><a href="#"><i class="glyphicon glyphicon-option-vertical"></i><span class="index_title"> 未接收的任务</span></a></li>
                                 <li role="presentation" id="ing_task"><a href="#"><i class="glyphicon glyphicon-option-vertical"></i><span class="index_title"> 正处理的任务</span></a></li>
-                                <li role="presentation" id="finished_task"><a href="#"><i class="glyphicon glyphicon-option-vertical"></i><span class="index_title"> 已完成的任务</span></a></li> 
+                                <li role="presentation" id="finished_task"><a href="#"><i class="glyphicon glyphicon-option-vertical"></i><span class="index_title"> 已完成的任务</span></a></li>
                             </ul>
                             <li role="presentation" id="faq_present"><a href="#"><i class="glyphicon glyphicon-edit"></i><span class="index_title"> FAQ</span></a></li>
                             <div>
                                 <ul class="nav nav-pills nav-stacked ">
                                     <li class="mage"></li>
-                                </ul> 
+                                </ul>
                             </div>
                         </ul>
                     </li>
                 </ul>
-            
-            
+
+
             <!--顶部导航栏  -->
             <div class="col-md-10">
                 <!-- 内容部分 -->
@@ -85,16 +85,8 @@
                                             <button type="button" id="save_bt" class="btn btn-primary" style="margin-left: 60px">保存</button>
                                         </li>
                                     </ul>
-                                    <ul style="display: none;" id="pass_info">
-                                        <li class="list-group-item"><label for="password">新密码：</label><input type="password" readonly="readonly" id="password" name="password" value=""></li>
-                                        <li class="list-group-item"><label for="fin_password">确认密码：</label><input type="password"  required readonly="readonly" id="fin_password" name="fin_password" value=""></li>
-                                        <li class="bt_list">
-                                            <button type="button" id="confrim_bt" class="btn btn-primary">确认</button>
-                                            <button type="button" id="cancel_bt" class="btn btn-primary">取消</button>
-                                        </li>
-                                    </ul>
                                 </form>
-                                
+
                                 <!-- 保存按钮弹出模态框 -->
                                 <!-- 成功 -->
                                 <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -111,7 +103,23 @@
                                         </div><!-- /.modal-content -->
                                     </div><!-- /.modal -->
                                 </div>
-                                
+
+                                <!-- 失败 -->
+                                <div class="modal fade" id="failModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">提交失败</h4>
+                                            </div>
+                                            <div class="modal-body">编辑内容有误，请重新编辑!</div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
                             </div>
                         </div>
 
@@ -130,23 +138,23 @@
                                         <th class="task_check_tb_th" style="text-align: center;">问题描述</th>
                                         <th class="task_check_tb_th" style="text-align: center;">接受任务</th>
                                     </tr>
-                                    <tr>  
+                                    <tr>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 80px;height: 40px;">
                                             <button type="button" id="recieve_bt1" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
                                         </td>
-                                        
+
                                     </tr>
-                                    <tr>  
+                                    <tr>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 80px;height: 40px;">
                                             <button type="button" id="recieve_bt2" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
                                         </td>
-                                        
+
                                     </tr>
                                     <tr>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
@@ -155,7 +163,7 @@
                                         <td class="task_check_tb_td" style="width: 80px;height: 40px;">
                                         <button type="button" id="recieve_bt3" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
                                         </td>
-                                        
+
                                     </tr>
                                     <tr>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
@@ -164,7 +172,7 @@
                                         <td class="task_check_tb_td" style="width: 80px;height: 40px;">
                                         <button type="button" id="recieve_bt4" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
                                         </td>
-                                        
+
                                     </tr>
                                     <tr>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
@@ -173,7 +181,7 @@
                                         <td class="task_check_tb_td" style="width: 80px;height: 40px;">
                                         <button type="button" id="recieve_bt5" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
                                         </td>
-                                        
+
                                     </tr>
                                     <tr>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
@@ -182,7 +190,7 @@
                                         <td class="task_check_tb_td" style="width: 80px;height: 40px;">
                                         <button type="button" id="recieve_bt6" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
                                         </td>
-                                        
+
                                     </tr>
                                 </table>
                             </div>
@@ -218,7 +226,7 @@
                                         <th class="task_check_tb_th" style="text-align: center;">用户ID</th>
                                         <th class="task_check_tb_th" style="text-align: center;">开始处理时间</th>
                                     </tr>
-                                    <tr>  
+                                    <tr>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 80px;height: 40px;">
@@ -226,8 +234,8 @@
                                         </td>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
-                                        
-                                        
+
+
                                     </tr>
                                     <tr>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
@@ -237,8 +245,8 @@
                                         </td>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
-                                        
-                                        
+
+
                                     </tr>
                                     <tr>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
@@ -258,7 +266,7 @@
                                         </td>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
-                                        
+
                                     </tr>
                                     <tr>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
@@ -268,7 +276,7 @@
                                         </td>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
-                                        
+
                                     </tr>
                                     <tr>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
@@ -296,15 +304,15 @@
                                         <th class="task_check_tb_th" style="text-align: center;">用户ID</th>
                                         <th class="task_check_tb_th" style="text-align: center;">完成处理时间</th>
                                     </tr>
-                                    <tr>  
+                                    <tr>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
+                                        <!-- <td class="task_check_tb_td">
                                             <button type="button" id="task_ing_bt" class="btn-task-ing">已完成</button>
                                         </td> -->
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 80px;height: 40px;">  &nbsp;</td>
-                                        
+
                                     </tr>
                                     <tr>
                                         <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>
@@ -365,58 +373,58 @@
                                         <th class="task_check_tb_th" style="text-align:center;">FAQ ID</th>
                                         <th class="task_check_tb_th" style="text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;常见问题&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th class="task_check_tb_th" style="text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;问题解答&nbsp;&nbsp;&nbsp;&nbsp;</th>
-            
-                                    </tr>
-                                    <tr>  
-                                        
-                                        <td class="task_check_tb_td" style="width: 80px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 250px;height: 50px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 200px;">  &nbsp;</td>
-                                        
-                                                                            
-                                    </tr>
-                                    <tr> 
-                                        
-                                        <td class="task_check_tb_td" style="width: 80px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 250px;height: 50px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 200px;">  &nbsp;</td>
-                                        
-                                        
-                                        
-                                    </tr>
-                                      <tr>  
-                                        <td class="task_check_tb_td" style="width: 80px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 250px;height: 50px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 200px;">  &nbsp;</td>
-                                  
 
                                     </tr>
-                                    <tr>  
+                                    <tr>
+
                                         <td class="task_check_tb_td" style="width: 80px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 250px;height: 50px;">  &nbsp;</td>
                                         <td class="task_check_tb_td" style="width: 200px;">  &nbsp;</td>
-                                       
-                                        
-                                    </tr>   
-                                    <!-- <tr>  
-                                        <td class="task_check_tb_td">  &nbsp;</td>
-                                        <td class="task_check_tb_td">  &nbsp;</td>
-                                        <td class="task_check_tb_td">  &nbsp;</td>
-                                        <td class="task_check_tb_td">  &nbsp;</td>
-                                       
-                                        
+
+
                                     </tr>
-                                    <tr>  
+                                    <tr>
+
+                                        <td class="task_check_tb_td" style="width: 80px;">  &nbsp;</td>
+                                        <td class="task_check_tb_td" style="width: 250px;height: 50px;">  &nbsp;</td>
+                                        <td class="task_check_tb_td" style="width: 200px;">  &nbsp;</td>
+
+
+
+                                    </tr>
+                                      <tr>
+                                        <td class="task_check_tb_td" style="width: 80px;">  &nbsp;</td>
+                                        <td class="task_check_tb_td" style="width: 250px;height: 50px;">  &nbsp;</td>
+                                        <td class="task_check_tb_td" style="width: 200px;">  &nbsp;</td>
+
+
+                                    </tr>
+                                    <tr>
+                                        <td class="task_check_tb_td" style="width: 80px;">  &nbsp;</td>
+                                        <td class="task_check_tb_td" style="width: 250px;height: 50px;">  &nbsp;</td>
+                                        <td class="task_check_tb_td" style="width: 200px;">  &nbsp;</td>
+
+
+                                    </tr>
+                                    <!-- <tr>
                                         <td class="task_check_tb_td">  &nbsp;</td>
                                         <td class="task_check_tb_td">  &nbsp;</td>
                                         <td class="task_check_tb_td">  &nbsp;</td>
                                         <td class="task_check_tb_td">  &nbsp;</td>
-                                    
-                                        
+
+
+                                    </tr>
+                                    <tr>
+                                        <td class="task_check_tb_td">  &nbsp;</td>
+                                        <td class="task_check_tb_td">  &nbsp;</td>
+                                        <td class="task_check_tb_td">  &nbsp;</td>
+                                        <td class="task_check_tb_td">  &nbsp;</td>
+
+
                                     </tr>  -->
                                 </table>
-                               
-                                
+
+
 
 
                                 <!-- <ul class="list-group">
@@ -430,7 +438,7 @@
                                           </select>
                                     </li>
 
-                                     第二个选项 
+                                     第二个选项
                                     <div id="second_select">
                                          性能体验详情  默认不显示
                                             <li class="list-group-item" style="display: none;" id="firstshow">
@@ -467,15 +475,15 @@
                                                 </select>
                                             </li>
                                     </div>
-                                    
+
                                     问题详情描述文本框
                                     <li class="list-group-item" id="question_clear">
                                         <span class="select_lable">问题详情:</span>
                                         <textarea rows="6" cols="50" name="summary_question" class="select_lable_clear">
-                                            
+
                                         </textarea>
                                     </li>
-                                    提交按钮 
+                                    提交按钮
                                     按钮触发模态框
                                     <li class="list-group-item">
                                         <button class="btn btn-primary " data-toggle="modal" data-target="#myModal">提交</button>
@@ -501,14 +509,14 @@
                                                 </div>
                                             </div>/.modal-content
                                         </div>/.modal
-                                    </div>        
+                                    </div>
                                 </ul> -->
                             </div>
                             <div>
                                 <li>
                                     <button type="button" id="addFaq_bt" class="btn btn-primary" style="margin-left: 40%;">添加</button>
                                 </li>
-                                
+
                             </div>
                         </div>
                         <!-- FAQ 添加 -->
@@ -523,21 +531,21 @@
                                     <li class="list-group-item"><label for="#frequent_ans_add">问题解答：</label>
                                         <input type="text"  id="frequent_ans_add" name="frequent_ans_add" value="" style="width: 300px;height: 100px;"></li>
                                 </form>
-                                
+
                                     <!-- <table id="addFaq_tb" border="2" style="margin-left: 9%;">
                                     <tr>
                                          <th class="task_check_tb_th" style="text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;FAQ ID&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th class="task_check_tb_th" style="text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;常见问题描述&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                         <th class="task_check_tb_th" style="text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;问题解答&nbsp;&nbsp;&nbsp;&nbsp;</th>
-            
+
                                     </tr>
-                                    <tr>  
-                                        
-                                         <td class="task_check_tb_td" style="width: 80px;">  &nbsp;</td> 
+                                    <tr>
+
+                                         <td class="task_check_tb_td" style="width: 80px;">  &nbsp;</td>
                                         <td id = "frequent_que_add" contenteditable="true" class="task_check_tb_td" style="width: 250px;height: 100px;">  &nbsp;</td>
                                         <td id = "frequent_ans_add"contenteditable="true" class="task_check_tb_td" style="width: 200px;">  &nbsp;</td>
-                                        
-                                                                            
+
+
                                     </tr>
                                 </table> -->
                                 <!-- 添加FAQ成功提示 -->
@@ -638,6 +646,6 @@
     <script src="js/vue.js"></script>
 
 
-    
+
 </body>
 </html>

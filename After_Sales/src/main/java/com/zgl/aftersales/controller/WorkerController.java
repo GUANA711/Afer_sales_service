@@ -2,7 +2,6 @@ package com.zgl.aftersales.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zgl.aftersales.pojo.Maintenance;
-import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.pojo.WorkerStatus;
 import com.zgl.aftersales.service.MaintenanceService;
 import com.zgl.aftersales.service.WorkerService;
@@ -22,7 +21,7 @@ import java.util.regex.Pattern;
 /**
  * @author Alice
  */
-@RestController
+@RestController//默认返回json类型数据
 @ResponseBody
 @CrossOrigin //允许跨域
 @Slf4j
@@ -47,18 +46,14 @@ public class WorkerController {
 
         int User_id= (int) req.getSession(false).getAttribute("userID");
         Map<String, Object> map = new HashMap<String, Object>();
-        try {
-            map.put("User_id",User_id);
-            map.put("User_name",workerService.worker_selectBy_Session_UserId(User_id).getUser_name());
-            map.put("Tel",workerService.worker_selectBy_Session_UserId(User_id).getTel());
-            map.put("Email",workerService.worker_selectBy_Session_UserId(User_id).getEmail());
-            map.put("Task_num",workerService.worker_selectBy_Session_UserId(User_id).getTask_num());
-            map.put("Role_id",workerService.worker_selectBy_Session_UserId(User_id).getRole_id());
-            map.put("Item_id",workerService.worker_selectBy_Session_UserId(User_id).getItem_id());
-            map.put("status","查询成功");
-        }catch (Exception e){
-            map.put("status","查询失败");
-        }
+        map.put("User_id",User_id);
+        map.put("User_name",workerService.worker_selectBy_Session_UserId(User_id).getUser_name());
+        map.put("Tel",workerService.worker_selectBy_Session_UserId(User_id).getTel());
+        map.put("Email",workerService.worker_selectBy_Session_UserId(User_id).getEmail());
+        map.put("Task_num",workerService.worker_selectBy_Session_UserId(User_id).getTask_num());
+        map.put("Role_id",workerService.worker_selectBy_Session_UserId(User_id).getRole_id());
+        map.put("Item_id",workerService.worker_selectBy_Session_UserId(User_id).getItem_id());
+
         return map;
     }
 
