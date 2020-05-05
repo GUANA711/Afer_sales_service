@@ -101,6 +101,7 @@ public class WorkerController {
                         map.put("Tel",json.getString("Tel"));
                         map.put("Email",json.getString("Email"));
                         map.put("status","修改成功");
+                        map.put("code","0");
                         workerService.worker_updateBy_Session_UserId(map);
                     } catch (Exception e) {
                         map.put("User_id",User_id);
@@ -108,6 +109,7 @@ public class WorkerController {
                         map.put("Tel",workerService.worker_selectBy_Session_UserId(User_id).getTel());
                         map.put("Email",workerService.worker_selectBy_Session_UserId(User_id).getEmail());
                         map.put("status","修改失败,该用户名已存在");
+                        map.put("code","-1");
                     }
                 } else {
                     map.put("User_id",User_id);
@@ -115,6 +117,7 @@ public class WorkerController {
                     map.put("Tel",workerService.worker_selectBy_Session_UserId(User_id).getTel());
                     map.put("Email",workerService.worker_selectBy_Session_UserId(User_id).getEmail());
                     map.put("status","修改邮箱失败，请输入正确邮箱");
+                    map.put("code","-1");
                 }
             } else {
                 map.put("User_id",User_id);
@@ -122,6 +125,7 @@ public class WorkerController {
                 map.put("Tel",workerService.worker_selectBy_Session_UserId(User_id).getTel());
                 map.put("Email",workerService.worker_selectBy_Session_UserId(User_id).getEmail());
                 map.put("status","修改电话号码失败，请输入正确的电话号码");
+                map.put("code","-1");
             }
         }else {
             map.put("User_id",User_id);
@@ -130,6 +134,7 @@ public class WorkerController {
             map.put("Tel",workerService.worker_selectBy_Session_UserId(User_id).getTel());
             map.put("Email",workerService.worker_selectBy_Session_UserId(User_id).getEmail());
             map.put("status","修改失败，用户名不能为空");
+            map.put("code","-1");
         }
        return map;
     }
