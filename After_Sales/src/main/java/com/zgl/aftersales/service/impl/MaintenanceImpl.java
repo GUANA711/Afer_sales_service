@@ -7,13 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class MaintenanceImpl implements MaintenanceService {
     @Autowired
     private MaintenanceMapper maintenanceMapper;
+
     @Override
-    public List<Maintenance> selectAll() {
-        return maintenanceMapper.selectAll();
+    public List<Maintenance> selectAll(Map<String, Object> map) {
+        return maintenanceMapper.selectAll(map);
+    }
+
+    @Override
+    public List<Maintenance> fuzzyQuery(Map<String, Object> map) {
+        return maintenanceMapper.fuzzyQuery(map);
     }
 
     @Override
@@ -21,8 +29,5 @@ public class MaintenanceImpl implements MaintenanceService {
          maintenanceMapper.insert(maintenance);
     }
 
-    @Override
-    public List<Maintenance> fuzzyQuery(String key) {
-        return maintenanceMapper.fuzzyQuery(key);
-    }
+
 }

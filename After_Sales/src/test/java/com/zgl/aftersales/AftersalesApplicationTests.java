@@ -94,25 +94,9 @@ class AftersalesApplicationTests {
     }
     @Autowired
     ItemsService itemsService;
-    @Test
-    void itme_selectall() {
 
 
-        List<Items> itemsList = itemsService.selectAllItems();
-        for (Items item : itemsList) {
-            System.out.println(item);
 
-        }
-    }
-
-    @Test
-    void fuzzyQuery(){
-        List<Items> itemsList=itemsService.fuzzyQuery("2");
-        for (Items item : itemsList) {
-            System.out.println(item);
-
-        }
-    }
     @Test
     void dateShow(){
         Date date=new Date();

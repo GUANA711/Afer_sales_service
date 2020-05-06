@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @CrossOrigin //允许跨域
@@ -25,48 +23,62 @@ public class AdminLoginController {
     ItemsService itemsService;
 
     /**
-     * 项目显示
+     * 项目显示(分页处理)
      * @return
      */
-    @PostMapping("/showItems")
-    public List<Items> showItems(){
-        List<Items>  itemsList=itemsService.selectAllItems();
+    @PostMapping("/showItems/{currenPage}/{pageSize}")
+    public List<Items> showItems(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize){
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("currIndex",(currenPage-1)*pageSize);
+        map.put("pageSize",pageSize);
+        List<Items>  itemsList=itemsService.selectAllItems(map);
         return itemsList;
     }
 
     /**
-     * 项目查找
+     * 项目查找(分页处理)
      * @param json
      * @return
      */
-    @PostMapping("/searchItems")
-    public List<Items> searchItems(@RequestBody JSONObject json){
+    @PostMapping("/searchItems/{currenPage}/{pageSize}")
+    public List<Items> searchItems(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize ,@RequestBody JSONObject json){
         String key=json.getString("key");
-        List<Items>  itemsList=itemsService.fuzzyQuery(key);
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("currIndex",(currenPage-1)*pageSize);
+        map.put("pageSize",pageSize);
+        map.put("text",key);
+        List<Items>  itemsList=itemsService.fuzzyQuery(map);
         return itemsList;
     }
 
     /**
-     * 问题处理对应关系显示
+     * 问题处理对应关系显示(分页处理)
      */
     @Autowired
     MaintenanceService maintenanceService;
-    @PostMapping("/showMaintenance")
-    public List<Maintenance> showMaintenance(){
-        List<Maintenance> maintenanceList=maintenanceService.selectAll();
+    @PostMapping("/showMaintenance/{currenPage}/{pageSize}")
+    public List<Maintenance> showMaintenance(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize){
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("currIndex",(currenPage-1)*pageSize);
+        map.put("pageSize",pageSize);
+        List<Maintenance> maintenanceList=maintenanceService.selectAll(map);
         return maintenanceList;
 
     }
 
     /**
-     * 问题处理对应关系查找
+     * 问题处理对应关系查找(分页处理)
      * @param json
      * @return
      */
-    @PostMapping("/searchMaintenance")
-    public List<Maintenance> searchMaintenance(@RequestBody JSONObject json){
+    @PostMapping("/searchMaintenance/{currenPage}/{pageSize}")
+    public List<Maintenance> searchMaintenance(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize,@RequestBody JSONObject json){
         String key=json.getString("key");
-        List<Maintenance> maintenanceList=maintenanceService.fuzzyQuery(key);
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("currIndex",(currenPage-1)*pageSize);
+        map.put("pageSize",pageSize);
+        map.put("text",key);
+        List<Maintenance> maintenanceList=maintenanceService.fuzzyQuery(map);
         return maintenanceList;
     }
 
@@ -82,26 +94,34 @@ public class AdminLoginController {
     }
 
     /**
-     * 问题显示
+     * 问题显示(分页处理)
      */
     @Autowired
     QuestionService questionService;
-    @PostMapping("/showquestion")
-    public List<Question> showQuestion(){
-        List<Question> questionList=questionService.showAllQuestions();
+    @PostMapping("/showquestion/{currenPage}/{pageSize}")
+    public List<Question> showQuestion(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize ){
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("currIndex",(currenPage-1)*pageSize);
+        map.put("pageSize",pageSize);
+
+        List<Question> questionList=questionService.showAllQuestions(map);
         return  questionList;
     }
 
     /**
-     *问题查找
+     *问题查找(分页处理)
      * @param json
      * @return
      */
 
-    @PostMapping("/searchquestion")
-    public List<Question> serchQuestion(@RequestBody JSONObject json){
+    @PostMapping("/searchquestion/{currenPage}/{pageSize}")
+    public List<Question> serchQuestion(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize,@RequestBody JSONObject json){
         String key=json.getString("key");
-        List<Question> questionList=questionService.fuzzyQuery(key);
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("currIndex",(currenPage-1)*pageSize);
+        map.put("pageSize",pageSize);
+        map.put("text",key);
+        List<Question> questionList=questionService.fuzzyQuery(map);
         return questionList;
     }
 

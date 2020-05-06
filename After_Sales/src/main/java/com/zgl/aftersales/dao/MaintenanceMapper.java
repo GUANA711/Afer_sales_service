@@ -5,12 +5,13 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
 public interface MaintenanceMapper {
 
-    List<Maintenance> selectAll();
-    List<Maintenance> fuzzyQuery(String key);
+    List<Maintenance> selectAll(Map<String, Object> map);
+    List<Maintenance> fuzzyQuery(Map<String, Object> map);
     void insert(Maintenance maintenance);
 }
