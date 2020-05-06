@@ -28,13 +28,13 @@ import java.util.regex.Pattern;
 @RequestMapping(value ="/user",method = RequestMethod.POST)
 @Slf4j
 
-public class LoginrController {
+public class LoginController {
     @Autowired
     private UserService userService;
     @Autowired
     private MailService mailService;
 
-    public LoginrController(UserService userService) {
+    public LoginController(UserService userService) {
         this.userService = userService;
     }
 
