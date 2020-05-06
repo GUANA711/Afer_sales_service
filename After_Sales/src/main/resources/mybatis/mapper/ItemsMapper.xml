@@ -5,11 +5,11 @@
 <!--namespace=绑定一个对应的DAO/Mapper接口-->
 <mapper namespace="com.zgl.aftersales.dao.ItemMapper">
 
-    <select id="selectAllItems"  resultType="com.zgl.aftersales.pojo.Items">
-         select * from items
+    <select id="selectAllItems" parameterType="map" resultType="com.zgl.aftersales.pojo.Items">
+         select * from items limit #{currIndex},#{pageSize}
     </select>
-    <select id="fuzzyQuery" parameterType="String" resultType="com.zgl.aftersales.pojo.Items">
-        select * from items where Item_id like CONCAT(CONCAT('%', #{text}), '%') or Item_name like  CONCAT(CONCAT('%', #{text}), '%') or User_id like  CONCAT(CONCAT('%', #{text}), '%');
+    <select id="fuzzyQuery" parameterType="map" resultType="com.zgl.aftersales.pojo.Items">
+        select * from items where Item_id like CONCAT(CONCAT('%', #{text}), '%') or Item_name like  CONCAT(CONCAT('%', #{text}), '%') or User_id like  CONCAT(CONCAT('%', #{text}), '%') limit #{currIndex},#{pageSize};
     </select>
 
 

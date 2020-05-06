@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
@@ -22,8 +23,12 @@ public interface QuestionMapper {
      * zgl
      * @return
      */
-    List<Question> showAllQuestions();
-    List<Question> fuzzyQuery(String key);
+
+    //分页处理
+    List<Question> showAllQuestions(Map<String,Object> map);
+    List<Question> fuzzyQuery(Map<String,Object> map);
+
+
     List<Integer> selectAll_id();
     List<String> selectWorkerByQuesID(String quesID);
     void updateStatus(String questionID);

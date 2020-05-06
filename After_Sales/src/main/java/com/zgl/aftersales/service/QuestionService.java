@@ -17,10 +17,14 @@ public interface QuestionService {
     List<Question> checkQuestionsubmited(Integer User_id);
     List<Question> checkQuestionfinished(Integer User_id);
     List<Question> checkQuestiondealing(Integer User_id);
-    List<Question> showAllQuestions();
-    List<Question> fuzzyQuery(String key);
+
+    //分页
+    List<Question> showAllQuestions(Map<String,Object> map);
+    List<Question> fuzzyQuery(Map<String,Object> map);
+
     List<Integer> selectAll_id();
     List<String> selectWorkerByQuesID(String quesID);
+
     void updateStatus(String questionID);
     List<Question> showOvertimeAccepte();
     List<Question> shoeOvertimeUnaccepte();

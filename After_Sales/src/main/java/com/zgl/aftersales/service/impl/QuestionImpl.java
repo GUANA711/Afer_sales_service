@@ -43,8 +43,13 @@ public class QuestionImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> showAllQuestions() {
-        return db.showAllQuestions();
+    public List<Question> showAllQuestions(Map<String, Object> map) {
+        return db.showAllQuestions(map);
+    }
+
+    @Override
+    public List<Question> fuzzyQuery(Map<String, Object> map) {
+        return db.fuzzyQuery(map);
     }
 
     @Override
@@ -72,10 +77,7 @@ public class QuestionImpl implements QuestionService {
         return db.selectWorkerByQuesID(quesID);
     }
 
-    @Override
-    public List<Question> fuzzyQuery(String key) {
-        return db.fuzzyQuery(key);
-    }
+
 
 //    @Override
 //    public int DeleteUser(int User_id) {
