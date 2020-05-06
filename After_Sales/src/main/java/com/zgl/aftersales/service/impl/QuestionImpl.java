@@ -8,11 +8,12 @@ import com.zgl.aftersales.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
 
-@Service
+@Service()
 public class QuestionImpl implements QuestionService {
     @Autowired
     QuestionMapper db;

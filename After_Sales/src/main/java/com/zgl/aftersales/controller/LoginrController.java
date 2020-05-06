@@ -159,6 +159,60 @@ public class LoginrController {
         return status;
    }
 
+//测试用
+//    @PostMapping("/login")
+//    public Status selectByUsername(HttpServletRequest req,HttpServletResponse resp,String username,String pwd){
+//        DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
+//        Status status=new Status();
+//
+//        Users user=userService.selectByUsername(username);
+//
+//        String decodPwd=desDecodeUtiles.getDecryptString(user.getPassword());
+//
+//
+//        if(user==null){
+//            status.setMsg("该用户不存在");
+//        }
+//        else {
+//            if(pwd.equals(decodPwd)){
+//                status.setStatus(true);
+//
+//                //登陆成功，创建session
+//                HttpSession seesion=req.getSession(true);
+//                seesion.setAttribute("userID",user.getUser_id());
+//                System.out.println("session id:"+seesion.getId());
+//
+//                //将sessionId存进cookie
+//                Cookie cookie_name=new Cookie("USER_NAME",username);
+//                cookie_name.setPath("/");
+//                cookie_name.setMaxAge(10*60);//存在时间为十分钟
+//                resp.addCookie(cookie_name);
+//
+//                Cookie cookie_pwd=new Cookie("USER_PWD",pwd);
+//                cookie_pwd.setPath("/");
+//                cookie_pwd.setMaxAge(10*60);//存在时间为十分钟
+//                resp.addCookie(cookie_pwd);
+//
+//
+//                if(user.getRole_id()==1){
+//                    status.setMsg("登录成功，该用户为管理员");
+//                    status.setData("admin_login.hmtl");//role_id=1,为管理员
+//                }else if (user.getRole_id()==2){
+//                    status.setMsg("登录成功，该用户为维修人员");
+//                    status.setData("worker_login.hmtl");//role_id=2,为维修人员
+//                }else if (user.getRole_id()==3){
+//                    status.setMsg("登录成功，该用户为普通用户");
+//                    status.setData("user_login.hmtl");//role_id=3,为普通用户
+//                }
+//            }else {
+//                status.setMsg("登录失败，密码错误");
+//            }
+//
+//        }
+//
+//        return status;
+//    }
+
    @PostMapping("/mailSend")
     public Status mailSend(@RequestBody JSONObject json,HttpServletRequest req){
 

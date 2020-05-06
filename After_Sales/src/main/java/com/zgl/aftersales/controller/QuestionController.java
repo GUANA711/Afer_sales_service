@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.PrintWriter;
 import java.util.List;
 
 @CrossOrigin
@@ -31,35 +34,72 @@ public class QuestionController {
         return db.checkQuestion(Question_id);
     }
 
+
+
+//    @GetMapping("/checkQuestionsubmited")
+//    public List<Question> checkQuestionsubmited(Integer User_id) {
+//        return db.checkQuestionsubmited(User_id);
+//    }
+//
+//
+//    @GetMapping("/checkQuestionfinished")
+//    public List<Question> checkQuestionfinished(Integer User_id) {
+//        return db.checkQuestionfinished(User_id);
+//    }
+//
+//    @GetMapping("/checkQuestiondealing")
+//    public List<Question> checkQuestiondealing(Integer User_id) {
+//        return db.checkQuestiondealing(User_id);
+//    }
+//
+//
+//    @GetMapping("/checkPostMan")
+//    public Users checkPostMan(int User_id) {
+//        return db.checkPostMan(User_id);
+//    }
+
+
+    @GetMapping("/tsetin")
+    public void testin(HttpServletRequest req){
+        HttpSession session=req.getSession();
+        session.setAttribute("userID","25");
+        return;
+    }
+
+    @GetMapping("/tsetout")
+    public String testout(HttpServletRequest req,String key) {
+        String mess=(String)req.getSession().getAttribute(key);
+        return mess;
+    }
+
+
+
     @GetMapping("/checkQuestionsubmited")
-    public List<Question> checkQuestionsubmited(Integer User_id) {
-        return db.checkQuestionsubmited(User_id);
+    public List<Question> checkQuestionsubmited(HttpServletRequest req) {
+        return db.checkQuestionsubmited(Integer.parseInt(req.getSession(false).getAttribute("userID").toString()));
     }
 
 
     @GetMapping("/checkQuestionfinished")
-    public List<Question> checkQuestionfinished(Integer User_id) {
-        return db.checkQuestionfinished(User_id);
+    public List<Question> checkQuestionfinished(HttpServletRequest req) {
+        return db.checkQuestionfinished(Integer.parseInt(req.getSession(false).getAttribute("userID").toString()));
     }
 
     @GetMapping("/checkQuestiondealing")
-    public List<Question> checkQuestiondealing(Integer User_id) {
-        return db.checkQuestiondealing(User_id);
+    public List<Question> checkQuestiondealing(HttpServletRequest req) {
+        return db.checkQuestiondealing(Integer.parseInt(req.getSession(false).getAttribute("userID").toString()));
     }
 
 
     @GetMapping("/checkPostMan")
-    public Users checkPostMan(int User_id) {
-        return db.checkPostMan(User_id);
+    public Users checkPostMan(HttpServletRequest req) {
+        return db.checkPostMan(Integer.parseInt(req.getSession(false).getAttribute("userID").toString()));
     }
 
-//    @GetMapping("/DeleteUser")
-//    public int DeleteUser(int User_id){
-//        return db.DeleteUser(User_id);
-//    }
+
 
     @GetMapping("/updateUser")
-    public int updateUser(@RequestBody List<Users> list) {
+    public int updateUser(List<Users> list) {
         return db.updateUser(list);
     }
 }

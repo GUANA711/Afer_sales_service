@@ -40,6 +40,8 @@ public class MyWevMvcConfig implements WebMvcConfigurer {
         patterns.add("/swagger-ui.html");
         patterns.add("/swagger-resources/**");
         patterns.add("/login");
+        patterns.add("/log.html");
+
 
         registry.addInterceptor(loginInterceptor).addPathPatterns("/**").addPathPatterns(patterns);
     }
