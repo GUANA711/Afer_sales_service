@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Service
 @Transactional
-public class UserImpl implements UserService {
+public class  UserImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
     @Override
@@ -39,6 +39,11 @@ public class UserImpl implements UserService {
     @Override
     public void updateByEmailToPwd(Map<String, String> map) {
         userMapper.updateByEmailToPwd(map);
+    }
+
+    @Override
+    public void updateTask_num(String name) {
+        userMapper.updateTask_num(name);
     }
 
 

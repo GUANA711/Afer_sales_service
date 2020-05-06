@@ -4,15 +4,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--namespace=绑定一个对应的DAO/Mapper接口-->
 <mapper namespace="com.zgl.aftersales.dao.WorkerMapper">
-    <select id="worker_selectByUsername" parameterType="String" resultType="com.zgl.aftersales.pojo.Users">
-         select * from users where User_name=#{username} and Role_id=2;
+    <select id="worker_selectBy_Session_UserId" parameterType="int" resultType="com.zgl.aftersales.pojo.Users">
+         select * from users where User_id=#{User_id};
     </select>
 
-
-
-    <update id="worker_updateByUsername" parameterType="map">
-    update users set User_name = #{User_name},Password = #{Password},Tel = #{Tel},Email = #{Email}
-    where User_id=#{User_id} and Role_id=2;
+    <update id="worker_updateBy_Session_UserId" parameterType="map">
+    update users set User_name = #{User_name},Tel = #{Tel},Email = #{Email}
+    where User_id=#{User_id};
   </update>
+
+    <update id="worker_update_ques_accept" parameterType="String">
+        update questions set Question_status='accepted' where Question_id=#{questionID};
+    </update>
+
+    <update id="worker_update_addtaskNum" parameterType="int">
+        update users u set u.Task_num=u.Task_num+1 where User_id=#{User_id};
+    </update>
+
+    <update id="worker_update_ques_done" parameterType="String">
+        update questions set Question_status='done' where Question_id=#{questionID};
+    </update>
+
+    <update id="worker_update_reducetaskNum" parameterType="int">
+        update users u set u.Task_num=u.Task_num-1 where User_id=#{User_id};
+    </update>
 
 </mapper>

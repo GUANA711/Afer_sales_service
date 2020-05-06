@@ -15,5 +15,6 @@ public interface UserService {
     Users selectByUsername(String username);
     Users selectByEmail(String mail);
     void  updateByEmailToPwd(Map<String,String> map);
+    void updateTask_num(String name);
 }
 

@@ -16,5 +16,8 @@
     <update id="updateByEmailToPwd" parameterType="map">
         update users set Password=#{pwd} where Email=#{mail}
     </update>
+    <update id="updateTask_num" parameterType="String">
+        update users u set u.Task_num=u.Task_num+1 where User_name=#{name}
+    </update>
 
 </mapper>

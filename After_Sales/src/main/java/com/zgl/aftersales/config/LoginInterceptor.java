@@ -12,35 +12,27 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-//登录拦截器
+/**
+ * 登录拦截器
+ *
+ *   @author 赵官凌
+ *
+ */
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println("进入登录拦截器");
+        if(request.getSession(false)!=null && request.getCookies()!=null){
 
-        if(request.getSession(false)!=null){
-            returnJson(response,request);
-            return false;
+            return true;
         }
+        //request.getRequestDispatcher("/index.html").forward(request, response);
+        response.sendRedirect(request.getContextPath()+"/index.html");
 
         return true;
     }
 
-    private void returnJson(HttpServletResponse resp,HttpServletRequest req) throws IOException {
-        HttpServletResponse httpResponse = (HttpServletResponse) resp;
-        httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
-        httpResponse.setHeader("Access-Control-Allow-Origin", req.getHeader("Origin"));
-        PrintWriter writer=resp.getWriter();
-        resp.setCharacterEncoding("UTF-8");
-        resp.setContentType("application/json; charset=utf-8");
 
-        Status status=new Status();
-        status.setStatus(false);
-        status.setMsg("用户未登录");
-        status.setCode(403);
-        writer.print(status);
-        writer.close();
-
-    }
 
 }
