@@ -32,17 +32,52 @@
              SELECT * FROM questions WHERE User_id = #{ User_id } and Question_status = "processing"
     </select>
 
-
-<!--   zgl-->
     <select id="checkPostMan" parameterType="int" resultType="com.zgl.aftersales.pojo.Users">
              SELECT * FROM users WHERE User_id = #{ User_id }
     </select>
 
-    <select id="showAllQuestions" parameterType="map" resultType="com.zgl.aftersales.pojo.Question">
-        select * from questions limit #{currIndex},#{pageSize}
+<!--    zgl-->
+    <resultMap id="data" type="com.zgl.aftersales.pojo.Question">
+        <result property="item_id" column="item_id"></result>
+        <result property="Question_type" column="Question_type"></result>
+        <result property="Question_detail" column="Question_detail"></result>
+        <result property="Question_status" column="Question_status"></result>
+        <result property="User_id" column="User_id"></result>
+        <result property="Commit_time" column="Commit_time"></result>
+    </resultMap>
+
+    <resultMap id="count1" type="Integer">
+        <result column="count"/>
+    </resultMap>
+
+    <select id="showAllQuestions" parameterType="map" resultMap="data,count1">
+        select SQL_CALC_FOUND_ROWS * from questions limit #{currIndex},#{pageSize};
+        select FOUND_ROWS() as count;
     </select>
-    <select id="fuzzyQuery" parameterType="map" resultType="com.zgl.aftersales.pojo.Question">
-        select * from questions where item_id like CONCAT(CONCAT('%', #{text}), '%') or Question_type like CONCAT(CONCAT('%', #{text}), '%') or Question_status like CONCAT(CONCAT('%', #{text}), '%') or Question_detail like CONCAT(CONCAT('%', #{text}), '%') or User_id like CONCAT(CONCAT('%', #{text}), '%') or Commit_time like CONCAT(CONCAT('%', #{text}), '%') limit #{currIndex},#{pageSize}
+    <select id="fuzzyQuery" parameterType="map" resultMap="data,count1">
+        select SQL_CALC_FOUND_ROWS * from questions
+        <where>
+            <if test="item_id!=null">
+                item_id like CONCAT(CONCAT('%', #{item_id}), '%')
+            </if>
+            <if test="Question_type!=null">
+                Question_type like CONCAT(CONCAT('%', #{Question_type}), '%')
+            </if>
+            <if test="Question_status!=bull">
+                Question_status like CONCAT(CONCAT('%', #{Question_status}), '%')
+            </if>
+            <if test="Question_detail!=null">
+                Question_detail like CONCAT(CONCAT('%', #{text}), '%')
+            </if>
+            <if test="User_id!=null">
+                User_id like CONCAT(CONCAT('%', #{User_id}), '%')
+            </if>
+            <if test="Commit_time!=null">
+                Commit_time like CONCAT(CONCAT('%', #{Commit_time}), '%')
+            </if>
+        </where>
+         limit #{currIndex},#{pageSize};
+         select FOUND_ROWS() as count;
     </select>
 
     <select id="selectAll_id" resultType="integer">

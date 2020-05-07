@@ -11,7 +11,7 @@ import java.util.Map;
 @Repository
 public interface MaintenanceMapper {
 
-    List<Maintenance> selectAll(Map<String, Object> map);
-    List<Maintenance> fuzzyQuery(Map<String, Object> map);
+    List<List<?>> selectAll(Map<String, Object> map);
+    List<List<?>> fuzzyQuery(Map<String, Object> map);
     void insert(Maintenance maintenance);
 }

@@ -10,6 +10,7 @@ import java.util.Map;
 @Mapper
 @Repository
 public interface ItemMapper {
-    List<Items> selectAllItems(Map<String,Object> map);
-    List<Items> fuzzyQuery(Map<String,Object> map);
+    List<List<?>> selectAllItems(Map<String,Object> map);
+    List<List<?>> fuzzyQuery(Map<String,Object> map);
+
 }

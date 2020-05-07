@@ -15,12 +15,14 @@ public class ItemsImpl implements ItemsService {
     ItemMapper itemMapper;
 
     @Override
-    public List<Items> selectAllItems(Map<String, Object> map) {
+    public List<List<?>> selectAllItems(Map<String, Object> map) {
         return itemMapper.selectAllItems(map);
     }
 
+
+
     @Override
-    public List<Items> fuzzyQuery(Map<String, Object> map) {
+    public List<List<?>> fuzzyQuery(Map<String, Object> map) {
         return itemMapper.fuzzyQuery(map);
     }
 }
