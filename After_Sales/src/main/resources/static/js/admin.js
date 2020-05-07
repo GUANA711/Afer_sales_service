@@ -8,13 +8,13 @@ $(document).ready(function(){
         url :'http://localhost:5050/worker_selectBy_Session_UserId',
         success :function(data) {
             console.dir(data);
-            $("#userId").val(data.user_id);
-            $("#username").val(data.user_name);
-            $("#tel").val(data.tel);
-            $("#email").val(data.email);            
+            $("#userId").val(data.User_id);
+            $("#username").val(data.User_name);
+            $("#tel").val(data.Tel);
+            $("#email").val(data.Email);            
             // alert("ok!");
         },
-        error: function (XMLHttpRequest) {
+        error: function (XMLHttpRequest,textStatus) {
             // 状态码
             // alert("test");
             console.log(XMLHttpRequest.status);
@@ -24,25 +24,65 @@ $(document).ready(function(){
             alert(textStatus);
         }
     });
-
+    // 分页
+    var pageSize =8;     //每页显示多少条记录
+    $(function() {          //表格初始化
+        itemsRequest(1,true);
+    });
+    function itemsRequest(currPage,isFirst) {
+        $.ajax({
+            type:'post',
+            dataType: "json",
+            url:'/adminLoing/showItems/'+currPage+'/'+pageSize,
+            success:function(data){
+                console.log(data);
+                $("#items table tbody").html('');       /* 清空tbody内容 */
+                for(var i=0;i<data.length;i++){
+                    var item=data[0][i];
+                    // console.log(data[0][i]);
+                    var insert = '<tr id="showItems"><td class="task_check_tb_td">' + item.item_id + '</td><td class="task_check_tb_td">' + item.item_name + '</td><td class="task_check_tb_td">' + item.user_id + '</td></tr>';
+                    $("#items table tbody").append(insert);
+                }
+                if (isFirst) {          /* 第一次加载页面 */
+                    $('#pagination1').jqPaginator({ 
+                        totalPages: Math.ceil(data[1]/pageSize),        //页码整数
+                        visiblePages: 6,
+                        currentPage: 1,
+                        first: '<li><a href="javascript:void(0);">首页</a></li>',
+                        prev: '<li><a href="javascript:void(0);">上一页</a></li>',
+                        next: '<li><a href="javascript:void(0);">下一页</a></li>',
+                        last: '<li><a href="javascript:void(0);">末页</a></li>',
+                        page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
+/* 设置页码的Html结构,其中可以使用{{page}}代表当前页，{{totalPages}}代表总页数，{{totalCounts}}代表总条目数*/
+                        onPageChange: function (num, type) {
+                            itemsRequest(num,false);
+                        }
+                    });
+                }
+            },
+            error:function(){alert("请求超时，请重试！");}
+        });
+    }
     // 点击编辑按钮
     $("#edit_bt").click(function(){
         var readonly = $("#username").attr("readonly")==='readonly'?false:true;
         $("#username").attr("readonly",readonly);
         $("#tel").attr("readonly",readonly);
         $("#email").attr("readonly",readonly);
+        $("#form_userinfo").validate();
         $(this).text($(this).text()==='编辑'?'取消':'编辑');
     });
     // 点击保存按钮
     $("#save_bt").click(function(){
-        var User_password = $("#username").val();
+        var User_name = $("#username").val();
         var Tel = $("#tel").val();
         var Email = $("#email").val(); 
         var info = {
-            "User_password":User_password,
+            "User_name":User_name,
             "Tel":Tel,
             "Email":Email
         };
+        $("#form_userinfo").validate();
         if($('#form_userinfo').valid()){
             $.ajax({
                 type:'POST',
@@ -51,32 +91,32 @@ $(document).ready(function(){
                 dataType:'json',
                 url :'http://localhost:5050/worker_updateBy_Session_UserId',
                 success :function(data) {
-                    console.dir(data);
-                    $("#successModal").modal();
-                    $("#username").attr("readonly",true);
-                    $("#tel").attr("readonly",true);
-                    $("#email").attr("readonly",true);
-                    $(this).text($(this).text()==='编辑');
-                    $("#userId").val(data.user_id);
-                    $("#username").val(data.user_name);
-                    $("#tel").val(data.tel);
-                    $("#email").val(data.email);            
+                    // console.dir(data);
+                    if(data.code == 0){      //修改成功
+                        $("#successModal").modal();
+                     }else{
+                        $('#failModal .modal-body').text(data.status); 
+                        $("#failModal").modal();
+                     }
+                    $("#userId").val(data.User_id);
+                    $("#username").attr("readonly",true).val(data.User_name);
+                    $("#tel").attr("readonly",true).val(data.Tel);
+                    $("#email").attr("readonly",true).val(data.Email);
+                    $('#edit_bt').text('编辑');
                 },
-                error: function (XMLHttpRequest) {
+                error: function (XMLHttpRequest,textStatus) {
                     // 状态码
                     // alert("test");
                     console.log(XMLHttpRequest.status);
                     // 状态
                     console.log(XMLHttpRequest.readyState);
                     // 错误信息
+                    // $("#failModal").modal();
+                    alert('ajax '+textStatus);
                     $("#failModal").modal();
-                    // alert(textStatus);
                 }
             });            
-        }else{
-            $("#failModal").modal();
         }
-       
     });
     //点击Faq添加按钮
     $("#addFaq_bt").click(function(){
@@ -172,8 +212,8 @@ $(document).ready(function(){
    //点击个人信息切换面板 
    $('.nav-pills li[role="presentation"]').click(function() {                        //tags的切换
         var i = $(this).index()-1;
-        console.log(i);
         if(i!=2){
+            i >= 4 ? i=i+1 : i = i;
             $(this).addClass('active').siblings().removeClass('active');
             $('#info li').removeClass('active');
             $(".find_panel").children().hide();
