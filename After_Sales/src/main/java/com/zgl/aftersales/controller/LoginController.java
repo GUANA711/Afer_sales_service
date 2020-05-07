@@ -147,19 +147,6 @@ public class LoginController {
                 System.out.println("session id:"+seesion.getId());
                 System.out.println("session userID:"+seesion.getAttribute("userID"));
 
-
-                //将sessionId存进cookie
-                Cookie cookie_name=new Cookie("USER_NAME",loginUsername);
-                cookie_name.setPath("/");
-                cookie_name.setMaxAge(10*60);//存在时间为十分钟
-                resp.addCookie(cookie_name);
-
-                Cookie cookie_pwd=new Cookie("USER_PWD",loginPwd);
-                cookie_pwd.setPath("/");
-                cookie_pwd.setMaxAge(10*60);//存在时间为十分钟
-                resp.addCookie(cookie_pwd);
-
-
                 if(user.getRole_id()==1){
                     status.setMsg("登录成功，该用户为管理员");
                     status.setData("admin.html");//role_id=1,为管理员

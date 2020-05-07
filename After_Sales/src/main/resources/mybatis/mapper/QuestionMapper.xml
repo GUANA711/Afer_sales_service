@@ -37,12 +37,14 @@
     <select id="checkPostMan" parameterType="int" resultType="com.zgl.aftersales.pojo.Users">
              SELECT * FROM users WHERE User_id = #{ User_id }
     </select>
-    <select id="showAllQuestions" resultType="com.zgl.aftersales.pojo.Question">
-        select * from questions
+
+    <select id="showAllQuestions" parameterType="map" resultType="com.zgl.aftersales.pojo.Question">
+        select * from questions limit #{currIndex},#{pageSize}
     </select>
-    <select id="fuzzyQuery" parameterType="String" resultType="com.zgl.aftersales.pojo.Question">
-        select * from questions where item_id like CONCAT(CONCAT('%', #{text}), '%') or Question_type like CONCAT(CONCAT('%', #{text}), '%') or Question_status like CONCAT(CONCAT('%', #{text}), '%') or Question_detail like CONCAT(CONCAT('%', #{text}), '%') or User_id like CONCAT(CONCAT('%', #{text}), '%') or Commit_time like CONCAT(CONCAT('%', #{text}), '%')
+    <select id="fuzzyQuery" parameterType="map" resultType="com.zgl.aftersales.pojo.Question">
+        select * from questions where item_id like CONCAT(CONCAT('%', #{text}), '%') or Question_type like CONCAT(CONCAT('%', #{text}), '%') or Question_status like CONCAT(CONCAT('%', #{text}), '%') or Question_detail like CONCAT(CONCAT('%', #{text}), '%') or User_id like CONCAT(CONCAT('%', #{text}), '%') or Commit_time like CONCAT(CONCAT('%', #{text}), '%') limit #{currIndex},#{pageSize}
     </select>
+
     <select id="selectAll_id" resultType="integer">
         select Question_id from questions
     </select>

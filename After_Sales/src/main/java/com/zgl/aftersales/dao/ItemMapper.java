@@ -5,10 +5,11 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
 public interface ItemMapper {
-    List<Items> selectAllItems();
-    List<Items> fuzzyQuery(String key);
+    List<Items> selectAllItems(Map<String,Object> map);
+    List<Items> fuzzyQuery(Map<String,Object> map);
 }
