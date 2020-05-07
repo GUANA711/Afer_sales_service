@@ -1,3 +1,5 @@
+var dt;
+var dt2;
 // 预处理
 $(document).ready(function(){
     // 加载维修人员页面信息
@@ -31,6 +33,7 @@ $(document).ready(function(){
             console.log(XMLHttpRequest.readyState);
         }
     });
+
     // 点击编辑按钮
     $("#edit_bt").click(function(){
         $("#username").attr("readonly",false);
@@ -111,31 +114,138 @@ $(document).ready(function(){
             }
         }
     });
+
     // 点击未接收任务切换面板
     $("#unrecieved_task").click(function(){
         $(".find_panel").children().hide();
         $("#task_check_panel").show();
         $(".message").show();
-        //加载未接收任务
+        /**
         $.ajax({
-            type:'GET',
-            data:'',
-            contentType :'application/json',
-            dataType:'json',
-            url :'http://localhost:5050/worker_show_unaccepted',
-            success :function(data) {
-                console.dir(data);
-                $("#th11.task_check_tb_td").val(data[0].question_id);
-                $("#th12.task_check_tb_td").val(data[0].question_type);
-                $("#th13.task_check_tb_td").val(data[0].question_detail);
-                // alert(data.User_name+"欢迎回来！");
+            type:"GET",
+            url:"http://localhost:5050/worker_show_unaccepted",
+            success:function (data) {
+                alert(data)
+                var datalist=eval(data);
+
             },
             error: function (XMLHttpRequest) {
+                // 200: "OK"
+                // 404: 未找到页面
                 console.log(XMLHttpRequest.status);
+                //readyState
+                //存有 XMLHttpRequest 的状态。从 0 到 4 发生变化。
+                // 0: 请求未初始化
+                // 1: 服务器连接已建立
+                // 2: 请求已接收
+                // 3: 请求处理中
+                // 4: 请求已完成，且响应已就绪
                 console.log(XMLHttpRequest.readyState);
             }
-        });
+
+        })**/
+        //加载未接收任务
+        dt = $('#table').DataTable ({
+                responsive : true,
+                destroy: true,
+                serviceSize : true,// 开启服务端模式
+                ajax :
+                    {
+                        // 使用ajax异步请求的方式加载数据
+                        type : 'GET',
+                        async : false,
+                        dataSrc : '',
+                        contentType :'application/json',
+                        dataType : 'json',
+                        url : 'http://localhost:5050/worker_show_unaccepted'
+
+                    },
+                columns : [
+                    // 配置columns
+                    // 使用对象数组，一定要配置columns
+                    // 告诉 DataTables 每列对应的属性data
+                    // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
+                    {
+                        "data" : "question_id",
+                        className : "Question_id",
+                        "searchable" : false
+                    },
+                    {
+                        "data" : "question_type",
+                        className : "Question_type"
+                    },
+                    {
+                        "data" : "question_detail",
+                        className : "Question_detail"
+                    },
+                    {
+                        "data" : null,
+                        render : function (data, type, row)
+                        {
+                            var html = '<a href="javascript:void(0);" class="operate-btn-accept">接收任务</a>';
+                            return html;
+                        }
+                    }
+                ],
+                language :
+                    {// 配置
+                        "sProcessing" : "处理中...",
+                        "sLengthMenu" : "显示 _MENU_ 项结果",
+                        "sZeroRecords" : "没有匹配结果",
+                        "sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                        "sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+                        "sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+                        "sInfoPostFix" : "",
+                        "sSearch" : "搜索:",
+                        "sUrl" : "",
+                        "sEmptyTable" : "表中数据为空",
+                        "sLoadingRecords" : "载入中...",
+                        "sInfoThousands" : ",",
+                        "oPaginate" :
+                            {
+                                "sFirst" : "首页",
+                                "sPrevious" : "上页",
+                                "sNext" : "下页",
+                                "sLast" : "末页"
+                            },
+                        "oAria" :
+                            {
+                                "sSortAscending" : ": 以升序排列此列",
+                                "sSortDescending" : ": 以降序排列此列"
+                            }
+                    }
+            });
+
     });
+$("body").on("click",".operate-btn-accept",function(){
+    var question_id=$(this).parent().parent().find(".Question_id").text();
+    var info = {
+        "questionID":question_id
+    };
+    $.ajax({
+        type:"POST",
+        contentType :'application/json',
+        dataType:"json",
+        url:"http://localhost:5050/worker_receive",
+        data:JSON.stringify(info),
+        success:function () {
+            dt.ajax.reload();
+        },
+        error: function (XMLHttpRequest) {
+            // 200: "OK"
+            // 404: 未找到页面
+            console.log(XMLHttpRequest.status);
+            //readyState
+            //存有 XMLHttpRequest 的状态。从 0 到 4 发生变化。
+            // 0: 请求未初始化
+            // 1: 服务器连接已建立
+            // 2: 请求已接收
+            // 3: 请求处理中
+            // 4: 请求已完成，且响应已就绪
+            console.log(XMLHttpRequest.readyState);
+        }
+    })
+})
     // 点击接收按钮
     $("#recieve_bt").click(function(){
         $("#task_rec_successModal").modal();
@@ -150,7 +260,113 @@ $(document).ready(function(){
         $(".find_panel").children().hide();
         $("#task_ing_panel").show();
         $(".message").show();
+
+        dt2 = $('#table2').DataTable ({
+            responsive : true,
+            destroy: true,
+            serviceSize : true,// 开启服务端模式
+            ajax :
+                {
+                    // 使用ajax异步请求的方式加载数据
+                    type : 'GET',
+                    async : false,
+                    dataSrc : '',
+                    contentType :'application/json',
+                    dataType : 'json',
+                    url : 'http://localhost:5050/worker_show_accepted'
+
+                },
+            columns : [
+                // 配置columns
+                // 使用对象数组，一定要配置columns
+                // 告诉 DataTables 每列对应的属性data
+                // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
+                {
+                    "data" : "question_id",
+                    className : "Question_id",
+                    "searchable" : false
+                },
+                {
+                    "data" : "question_detail",
+                    className : "Question_detail"
+                },
+                {
+                    "data" : "user_id",
+                    className : "User_id"
+                },
+                {
+                    "data" : "commit_time",
+                    className : "Commit_time"
+                },
+                {
+                    "data" : null,
+                    render : function (data, type, row)
+                    {
+                        var html = '<a href="javascript:void(0);" class="operate-btn-finish">完成任务</a>';
+                        return html;
+                    }
+                }
+            ],
+            language :
+                {// 配置
+                    "sProcessing" : "处理中...",
+                    "sLengthMenu" : "显示 _MENU_ 项结果",
+                    "sZeroRecords" : "没有匹配结果",
+                    "sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                    "sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+                    "sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+                    "sInfoPostFix" : "",
+                    "sSearch" : "搜索:",
+                    "sUrl" : "",
+                    "sEmptyTable" : "表中数据为空",
+                    "sLoadingRecords" : "载入中...",
+                    "sInfoThousands" : ",",
+                    "oPaginate" :
+                        {
+                            "sFirst" : "首页",
+                            "sPrevious" : "上页",
+                            "sNext" : "下页",
+                            "sLast" : "末页"
+                        },
+                    "oAria" :
+                        {
+                            "sSortAscending" : ": 以升序排列此列",
+                            "sSortDescending" : ": 以降序排列此列"
+                        }
+                }
+        });
+
     });
+    $("body").on("click",".operate-btn-finish",function(){
+        var question_id=$(this).parent().parent().find(".Question_id").text();
+        var info = {
+            "questionID":question_id
+        };
+        $.ajax({
+            type:"POST",
+            contentType :'application/json',
+            url:"http://localhost:5050/worker_finish",
+            data:JSON.stringify(info),
+            success:function (data) {
+                // alert("???");
+                dt2.ajax.reload();
+                // alert("...");
+            },
+            error: function (XMLHttpRequest) {
+                // 200: "OK"
+                // 404: 未找到页面
+                console.log(XMLHttpRequest.status);
+                //readyState
+                //存有 XMLHttpRequest 的状态。从 0 到 4 发生变化。
+                // 0: 请求未初始化
+                // 1: 服务器连接已建立
+                // 2: 请求已接收
+                // 3: 请求处理中
+                // 4: 请求已完成，且响应已就绪
+                console.log(XMLHttpRequest.readyState);
+            }
+        })
+    })
     // 点击完成按钮
     $("#task_ing_bt").click(function(){
         // 向后台提交完成任务+1;
@@ -160,6 +376,7 @@ $(document).ready(function(){
         $(".find_panel").children().hide();
         $("#task_finished_panel").show();
         $(".message").show();
+
     });
     // 点击FAQ面板
     $("#faq_present").click(function(){

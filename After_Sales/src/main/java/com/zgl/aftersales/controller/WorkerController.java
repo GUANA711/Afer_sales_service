@@ -9,6 +9,7 @@ import com.zgl.aftersales.service.WorkerService;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
+import org.omg.CORBA.SystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -173,6 +174,7 @@ public class WorkerController {
             workerStatus.setStatus(true);
         }catch (Exception e){
             workerStatus.setMsg("接收任务失败");
+            System.out.println(e);
         }
         return workerStatus;
     }
