@@ -5,7 +5,7 @@ $(document).ready(function(){
         data:'',
         contentType :'application/json',
         dataType:'json',
-        url :'c',
+        url :'http://localhost:5050/worker_selectBy_Session_UserId',
         success :function(data) {
             console.dir(data);
             $("#userId").val(data.user_id);
