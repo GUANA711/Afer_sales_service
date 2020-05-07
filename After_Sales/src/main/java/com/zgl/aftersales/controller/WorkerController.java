@@ -2,11 +2,13 @@ package com.zgl.aftersales.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zgl.aftersales.pojo.Maintenance;
+import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.WorkerStatus;
 import com.zgl.aftersales.service.MaintenanceService;
 import com.zgl.aftersales.service.WorkerService;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -34,10 +37,8 @@ public class WorkerController {
     }
 
     /**
-     * login之后会产生一个session，session里面保存的为当前登录的user_id,
-     *      根据user_id来显示维修人员的信息
-     *      测试时需先登录
-     *      查询时不能查询出密码
+     * 根据session得到userID查询用户信息
+     * 查询时不能查询出密码
      * @param req
      * @return
      */
@@ -57,11 +58,8 @@ public class WorkerController {
         return map;
     }
 
-
     /**
-     * login之后会产生一个session，session里面保存的为当前登录的user_id,
-     *     根据user_id来修改维修人员的信息
-     *     测试时需先登录
+     * 根据session得到userID来修改维修人员的信息
      * @param json
      * @param req
      * @return
@@ -219,5 +217,41 @@ public class WorkerController {
      *update questions q,maintenance m set Question_status='unaccepted' where q.Question_id=m.Question_id and TIMESTAMPDIFF(DAY,m.Start_time,NOW())>6 and Question_status='overtime'
      * delete from maintenance where TIMESTAMPDIFF(DAY,Start_time,NOW())>6
      */
+
+    /**
+     * 显示未接收得任务
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/worker_show_unaccepted",method = RequestMethod.GET)
+    public List<Question> worker_show_unaccepted(HttpServletRequest req){
+
+        int User_id= (int) req.getSession(false).getAttribute("userID");
+        return workerService.worker_show_unaccepted(User_id);
+    }
+
+    /**
+     * 显示正在处理得任务
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/worker_show_accepted",method = RequestMethod.GET)
+    public List<Question> worker_show_accepted(HttpServletRequest req){
+
+        int User_id= (int) req.getSession(false).getAttribute("userID");
+        return workerService.worker_show_accepted(User_id);
+    }
+
+    /**
+     * 显示已完成得任务
+     * @param req
+     * @return
+     */
+    @RequestMapping(value = "/worker_show_done",method = RequestMethod.GET)
+    public List<Question> worker_show_done(HttpServletRequest req){
+
+        int User_id= (int) req.getSession(false).getAttribute("userID");
+        return workerService.worker_show_done(User_id);
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.zgl.aftersales.service;
 
+import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.Users;
 
 import javax.annotation.Resource;
@@ -38,5 +39,12 @@ public interface WorkerService {
     void worker_update_ques_done(String questionID);
 
     void worker_update_reducetaskNum(int userID);
+
+    List<Question> worker_show_unaccepted(int userId);
+
+    List<Question> worker_show_accepted(int userId);
+
+    List<Question> worker_show_done(int userId);
+
 
 }

@@ -1,10 +1,12 @@
 package com.zgl.aftersales.dao;
 
 import com.zgl.aftersales.pojo.Maintenance;
+import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.Users;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +42,17 @@ public interface WorkerMapper {
     void worker_update_ques_done(String questionID);
 
     void worker_update_reducetaskNum(int userID);
+
+    /**
+     * 显示未接受任务
+     * @param userId
+     * @return
+     */
+    List<Question> worker_show_unaccepted(int userId);
+
+    List<Question> worker_show_accepted(int userId);
+
+    List<Question> worker_show_done(int userId);
 
 
 }

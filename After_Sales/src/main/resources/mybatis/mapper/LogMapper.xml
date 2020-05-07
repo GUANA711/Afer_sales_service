@@ -7,7 +7,8 @@
     <select id="showLog" resultType="com.zgl.aftersales.pojo.Log">
          select * from log
     </select>
-<!--    <select id="insertLog" resultType="map" parameterType="map">-->
-<!--        -->
-<!--    </select>-->
+
+    <insert id="addLog" parameterType="com.zgl.aftersales.pojo.Log">
+        insert into faq (Log_id,Table_name,Operation,User_id,User_name,Creat_time,Remark,Log_type) values(#{Faq_question},#{Faq_answer})
+    </insert>
 </mapper>

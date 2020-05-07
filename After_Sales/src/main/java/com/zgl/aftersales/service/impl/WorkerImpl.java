@@ -1,12 +1,14 @@
 package com.zgl.aftersales.service.impl;
 
 import com.zgl.aftersales.dao.WorkerMapper;
+import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,6 +48,21 @@ public class WorkerImpl implements WorkerService {
     @Override
     public void worker_update_reducetaskNum(int userID) {
         workerMapper.worker_update_reducetaskNum(userID);
+    }
+
+    @Override
+    public List<Question> worker_show_unaccepted(int userId) {
+        return workerMapper.worker_show_unaccepted(userId);
+    }
+
+    @Override
+    public List<Question> worker_show_accepted(int userId) {
+        return workerMapper.worker_show_accepted(userId);
+    }
+
+    @Override
+    public List<Question> worker_show_done(int userId) {
+        return workerMapper.worker_show_done(userId);
     }
 
 }

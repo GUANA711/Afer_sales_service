@@ -29,4 +29,16 @@
         update users u set u.Task_num=u.Task_num-1 where User_id=#{User_id};
     </update>
 
+    <select id="worker_show_unaccepted" parameterType="int" resultType="com.zgl.aftersales.pojo.Question">
+        select * from questions where User_id = #{User_id} and Question_status = 'unaccepted';
+    </select>
+
+    <select id="worker_show_accepted" parameterType="int" resultType="com.zgl.aftersales.pojo.Question">
+        select * from questions where User_id = #{User_id} and Question_status = 'accepted';
+    </select>
+
+    <select id="worker_show_done" parameterType="int" resultType="com.zgl.aftersales.pojo.Question">
+        select * from questions where User_id = #{User_id} and Question_status = 'done';
+    </select>
+
 </mapper>

@@ -35,7 +35,6 @@ public class FAQController {
         return faqService.selectAllFAQ();
     }
 
-
     /**
      * 添加FAQ
      * 因为没有新建关于faq的json
