@@ -1,5 +1,6 @@
 package com.zgl.aftersales.controller;
 
+import com.zgl.aftersales.dao.MyLog;
 import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.QuestionService;
@@ -24,6 +25,7 @@ public class QuestionController {
         return "Hello Spring Boot!";   //显示文字内容
     }
 
+    @MyLog(value = "添加问题到数据库")
     @PostMapping("/addQuestion")
     public int addQuestion(@RequestBody Question question) {
         return db.addQuestion(question);
@@ -97,7 +99,7 @@ public class QuestionController {
     }
 
 
-
+    @MyLog(value = "修改数据库中用户")
     @GetMapping("/updateUser")
     public int updateUser(List<Users> list) {
         return db.updateUser(list);
