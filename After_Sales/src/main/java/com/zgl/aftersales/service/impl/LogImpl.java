@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+/**
+ * @author Alice
+ */
 @Service
 public class LogImpl implements LogServive {
     @Autowired
@@ -15,4 +18,15 @@ public class LogImpl implements LogServive {
     public List<Log> showLog() {
         return logMapper.showLog();
     }
+
+    @Override
+    public void addLog(Log log) {
+        logMapper.addLog(log);
+    }
+
+    @Override
+    public String selectUserName(int userId) {
+        return logMapper.selectUserName(userId);
+    }
+
 }

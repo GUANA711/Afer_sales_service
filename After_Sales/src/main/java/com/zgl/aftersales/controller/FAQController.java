@@ -1,6 +1,7 @@
 package com.zgl.aftersales.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zgl.aftersales.dao.MyLog;
 import com.zgl.aftersales.pojo.FAQStatus;
 import com.zgl.aftersales.pojo.FAQs;
 import com.zgl.aftersales.pojo.Status;
@@ -44,6 +45,7 @@ public class FAQController {
      * @return
      */
     @PostMapping("/addFAQ")
+    @MyLog(value = "添加数据到FAQ表")
     public FAQStatus addFAQ(@RequestBody JSONObject json) {
         FAQStatus faqStatus=new FAQStatus();
 

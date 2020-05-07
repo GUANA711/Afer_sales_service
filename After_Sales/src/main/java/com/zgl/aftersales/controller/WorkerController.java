@@ -1,6 +1,7 @@
 package com.zgl.aftersales.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.zgl.aftersales.dao.MyLog;
 import com.zgl.aftersales.pojo.Maintenance;
 import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.WorkerStatus;
@@ -66,6 +67,7 @@ public class WorkerController {
      * @return
      */
     @PostMapping("/worker_updateBy_Session_UserId")
+    @MyLog(value = "修改users表用户的信息")  //这里添加了AOP的自定义注解
     public Map<String, Object> worker_updateBy_Session_UserId(@RequestBody JSONObject json, HttpServletRequest req) {
 
         //将登录的session的User_id取出来
@@ -146,6 +148,7 @@ public class WorkerController {
     @Autowired
     private MaintenanceService maintenanceService;
     @PostMapping("/worker_receive")
+    @MyLog(value = "插入数据到maintenance表，修改question表的问题状态为accept，修改users表的task-Num+1")
     public WorkerStatus worker_receive(@RequestBody JSONObject json, HttpServletRequest req) {
 
         //true是没有session就新建一个  false是没有session就是null
@@ -184,6 +187,7 @@ public class WorkerController {
      * 修改task_Num-1
      */
     @PostMapping("/worker_finish")
+    @MyLog(value = "修改question表的问题状态为done，修改users表的task-Num-1")
     public WorkerStatus worker_finish(@RequestBody JSONObject json, HttpServletRequest req) {
 
         //将登录的session的User_id取出来

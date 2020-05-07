@@ -18,8 +18,7 @@ public class Log {
     private String User_name;
     private String Operation;
     private String Method;
-    private String Params;
-    private String Ip;
+//    private String Params;
+    private String IP;
     private Date Creat_time;
-
 }
