@@ -5,10 +5,15 @@
 <!--namespace=绑定一个对应的DAO/Mapper接口-->
 <mapper namespace="com.zgl.aftersales.dao.LogMapper">
     <select id="showLog" resultType="com.zgl.aftersales.pojo.Log">
-         select * from log
+         select * from log;
     </select>
 
     <insert id="addLog" parameterType="com.zgl.aftersales.pojo.Log">
-        insert into faq (Log_id,Table_name,Operation,User_id,User_name,Creat_time,Remark,Log_type) values(#{Faq_question},#{Faq_answer})
+        insert into log (User_id,User_name,Operation,Method,IP,Creat_time)
+        values(#{User_id},#{User_name},#{Operation},#{Method},#{IP},#{Creat_time});
     </insert>
+
+    <select id="selectUserName" parameterType="int" resultType="String">
+        select User_name from users where User_id=#{User_id};
+    </select>
 </mapper>
