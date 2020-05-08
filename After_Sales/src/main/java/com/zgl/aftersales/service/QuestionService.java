@@ -19,8 +19,8 @@ public interface QuestionService {
     List<Question> checkQuestiondealing(Integer User_id);
 
     //分页
-    List<Question> showAllQuestions(Map<String,Object> map);
-    List<Question> fuzzyQuery(Map<String,Object> map);
+    List<List<?>> showAllQuestions(Map<String,Object> map);
+    List<List<?>> fuzzyQuery(Map<String,Object> map);
 
     List<Integer> selectAll_id();
     List<String> selectWorkerByQuesID(String quesID);

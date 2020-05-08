@@ -43,12 +43,12 @@ public class QuestionImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> showAllQuestions(Map<String, Object> map) {
+    public List<List<?>> showAllQuestions(Map<String, Object> map) {
         return db.showAllQuestions(map);
     }
 
     @Override
-    public List<Question> fuzzyQuery(Map<String, Object> map) {
+    public List<List<?>> fuzzyQuery(Map<String, Object> map) {
         return db.fuzzyQuery(map);
     }
 

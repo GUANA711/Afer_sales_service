@@ -5,11 +5,35 @@
         <!--namespace=绑定一个对应的DAO/Mapper接口-->
 <mapper namespace="com.zgl.aftersales.dao.MaintenanceMapper">
 
-<select id="selectAll"  parameterType="map" resultType="com.zgl.aftersales.pojo.Maintenance">
-         select * from maintenance items limit #{currIndex},#{pageSize}
+    <resultMap id="data" type="com.zgl.aftersales.pojo.Maintenance">
+        <result property="Question_id" column="Question_id"></result>
+        <result property="User_id" column="User_id"></result>
+        <result property="Start_time" column="Start_time"></result>
+    </resultMap>
+
+    <resultMap id="count2" type="Integer">
+        <result column="count"/>
+    </resultMap>
+<select id="selectAll"  parameterType="map" resultMap="data,count2">
+         select SQL_CALC_FOUND_ROWS * from maintenance items limit #{currIndex},#{pageSize};
+         select FOUND_ROWS() as count;
     </select>
-<select id="fuzzyQuery" parameterType="map" resultType="com.zgl.aftersales.pojo.Maintenance">
-        select * from maintenance where  Question_id like CONCAT(CONCAT('%', #{text}), '%') or User_id  like  CONCAT(CONCAT('%', #{text}), '%') or  Start_time like  CONCAT(CONCAT('%', #{text}), '%')  limit #{currIndex},#{pageSize};
+<select id="fuzzyQuery" parameterType="map" resultMap="data,count2">
+        select SQL_CALC_FOUND_ROWS * from maintenance
+        <where>
+            <if test="Question_id!=null">
+                Question_id like CONCAT(CONCAT('%', #{Question_id}), '%')
+            </if>
+            <if test="User_id!=null">
+                User_id  like  CONCAT(CONCAT('%', #{User_id}), '%')
+            </if>
+            <if test="Start_time!=null">
+                Start_time like  CONCAT(CONCAT('%', #{Start_time), '%')
+            </if>
+        </where>
+          limit #{currIndex},#{pageSize};
+          select FOUND_ROWS() as count;
+
  </select>
 
 <select id="insert"  parameterType="com.zgl.aftersales.pojo.Maintenance">
