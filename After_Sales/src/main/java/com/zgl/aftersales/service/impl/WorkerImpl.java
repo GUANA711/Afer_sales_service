@@ -56,7 +56,7 @@ public class WorkerImpl implements WorkerService {
     }
 
     @Override
-    public List<Question> worker_show_accepted(int userId) {
+    public List<Map<String, Object>> worker_show_accepted(int userId) {
         return workerMapper.worker_show_accepted(userId);
     }
 

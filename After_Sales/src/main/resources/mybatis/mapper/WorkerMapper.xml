@@ -33,8 +33,8 @@
         select * from questions where User_id = #{User_id} and Question_status = 'unaccepted';
     </select>
 
-    <select id="worker_show_accepted" parameterType="int" resultType="com.zgl.aftersales.pojo.Question">
-        select * from questions where User_id = #{User_id} and Question_status = 'accepted';
+    <select id="worker_show_accepted" parameterType="int" resultType="map">
+        select * from questions q, maintenance m where q.User_id=m.User_id and q.User_id = #{User_id} and q.Question_status = 'accepted' group by q.Question_id;
     </select>
 
     <select id="worker_show_done" parameterType="int" resultType="com.zgl.aftersales.pojo.Question">

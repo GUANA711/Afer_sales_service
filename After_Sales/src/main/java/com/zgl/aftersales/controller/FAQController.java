@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 @ResponseBody
 @CrossOrigin //允许跨域
+@RequestMapping(value ="/faq")
 @Slf4j
 public class FAQController {
     @Autowired

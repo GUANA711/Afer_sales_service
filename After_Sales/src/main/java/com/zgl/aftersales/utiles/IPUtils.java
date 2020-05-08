@@ -2,6 +2,9 @@ package com.zgl.aftersales.utiles;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * @author Alice
+ */
 public class IPUtils {
     public static String getIpAddr(HttpServletRequest request) {
         String ip = request.getHeader("x-real-ip");
