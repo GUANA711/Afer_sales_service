@@ -11,7 +11,7 @@ $(document).ready(function(){
         data:'',
         contentType :'application/json',
         dataType:'json',
-        url :'http://localhost:5050/worker_selectBy_Session_UserId',
+        url :'http://localhost:5050/worker/worker_selectBy_Session_UserId',
         success :function(data) {
             console.dir(data);
             $("#userId").val(data.User_id);
@@ -36,7 +36,6 @@ $(document).ready(function(){
             console.log(XMLHttpRequest.readyState);
         }
     });
-
     // 点击编辑按钮
     $("#edit_bt").click(function(){
         $("#username").attr("readonly",false);
@@ -45,6 +44,7 @@ $(document).ready(function(){
     });
     // 点击保存按钮
     $("#save_bt").click(function(){
+        //大写都是后端数据，小写都是js约束
         var User_name = $("#username").val();
         var Tel = $("#tel").val();
         var Email = $("#email").val();
@@ -59,7 +59,7 @@ $(document).ready(function(){
                 data:JSON.stringify(info),
                 contentType :'application/json',
                 dataType:'json',
-                url :'http://localhost:5050/worker_updateBy_Session_UserId',
+                url :'http://localhost:5050/worker/worker_updateBy_Session_UserId',
                 success :function(data) {
                     console.dir(data);
                     $("#username").attr("readonly",true);
@@ -137,7 +137,7 @@ $(document).ready(function(){
                         dataSrc : '',
                         contentType :'application/json',
                         dataType : 'json',
-                        url : 'http://localhost:5050/worker_show_unaccepted'
+                        url : 'http://localhost:5050/worker/worker_show_unaccepted'
 
                     },
                 columns : [
@@ -244,7 +244,7 @@ $("body").on("click",".operate-btn-accept",function(){
                     dataSrc : '',
                     contentType :'application/json',
                     dataType : 'json',
-                    url : 'http://localhost:5050/worker_show_accepted'
+                    url : 'http://localhost:5050/worker/worker_show_accepted'
 
                 },
             columns : [
@@ -253,22 +253,22 @@ $("body").on("click",".operate-btn-accept",function(){
                 // 告诉 DataTables 每列对应的属性data
                 // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
                 {
-                    "data" : "question_id",
+                    "data" : "Question_id",
                     className : "Question_id",
                     "searchable" : false
                 },
                 {
-                    "data" : "question_detail",
+                    "data" : "Question_detail",
                     className : "Question_detail"
                 },
                 {
-                    "data" : "user_id",
+                    "data" : "User_id",
                     className : "User_id"
                 },
-                // {
-                //     "data" : "start_time",
-                //     className : "Start_time"
-                // },
+                {
+                    "data" : "Start_time",
+                    className : "Start_time"
+                },
                 {
                     "data" : null,
                     render : function (data, type, row)
@@ -316,7 +316,7 @@ $("body").on("click",".operate-btn-accept",function(){
         $.ajax({
             type:"POST",
             contentType :'application/json',
-            url:"http://localhost:5050/worker_finish",
+            url:"http://localhost:5050/worker/worker_finish",
             data:JSON.stringify(info),
             success:function (data) {
                 // alert("???");
@@ -357,7 +357,7 @@ $("body").on("click",".operate-btn-accept",function(){
                     dataSrc : '',
                     contentType :'application/json',
                     dataType : 'json',
-                    url : 'http://localhost:5050/worker_show_done'
+                    url : 'http://localhost:5050/worker/worker_show_done'
 
                 },
             columns : [
@@ -375,8 +375,16 @@ $("body").on("click",".operate-btn-accept",function(){
                     className : "Question_detail"
                 },
                 {
+                    "data" : "question_type",
+                    className : "Question_type"
+                },
+                {
                     "data" : "user_id",
                     className : "User_id"
+                },
+                {
+                    "data" : "commit_time",
+                    className : "Commit_time"
                 },
                 // {
                 //     "data" : null,
@@ -434,7 +442,7 @@ $("body").on("click",".operate-btn-accept",function(){
                     dataSrc : '',
                     contentType :'application/json',
                     dataType : 'json',
-                    url : 'http://localhost:5050/selectAllFAQ'
+                    url : 'http://localhost:5050/faq/selectAllFAQ'
 
                 },
             columns : [
@@ -507,11 +515,12 @@ $("body").on("click",".operate-btn-accept",function(){
     })
     // 点击Faq保存按钮
     $("#saveFaq_bt").click(function(){
-        var Frequent_que_add = $("#frequent_que_add").val();
-        var Frequent_ans_add = $("#frequent_ans_add").val();
+        //大写都是后端数据，小写都是js约束
+        var Faq_question = $("#faq_question").val();
+        var Faq_answer = $("#faq_answer").val();
         var info = {
-            "Frequent_que_add":Frequent_que_add,
-            "Frequent_ans_add":Frequent_ans_add
+            "Faq_question":Faq_question,
+            "Faq_answer":Faq_answer,
         };
         if($('#form_addFaq').valid()){
             $.ajax({
@@ -519,15 +528,14 @@ $("body").on("click",".operate-btn-accept",function(){
                 data:JSON.stringify(info),
                 contentType :'application/json',
                 dataType:'json',
-                url :'http://localhost:5050/addFAQ',
+                url :'http://localhost:5050/faq/addFAQ',
                 success :function(data) {
                     console.dir(data);
-                    $("#frequent_que_add").attr("readonly",true);
-                    $("#frequent_ans_add").attr("readonly",true);
+                    $("#Faq_question").attr("readonly",true);
+                    $("#Faq_answer").attr("readonly",true);
                     $(this).text($(this).text()==='添加');
-                    $("#faqId").val(data.Faq_id);
-                    $("#frequent_que_add").val(data.Faq_question);
-                    $("#Frequent_ans_add").val(data.Faq_answer);
+                    $("#Faq_question").val(data.Faq_question);
+                    $("#Faq_answer").val(data.Faq_answer);
                     alert(data.status);
                 },
                 error: function (result) {
@@ -553,23 +561,23 @@ $("body").on("click",".operate-btn-accept",function(){
     // FAQ信息验证
     $("#form_addFaq").validate({
         rules:{
-            frequent_que_add:{
+            faq_question:{
                 required:true,
                 minlength:10,
             },
-            frequent_ans_add:{
+            faq_answer:{
                 required:true,
-                minlength:10,
+                minlength:6,
             }
         },
         messages:{
-            frequent_que_add:{
+            faq_question:{
                 required:"问题不能为空",
                 minlength:"问题内容最短不能少于10"
             },
-            frequent_ans_add:{
+            faq_answer:{
                 required:"问题解答不能为空",
-                minlength:"问题解答内容最短不能为10"
+                minlength:"问题解答内容最短不能为6"
             }
         }
     });
