@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 @RestController//默认返回json类型数据
 @ResponseBody
 @CrossOrigin //允许跨域
+@RequestMapping(value ="/worker")
 @Slf4j
 public class WorkerController {
     @Autowired
