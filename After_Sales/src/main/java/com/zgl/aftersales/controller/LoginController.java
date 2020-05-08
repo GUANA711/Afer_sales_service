@@ -2,6 +2,7 @@ package com.zgl.aftersales.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.zgl.aftersales.dao.MyLog;
 import com.zgl.aftersales.pojo.Status;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.MailService;
@@ -24,7 +25,7 @@ import java.util.Random;
 import java.util.regex.Pattern;
 
 /**
- * @author 赵官凌
+ * @author GUANA
  */
 @RestController
 @CrossOrigin //允许跨域
@@ -48,6 +49,7 @@ public class LoginController {
      * @return
      */
     @PostMapping("/register")
+    @MyLog(value = "添加数据到users表")
     public Status addUser(@RequestBody JSONObject json){
 
         JSONObject userJson=json.getJSONObject("user");
@@ -215,6 +217,7 @@ public class LoginController {
      * @return
      */
     @PostMapping("/resetpwd")
+    @MyLog(value = "修改users表中的pwd字段")
     public Status resetpwd(@RequestBody JSONObject json,HttpServletRequest req){
         Status status=new Status();
         DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();

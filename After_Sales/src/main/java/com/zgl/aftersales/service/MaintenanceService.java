@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface MaintenanceService {
-    List<Maintenance> selectAll(Map<String, Object> map);
-    List<Maintenance> fuzzyQuery(Map<String, Object> map);
+    List<List<?>> selectAll(Map<String, Object> map);
+    List<List<?>> fuzzyQuery(Map<String, Object> map);
     void insert(Maintenance maintenance);
 }

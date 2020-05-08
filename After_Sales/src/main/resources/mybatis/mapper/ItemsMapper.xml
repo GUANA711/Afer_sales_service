@@ -4,13 +4,44 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--namespace=绑定一个对应的DAO/Mapper接口-->
 <mapper namespace="com.zgl.aftersales.dao.ItemMapper">
+    <resultMap id="data" type="com.zgl.aftersales.pojo.Items">
+        <result property="Item_id" column="Item_id"></result>
+        <result property="Item_name" column="Item_name"></result>
+        <result property="User_id" column="User_id"></result>
+    </resultMap>
+    <resultMap id="count" type="Integer">
+        <result column="count"/>
+    </resultMap>
+    <select id="selectAllItems" parameterType="map" resultMap="data,count">
+         select SQL_CALC_FOUND_ROWS * from items limit #{currIndex},#{pageSize};
+         select FOUND_ROWS() as count;
 
-    <select id="selectAllItems" parameterType="map" resultType="com.zgl.aftersales.pojo.Items">
-         select * from items limit #{currIndex},#{pageSize}
     </select>
-    <select id="fuzzyQuery" parameterType="map" resultType="com.zgl.aftersales.pojo.Items">
-        select * from items where Item_id like CONCAT(CONCAT('%', #{text}), '%') or Item_name like  CONCAT(CONCAT('%', #{text}), '%') or User_id like  CONCAT(CONCAT('%', #{text}), '%') limit #{currIndex},#{pageSize};
+    <select id="showAllCount" resultType="int">
+       select count(*) from users;
     </select>
+
+    <select id="fuzzyQuery" parameterType="map" resultMap="data,count">
+        select SQL_CALC_FOUND_ROWS * from items
+        <where>
+            <if test="Item_id!=null">
+                Item_id like CONCAT(CONCAT('%', #{Item_id}), '%')
+            </if>
+            <if test="Item_name!=bull">
+                Item_name like  CONCAT(CONCAT('%', #{Item_name}), '%')
+            </if>
+            <if test="User_id!=null">
+                User_id like  CONCAT(CONCAT('%', #{User_id}), '%')
+            </if>
+
+        </where>
+        limit #{currIndex},#{pageSize};
+        select FOUND_ROWS() as count;
+
+    </select>
+
+
+
 
 
 </mapper>

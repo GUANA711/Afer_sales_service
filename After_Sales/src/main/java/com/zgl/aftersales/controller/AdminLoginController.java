@@ -1,6 +1,8 @@
 package com.zgl.aftersales.controller;
 
+import com.alibaba.druid.sql.ast.statement.SQLIfStatement;
 import com.alibaba.fastjson.JSONObject;
+import com.zgl.aftersales.dao.MyLog;
 import com.zgl.aftersales.pojo.*;
 import com.zgl.aftersales.service.*;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +18,7 @@ import java.util.*;
 @Slf4j
 
 /**
- * @author 赵官凌
+ * @author GUANA
  */
 public class AdminLoginController {
     @Autowired
@@ -27,11 +29,11 @@ public class AdminLoginController {
      * @return
      */
     @PostMapping("/showItems/{currenPage}/{pageSize}")
-    public List<Items> showItems(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize){
+    public  List<List<?>> showItems(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize){
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("currIndex",(currenPage-1)*pageSize);
         map.put("pageSize",pageSize);
-        List<Items>  itemsList=itemsService.selectAllItems(map);
+        List<List<?>>  itemsList=itemsService.selectAllItems(map);
         return itemsList;
     }
 
@@ -41,13 +43,24 @@ public class AdminLoginController {
      * @return
      */
     @PostMapping("/searchItems/{currenPage}/{pageSize}")
-    public List<Items> searchItems(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize ,@RequestBody JSONObject json){
+    public List<List<?>> searchItems(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize ,@RequestBody JSONObject json){
         String key=json.getString("key");
+        String choice=json.getString("choice");
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("currIndex",(currenPage-1)*pageSize);
         map.put("pageSize",pageSize);
-        map.put("text",key);
-        List<Items>  itemsList=itemsService.fuzzyQuery(map);
+        if(choice.equals("0")) {
+            map.put("Item_id", key);
+        }
+        if (choice.equals("1")){
+            map.put("Item_name", key);
+        }
+        if (choice.equals("2")){
+            map.put("User_id", key);
+        }
+
+
+        List<List<?>>  itemsList=itemsService.fuzzyQuery(map);
         return itemsList;
     }
 
@@ -57,11 +70,11 @@ public class AdminLoginController {
     @Autowired
     MaintenanceService maintenanceService;
     @PostMapping("/showMaintenance/{currenPage}/{pageSize}")
-    public List<Maintenance> showMaintenance(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize){
+    public List<List<?>> showMaintenance(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize){
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("currIndex",(currenPage-1)*pageSize);
         map.put("pageSize",pageSize);
-        List<Maintenance> maintenanceList=maintenanceService.selectAll(map);
+        List<List<?>> maintenanceList=maintenanceService.selectAll(map);
         return maintenanceList;
 
     }
@@ -72,13 +85,22 @@ public class AdminLoginController {
      * @return
      */
     @PostMapping("/searchMaintenance/{currenPage}/{pageSize}")
-    public List<Maintenance> searchMaintenance(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize,@RequestBody JSONObject json){
+    public List<List<?>> searchMaintenance(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize,@RequestBody JSONObject json){
         String key=json.getString("key");
+        String choice=json.getString("choice");
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("currIndex",(currenPage-1)*pageSize);
         map.put("pageSize",pageSize);
-        map.put("text",key);
-        List<Maintenance> maintenanceList=maintenanceService.fuzzyQuery(map);
+        if(choice.equals("0")) {
+            map.put("Question_id", key);
+        }
+        if (choice.equals("1")){
+            map.put("User_id", key);
+        }
+        if (choice.equals("2")){
+            map.put("Start_time", key);
+        }
+        List<List<?>> maintenanceList=maintenanceService.fuzzyQuery(map);
         return maintenanceList;
     }
 
@@ -99,12 +121,13 @@ public class AdminLoginController {
     @Autowired
     QuestionService questionService;
     @PostMapping("/showquestion/{currenPage}/{pageSize}")
-    public List<Question> showQuestion(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize ){
+    public List<List<?>> showQuestion(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize ){
+
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("currIndex",(currenPage-1)*pageSize);
         map.put("pageSize",pageSize);
 
-        List<Question> questionList=questionService.showAllQuestions(map);
+        List<List<?>> questionList=questionService.showAllQuestions(map);
         return  questionList;
     }
 
@@ -115,13 +138,35 @@ public class AdminLoginController {
      */
 
     @PostMapping("/searchquestion/{currenPage}/{pageSize}")
-    public List<Question> serchQuestion(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize,@RequestBody JSONObject json){
+    public List<List<?>> serchQuestion(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize,@RequestBody JSONObject json){
         String key=json.getString("key");
+        String choice=json.getString("choice");
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("currIndex",(currenPage-1)*pageSize);
         map.put("pageSize",pageSize);
-        map.put("text",key);
-        List<Question> questionList=questionService.fuzzyQuery(map);
+        if(choice.equals("0")) {
+            map.put("Question_id", key);
+        }
+        if (choice.equals("1")){
+            map.put("item_id", key);
+        }
+        if (choice.equals("2")){
+            map.put("Question_type", key);
+        }
+        if(choice.equals("3")) {
+            map.put("Question_status", key);
+        }
+        if (choice.equals("4")){
+            map.put("Question_detail", key);
+        }
+        if (choice.equals("5")){
+            map.put("User_id", key);
+        }
+        if (choice.equals("6")){
+            map.put("Commit_time", key);
+        }
+
+        List<List<?>> questionList=questionService.fuzzyQuery(map);
         return questionList;
     }
 
@@ -143,6 +188,7 @@ public class AdminLoginController {
      * @return
      */
     @PostMapping("/wokername")
+
     public List<String> dropListWorker(@RequestBody JSONObject json){
         String questionID=json.getString("key");
         List<String> stringList=questionService.selectWorkerByQuesID(questionID);
@@ -159,6 +205,7 @@ public class AdminLoginController {
     @Autowired
     MailService mailService;
     @PostMapping("/allocation")
+    @MyLog(value = "向maintenance表中添加数据，修改users中task_num字段，修改question表中status字段")
     public Status allocationTask(@RequestBody JSONObject json){
         Status status=new Status();
         String questionID_String=json.getString("questionID");
