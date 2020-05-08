@@ -118,4 +118,15 @@ class AftersalesApplicationTests {
 
     }
 
+    @Test
+    @Autowired
+
+    void showallItems(){
+        Map<String,Object> map=new HashMap<>();
+        map.put("currIndex",1);
+        map.put("pageSize",2);
+       List<List<?>> lists= itemsService.selectAllItems(map);
+        System.out.println(lists);
+    }
+
 }

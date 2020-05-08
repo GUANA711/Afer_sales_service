@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 @RestController//默认返回json类型数据
 @ResponseBody
 @CrossOrigin //允许跨域
+@RequestMapping(value ="/worker")
 @Slf4j
 public class WorkerController {
     @Autowired
@@ -162,7 +163,7 @@ public class WorkerController {
 
         Date date_Date=new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String date=formatter.format(date_Date ).toString();
+        String date=formatter.format(date_Date).toString();
 
         try {
             maintenance.setQuestion_id(questionID);
@@ -242,7 +243,7 @@ public class WorkerController {
      * @return
      */
     @RequestMapping(value = "/worker_show_accepted",method = RequestMethod.GET)
-    public List<Question> worker_show_accepted(HttpServletRequest req){
+    public List<Map<String, Object>> worker_show_accepted(HttpServletRequest req){
 
         int User_id= (int) req.getSession(false).getAttribute("userID");
         return workerService.worker_show_accepted(User_id);
