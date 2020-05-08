@@ -15,6 +15,8 @@ import java.util.List;
 
 @CrossOrigin
 @RestController   //控制器注解
+@RequestMapping(value ="/user",method = RequestMethod.POST)
+
 public class QuestionController {
     @Qualifier("questionImpl")
     @Autowired
