@@ -161,7 +161,7 @@ public class WorkerController {
 
         Date date_Date=new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String date=formatter.format(date_Date ).toString();
+        String date=formatter.format(date_Date).toString();
 
         try {
             maintenance.setQuestion_id(questionID);
