@@ -243,7 +243,7 @@ public class WorkerController {
      * @return
      */
     @RequestMapping(value = "/worker_show_accepted",method = RequestMethod.GET)
-    public List<Question> worker_show_accepted(HttpServletRequest req){
+    public List<Map<String, Object>> worker_show_accepted(HttpServletRequest req){
 
         int User_id= (int) req.getSession(false).getAttribute("userID");
         return workerService.worker_show_accepted(User_id);
