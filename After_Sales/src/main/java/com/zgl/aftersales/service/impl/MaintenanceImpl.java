@@ -15,12 +15,12 @@ public class MaintenanceImpl implements MaintenanceService {
     private MaintenanceMapper maintenanceMapper;
 
     @Override
-    public List<Maintenance> selectAll(Map<String, Object> map) {
+    public List<List<?>> selectAll(Map<String, Object> map) {
         return maintenanceMapper.selectAll(map);
     }
 
     @Override
-    public List<Maintenance> fuzzyQuery(Map<String, Object> map) {
+    public List<List<?>> fuzzyQuery(Map<String, Object> map) {
         return maintenanceMapper.fuzzyQuery(map);
     }
 

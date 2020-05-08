@@ -25,8 +25,8 @@ public interface QuestionMapper {
      */
 
     //分页处理
-    List<Question> showAllQuestions(Map<String,Object> map);
-    List<Question> fuzzyQuery(Map<String,Object> map);
+    List<List<?>> showAllQuestions(Map<String,Object> map);
+    List<List<?>> fuzzyQuery(Map<String,Object> map);
 
 
     List<Integer> selectAll_id();
