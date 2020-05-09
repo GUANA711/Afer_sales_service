@@ -106,7 +106,7 @@ li.bt_list button {
     margin-right: 30px;
 }
 /* 项目表格 */
-#items,#questions,#maintenance,#log{
+#items,#questions,#maintenance,#faq,#log{
     display: flex;
     justify-content: center;
 }
@@ -167,22 +167,26 @@ table tr,td,th{
     overflow: hidden;
     text-overflow: ellipsis;        /* 超出内容以...显示 */
     white-space: nowrap;
-    border: 2px solid #0e3d6c;
+    padding-left: 5px;
+    /* border: 2px solid #0e3d6c; */
     cursor: default;
 }
 table th{
     font-size: 16px;
+    background-color: #364a5f;
+    color: white;
+    border: 1px solid white;
 }
-table td:hover{       /* 超出内容显示 */
+table tbody td:hover{       /* 超出内容显示 */
     overflow: visible;
     white-space: normal;
     cursor: hand;
 }
-table tr:nth-child(even) td,table tr:nth-child(even) th {
+table tbody tr:nth-child(even) td,table tbody tr:nth-child(even) th {
     background-color:#FFFFFF;
 }
 
-table tr:nth-child(odd) td,table tr:nth-child(odd) th {
+table tbody tr:nth-child(odd) td,table tbody tr:nth-child(odd) th {
     background-color:#f9f9f9;
 }
 .pagination{

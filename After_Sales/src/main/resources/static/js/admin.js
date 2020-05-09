@@ -30,6 +30,7 @@ $(document).ready(function(){
         itemsRequest(1,true);
         questionRequest(1,true);
         maintenanceRequest(1,true);
+        faqRequest(1,true);
         logRequest(1,true);
     });
     function itemsRequest(currPage,isFirst) {
@@ -156,6 +157,46 @@ $(document).ready(function(){
             error:function(){alert("请求超时，请重试！");}
         });
     }
+    function faqRequest(currPage,isFirst) {
+        $.ajax({
+            type:'post',
+            dataType: "json",
+            url:'/adminLoing/showfaq/'+currPage+'/'+pageSize,
+            success:function(data){
+                console.log(data);
+                $("#faq table tbody").html('');       /* 清空tbody内容 */
+                for(var i=0;i<data[0].length;i++){
+                    var item=data[0][i];
+                    var insert = '<tr id="showItems">'+
+                                 '<td class="task_check_tb_td">' + 
+                                 item.faq_id + 
+                                 '</td><td class="task_check_tb_td">' + 
+                                 item.faq_question + 
+                                 '</td><td class="task_check_tb_td">' + 
+                                 item.faq_answer + 
+                                 '</td>s</tr>';
+                    $("#faq table tbody").append(insert);
+                }
+                if (isFirst) {          /* 第一次加载页面 */
+                    $('#pagination4').jqPaginator({ 
+                        totalPages: Math.ceil(data[1]/pageSize),        //页码整数
+                        visiblePages: 6,
+                        currentPage: 1,
+                        first: '<li><a href="javascript:void(0);">首页</a></li>',
+                        prev: '<li><a href="javascript:void(0);">上一页</a></li>',
+                        next: '<li><a href="javascript:void(0);">下一页</a></li>',
+                        last: '<li><a href="javascript:void(0);">末页</a></li>',
+                        page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
+/* 设置页码的Html结构,其中可以使用{{page}}代表当前页，{{totalPages}}代表总页数，{{totalCounts}}代表总条目数*/
+                        onPageChange: function (num, type) {
+                            faqRequest(num,false);
+                        }
+                    });
+                }
+            },
+            error:function(){alert("请求超时，请重试！");}
+        });
+    }
     function logRequest(currPage,isFirst) {
         $.ajax({
             type:'post',
@@ -166,11 +207,16 @@ $(document).ready(function(){
                 $("#log table tbody").html('');       /* 清空tbody内容 */
                 for(var i=0;i<data[0].length;i++){
                     var item=data[0][i];
+                    var str = item.method;
+                    var method = str;
+                    if (str != null) {
+                        method = str.split('.')[5];
+                    }
                     var insert = '<tr id="showItems">'+
                                  '<td class="task_check_tb_td">' + 
                                  item.log_id + 
                                  '</td><td class="task_check_tb_td">' + 
-                                 item.method + 
+                                 method + 
                                  '</td><td class="task_check_tb_td">' + 
                                  item.operation + 
                                  '</td><td class="task_check_tb_td">' + 
