@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+
 /**
  * @author Alice
  */
@@ -15,8 +17,8 @@ public class LogImpl implements LogServive {
     @Autowired
     private LogMapper logMapper;
     @Override
-    public List<Log> showLog() {
-        return logMapper.showLog();
+    public List<List<?>> showLog(Map<String,Object> map) {
+        return logMapper.showLog(map);
     }
 
     @Override
@@ -29,4 +31,8 @@ public class LogImpl implements LogServive {
         return logMapper.selectUserName(userId);
     }
 
+    @Override
+    public List<List<?>> saerchLog(Map<String,Object> map) {
+        return logMapper.saerchLog(map);
+    }
 }

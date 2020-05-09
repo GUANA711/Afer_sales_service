@@ -4,8 +4,45 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--namespace=绑定一个对应的DAO/Mapper接口-->
 <mapper namespace="com.zgl.aftersales.dao.LogMapper">
-    <select id="showLog" resultType="com.zgl.aftersales.pojo.Log">
-         select * from log;
+
+    <resultMap id="data" type="com.zgl.aftersales.pojo.Log">
+        <result property="Log_id" column="Log_id"></result>
+        <result property="User_id" column="User_id"></result>
+        <result property="User_name" column="User_name"></result>
+        <result property="Operation" column="Operation"></result>
+        <result property="Method" column="Method"></result>
+        <result property="IP" column="IP"></result>
+        <result property="Creat_time" column="Creat_time"></result>
+    </resultMap>
+    <resultMap id="count3" type="Integer">
+        <result column="count"/>
+    </resultMap>
+    <select id="showLog" parameterType="map" resultMap="data,count3">
+         select SQL_CALC_FOUND_ROWS * from log limit #{currIndex},#{pageSize};
+         select FOUND_ROWS() as count;
+    </select>
+
+    <select id="saerchLog" parameterType="map" resultMap="data,count3">
+        select SQL_CALC_FOUND_ROWS * from log
+        <where>
+            <if test="Method!=null">
+                Method like CONCAT(CONCAT('%', #{Method}), '%')
+            </if>
+            <if test="User_id!=null" >
+                User_id like CONCAT(CONCAT('%', #{User_id}), '%')
+            </if>
+            <if test="IP!=null">
+                IP  like CONCAT(CONCAT('%', #{IP}), '%')
+            </if>
+            <if test="Operation!=null">
+                Operation like CONCAT(CONCAT('%', #{Operation}), '%')
+            </if>
+            <if test="Creat_time!=null">
+                Creat_time like CONCAT(CONCAT('%', #{Creat_time}), '%')
+            </if>
+        </where>
+        limit #{currIndex},#{pageSize};
+        select FOUND_ROWS() as count;
     </select>
 
     <insert id="addLog" parameterType="com.zgl.aftersales.pojo.Log">

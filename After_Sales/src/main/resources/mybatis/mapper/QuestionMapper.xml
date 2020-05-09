@@ -38,6 +38,7 @@
 
 <!--    zgl-->
     <resultMap id="data" type="com.zgl.aftersales.pojo.Question">
+        <result property="Question_id" column="Question_id"></result>
         <result property="item_id" column="item_id"></result>
         <result property="Question_type" column="Question_type"></result>
         <result property="Question_detail" column="Question_detail"></result>

@@ -128,6 +128,7 @@ public class LoginController {
      * @return
      */
     @PostMapping("/login")
+    @MyLog("用户登录")
     public Status selectByUsername(@RequestBody JSONObject json, HttpServletRequest req,HttpServletResponse resp){
         DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
         Status status=new Status();
