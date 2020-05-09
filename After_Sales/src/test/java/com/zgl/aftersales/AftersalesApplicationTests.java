@@ -1,10 +1,14 @@
 package com.zgl.aftersales;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.zgl.aftersales.pojo.FAQs;
 import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.*;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -127,6 +131,12 @@ class AftersalesApplicationTests {
         map.put("pageSize",2);
        List<List<?>> lists= itemsService.selectAllItems(map);
         System.out.println(lists);
+    }
+
+    @Test
+    void selectRoles(){
+           List<String> list= userService.showRolesByUserID(25);
+        System.out.println(list);
     }
 
 }
