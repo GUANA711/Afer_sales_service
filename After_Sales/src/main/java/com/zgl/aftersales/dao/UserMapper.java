@@ -18,5 +18,9 @@ public interface UserMapper {
     List<String> selectByQuesion_name(String qestID);
     void updateTask_num(String name);
 
+    //shiro
+    List<String> showRolesByUserID(int userID);
+    List<String> showPermitByUserID(int userID);
+
 
 }

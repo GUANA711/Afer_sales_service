@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Alice
@@ -13,6 +14,6 @@ import java.util.List;
 @Repository
 public interface FAQMapper {
     List<FAQs> selectAllFAQ();
-
+    List<List<?>> showFAQ(Map<String,Object> map);
     void addFAQ(FAQs faQs);
 }

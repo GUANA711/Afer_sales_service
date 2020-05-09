@@ -13,6 +13,7 @@
 //public class MyWevMvcConfig implements WebMvcConfigurer {
 //    @Override
 //    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/login_tags.html", "/css/*", "/img/*","/js/*","/index.html","/user/*");
+//        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns("/login_tags.html", "/css/*", "/img/*", "/js/*", "/index.html", "/user/*");
+//
 //    }
 //}

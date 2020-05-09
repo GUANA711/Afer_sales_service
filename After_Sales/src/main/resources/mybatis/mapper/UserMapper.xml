@@ -20,4 +20,11 @@
         update users u set u.Task_num=u.Task_num+1 where User_name=#{name}
     </update>
 
+<!--    shiro-->
+    <select id="showRolesByUserID" parameterType="int" resultType="String">
+        select distinct r.Role_name from role r ,users u where r.Role_id=u.Role_id and u.User_id=#{userID}
+    </select>
+    <select id="showPermitByUserID" parameterType="int" resultType="String">
+        select distinct r.Permission from role_permit  r ,users u where r.Role_id=u.Role_id and u.User_id=#{userID}
+    </select>
 </mapper>

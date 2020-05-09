@@ -104,15 +104,64 @@ public class AdminLoginController {
         return maintenanceList;
     }
 
+
+
     /**
      * 日志显示
      */
     @Autowired
     LogServive logServive;
-    @PostMapping("/showLog")
-    public List<Log> showLogs(){
-        List<Log> logList=logServive.showLog();
+    @PostMapping("/showLog/{currenPage}/{pageSize}")
+    public List<List<?>> showLogs(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize){
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("currIndex",(currenPage-1)*pageSize);
+        map.put("pageSize",pageSize);
+        List<List<?>> logList=logServive.showLog(map);
         return logList;
+    }
+
+    /**
+     * 日志搜索
+     * @param json
+     * @param currenPage
+     * @param pageSize
+     * @return
+     */
+    @PostMapping("/searchLog/{currenPage}/{pageSize}")
+    public List<List<?>> searchLog(@RequestBody JSONObject json ,@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize){
+        String key=json.getString("key");
+        String choice=json.getString("choice");
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("currIndex",(currenPage-1)*pageSize);
+        map.put("pageSize",pageSize);
+        if(choice.equals("0")) {
+            map.put("User_id", key);
+        }
+        if (choice.equals("1")){
+            map.put("Operation", key);
+        }
+        if (choice.equals("2")){
+            map.put("Method", key);
+        }
+        if (choice.equals("3")){
+            map.put("IP", key);
+        }
+        if (choice.equals("4")){
+            map.put("Creat_time", key);
+        }
+        List<List<?>> lists=logServive.saerchLog(map);
+        return lists;
+    }
+
+    @Autowired
+    FAQService faqService;
+    @PostMapping("/showfaq/{currenPage}/{pageSize}")
+    public List<List<?>> showfaq(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize){
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("currIndex",(currenPage-1)*pageSize);
+        map.put("pageSize",pageSize);
+        List<List<?>> lists=faqService.showFAQ(map);
+        return  lists;
     }
 
     /**

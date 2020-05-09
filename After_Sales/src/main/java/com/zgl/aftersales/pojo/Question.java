@@ -7,6 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
+ enum Question_status1{
+    unaccepted,accepted,done,overtime;
+};
 public class Question implements Serializable {
 
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
@@ -15,9 +18,6 @@ public class Question implements Serializable {
     private int Question_id;
     private int item_id;
     private String Question_type;
-    private enum Question_status1{
-        unaccepted,accepted,done,overtime;
-    }
     private Question_status1 Question_status;
     private String Question_detail;
     private int User_id;
