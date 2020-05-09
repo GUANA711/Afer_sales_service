@@ -129,10 +129,15 @@
                                 <!--搜索框  -->
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <div id="tab_search">
+                                        <div class="tab_search">
                                             <label>
-                                                <input type="search" placeholder="">
-                                                <span class="glyphicon glyphicon-search"></span>
+                                                <select name="itemSelect" class="searchSel">
+                                                    <option value="0" selected>项目ID</option>
+                                                    <option value="1">项目名</option>
+                                                    <option value="2">用户ID</option>
+                                                </select>
+                                                <input type="text" placeholder="按项目ID搜索" class="searchIn">
+                                                <button class="btn btn-default searchBtn"><i class="glyphicon glyphicon-search"></i></button>
                                             </label>
                                         </div>
                                     </div>
@@ -147,7 +152,7 @@
                                             <th class="task_check_tb_th" style="width:25%">用户ID</th>
                                             </tr>
                                         </thead>
-                                        <tbody><!-- 这里是数据库查询结果 -->
+                                        <tbody><!-- 这里是查询结果 -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -166,97 +171,50 @@
                                 <h3 class="panel-title">用户问题</h3>
                             </div>
                             <div class="panel-body">
-                                <!-- <ul class="list-group">
-                                    <li class="list-group-item">Cras justo odio</li>
-                                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                                    <li class="list-group-item">Morbi leo risus</li>
-                                    <li class="list-group-item">Porta ac consectetur ac</li>
-                                    <li class="list-group-item">Vestibulum at eros</li>
-                                </ul> -->
-                                <table class="questions_tb" border="2" style="margin-left: 12%;">
-                                    <tr>
-                                        <th class="task_check_tb_th" style="text-align: center;">问题ID</th>
-                                        <th class="task_check_tb_th" style="text-align: center;">项目ID</th>
-                                        <!-- <th class="task_check_tb_th">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;问题描述&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
-                                        <th class="task_check_tb_th" style="text-align: center;">问题类型</th>
-                                        <th class="task_check_tb_th" style="text-align: center;">问题状态</th>
-                                        <th class="task_check_tb_th" style="text-align: center;">问题描述</th>
-                                        <th class="task_check_tb_th" style="text-align: center;">用户ID</th>
-
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 150px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 150px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 150px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 150px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 150px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 150px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" >  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                </table>
+                                <!--搜索框  -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="tab_search">
+                                            <label>
+                                                <select class="searchSel">
+                                                    <option value="0" selected>问题ID</option>
+                                                    <option value="1">项目ID</option>
+                                                    <option value="2">问题类型</option>
+                                                    <option value="3">问题状态</option>
+                                                    <option value="4">问题描述</option>
+                                                    <option value="5">用户ID</option>
+                                                </select>
+                                                <input type="text" placeholder="按问题ID搜索" class="searchIn">
+                                                <button class="btn btn-default searchBtn"><i class="glyphicon glyphicon-search"></i></button>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 表格 -->
+                                <div id="questions">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th class="task_check_tb_th" style="width:10%">问题ID</th>
+                                                <th class="task_check_tb_th" style="width:10%">项目ID</th>
+                                                <th class="task_check_tb_th" style="width:15%">问题类型</th>
+                                                <th class="task_check_tb_th" style="width:15%">问题状态</th>
+                                                <th class="task_check_tb_th" style="width:30%">问题描述</th>
+                                                <th class="task_check_tb_th" style="width:15%">提交时间</th>
+                                                <th class="task_check_tb_th" style="width:10%">用户ID</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody><!-- 这里是数据库查询结果 -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- 页码 -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <ul class="pagination" id="pagination2">
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- 问题处理 -->
@@ -265,84 +223,43 @@
                                 <h3 class="panel-title">问题处理</h3>
                             </div>
                             <div class="panel-body">
-                                <!-- <ul class="list-group">
-                                    <li class="list-group-item">Cras justo odio</li>
-                                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                                    <li class="list-group-item">Morbi leo risus</li>
-                                    <li class="list-group-item">Porta ac consectetur ac</li>
-                                    <li class="list-group-item">Vestibulum at eros</li>
-                                </ul> -->
-                                <table class="maintenance_tb" border="2" style="margin-left: 18%;">
-                                    <tr>
-                                        <th class="task_check_tb_th" style="text-align: center;">问题ID</th>
-                                        <th class="task_check_tb_th" style="text-align: center;">用户ID</th>
-                                        <!-- <th class="task_check_tb_th">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;问题描述&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
-                                        <th class="task_check_tb_th" style="text-align: center;">开始处理时间</th>
-                                        <th class="task_check_tb_th" style="text-align: center;">完成处理时间</th>
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" style="width: 100px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 100px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 120px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 120px;">  &nbsp;</td>
-                                        
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" style="width: 100px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 100px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 120px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 120px;">  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" style="width: 100px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 100px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 120px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 120px;">  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" style="width: 100px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 100px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 120px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 120px;">  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" style="width: 100px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 100px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 120px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 120px;">  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" style="width: 100px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 100px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 120px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 120px;">  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                </table>
+                                <!--搜索框  -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="tab_search">
+                                            <label>
+                                                <select class="searchSel">
+                                                    <option value="0" selected>问题ID</option>
+                                                    <option value="1">维护员ID</option>
+                                                    <option value="2">处理时间</option>
+                                                </select>
+                                                <input type="text" placeholder="按问题ID搜索" class="searchIn">
+                                                <button class="btn btn-default searchBtn"><i class="glyphicon glyphicon-search"></i></button>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 表格 -->
+                                <div id="maintenance">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th class="task_check_tb_th" style="width:20%">问题ID</th>
+                                                <th class="task_check_tb_th" style="width:20%">维护员ID</th>
+                                                <th class="task_check_tb_th" style="width:60%">处理时间</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody><!-- 这里是数据库查询结果 -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- 页码 -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <ul class="pagination" id="pagination3">
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!--FAQ  -->
@@ -463,134 +380,53 @@
                                 </ul>
                             </div>
                         </div>
-                        <!--日志  -->
+                        <!--log-->
                         <div class="pa_all col-md-8 panel panel-default" id="log_panel" style="display: none;">
                             <div class="panel-heading">
                                 <h3 class="panel-title">日志</h3>
                             </div>
                             <div class="panel-body">
-
-                                <table class="log_tb" border="2" style="margin-left: 2%;">
-                                    <tr>
-                                        <th class="task_check_tb_th" style="text-align: center;">日志ID</th>
-                                        <th class="task_check_tb_th" style="text-align: center;">表名</th>
-                                        <!-- <th class="task_check_tb_th">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;问题描述&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
-                                        <th class="task_check_tb_th" style="text-align: center;">ID</th>
-                                        <th class="task_check_tb_th" style="text-align: center;">列</th>
-                                        <th class="task_check_tb_th" style="text-align: center;">原参数</th>
-                                        <th class="task_check_tb_th" style="text-align: center;">新参数</th>
-                                        <th class="task_check_tb_th" style="text-align: center;">用户ID</th>
-                                        <th class="task_check_tb_th" style="text-align: center;">用户名</th>
-                                        <th class="task_check_tb_th" style="text-align: center;">创建时间</th>
-                                        <th class="task_check_tb_th" style="text-align: center;">标记</th>
-                                        <th class="task_check_tb_th" style="text-align: center;">日志类型</th>
-
-
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                     
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                    <tr>  
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 70px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <td class="task_check_tb_td" style="width: 60px;">  &nbsp;</td>
-                                        <!-- <td class="task_check_tb_td">  
-                                            <button type="button" id="recieve_bt" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>
-                                        </td> -->
-                                        
-                                    </tr>
-                                </table>
+                                <!--搜索框  -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="tab_search">
+                                            <label>
+                                                <select class="searchSel">
+                                                    <option value="0" selected>日志ID</option>
+                                                    <option value="1">表名</option>
+                                                    <option value="2">处理时间</option>
+                                                </select>
+                                                <input type="text" placeholder="按问题ID搜索" class="searchIn">
+                                                <button class="btn btn-default searchBtn"><i class="glyphicon glyphicon-search"></i></button>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 表格 -->
+                                <div id="log">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th class="task_check_tb_th" style="width:10%">日志ID</th>
+                                                <th class="task_check_tb_th" style="width:20%">method</th>
+                                                <th class="task_check_tb_th" style="width:25%">操作描述</th>
+                                                <th class="task_check_tb_th" style="width:20%">操作时间</th>
+                                                <th class="task_check_tb_th" style="width:15%">IP地址</th>
+                                                <th class="task_check_tb_th" style="width:10%">用户ID</th>
+                                                <!-- <th class="task_check_tb_th" style="width:10%">用户名</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody><!-- 这里是数据库查询结果 -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- 页码 -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <ul class="pagination" id="pagination5">
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         

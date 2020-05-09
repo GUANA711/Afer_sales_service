@@ -106,20 +106,24 @@ li.bt_list button {
     margin-right: 30px;
 }
 /* 项目表格 */
-#items{
+#items,#questions,#maintenance,#log{
     display: flex;
     justify-content: center;
 }
-#tab_search label{
+.tab_search label{
     text-align: left;
     white-space: nowrap;
-    font-weight: 300;
-}
-#tab_search{
+    font-weight: 400;
     float: right;
-    margin: 0 70px 10px 0;
 }
-#tab_search input{
+.tab_search{
+    float: right;
+    margin: 0 40px 10px 0;
+}
+.tab_search .glyphicon{
+    margin: 0px;
+}
+table input{
     margin-left: .5em;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -129,39 +133,59 @@ li.bt_list button {
     line-height: 1.5;
     border-radius: 3px;
 }
-#tab_search span{
-    margin-left: 3px;
-    font-size: 19px;
+.searchSel{
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 30px;
+    padding: 2px 5px;
+    font-size: 15px;
+    line-height: 1.5;
+    border-radius: 3px;
 }
-#items>table{
+.searchIn{
+    /* outline-st/yle: none ; */
+    height: 30px;
+    padding: 2px 5px;
+    /* border: 1px solid black; */
+    /* text-align: center; */
+}
+.searchBtn{
+    width: 40px;
+    height: 30px;
+    margin: 0 0 1px -45px;
+    border: none;
+    border-radius: 1px;
+    background-color: #323652;
+}
+table{
     width: 90%;
     table-layout: fixed; /* 这样设置后，表格的每列的宽度由第一行的每列宽度决定。如果不设置就会平均分配宽度。 */
 }
-#items tr,td,th{
+table tr,td,th{
     /* text-align: center; */
     word-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;        /* 超出内容以...显示 */
     white-space: nowrap;
-    border: 2px solid black;
+    border: 2px solid #0e3d6c;
     cursor: default;
 }
-#items th{
+table th{
     font-size: 16px;
 }
-#items td:hover{       /* 超出内容显示 */
+table td:hover{       /* 超出内容显示 */
     overflow: visible;
     white-space: normal;
     cursor: hand;
 }
-#items tr:nth-child(even) td,#items tr:nth-child(even) th {
+table tr:nth-child(even) td,table tr:nth-child(even) th {
     background-color:#FFFFFF;
 }
 
-#items tr:nth-child(odd) td,#items tr:nth-child(odd) th {
+table tr:nth-child(odd) td,table tr:nth-child(odd) th {
     background-color:#f9f9f9;
 }
-#pagination1{
+.pagination{
     display:flex;
     justify-content: center;
 }
