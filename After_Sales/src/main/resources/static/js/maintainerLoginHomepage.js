@@ -2,7 +2,6 @@ var dt_unaccepted;
 var dt_ing;
 var dt_done;
 var dt_faq;
-
 // 预处理
 $(document).ready(function(){
     // 加载维修人员页面信息
@@ -44,7 +43,6 @@ $(document).ready(function(){
     });
     // 点击保存按钮
     $("#save_bt").click(function(){
-        //大写都是后端数据，小写都是js约束
         var User_name = $("#username").val();
         var Tel = $("#tel").val();
         var Email = $("#email").val();
@@ -357,7 +355,7 @@ $("body").on("click",".operate-btn-accept",function(){
                     dataSrc : '',
                     contentType :'application/json',
                     dataType : 'json',
-                    url : 'http://localhost:5050/worker/worker_show_done'
+                    url : 'http://localhost:5050/worker/worker_show_unaccepted'
 
                 },
             columns : [
@@ -371,26 +369,22 @@ $("body").on("click",".operate-btn-accept",function(){
                     "searchable" : false
                 },
                 {
-                    "data" : "question_detail",
-                    className : "Question_detail"
-                },
-                {
                     "data" : "question_type",
                     className : "Question_type"
+                },
+                {
+                    "data" : "question_detail",
+                    className : "Question_detail"
                 },
                 {
                     "data" : "user_id",
                     className : "User_id"
                 },
-                {
-                    "data" : "commit_time",
-                    className : "Commit_time"
-                },
                 // {
                 //     "data" : null,
                 //     render : function (data, type, row)
                 //     {
-                //         var html = '<a href="javascript:void(0);" class="operate-btn-finish">完成任务</a>';
+                //         var html = '<a href="javascript:void(0);" class="operate-btn-accept">接收任务</a>';
                 //         return html;
                 //     }
                 // }
@@ -501,18 +495,14 @@ $("body").on("click",".operate-btn-accept",function(){
                 }
         });
     });
+
     // 点击Faq添加按钮
     $("#addFaq_bt").click(function(){
         $("#faq_panel").hide();
         $("#addFaq_panel").show();
 
     })
-    // 点击Faq返回按钮
-    $("#backFaq_bt").click(function(){
-        $("#addFaq_panel").hide();
-        $("#faq_panel").show();
 
-    })
     // 点击Faq保存按钮
     $("#saveFaq_bt").click(function(){
         //大写都是后端数据，小写都是js约束
@@ -531,12 +521,12 @@ $("body").on("click",".operate-btn-accept",function(){
                 url :'http://localhost:5050/faq/addFAQ',
                 success :function(data) {
                     console.dir(data);
-                    $("#Faq_question").attr("readonly",true);
-                    $("#Faq_answer").attr("readonly",true);
-                    $(this).text($(this).text()==='添加');
-                    $("#Faq_question").val(data.Faq_question);
-                    $("#Faq_answer").val(data.Faq_answer);
-                    alert(data.status);
+                    $("#faq_question").attr("readonly",true);
+                    $("#faq_answer").attr("readonly",true);
+                    // $(this).text($(this).text()==='添加');
+                    $("#faq_question").val(data.Faq_question);
+                    $("#faq_answer").val(data.Faq_answer);
+                    alert(data.faqmsg);
                 },
                 error: function (result) {
                     console.log(XMLHttpRequest.status);
@@ -548,16 +538,14 @@ $("body").on("click",".operate-btn-accept",function(){
             alert(data.status);
         }
     });
-    // $("#saveFaq_bt").click(function(){
-    //     $("#form_addFaq").validate();
-    //     if($('#form_addFaq').valid()==true){
-    //         $("#addFaq_successModal").modal();
-    //
-    //     }else{
-    //         $("#addFaq_failModal").modal();
-    //     }
-    //
-    // });
+    // // 点击Faq返回按钮
+    // $("#backFaq_bt").click(function(){
+    //     $("#addFaq_panel").hide();
+    //     $("#faq_panel").show();
+    //     $("#faq_present")
+    //     dt_faq.refresh();
+    // })
+
     // FAQ信息验证
     $("#form_addFaq").validate({
         rules:{

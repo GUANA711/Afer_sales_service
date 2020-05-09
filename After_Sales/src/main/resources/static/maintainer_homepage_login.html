@@ -330,6 +330,7 @@
                                     <tr>
                                         <th>问题ID</th>
                                         <th>问题描述</th>
+                                        <th>问题类型</th>
                                         <th>用户ID</th>
                                     </tr>
                                     </thead>
@@ -372,10 +373,14 @@
                             </div>
                             <div class="panel-body">
                                 <form id="form_addFaq">
-                                    <li class="list-group-item"><label for="#frequent_que_add">常见问题描述：</label>
-                                        <input type="text"  id="frequent_que_add" name="frequent_que_add" value="" style="width: 300px;height: 40px;"></li>
-                                    <li class="list-group-item"><label for="#frequent_ans_add">问题解答：</label>
-                                        <input type="text"  id="frequent_ans_add" name="frequent_ans_add" value="" style="width: 300px;height: 100px;"></li>
+                                    <li class="list-group-item">
+                                        <label for="#faq_question">常见问题：</label>
+                                        <input type="text"  id="faq_question" name="faq_answer" value="" style="width: 300px;height: 40px;">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <label for="#faq_answer">问题解答：</label>
+                                        <input type="text"  id="faq_answer" name="faq_answer" value="" style="width: 300px;height: 100px;">
+                                    </li>
                                 </form>
 
                                     <!-- <table id="addFaq_tb" border="2" style="margin-left: 9%;">
@@ -428,8 +433,8 @@
                             </div>
                             <div>
                                 <li>
-                                    <button type="button" id="saveFaq_bt" class="btn btn-primary" style="margin-left: 30%;">保存</button>
-                                    <button type="button" id="backFaq_bt" class="btn btn-primary" style="margin-left: 10%;">返回</button>
+                                    <button type="button" id="saveFaq_bt" class="btn btn-primary" style="margin-left: 40%;">保存</button>
+<!--                                    <button type="button" id="backFaq_bt" class="btn btn-primary" style="margin-left: 10%;">返回</button>-->
                                 </li>
                             </div>
                         </div>
