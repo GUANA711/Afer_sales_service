@@ -1,5 +1,6 @@
 package com.zgl.aftersales.controller;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zgl.aftersales.dao.MyLog;
 import com.zgl.aftersales.pojo.Log;
 import com.zgl.aftersales.service.LogServive;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -81,7 +83,10 @@ public class LogAspect {
         log.setIP(IPUtils.getIpAddr(request));
 
         //获取创建时间
-        log.setCreat_time(new Date());
+        Date date_Date=new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String date=formatter.format(date_Date).toString();
+        log.setCreat_time(date);
 
         //调用service添加Log实体类到数据库
         logServive.addLog(log);

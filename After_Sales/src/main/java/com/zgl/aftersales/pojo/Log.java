@@ -1,9 +1,11 @@
 package com.zgl.aftersales.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -20,5 +22,5 @@ public class Log {
     private String Method;
 //    private String Params;
     private String IP;
-    private Date Creat_time;
+    private String Creat_time;
 }

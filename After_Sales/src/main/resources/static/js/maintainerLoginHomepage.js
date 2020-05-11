@@ -8,7 +8,7 @@ $(document).ready(function(){
         data:'',
         contentType :'application/json',
         dataType:'json',
-        url :'http://localhost:5050/worker_selectBy_Session_UserId',
+        url :'http://localhost:5050/worker/worker_selectBy_Session_UserId',
         success :function(data) {
             console.dir(data);
             $("#userId").val(data.User_id);
@@ -56,7 +56,7 @@ $(document).ready(function(){
                 data:JSON.stringify(info),
                 contentType :'application/json',
                 dataType:'json',
-                url :'http://localhost:5050/worker_updateBy_Session_UserId',
+                url :'http://localhost:5050/worker/worker_updateBy_Session_UserId',
                 success :function(data) {
                     console.dir(data);
                     $("#username").attr("readonly",true);
@@ -123,7 +123,7 @@ $(document).ready(function(){
         /**
         $.ajax({
             type:"GET",
-            url:"http://localhost:5050/worker_show_unaccepted",
+            url:"http://localhost:5050/worker/worker_show_unaccepted",
             success:function (data) {
                 alert(data)
                 var datalist=eval(data);
@@ -157,7 +157,7 @@ $(document).ready(function(){
                         dataSrc : '',
                         contentType :'application/json',
                         dataType : 'json',
-                        url : 'http://localhost:5050/worker_show_unaccepted'
+                        url : 'http://localhost:5050/worker/worker_show_unaccepted'
 
                     },
                 columns : [
@@ -226,7 +226,7 @@ $("body").on("click",".operate-btn-accept",function(){
         type:"POST",
         contentType :'application/json',
         dataType:"json",
-        url:"http://localhost:5050/worker_receive",
+        url:"http://localhost:5050/worker/worker_receive",
         data:JSON.stringify(info),
         success:function () {
             dt.ajax.reload();
@@ -273,7 +273,7 @@ $("body").on("click",".operate-btn-accept",function(){
                     dataSrc : '',
                     contentType :'application/json',
                     dataType : 'json',
-                    url : 'http://localhost:5050/worker_show_accepted'
+                    url : 'http://localhost:5050/worker/worker_show_accepted'
 
                 },
             columns : [
@@ -282,20 +282,20 @@ $("body").on("click",".operate-btn-accept",function(){
                 // 告诉 DataTables 每列对应的属性data
                 // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
                 {
-                    "data" : "question_id",
+                    "data" : "Question_id",
                     className : "Question_id",
                     "searchable" : false
                 },
                 {
-                    "data" : "question_detail",
+                    "data" : "Question_detail",
                     className : "Question_detail"
                 },
                 {
-                    "data" : "user_id",
+                    "data" : "User_id",
                     className : "User_id"
                 },
                 {
-                    "data" : "commit_time",
+                    "data" : "Commit_time",
                     className : "Commit_time"
                 },
                 {
@@ -345,7 +345,7 @@ $("body").on("click",".operate-btn-accept",function(){
         $.ajax({
             type:"POST",
             contentType :'application/json',
-            url:"http://localhost:5050/worker_finish",
+            url:"http://localhost:5050/worker/worker_finish",
             data:JSON.stringify(info),
             success:function (data) {
                 // alert("???");
