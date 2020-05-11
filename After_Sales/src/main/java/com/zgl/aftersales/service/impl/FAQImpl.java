@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Alice
@@ -24,6 +25,11 @@ public class FAQImpl implements FAQService {
         List<FAQs> list;
         list=faqMapper.selectAllFAQ();
         return list;
+    }
+
+    @Override
+    public List<List<?>> showFAQ(Map<String, Object> map) {
+        return faqMapper.showFAQ(map);
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Alice
@@ -12,7 +13,13 @@ import java.util.List;
 @Mapper
 @Repository
 public interface LogMapper {
-    List<Log> showLog();
+
     void addLog(Log log);
     String selectUserName(int userId);
+
+    List<List<?>> showLog(Map<String,Object> map);
+    List<List<?>> saerchLog(Map<String,Object> map);
+
+
+
 }

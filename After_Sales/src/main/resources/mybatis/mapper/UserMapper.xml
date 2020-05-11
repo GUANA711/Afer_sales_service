@@ -20,4 +20,45 @@
         update users u set u.Task_num=u.Task_num+1 where User_name=#{name}
     </update>
 
+<!--    shiro-->
+    <select id="showRolesByUserID" parameterType="int" resultType="String">
+        select distinct r.Role_name from role r ,users u where r.Role_id=u.Role_id and u.User_id=#{userID}
+    </select>
+    <select id="showPermitByUserID" parameterType="int" resultType="String">
+        select distinct r.Permission from role_permit  r ,users u where r.Role_id=u.Role_id and u.User_id=#{userID}
+    </select>
+
+    <resultMap id="data" type="map">
+        <result property="User_id" column="User_id"></result>
+        <result property="User_name" column="User_name"></result>
+        <result property="Tel" column="Tel"></result>
+        <result property="Email" column="Email"></result>
+        <result property="Role_name" column="Role_name"></result>
+    </resultMap>
+    <resultMap id="count5" type="Integer">
+        <result column="count"/>
+    </resultMap>
+
+    <select id="showUser" parameterType="map" resultMap="data,count5">
+        select SQL_CALC_FOUND_ROWS u.User_id,u.User_name,u.Tel,u.Email,r.Role_name from users u,role r where u.Role_id=r.Role_id limit #{currIndex},#{pageSize};
+        select FOUND_ROWS() as count;
+    </select>
+
+    <select id="searchUser" parameterType="map" resultMap="data,count5">
+        select SQL_CALC_FOUND_ROWS u.User_id,u.User_name,u.Tel,u.Email,r.Role_name from users u,role r
+           <where>
+               u.Role_id=r.Role_id
+               <if  test="User_id!=null">
+                   and User_id like CONCAT(CONCAT('%', #{User_id}), '%')
+               </if>
+               <if test="User_name!=null">
+                   and User_name like CONCAT(CONCAT('%', #{Question_id}), '%')
+               </if>
+               <if test="Role_name!=null">
+                   and Role_name like CONCAT(CONCAT('%', #{Question_id}), '%')
+               </if>
+           </where>
+        limit #{currIndex},#{pageSize};
+        select FOUND_ROWS() as count;
+    </select>
 </mapper>

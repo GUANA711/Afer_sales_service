@@ -1,5 +1,7 @@
-var dt;
-var dt2;
+var dt_unaccepted;
+var dt_ing;
+var dt_done;
+var dt_faq;
 // 预处理
 $(document).ready(function(){
     // 加载维修人员页面信息
@@ -33,7 +35,6 @@ $(document).ready(function(){
             console.log(XMLHttpRequest.readyState);
         }
     });
-
     // 点击编辑按钮
     $("#edit_bt").click(function(){
         $("#username").attr("readonly",false);
@@ -120,36 +121,13 @@ $(document).ready(function(){
         $(".find_panel").children().hide();
         $("#task_check_panel").show();
         $(".message").show();
-        /**
-        $.ajax({
-            type:"GET",
-            url:"http://localhost:5050/worker/worker_show_unaccepted",
-            success:function (data) {
-                alert(data)
-                var datalist=eval(data);
 
-            },
-            error: function (XMLHttpRequest) {
-                // 200: "OK"
-                // 404: 未找到页面
-                console.log(XMLHttpRequest.status);
-                //readyState
-                //存有 XMLHttpRequest 的状态。从 0 到 4 发生变化。
-                // 0: 请求未初始化
-                // 1: 服务器连接已建立
-                // 2: 请求已接收
-                // 3: 请求处理中
-                // 4: 请求已完成，且响应已就绪
-                console.log(XMLHttpRequest.readyState);
-            }
-
-        })**/
         //加载未接收任务
-        dt = $('#table').DataTable ({
+        dt_unaccepted = $('#table').DataTable ({
                 responsive : true,
                 destroy: true,
                 serviceSize : true,// 开启服务端模式
-                ajax :
+            ajax :
                     {
                         // 使用ajax异步请求的方式加载数据
                         type : 'GET',
@@ -226,10 +204,10 @@ $("body").on("click",".operate-btn-accept",function(){
         type:"POST",
         contentType :'application/json',
         dataType:"json",
-        url:"http://localhost:5050/worker/worker_receive",
+        url:"http://localhost:5050/worker_receive",
         data:JSON.stringify(info),
         success:function () {
-            dt.ajax.reload();
+            dt_unaccepted.ajax.reload();
         },
         error: function (XMLHttpRequest) {
             // 200: "OK"
@@ -246,22 +224,13 @@ $("body").on("click",".operate-btn-accept",function(){
         }
     })
 })
-    // 点击接收按钮
-    $("#recieve_bt").click(function(){
-        $("#task_rec_successModal").modal();
-        //向后台提交任务已接收信息！！！！！！
-    })
-    //点击接收按钮
-    $("#recieve_bt").click(function(){
-        //向后台提交task+1;
-    });
     // 点击正处理任务切换面板
     $("#ing_task").click(function(){
         $(".find_panel").children().hide();
         $("#task_ing_panel").show();
         $(".message").show();
 
-        dt2 = $('#table2').DataTable ({
+        dt_ing = $('#table2').DataTable ({
             responsive : true,
             destroy: true,
             serviceSize : true,// 开启服务端模式
@@ -295,8 +264,8 @@ $("body").on("click",".operate-btn-accept",function(){
                     className : "User_id"
                 },
                 {
-                    "data" : "Commit_time",
-                    className : "Commit_time"
+                    "data" : "Start_time",
+                    className : "Start_time"
                 },
                 {
                     "data" : null,
@@ -349,7 +318,7 @@ $("body").on("click",".operate-btn-accept",function(){
             data:JSON.stringify(info),
             success:function (data) {
                 // alert("???");
-                dt2.ajax.reload();
+                dt_ing.ajax.reload();
                 // alert("...");
             },
             error: function (XMLHttpRequest) {
@@ -367,15 +336,87 @@ $("body").on("click",".operate-btn-accept",function(){
             }
         })
     })
-    // 点击完成按钮
-    $("#task_ing_bt").click(function(){
-        // 向后台提交完成任务+1;
-    });
+
     // 点击已完成任务切换面板
     $("#finished_task").click(function(){
         $(".find_panel").children().hide();
         $("#task_finished_panel").show();
         $(".message").show();
+
+        dt_done = $('#table3').DataTable ({
+            responsive : true,
+            destroy: true,
+            serviceSize : true,// 开启服务端模式
+            ajax :
+                {
+                    // 使用ajax异步请求的方式加载数据
+                    type : 'GET',
+                    async : false,
+                    dataSrc : '',
+                    contentType :'application/json',
+                    dataType : 'json',
+                    url : 'http://localhost:5050/worker/worker_show_unaccepted'
+
+                },
+            columns : [
+                // 配置columns
+                // 使用对象数组，一定要配置columns
+                // 告诉 DataTables 每列对应的属性data
+                // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
+                {
+                    "data" : "question_id",
+                    className : "Question_id",
+                    "searchable" : false
+                },
+                {
+                    "data" : "question_type",
+                    className : "Question_type"
+                },
+                {
+                    "data" : "question_detail",
+                    className : "Question_detail"
+                },
+                {
+                    "data" : "user_id",
+                    className : "User_id"
+                },
+                // {
+                //     "data" : null,
+                //     render : function (data, type, row)
+                //     {
+                //         var html = '<a href="javascript:void(0);" class="operate-btn-accept">接收任务</a>';
+                //         return html;
+                //     }
+                // }
+            ],
+            language :
+                {// 配置
+                    "sProcessing" : "处理中...",
+                    "sLengthMenu" : "显示 _MENU_ 项结果",
+                    "sZeroRecords" : "没有匹配结果",
+                    "sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                    "sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+                    "sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+                    "sInfoPostFix" : "",
+                    "sSearch" : "搜索:",
+                    "sUrl" : "",
+                    "sEmptyTable" : "表中数据为空",
+                    "sLoadingRecords" : "载入中...",
+                    "sInfoThousands" : ",",
+                    "oPaginate" :
+                        {
+                            "sFirst" : "首页",
+                            "sPrevious" : "上页",
+                            "sNext" : "下页",
+                            "sLast" : "末页"
+                        },
+                    "oAria" :
+                        {
+                            "sSortAscending" : ": 以升序排列此列",
+                            "sSortDescending" : ": 以降序排列此列"
+                        }
+                }
+        });
 
     });
     // 点击FAQ面板
@@ -383,57 +424,148 @@ $("body").on("click",".operate-btn-accept",function(){
         $(".find_panel").children().hide();
         $("#faq_panel").show();
         $(".message").show();
+        dt_faq = $('#faq_table').DataTable ({
+            responsive : true,
+            destroy: true,
+            serviceSize : true,// 开启服务端模式
+            ajax :
+                {
+                    // 使用ajax异步请求的方式加载数据
+                    type : 'GET',
+                    async : false,
+                    dataSrc : '',
+                    contentType :'application/json',
+                    dataType : 'json',
+                    url : 'http://localhost:5050/faq/selectAllFAQ'
+
+                },
+            columns : [
+                // 配置columns
+                // 使用对象数组，一定要配置columns
+                // 告诉 DataTables 每列对应的属性data
+                // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
+                {
+                    "data" : "faq_id",
+                    className : "Faq_id",
+                    "searchable" : false
+                },
+                {
+                    "data" : "faq_question",
+                    className : "Faq_question"
+                },
+                {
+                    "data" : "faq_answer",
+                    className : "Faq_answer"
+                },
+                // {
+                //     "data" : null,
+                //     render : function (data, type, row)
+                //     {
+                //         var html = '<a href="javascript:void(0);" class="operate-btn-accept">接收任务</a>';
+                //         return html;
+                //     }
+                // }
+            ],
+            language :
+                {// 配置
+                    "sProcessing" : "处理中...",
+                    "sLengthMenu" : "显示 _MENU_ 项结果",
+                    "sZeroRecords" : "没有匹配结果",
+                    "sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                    "sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+                    "sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+                    "sInfoPostFix" : "",
+                    "sSearch" : "搜索:",
+                    "sUrl" : "",
+                    "sEmptyTable" : "表中数据为空",
+                    "sLoadingRecords" : "载入中...",
+                    "sInfoThousands" : ",",
+                    "oPaginate" :
+                        {
+                            "sFirst" : "首页",
+                            "sPrevious" : "上页",
+                            "sNext" : "下页",
+                            "sLast" : "末页"
+                        },
+                    "oAria" :
+                        {
+                            "sSortAscending" : ": 以升序排列此列",
+                            "sSortDescending" : ": 以降序排列此列"
+                        }
+                }
+        });
     });
+
     // 点击Faq添加按钮
     $("#addFaq_bt").click(function(){
         $("#faq_panel").hide();
         $("#addFaq_panel").show();
 
     })
-    // 点击Faq返回按钮
-    $("#backFaq_bt").click(function(){
-        $("#addFaq_panel").hide();
-        $("#faq_panel").show();
 
-    })
     // 点击Faq保存按钮
     $("#saveFaq_bt").click(function(){
-        $("#form_addFaq").validate();
-        if($('#form_addFaq').valid()==true){
-            $("#addFaq_successModal").modal();
-            //
-
-            // $("#username").attr("readonly",true);
-            // $("#male").attr("disabled",true);
-            // $("#female").attr("disabled",true);
-            // $("#tel").attr("readonly",true);
-            // $("#email").attr("readonly",true);
-            // 此处写成功后提交给后台的数据代码！！！！！！！
+        //大写都是后端数据，小写都是js约束
+        var Faq_question = $("#faq_question").val();
+        var Faq_answer = $("#faq_answer").val();
+        var info = {
+            "Faq_question":Faq_question,
+            "Faq_answer":Faq_answer,
+        };
+        if($('#form_addFaq').valid()){
+            $.ajax({
+                type:'POST',
+                data:JSON.stringify(info),
+                contentType :'application/json',
+                dataType:'json',
+                url :'http://localhost:5050/faq/addFAQ',
+                success :function(data) {
+                    console.dir(data);
+                    $("#faq_question").attr("readonly",true);
+                    $("#faq_answer").attr("readonly",true);
+                    // $(this).text($(this).text()==='添加');
+                    $("#faq_question").val(data.Faq_question);
+                    $("#faq_answer").val(data.Faq_answer);
+                    alert(data.faqmsg);
+                },
+                error: function (result) {
+                    console.log(XMLHttpRequest.status);
+                    console.log(XMLHttpRequest.readyState);
+                    alert(data.status);
+                }
+            });
         }else{
-            $("#addFaq_failModal").modal();
+            alert(data.status);
         }
-
     });
+    // // 点击Faq返回按钮
+    // $("#backFaq_bt").click(function(){
+    //     $("#addFaq_panel").hide();
+    //     $("#faq_panel").show();
+    //     $("#faq_present")
+    //     dt_faq.refresh();
+    // })
+
     // FAQ信息验证
     $("#form_addFaq").validate({
         rules:{
-            frequent_que_add:{
+            faq_question:{
                 required:true,
                 minlength:10,
             },
-            frequent_ans_add:{
+            faq_answer:{
                 required:true,
-                minlength:10,
+                minlength:6,
             }
         },
         messages:{
-            frequent_que_add:{
+            faq_question:{
                 required:"问题不能为空",
                 minlength:"问题内容最短不能少于10"
             },
-            frequent_ans_add:{
+            faq_answer:{
                 required:"问题解答不能为空",
-                minlength:"问题解答内容最短不能为10"
+                minlength:"问题解答内容最短不能为6"
             }
         }
     });

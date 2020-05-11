@@ -38,6 +38,7 @@
 
 <!--    zgl-->
     <resultMap id="data" type="com.zgl.aftersales.pojo.Question">
+        <result property="Question_id" column="Question_id"></result>
         <result property="item_id" column="item_id"></result>
         <result property="Question_type" column="Question_type"></result>
         <result property="Question_detail" column="Question_detail"></result>
@@ -105,12 +106,10 @@
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             update users
             <set>
-                <if test="item.User_id != null">User_id=#{item.User_id},</if>
                 <if test="item.User_name != null">User_name=#{item.User_name},</if>
                 <if test="item.Password != null">Password=#{item.Password},</if>
                 <if test="item.Tel != null">Tel=#{item.Tel},</if>
                 <if test="item.Email != null">Email=#{item.Email},</if>
-                <if test="item.Task_num != null">Task_num=#{item.Task_num},</if>
                 <if test="item.Role_id != null">Role_id=#{item.Role_id},</if>
             </set>
             where User_id = #{item.User_id}

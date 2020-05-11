@@ -12,4 +12,17 @@
         insert into faq (Faq_question,Faq_answer) values(#{Faq_question},#{Faq_answer})
     </insert>
 
+    <resultMap id="data" type="com.zgl.aftersales.pojo.FAQs">
+        <result property="Faq_id" column="Faq_id"></result>
+        <result property="Faq_question" column="Faq_question"></result>
+        <result property="Faq_answer"  column="Faq_answer"></result>
+    </resultMap>
+    <resultMap id="count4" type="Integer">
+        <result column="count"/>
+    </resultMap>
+    <select id="showFAQ" parameterType="map" resultMap="data,count4">
+        select SQL_CALC_FOUND_ROWS * from faq limit #{currIndex},#{pageSize};
+        select FOUND_ROWS() as count;
+    </select>
+
 </mapper>

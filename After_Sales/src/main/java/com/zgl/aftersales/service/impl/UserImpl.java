@@ -11,17 +11,34 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 @Service
 @Transactional
 public class  UserImpl implements UserService {
+    @Override
+    public List<List<?>> showUser(Map<String, Object> map) {
+        return userMapper.showUser(map);
+    }
+
+    @Override
+    public List<List<?>> searchUser(Map<String, Object> map) {
+        return userMapper.searchUser(map);
+    }
+
     @Autowired
     private UserMapper userMapper;
+
+    @Override
+    public List<String> showPermitByUserID(int userID) {
+        return userMapper.showPermitByUserID(userID);
+    }
+
     @Override
     public void addUser(Users user) {
-        DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
-        String codePwd=desDecodeUtiles.getEncryptString(user.getPassword());
+
+        String codePwd=DesDecodeUtiles.getEncryptString(user.getPassword());
         user.setPassword(codePwd);
         userMapper.addUser(user);
     }
@@ -39,6 +56,11 @@ public class  UserImpl implements UserService {
     @Override
     public void updateByEmailToPwd(Map<String, String> map) {
         userMapper.updateByEmailToPwd(map);
+    }
+
+    @Override
+    public List<String> showRolesByUserID(int userID) {
+        return userMapper.showRolesByUserID(userID);
     }
 
     @Override

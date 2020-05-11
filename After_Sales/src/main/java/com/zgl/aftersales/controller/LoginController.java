@@ -9,6 +9,11 @@ import com.zgl.aftersales.service.MailService;
 import com.zgl.aftersales.service.UserService;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -123,6 +128,7 @@ public class LoginController {
      * @return
      */
     @PostMapping("/login")
+    @MyLog("用户登录")
     public Status selectByUsername(@RequestBody JSONObject json, HttpServletRequest req,HttpServletResponse resp){
         DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
         Status status=new Status();
@@ -130,42 +136,39 @@ public class LoginController {
         String loginUsername=json.getString("username");
         //前台传入的密码
         String loginPwd=json.getString("pwd");
+       Users user=userService.selectByUsername(loginUsername);
+       String codPwd=DesDecodeUtiles.getEncryptString(loginPwd);
+        //获取当前用户
 
-        Users user=userService.selectByUsername(loginUsername);
-
-        String decodPwd=DesDecodeUtiles.getDecryptString(user.getPassword());
-
-
-        if(user==null){
-            status.setMsg("该用户不存在");
-        }
-        else {
-            if(loginPwd.equals(decodPwd)){
-                status.setStatus(true);
-
-                //登陆成功，创建session
-                HttpSession seesion=req.getSession(true);
-                seesion.setAttribute("userID",user.getUser_id());
-                System.out.println("session id:"+seesion.getId());
-                System.out.println("session userID:"+seesion.getAttribute("userID"));
-
-                if(user.getRole_id()==1){
-                    status.setMsg("登录成功，该用户为管理员");
-                    status.setData("admin.html");//role_id=1,为管理员
-                }else if (user.getRole_id()==2){
-                    status.setMsg("登录成功，该用户为维修人员");
-                    status.setData("maintainer_homepage_login.html");//role_id=2,为维修人员
-                }else if (user.getRole_id()==3){
-                    status.setMsg("登录成功，该用户为普通用户");
-                    status.setData("user_homepage_login.html");//role_id=3,为普通用户
-                }
-            }else {
-                status.setMsg("登录失败，密码错误");
+        //封装用户登录数据
+        UsernamePasswordToken token=new UsernamePasswordToken(loginUsername,codPwd);
+        try {
+            SecurityUtils.getSubject().login(token);
+            Subject subject= SecurityUtils.getSubject();
+            HttpSession seesion=req.getSession(true);
+            seesion.setAttribute("userID",user.getUser_id());
+            System.out.println(subject.hasRole("admin"));
+            if(subject.hasRole("admin")){
+                status.setData("admin.html");
+            }
+            if(subject.hasRole("worker")){
+                status.setData("maintainer_homepage_login.html");
+            }
+            if(subject.hasRole("user")){
+                status.setData("user_homepage_login.html");
             }
 
+            status.setMsg("登录成功");
+            status.setStatus(true);
+            return status;
+        }catch (UnknownAccountException e){
+            status.setMsg("该用户不存在");
+            return status;
+        }catch (IncorrectCredentialsException e){
+            status.setMsg("密码错误");
+            return status;
         }
 
-        return status;
     }
 
     /**

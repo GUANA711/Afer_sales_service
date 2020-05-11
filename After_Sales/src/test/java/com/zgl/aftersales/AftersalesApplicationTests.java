@@ -1,13 +1,18 @@
 package com.zgl.aftersales;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.zgl.aftersales.pojo.FAQs;
 import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.*;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -128,5 +133,32 @@ class AftersalesApplicationTests {
        List<List<?>> lists= itemsService.selectAllItems(map);
         System.out.println(lists);
     }
+
+    @Test
+    void selectRoles(){
+           List<String> list= userService.showRolesByUserID(25);
+        System.out.println(list);
+    }
+    @Test
+    void showuser(){
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("currIndex",1);
+        map.put("pageSize",2);
+
+        List<List<?>> lists=userService.showUser(map);
+        System.out.println(lists);
+    }
+    @Autowired
+    QuestionService questionService;
+    @Test
+    void updateusers(){
+        Users user=new Users();
+        user.setRole_id(2);
+        user.setUser_id(25);
+        List<Users> usersList=new ArrayList<>();
+        usersList.add(user);
+        questionService.updateUser(usersList);
+    }
+
 
 }
