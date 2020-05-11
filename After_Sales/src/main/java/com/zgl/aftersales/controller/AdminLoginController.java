@@ -220,6 +220,51 @@ public class AdminLoginController {
     }
 
     /**
+     * 用户显示
+     * @param currenPage
+     * @param pageSize
+     * @return
+     */
+    @PostMapping("/showuser/{currenPage}/{pageSize}")
+    public List<List<?>> showuser(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize){
+        Map<String,Object> map=new HashMap<String, Object>();
+        map.put("currIndex",(currenPage-1)*pageSize);
+        map.put("pageSize",pageSize);
+
+        List<List<?>> lists=userService.showUser(map);
+        return lists;
+
+    }
+
+    /**
+     * 用户搜索
+     * @param currenPage
+     * @param pageSize
+     * @param json
+     * @return
+     */
+    @PostMapping("/searchuser/{currenPage}/{pageSize}")
+    public List<List<?>> searchuser(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize,@RequestBody JSONObject json) {
+        String key = json.getString("key");
+        String choice = json.getString("choice");
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("currIndex", (currenPage - 1) * pageSize);
+        map.put("pageSize", pageSize);
+        if (choice.equals("0")) {
+            map.put("User_id", key);
+        }
+        if (choice.equals("1")) {
+            map.put("User_name", key);
+        }
+        if (choice.equals("2")) {
+            map.put("Role_name", key);
+        }
+        List<List<?>> lists=userService.searchUser(map);
+        return lists;
+    }
+
+
+    /**
      * 任务分配——下拉框问题ID显示
      * @return
      */
@@ -292,6 +337,34 @@ public class AdminLoginController {
 
         return status;
 
+    }
+
+    /**
+     * 权限分配
+     * @param json
+     * @return
+     */
+    @PostMapping("/roleEdit")
+    public Status roleEdit(@RequestBody JSONObject json){
+        String user_id_string=json.getString("userID");
+        String role_id_string=json.getString("roleID");
+        int userID=Integer.parseInt(user_id_string);
+        int roleID=Integer.parseInt(role_id_string);
+        Status status=new Status();
+        Users user=new Users();
+        user.setRole_id(roleID);
+        user.setUser_id(userID);
+        List<Users> usersList=new ArrayList<>();
+        usersList.add(user);
+        try {
+            questionService.updateUser(usersList);
+            status.setMsg("权限修改成功");
+            status.setStatus(true);
+            return  status;
+        }catch (Exception e){
+            status.setMsg("权限修改失败");
+            return  status;
+        }
     }
 
     /**

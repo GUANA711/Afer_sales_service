@@ -20,5 +20,8 @@ public interface UserService {
     //shiro
     List<String> showRolesByUserID(int userID);
     List<String> showPermitByUserID(int userID);
+
+    List<List<?>> showUser(Map<String,Object> map);
+    List<List<?>> searchUser(Map<String,Object> map);
 }
 

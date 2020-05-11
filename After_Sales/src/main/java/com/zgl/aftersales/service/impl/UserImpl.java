@@ -17,6 +17,16 @@ import java.util.Map;
 @Service
 @Transactional
 public class  UserImpl implements UserService {
+    @Override
+    public List<List<?>> showUser(Map<String, Object> map) {
+        return userMapper.showUser(map);
+    }
+
+    @Override
+    public List<List<?>> searchUser(Map<String, Object> map) {
+        return userMapper.searchUser(map);
+    }
+
     @Autowired
     private UserMapper userMapper;
 

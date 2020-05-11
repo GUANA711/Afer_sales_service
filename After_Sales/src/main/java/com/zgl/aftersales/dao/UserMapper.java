@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author GUANA
+ */
 @Mapper
 @Repository
 public interface UserMapper {
@@ -18,9 +21,14 @@ public interface UserMapper {
     List<String> selectByQuesion_name(String qestID);
     void updateTask_num(String name);
 
+
     //shiro
     List<String> showRolesByUserID(int userID);
     List<String> showPermitByUserID(int userID);
+
+    List<List<?>> showUser(Map<String,Object> map);
+    List<List<?>> searchUser(Map<String,Object> map);
+
 
 
 }
