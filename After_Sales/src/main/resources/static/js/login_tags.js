@@ -88,6 +88,14 @@ $(document).ready(function(){
                 
         });    
 });
+//清除表单默认事件
+$('form').submit(function (event) {
+
+    event.preventDefault();
+    
+    return false;
+    
+    });
 //登录的检验
 $(".itme form").validate({
         rules:{
