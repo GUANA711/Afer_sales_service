@@ -344,7 +344,7 @@ public class AdminLoginController {
      * @param json
      * @return
      */
-    @PostMapping("/roleEdit")
+    @MyLog("修改users表中的权限id")
     public Status roleEdit(@RequestBody JSONObject json){
         String user_id_string=json.getString("userID");
         String role_id_string=json.getString("roleID");
