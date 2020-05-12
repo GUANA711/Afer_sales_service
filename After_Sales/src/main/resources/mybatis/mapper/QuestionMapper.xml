@@ -21,7 +21,7 @@
     </select>
 
     <select id="checkQuestionsubmited" parameterType="int" resultType="com.zgl.aftersales.pojo.Question">
-             SELECT * FROM questions WHERE User_id = #{ User_id } and Question_status = "accepted"
+             SELECT * FROM questions WHERE User_id = #{ User_id } and Question_status = "unaccepted"
     </select>
 
     <select id="checkQuestionfinished" parameterType="int" resultType="com.zgl.aftersales.pojo.Question">
@@ -29,7 +29,7 @@
     </select>
 
     <select id="checkQuestiondealing" parameterType="int" resultType="com.zgl.aftersales.pojo.Question">
-             SELECT * FROM questions WHERE User_id = #{ User_id } and Question_status = "processing"
+             SELECT * FROM questions WHERE User_id = #{ User_id } and Question_status = "accepted"
     </select>
 
     <select id="checkPostMan" parameterType="int" resultType="com.zgl.aftersales.pojo.Users">
