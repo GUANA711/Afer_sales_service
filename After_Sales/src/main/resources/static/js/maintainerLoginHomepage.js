@@ -2,6 +2,7 @@ var dt_unaccepted;
 var dt_ing;
 var dt_done;
 var dt_faq;
+var dt_nt;
 // 预处理
 $(document).ready(function(){
     // 加载维修人员页面信息
@@ -11,12 +12,14 @@ $(document).ready(function(){
         contentType :'application/json',
         dataType:'json',
         url :'http://localhost:5050/worker/worker_selectBy_Session_UserId',
+        // url2 :'http://localhost:5050/worker/worker_show_unaccepted',
         success :function(data) {
             console.dir(data);
             $("#userId").val(data.User_id);
             $("#username").val(data.User_name);
             $("#tel").val(data.Tel);
             $("#email").val(data.Email);
+            // $("#new_task1").val(data.Question_id);
             alert(data.User_name+"欢迎回来！");
         },
         //XMLHttpRequest 用于在后台与服务器交换数据。
@@ -35,6 +38,7 @@ $(document).ready(function(){
             console.log(XMLHttpRequest.readyState);
         }
     });
+
     // 点击编辑按钮
     $("#edit_bt").click(function(){
         $("#username").attr("readonly",false);
@@ -124,106 +128,108 @@ $(document).ready(function(){
 
         //加载未接收任务
         dt_unaccepted = $('#table').DataTable ({
-                responsive : true,
-                destroy: true,
-                serviceSize : true,// 开启服务端模式
+            responsive : true,
+            destroy: true,
+            serviceSize : true,// 开启服务端模式
             ajax :
-                    {
-                        // 使用ajax异步请求的方式加载数据
-                        type : 'GET',
-                        async : false,
-                        dataSrc : '',
-                        contentType :'application/json',
-                        dataType : 'json',
-                        url : 'http://localhost:5050/worker/worker_show_unaccepted'
+                {
+                    // 使用ajax异步请求的方式加载数据
+                    type : 'GET',
+                    async : false,
+                    dataSrc : '',
+                    contentType :'application/json',
+                    dataType : 'json',
+                    url : 'http://localhost:5050/worker/worker_show_unaccepted'
 
-                    },
-                columns : [
-                    // 配置columns
-                    // 使用对象数组，一定要配置columns
-                    // 告诉 DataTables 每列对应的属性data
-                    // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
+                },
+            columns : [
+                // 配置columns
+                // 使用对象数组，一定要配置columns
+                // 告诉 DataTables 每列对应的属性data
+                // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
+                {
+                    "data" : "question_id",
+                    className : "Question_id",
+                    "searchable" : false
+                },
+                {
+                    "data" : "question_type",
+                    className : "Question_type"
+                },
+                {
+                    "data" : "question_detail",
+                    className : "Question_detail"
+                },
+                {
+                    "data" : null,
+                    render : function (data, type, row)
                     {
-                        "data" : "question_id",
-                        className : "Question_id",
-                        "searchable" : false
-                    },
-                    {
-                        "data" : "question_type",
-                        className : "Question_type"
-                    },
-                    {
-                        "data" : "question_detail",
-                        className : "Question_detail"
-                    },
-                    {
-                        "data" : null,
-                        render : function (data, type, row)
+                        var html = '<a href="javascript:void(0);" class="operate-btn-accept">接收任务</a>';
+                        return html;
+                    }
+                }
+            ],
+            language :
+                {// 配置
+                    "sProcessing" : "处理中...",
+                    "sLengthMenu" : "显示 _MENU_ 项结果",
+                    "sZeroRecords" : "没有匹配结果",
+                    "sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                    "sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+                    "sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+                    "sInfoPostFix" : "",
+                    "sSearch" : "搜索:",
+                    "sUrl" : "",
+                    "sEmptyTable" : "表中数据为空",
+                    "sLoadingRecords" : "载入中...",
+                    "sInfoThousands" : ",",
+                    "oPaginate" :
                         {
-                            var html = '<a href="javascript:void(0);" class="operate-btn-accept">接收任务</a>';
-                            return html;
+                            "sFirst" : "首页",
+                            "sPrevious" : "上页",
+                            "sNext" : "下页",
+                            "sLast" : "末页"
+                        },
+                    "oAria" :
+                        {
+                            "sSortAscending" : ": 以升序排列此列",
+                            "sSortDescending" : ": 以降序排列此列"
                         }
-                    }
-                ],
-                language :
-                    {// 配置
-                        "sProcessing" : "处理中...",
-                        "sLengthMenu" : "显示 _MENU_ 项结果",
-                        "sZeroRecords" : "没有匹配结果",
-                        "sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                        "sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
-                        "sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
-                        "sInfoPostFix" : "",
-                        "sSearch" : "搜索:",
-                        "sUrl" : "",
-                        "sEmptyTable" : "表中数据为空",
-                        "sLoadingRecords" : "载入中...",
-                        "sInfoThousands" : ",",
-                        "oPaginate" :
-                            {
-                                "sFirst" : "首页",
-                                "sPrevious" : "上页",
-                                "sNext" : "下页",
-                                "sLast" : "末页"
-                            },
-                        "oAria" :
-                            {
-                                "sSortAscending" : ": 以升序排列此列",
-                                "sSortDescending" : ": 以降序排列此列"
-                            }
-                    }
-            });
+                }
+        });
 
     });
-$("body").on("click",".operate-btn-accept",function(){
-    var question_id=$(this).parent().parent().find(".Question_id").text();
-    var info = {
-        "questionID":question_id
-    };
-    $.ajax({
-        type:"POST",
-        contentType :'application/json',
-        dataType:"json",
-        url:"http://localhost:5050/worker_receive",
-        data:JSON.stringify(info),
-        success:function () {
-            dt_unaccepted.ajax.reload();
-        },
-        error: function (XMLHttpRequest) {
-            // 200: "OK"
-            // 404: 未找到页面
-            console.log(XMLHttpRequest.status);
-            //readyState
-            //存有 XMLHttpRequest 的状态。从 0 到 4 发生变化。
-            // 0: 请求未初始化
-            // 1: 服务器连接已建立
-            // 2: 请求已接收
-            // 3: 请求处理中
-            // 4: 请求已完成，且响应已就绪
-            console.log(XMLHttpRequest.readyState);
-        }
+    $("body").on("click",".operate-btn-accept",function(){
+        var question_id=$(this).parent().parent().find(".Question_id").text();
+        var info = {
+            "questionID":question_id
+        };
+        $.ajax({
+            type:"POST",
+            contentType :'application/json',
+            dataType:"json",
+            url:"http://localhost:5050/worker/worker_receive",
+            data:JSON.stringify(info),
+            success:function (data) {
+                // if (data.status==true)
+                dt_unaccepted.ajax.reload();
+                alert(data.msg);
+            },
+            error: function (XMLHttpRequest) {
+                // 200: "OK"
+                // 404: 未找到页面
+                console.log(XMLHttpRequest.status);
+                //readyState
+                //存有 XMLHttpRequest 的状态。从 0 到 4 发生变化。
+                // 0: 请求未初始化
+                // 1: 服务器连接已建立
+                // 2: 请求已接收
+                // 3: 请求处理中
+                // 4: 请求已完成，且响应已就绪
+                console.log(XMLHttpRequest.readyState);
+            }
+        })
     })
-})
     // 点击正处理任务切换面板
     $("#ing_task").click(function(){
         $(".find_panel").children().hide();
@@ -319,6 +325,7 @@ $("body").on("click",".operate-btn-accept",function(){
             success:function (data) {
                 // alert("???");
                 dt_ing.ajax.reload();
+                alert(data.msg);
                 // alert("...");
             },
             error: function (XMLHttpRequest) {
@@ -355,7 +362,7 @@ $("body").on("click",".operate-btn-accept",function(){
                     dataSrc : '',
                     contentType :'application/json',
                     dataType : 'json',
-                    url : 'http://localhost:5050/worker/worker_show_unaccepted'
+                    url : 'http://localhost:5050/worker/worker_show_done'
 
                 },
             columns : [
@@ -376,6 +383,7 @@ $("body").on("click",".operate-btn-accept",function(){
                     "data" : "question_detail",
                     className : "Question_detail"
                 },
+
                 {
                     "data" : "user_id",
                     className : "User_id"
@@ -500,6 +508,8 @@ $("body").on("click",".operate-btn-accept",function(){
     $("#addFaq_bt").click(function(){
         $("#faq_panel").hide();
         $("#addFaq_panel").show();
+        $("#faq_question").attr("readonly",false);
+        $("#faq_answer").attr("readonly",false);
 
     })
 
@@ -527,6 +537,10 @@ $("body").on("click",".operate-btn-accept",function(){
                     $("#faq_question").val(data.Faq_question);
                     $("#faq_answer").val(data.Faq_answer);
                     alert(data.faqmsg);
+                    //保存之后返回到FAQ页面
+                    $("#faq_panel").show();
+                    $("#addFaq_panel").hide();
+                    dt_faq.reload();
                 },
                 error: function (result) {
                     console.log(XMLHttpRequest.status);
