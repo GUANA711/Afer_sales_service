@@ -61,8 +61,8 @@ public class Question implements Serializable {
         return Question_status;
     }
 
-    public void setQuestion_status(Question_status1 question_status) {
-        Question_status = question_status;
+    public void setQuestion_status(String question_status) {
+        Question_status = Question_status1.valueOf(question_status);
     }
 
     public void setItem_id(int item_id) {
