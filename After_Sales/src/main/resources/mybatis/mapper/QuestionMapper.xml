@@ -58,6 +58,9 @@
     <select id="fuzzyQuery" parameterType="map" resultMap="data,count1">
         select SQL_CALC_FOUND_ROWS * from questions
         <where>
+            <if test="Question_id!=null">
+                Question_id  like CONCAT(CONCAT('%', #{Question_id}), '%')
+            </if>
             <if test="item_id!=null">
                 item_id like CONCAT(CONCAT('%', #{item_id}), '%')
             </if>

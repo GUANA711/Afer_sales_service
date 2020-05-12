@@ -30,11 +30,12 @@ public class QuestionController {
     @MyLog(value = "添加问题到数据库")
     @PostMapping("/addQuestion")
     public int addQuestion(@RequestBody Question question) {
+
         return db.addQuestion(question);
     }
 
     @GetMapping("/checkQuestion")
-    public Question checkQuestion(int Question_id) {
+    public Question checkQuestion( int Question_id) {
         return db.checkQuestion(Question_id);
     }
 
