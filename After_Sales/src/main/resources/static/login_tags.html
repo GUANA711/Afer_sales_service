@@ -35,23 +35,23 @@
                         </li>
                     </ul>
                     <div id="forms">
-                        <div class="itme active" id="login" >
+                        <div class="panel panel-default itme active" id="login" >
                             <h2>账号登录</h2>
-                            <form>
+                            <form onkeydown='if(event.keyCode==13) return login_check();'>
                                 <span><b>用户名:&nbsp;&nbsp;</b></span>
                                 <input type="text" name="login_name" autocomplete="false" placeholder="请输入你的用户名"><br>
                                 <span><b>&nbsp;&nbsp;&nbsp;密码:&nbsp;&nbsp;</b></span>
                                 <input type="password" name="login_pwd" autocomplete="false" placeholder="请输入你的密码"><br>
                                 <!-- <a href="">还没有账号</a>
                                 <a href="">忘记密码？</a><br> -->
-                                <button class="login_submit" type="button" onclick="login_check()">登录</button><br>
+                                <button class="login_submit" type="button" onclick="login_check()" UseSubmitBehavior="false">登录</button><br>
                                 <button class="login_return"><a href="javascript:history.go(-1);">返回</a></button>
                                 
                             </form>
                         </div>
-                        <div class="itme" id="register">
+                        <div class="panel panel-default itme" id="register">
                             <h2>注册账号</h2>
-                            <form>
+                            <form onkeydown='if(event.keyCode==13) return register_check();'>
                                 <span><b>&nbsp;&nbsp;&nbsp;用户名:</b></span>
                                 <input type="text" name="register_name" autocomplete="false" required placeholder="必须包含字母或字符与数字"><br>
                                 <span><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;密码:</b></span>
@@ -66,10 +66,10 @@
                                 <button type="button" onclick="register_check()"><b>注册</b></button>
                             </form>
                         </div>
-                        <div class="itme" id="find_pwd">
+                        <div class="panel panel-default itme" id="find_pwd">
                             <h2>重置密码</h2>
                             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请在下面输入您的电子邮件地址，我们将给您发送一封带有验证码的电子邮件。</p>
-                            <form>
+                            <form onkeydown='if(event.keyCode==13) return find_check();'>
                                 <span><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮箱:</b></span>
                                 <input type="email" name="pwd_email"autocomplete="false" required placeholder="此邮箱用于接收验证码"><br>
                                 <span><b>&nbsp;&nbsp;&nbsp;验证码:</b></span>

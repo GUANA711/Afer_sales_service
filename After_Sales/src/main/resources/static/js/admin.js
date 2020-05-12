@@ -1,37 +1,37 @@
 $(document).ready(function(){
     //加载个人页面信息
-    $.ajax({
-        type:'GET',
-        data:'',
-        contentType :'application/json',
-        dataType:'json',
-        url :'/worker/worker_selectBy_Session_UserId',
-        success :function(data) {
-            console.dir(data);
-            $("#userId").val(data.User_id);
-            $("#username").val(data.User_name);
-            $("#tel").val(data.Tel);
-            $("#email").val(data.Email);            
-            // alert("ok!");
-        },
-        error: function (XMLHttpRequest,textStatus) {
-            // 状态码
-            // alert("test");
-            console.log(XMLHttpRequest.status);
-            // 状态
-            console.log(XMLHttpRequest.readyState);
-            // 错误信息
-            alert(textStatus);
-        }
-    });
+    // $.ajax({
+    //     type:'GET',
+    //     data:'',
+    //     contentType :'application/json',
+    //     dataType:'json',
+    //     url :'/worker/worker_selectBy_Session_UserId',
+    //     success :function(data) {
+    //         console.dir(data);
+    //         $("#userId").val(data.User_id);
+    //         $("#username").val(data.User_name);
+    //         $("#tel").val(data.Tel);
+    //         $("#email").val(data.Email);            
+    //         // alert("ok!");
+    //     },
+    //     error: function (XMLHttpRequest,textStatus) {
+    //         // 状态码
+    //         // alert("test");
+    //         console.log(XMLHttpRequest.status);
+    //         // 状态
+    //         console.log(XMLHttpRequest.readyState);
+    //         // 错误信息
+    //         alert(textStatus);
+    //     }
+    // });
     // 分页
     var pageSize =8;     //每页显示多少条记录
     $(function() {          //表格初始化
         itemsRequest(1,true);
-        questionRequest(1,true);
-        maintenanceRequest(1,true);
-        faqRequest(1,true);
-        logRequest(1,true);
+        // questionRequest(1,true);
+        // maintenanceRequest(1,true);
+        // faqRequest(1,true);
+        // logRequest(1,true);
     });
     function itemsRequest(currPage,isFirst) {
         $.ajax({
@@ -71,7 +71,7 @@ $(document).ready(function(){
             dataType: "json",
             url:'/adminLoing/showquestion/'+currPage+'/'+pageSize,
             success:function(data){
-                console.log(data);
+                // console.log(data);
                 $("#questions table tbody").html('');       /* 清空tbody内容 */
                 for(var i=0;i<data[0].length;i++){
                     var item=data[0][i];
@@ -106,7 +106,7 @@ $(document).ready(function(){
 /* 设置页码的Html结构,其中可以使用{{page}}代表当前页，{{totalPages}}代表总页数，{{totalCounts}}代表总条目数*/
                         onPageChange: function (num, type) {
                             questionRequest(num,false);
-                            console.log(num);
+                            // console.log(num);
                             
                         }
                     });
@@ -121,7 +121,7 @@ $(document).ready(function(){
             dataType: "json",
             url:'/adminLoing/showMaintenance/'+currPage+'/'+pageSize,
             success:function(data){
-                console.log(data);
+                // console.log(data);
                 $("#maintenance table tbody").html('');       /* 清空tbody内容 */
                 for(var i=0;i<data[0].length;i++){
                     var item=data[0][i];
@@ -163,7 +163,7 @@ $(document).ready(function(){
             dataType: "json",
             url:'/adminLoing/showfaq/'+currPage+'/'+pageSize,
             success:function(data){
-                console.log(data);
+                // console.log(data);
                 $("#faq table tbody").html('');       /* 清空tbody内容 */
                 for(var i=0;i<data[0].length;i++){
                     var item=data[0][i];
@@ -203,7 +203,7 @@ $(document).ready(function(){
             dataType: "json",
             url:'/adminLoing/showLog/'+currPage+'/'+pageSize,
             success:function(data){
-                console.log(data);
+                // console.log(data);
                 $("#log table tbody").html('');       /* 清空tbody内容 */
                 for(var i=0;i<data[0].length;i++){
                     var item=data[0][i];
@@ -247,6 +247,98 @@ $(document).ready(function(){
             },
             error:function(){alert("请求超时，请重试！");}
         });
+    }
+});
+var items = new Vue({
+    el:'#vueItem',
+    data: {
+        selected: 0,
+        key:"",
+        placeholder:["项目ID","项目名","用户ID"],
+        page: {
+            //页内条目数
+            pageSize: 8,
+            //当前页
+            pageNum: 1,
+            //记录总数
+            length:1,
+            //总页数
+            totalPage: 0
+        },
+        data:''
+    },
+    // watch: {
+    //     //监听数据，注意修改为正确的变量名
+    //     // page: function() {
+    //     //     //这里的第二个参数其实可以随便填，我完全是为了占位，而且我下面写死了
+    //     //    this.init_page(this.page.totalPages,this.page.pageSize,this.page.pageNum);
+    //     //    console.log(this.page.totalPages,this.page.pageSize,this.page.pageNum);
+    //     // // this.totelPage();
+    //     // }
+    // },
+    methods:{
+        init_page: function (totalPage,pageSize ,currentPage) {
+            if(totalPage == 0){
+               return;
+           }
+        //    this.searchFor(currentPage);
+           $("#items table tbody").html('');       /* 清空tbody内容 */
+                for(var i=0;i<items.data.length;i++){
+                    var item=items.data[i];
+                    // console.log(item);
+                    var insert = '<tr id="showItems"><td class="task_check_tb_td">' + item.item_id + '</td><td class="task_check_tb_td">' + item.item_name + '</td><td class="task_check_tb_td">' + item.user_id + '</td></tr>';
+                    $("#items table tbody").append(insert);
+                }
+                // console.log(Math.ceil(this.data[1][0]/8));
+                // console.log("data:"+items.data[1][0]);
+                // console.log(this.pageSize);
+                $('#pagination1').jqPaginator({ 
+                    totalPages: totalPage,        //页码整数
+                    visiblePages: pageSize,
+                    currentPage: currentPage,
+                    first: '<li><a href="javascript:void(0);">首页</a></li>',
+                    prev: '<li><a href="javascript:void(0);">上一页</a></li>',
+                    next: '<li><a href="javascript:void(0);">下一页</a></li>',
+                    last: '<li><a href="javascript:void(0);">末页</a></li>',
+                    page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
+/* 设置页码的Html结构,其中可以使用{{page}}代表当前页，{{totalPages}}代表总页数，{{totalCounts}}代表总条目数*/
+                    onPageChange: function (num, type) {
+                        if (type == 'change') {
+                            //注意修改为正确的参数名
+                            items.page.pageNum= num;
+                            items.searchFor();
+                        }
+                    }
+                });
+        },
+        calPage:function(){
+            items.page.totalPage =  Math.ceil(items.page.length/items.page.pageSize);
+        },
+        searchFor:function(){
+            // console.log(this.selected+this.key);
+            axios
+            .post('/adminLoing/searchItems/'+this.page.pageNum+'/'+this.page.pageSize, {
+                "key": this.key,        
+                "choice":this.selected    
+            })
+            .then(function (response) {
+                // console.log("response:"+response);
+                items.data = response.data[0];
+                // console.log(items.data);
+                // console.log(items.page);
+                items.page.length = response.data[1];
+                items.calPage();
+                // console.dir(this);
+                // console.dir(items);
+                // console.log(this.page.totalPage);    
+                items.init_page(items.page.totalPage,items.page.pageSize ,items.page.pageNum);    
+            })
+            .catch(function (error) { // 请求失败处理
+                alert(error);
+                // console.log(error);
+                
+            });
+        }
     }
 });
 
@@ -297,32 +389,25 @@ $("#save_bt").click(function(){
             error: function (XMLHttpRequest,textStatus) {
                 // 状态码
                 // alert("test");
-                console.log(XMLHttpRequest.status);
+                // console.log(XMLHttpRequest.status);
                 // 状态
-                console.log(XMLHttpRequest.readyState);
+                // console.log(XMLHttpRequest.readyState);
                 // 错误信息
                 // $("#failModal").modal();
-                alert('ajax '+textStatus);
+                // alert('ajax '+textStatus);
                 $("#failModal").modal();
             }
         });            
     }
 });
-//选择搜索项
-$(".searchSel").on('change',function () {
-    // console.log("下标"+$(".searchSel").index(this));
-    var index = $(".searchSel").index(this);
-    var selectText = $(":selected").eq(index).text();
-    console.log(selectText);
-    $('.searchIn').eq(index).attr('placeholder', '按'+selectText+'搜索');
-});
-$('.searchIn span').click(function () { 
-    console.log(this.index);
-    
-    var selectVal = selectIndex.val();
-    console.log(selectVal);
-    
-});
+// //选择搜索项
+// $(".searchSel").on('change',function () {
+//     // console.log("下标"+$(".searchSel").index(this));
+//     var index = $(".searchSel").index(this);
+//     var selectText = $(":selected").eq(index).text();
+//     console.log(selectText);
+//     $('.searchIn').eq(index).attr('placeholder', '按'+selectText+'搜索');
+// });
 //点击Faq添加按钮
 $("#addFaq_bt").click(function(){
     $("#faq_panel").hide();
