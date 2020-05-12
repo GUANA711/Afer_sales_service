@@ -6,10 +6,10 @@ li{list-style: none;}
     font-weight: bolder;
     color: #B5C3D4;
 }
-/* .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
-    color: #fff;
-    background-color: #337ab7;
-} */
+#info .index_title{
+    font-size: 15px;
+    margin-left: 15px;
+}
 .nav>li.active a{
     text-decoration: none;
     background-color: #337ab7;
@@ -30,7 +30,7 @@ li{list-style: none;}
     z-index: 9999;
     margin: 0px;
 }
-.nav-pills{
+.fram2>.nav-pills{
     background-color: #232f3a;
     color: #fff;
     margin-top: 20px;
@@ -143,11 +143,8 @@ table input{
     border-radius: 3px;
 }
 .searchIn{
-    /* outline-st/yle: none ; */
     height: 30px;
     padding: 2px 5px;
-    /* border: 1px solid black; */
-    /* text-align: center; */
 }
 .searchBtn{
     width: 40px;
@@ -162,14 +159,15 @@ table{
     table-layout: fixed; /* 这样设置后，表格的每列的宽度由第一行的每列宽度决定。如果不设置就会平均分配宽度。 */
 }
 table tr,td,th{
-    /* text-align: center; */
     word-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;        /* 超出内容以...显示 */
     white-space: nowrap;
     padding-left: 5px;
-    /* border: 2px solid #0e3d6c; */
     cursor: default;
+}
+table tr:hover td{
+    background-color: cornflowerblue;
 }
 table th{
     font-size: 16px;
@@ -250,9 +248,7 @@ label.error{
 .panel-body label{
     cursor: pointer;
     display: inline-block;
-    /* padding: 2px 6px; */
     text-align: right;
-    /* width: 150px; */
     font-size: 16px;
     vertical-align: top;
 }
@@ -263,23 +259,6 @@ input{
 }
 .btn-primary{
     margin-left: 20px;
-}
-.btn-recieve{
-    display: inline-block;
-    padding: 6px 12px;
-    margin-bottom: 0;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    /* vertical-align: middle; */
-    color: #fff;
-    background-color: #e90c0c;
-    border-color: #ce2020;
-    display:block;
-    margin:0 auto
-    
 }
 .btn-task-ing{
     text-align: center;
