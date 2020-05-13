@@ -12,21 +12,14 @@ $(document).ready(function(){
             $("#username").val(data.User_name);
             $("#tel").val(data.Tel);
             $("#email").val(data.Email);            
-            // alert("ok!");
         },
-        error: function (XMLHttpRequest,textStatus) {
-            // 状态码
-            // alert("test");
-            console.log(XMLHttpRequest.status);
-            // 状态
-            console.log(XMLHttpRequest.readyState);
-            // 错误信息
+        error: function () {
             alert("连接超时，请重试！");
         }
     });
     // 分页
-    var pageSize =8;     //每页显示多少条记录
-    $(function() {          //表格初始化
+    var pageSize =8;
+    $(function() {
         itemsRequest(1,true);
         questionRequest(1,true);
         maintenanceRequest(1,true);
@@ -39,7 +32,7 @@ $(document).ready(function(){
             dataType: "json",
             url:'/adminLoing/showItems/'+currPage+'/'+pageSize,
             success:function(data){
-                $("#items table tbody").html('');       /* 清空tbody内容 */
+                $("#items table tbody").html('');
                 for(var i=0;i<data[0].length;i++){
                     var item=data[0][i];
                     var insert = '<tr id="showItems">'+
@@ -52,9 +45,9 @@ $(document).ready(function(){
                                  '</td></tr>';
                     $("#items table tbody").append(insert);
                 }
-                if (isFirst) {          /* 第一次加载页面 */
+                if (isFirst) {
                     $('#pagination1').jqPaginator({ 
-                        totalPages: Math.ceil(data[1]/pageSize),        //页码整数
+                        totalPages: Math.ceil(data[1]/pageSize),
                         visiblePages: 6,
                         currentPage: 1,
                         first: '<li><a href="javascript:void(0);">首页</a></li>',
@@ -62,7 +55,6 @@ $(document).ready(function(){
                         next: '<li><a href="javascript:void(0);">下一页</a></li>',
                         last: '<li><a href="javascript:void(0);">末页</a></li>',
                         page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
-/* 设置页码的Html结构,其中可以使用{{page}}代表当前页，{{totalPages}}代表总页数，{{totalCounts}}代表总条目数*/
                         onPageChange: function (num, type) {
                             itemsRequest(num,false);
                         }
@@ -78,8 +70,7 @@ $(document).ready(function(){
             dataType: "json",
             url:'/adminLoing/showquestion/'+currPage+'/'+pageSize,
             success:function(data){
-                // console.log(data);
-                $("#questions table tbody").html('');       /* 清空tbody内容 */
+                $("#questions table tbody").html('');
                 for(var i=0;i<data[0].length;i++){
                     var item=data[0][i];
                     var insert = '<tr id="showItems">'+
@@ -98,9 +89,9 @@ $(document).ready(function(){
                                  '</td></tr>';
                     $("#questions table tbody").append(insert);
                 }
-                if (isFirst) {          /* 第一次加载页面 */
+                if (isFirst) {
                     $('#pagination2').jqPaginator({ 
-                        totalPages: Math.ceil(data[1]/pageSize),        //页码整数
+                        totalPages: Math.ceil(data[1]/pageSize),
                         visiblePages: 6,
                         currentPage: 1,
                         first: '<li><a href="javascript:void(0);">首页</a></li>',
@@ -108,11 +99,8 @@ $(document).ready(function(){
                         next: '<li><a href="javascript:void(0);">下一页</a></li>',
                         last: '<li><a href="javascript:void(0);">末页</a></li>',
                         page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
-/* 设置页码的Html结构,其中可以使用{{page}}代表当前页，{{totalPages}}代表总页数，{{totalCounts}}代表总条目数*/
                         onPageChange: function (num, type) {
                             questionRequest(num,false);
-                            // console.log(num);
-                            
                         }
                     });
                 }
@@ -126,8 +114,7 @@ $(document).ready(function(){
             dataType: "json",
             url:'/adminLoing/showMaintenance/'+currPage+'/'+pageSize,
             success:function(data){
-                // console.log(data);
-                $("#maintenance table tbody").html('');       /* 清空tbody内容 */
+                $("#maintenance table tbody").html('');
                 for(var i=0;i<data[0].length;i++){
                     var item=data[0][i];
                     var insert = '<tr id="showItems">'+
@@ -140,9 +127,9 @@ $(document).ready(function(){
                                  '</td></tr>';
                     $("#maintenance table tbody").append(insert);
                 }
-                if (isFirst) {          /* 第一次加载页面 */
+                if (isFirst) {
                     $('#pagination3').jqPaginator({ 
-                        totalPages: Math.ceil(data[1]/pageSize),        //页码整数
+                        totalPages: Math.ceil(data[1]/pageSize),
                         visiblePages: 6,
                         currentPage: 1,
                         first: '<li><a href="javascript:void(0);">首页</a></li>',
@@ -150,11 +137,8 @@ $(document).ready(function(){
                         next: '<li><a href="javascript:void(0);">下一页</a></li>',
                         last: '<li><a href="javascript:void(0);">末页</a></li>',
                         page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
-/* 设置页码的Html结构,其中可以使用{{page}}代表当前页，{{totalPages}}代表总页数，{{totalCounts}}代表总条目数*/
                         onPageChange: function (num, type) {
                             maintenanceRequest(num,false);
-                            // console.log(num);
-                            
                         }
                     });
                 }
@@ -168,8 +152,7 @@ $(document).ready(function(){
             dataType: "json",
             url:'/adminLoing/showfaq/'+currPage+'/'+pageSize,
             success:function(data){
-                // console.log(data);
-                $("#faq table tbody").html('');       /* 清空tbody内容 */
+                $("#faq table tbody").html('');
                 for(var i=0;i<data[0].length;i++){
                     var item=data[0][i];
                     var insert = '<tr id="showItems">'+
@@ -182,9 +165,9 @@ $(document).ready(function(){
                                  '</td>s</tr>';
                     $("#faq table tbody").append(insert);
                 }
-                if (isFirst) {          /* 第一次加载页面 */
+                if (isFirst) {
                     $('#pagination4').jqPaginator({ 
-                        totalPages: Math.ceil(data[1]/pageSize),        //页码整数
+                        totalPages: Math.ceil(data[1]/pageSize),
                         visiblePages: 6,
                         currentPage: 1,
                         first: '<li><a href="javascript:void(0);">首页</a></li>',
@@ -192,7 +175,6 @@ $(document).ready(function(){
                         next: '<li><a href="javascript:void(0);">下一页</a></li>',
                         last: '<li><a href="javascript:void(0);">末页</a></li>',
                         page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
-/* 设置页码的Html结构,其中可以使用{{page}}代表当前页，{{totalPages}}代表总页数，{{totalCounts}}代表总条目数*/
                         onPageChange: function (num, type) {
                             faqRequest(num,false);
                         }
@@ -208,8 +190,7 @@ $(document).ready(function(){
             dataType: "json",
             url:'/adminLoing/showLog/'+currPage+'/'+pageSize,
             success:function(data){
-                // console.log(data);
-                $("#log table tbody").html('');       /* 清空tbody内容 */
+                $("#log table tbody").html('');
                 for(var i=0;i<data[0].length;i++){
                     var item=data[0][i];
                     var str = item.method;
@@ -219,8 +200,6 @@ $(document).ready(function(){
                     }
                     var insert = '<tr id="showItems">'+
                                     '<td class="task_check_tb_td">' + 
-                                    item.log_id + 
-                                    '</td><td class="task_check_tb_td">' + 
                                     item.user_id + 
                                     '</td><td class="task_check_tb_td">' + 
                                     item.operation + 
@@ -230,12 +209,14 @@ $(document).ready(function(){
                                     item.ip + 
                                     '</td><td class="task_check_tb_td">' + 
                                     item.creat_time + 
+                                    '</td><td class="task_check_tb_td">' + 
+                                    item.log_id + 
                                     '</td></tr>';
                     $("#log table tbody").append(insert);
                 }
-                if (isFirst) {          /* 第一次加载页面 */
+                if (isFirst) {
                     $('#pagination5').jqPaginator({ 
-                        totalPages: Math.ceil(data[1]/pageSize),        //页码整数
+                        totalPages: Math.ceil(data[1]/pageSize),
                         visiblePages: 6,
                         currentPage: 1,
                         first: '<li><a href="javascript:void(0);">首页</a></li>',
@@ -243,7 +224,6 @@ $(document).ready(function(){
                         next: '<li><a href="javascript:void(0);">下一页</a></li>',
                         last: '<li><a href="javascript:void(0);">末页</a></li>',
                         page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
-/* 设置页码的Html结构,其中可以使用{{page}}代表当前页，{{totalPages}}代表总页数，{{totalCounts}}代表总条目数*/
                         onPageChange: function (num, type) {
                             logRequest(num,false);
                         }
@@ -280,7 +260,7 @@ var items = new Vue({
     },
     methods:{
         init_page: function (totalPage,pageSize ,currentPage) {
-            $("#items table tbody").html('');            /* 清空tbody内容 */
+            $("#items table tbody").html('');
             if(totalPage == 0){
                 $("#items table tbody").append("没有查询到相关数据！");
                 return;
@@ -298,7 +278,7 @@ var items = new Vue({
                 $("#items table tbody").append(insert);
             }
             $('#pagination1').jqPaginator({ 
-                totalPages: totalPage,        //页码整数
+                totalPages: totalPage,
                 visiblePages: pageSize,
                 currentPage: currentPage,
                 first: '<li><a href="javascript:void(0);">首页</a></li>',
@@ -330,7 +310,7 @@ var items = new Vue({
                 items.calPage();
                 items.init_page(items.page.totalPage,items.page.pageSize ,items.page.pageNum);    
             })
-            .catch(function (error) { // 请求失败处理
+            .catch(function (error) {
                 alert(error);
             });
         }
@@ -356,7 +336,7 @@ var questions = new Vue({
     },
     methods:{
         init_page: function (totalPage,pageSize,currentPage) {
-            $("#questions table tbody").html('');            /* 清空tbody内容 */
+            $("#questions table tbody").html('');
             if(totalPage == 0){
                 $("#questions table tbody").append("没有查询到相关数据！");
                 return;
@@ -380,7 +360,7 @@ var questions = new Vue({
                 $("#questions table tbody").append(insert);
             }
             $('#pagination2').jqPaginator({ 
-                totalPages: totalPage,        //页码整数
+                totalPages: totalPage,
                 visiblePages: pageSize,
                 currentPage: currentPage,
                 first: '<li><a href="javascript:void(0);">首页</a></li>',
@@ -400,7 +380,6 @@ var questions = new Vue({
             questions.page.totalPage =  Math.ceil(questions.page.length/questions.page.pageSize);
         },
         searchFor:function(){
-            // console.log(this.selected+this.key);
             axios
             .post('/adminLoing/searchquestion/'+this.page.pageNum+'/'+this.page.pageSize, {
                 "key": this.key,        
@@ -413,10 +392,9 @@ var questions = new Vue({
                 console.log(questions.page);
                 questions.page.length = response.data[1];
                 questions.calPage();
-                // console.dir(questions.data);
                 questions.init_page(questions.page.totalPage,questions.page.pageSize ,questions.page.pageNum);    
             })
-            .catch(function (error) { // 请求失败处理
+            .catch(function (error) {
                 alert(error);
                 
             });
@@ -430,20 +408,16 @@ var maintenances = new Vue({
         key:"",
         placeholder:["问题ID","维护员ID","处理时间"],
         page: {
-            //页内条目数
             pageSize: 8,
-            //当前页
             pageNum: 1,
-            //记录总数
             length:1,
-            //总页数
             totalPage: 0
         },
         data:''
     },
     methods:{
         init_page: function (totalPage,pageSize,currentPage) {
-            $("#maintenance table tbody").html('');            /* 清空tbody内容 */
+            $("#maintenance table tbody").html('');
             if(totalPage == 0){
                 $("#maintenance table tbody").append("没有查询到相关数据！");
                 return;
@@ -462,7 +436,7 @@ var maintenances = new Vue({
                 $("#maintenance table tbody").append(insert);
             }
             $('#pagination3').jqPaginator({ 
-                totalPages: totalPage,        //页码整数
+                totalPages: totalPage,
                 visiblePages: pageSize,
                 currentPage: currentPage,
                 first: '<li><a href="javascript:void(0);">首页</a></li>',
@@ -488,16 +462,12 @@ var maintenances = new Vue({
                 "choice":this.selected    
             })
             .then(function (response) {
-                // console.log("response:"+response);
                 maintenances.data = response.data[0];
-                // console.log(maintenances.data);
-                // console.log(maintenances.page);
                 maintenances.page.length = response.data[1];
                 maintenances.calPage();
-                // console.dir(questions.data);
                 maintenances.init_page(maintenances.page.totalPage,maintenances.page.pageSize ,maintenances.page.pageNum);    
             })
-            .catch(function (error) { // 请求失败处理
+            .catch(function (error) {
                 alert(error);
             });
         }
@@ -579,12 +549,42 @@ var faqs = new Vue({
         }
     }
 });
+var selects = new Vue({
+    el:'#selectVue',
+    data: {
+        firstSelected: 0,
+        secondSelected:0,
+        firstKey:"",
+        secondKey:"",
+        // placeholder:["","问题","问题解答"],
+        firstReturn:''
+    },
+    methods:{
+        forSecond:function(){
+            axios
+            .post('/adminLoing/droplistID', {
+                "key": this.key,        
+                "choice":this.selected    
+            })
+            .then(function (response) {
+                logs.data = response.data[0];
+                logs.page.length = response.data[1];
+                logs.calPage();
+                logs.init_page(logs.page.totalPage,logs.page.pageSize ,logs.page.pageNum);    
+            })
+            .catch(function (error) { // 请求失败处理
+                alert(error);
+            });
+        }
+    }
+
+});
 var logs = new Vue({
     el:'#logVue',
     data: {
         selected: 0,
         key:"",
-        placeholder:["日志ID","用户ID","操作描述","method","IP地址","操作时间"],
+        placeholder:["用户ID","操作描述","method","IP地址","操作时间","日志ID"],
         page: {
             //页内条目数
             pageSize: 8,
@@ -606,10 +606,13 @@ var logs = new Vue({
             }
             for(var i=0;i<logs.data.length;i++){
                 var item=logs.data[i];
+                var str = item.method;
+                var method = str;
+                if (str != null) {
+                    method = str.split('.')[5];
+                }
                 var insert = '<tr id="showItems">'+
                             '<td class="task_check_tb_td">' + 
-                            item.log_id + 
-                            '</td><td class="task_check_tb_td">' + 
                             item.user_id + 
                             '</td><td class="task_check_tb_td">' + 
                             item.operation + 
@@ -619,6 +622,8 @@ var logs = new Vue({
                             item.ip + 
                             '</td><td class="task_check_tb_td">' + 
                             item.creat_time + 
+                            '</td><td class="task_check_tb_td">' + 
+                            item.log_id + 
                             '</td></tr>';
                 $("#log table tbody").append(insert);
             }
@@ -644,7 +649,7 @@ var logs = new Vue({
         },
         searchFor:function(){
             axios
-            .post('adminLoing/searchLog/'+this.page.pageNum+'/'+this.page.pageSize, {
+            .post('/adminLoing/searchLog/'+this.page.pageNum+'/'+this.page.pageSize, {
                 "key": this.key,        
                 "choice":this.selected    
             })

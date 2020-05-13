@@ -188,8 +188,8 @@
                                                 <th class="task_check_tb_th" style="width:10%">{{placeholder[1]}}</th>
                                                 <th class="task_check_tb_th" style="width:15%">{{placeholder[2]}}</th>
                                                 <th class="task_check_tb_th" style="width:15%">{{placeholder[3]}}</th>
-                                                <th class="task_check_tb_th" style="width:30%">{{placeholder[4]}}</th>
-                                                <th class="task_check_tb_th" style="width:15%">{{placeholder[5]}}</th>
+                                                <th class="task_check_tb_th" style="width:35%">{{placeholder[4]}}</th>
+                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[5]}}</th>
                                             </tr>
                                         </thead>
                                         <tbody><!-- 这里是数据库查询结果 -->
@@ -219,7 +219,12 @@
                                                 <select name="itemSelect" v-model="selected" class="searchSel">
                                                     <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
                                                 </select>
-                                                <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                <template v-if="selected==2">
+                                                    <input type="date" v-model="key" class="searchIn">
+                                                </template>
+                                                <template v-else>
+                                                    <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                </template>
                                                 <button class="btn btn-default searchBtn" v-on:click="searchFor()"><i class="glyphicon glyphicon-search"></i></button>
                                             </label>
                                         </div>
@@ -294,27 +299,19 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">任务指派</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body" id="selectVue">
                                   <ul class="list-group">
                                     <li class="list-group-item">
-                                        <span class="select_lable">问题ID:</span>
-                                        <select class="select_form" id="first_select" style="margin-left: 4%;">
-                                            <option value="first">xxxxxxx</option>
-                                            <option value="second">xxxxxxxx</option>
-                                            <option value="third">xxxxxxxxx</option>
-                                            <option value="fourth">xxxxxxxxxx</option>
+                                        <span class="select_lable">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;问题ID:</span>
+                                        <select class="select_form" id="first_select">
+                                            <option value>xxxxxxx</option>
                                           </select>
                                     </li>
-
-                                  
                                   <ul class="list-group">
                                     <li class="list-group-item">
                                         <span class="select_lable">选择维修员:</span>
-                                        <select class="select_form" id="first_select">
-                                            <option value="first">维修员1号</option>
-                                            <option value="second">维修员2号</option>
-                                            <option value="third">维修员3号</option>
-                                            <option value="fourth">维修员4号</option>
+                                        <select class="select_form" id="second_select">
+                                            <option value></option>
                                           </select>
                                     </li>
                                     <!-- 提交按钮 -->
@@ -353,6 +350,7 @@
                                 <h3 class="panel-title">角色控制</h3>
                             </div>
                             <div class="panel-body">
+                                <input type="date" name="" id="">
                                     <!-- 按钮触发模态框 -->
                                     <button class="btn btn-primary " data-toggle="modal" data-target="#myModal" style="margin-left: 25%;">指派</button>
                             </div>
@@ -369,9 +367,14 @@
                                         <div class="tab_search">
                                             <label>
                                                 <select name="itemSelect" v-model="selected" class="searchSel">
-                                                    <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
+                                                    <option v-for="(option, index) in placeholder" :value='index' v-show="index != 5">{{option}}</option>
                                                 </select>
-                                                <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                <template v-if="selected==4">
+                                                    <input type="date" v-model="key" class="searchIn">
+                                                </template>
+                                                <template v-else>
+                                                    <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                </template>
                                                 <button class="btn btn-default searchBtn" v-on:click="searchFor()"><i class="glyphicon glyphicon-search"></i></button>
                                             </label>
                                         </div>
@@ -383,11 +386,11 @@
                                         <thead>
                                             <tr>
                                                 <th class="task_check_tb_th" style="width:10%">{{placeholder[0]}}</th>
-                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[1]}}</th>
+                                                <th class="task_check_tb_th" style="width:25%">{{placeholder[1]}}</th>
                                                 <th class="task_check_tb_th" style="width:25%">{{placeholder[2]}}</th>
-                                                <th class="task_check_tb_th" style="width:25%">{{placeholder[3]}}</th>
+                                                <th class="task_check_tb_th" style="width:15%">{{placeholder[3]}}</th>
                                                 <th class="task_check_tb_th" style="width:15%">{{placeholder[4]}}</th>
-                                                <th class="task_check_tb_th" style="width:15%">{{placeholder[5]}}</th>
+                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[5]}}</th>
                                             </tr>
                                         </thead>
                                         <tbody><!-- 这里是数据库查询结果 -->

@@ -8,7 +8,6 @@ li{list-style: none;}
 }
 #info .index_title{
     font-size: 15px;
-    margin-left: 15px;
 }
 .nav>li.active a{
     text-decoration: none;
@@ -17,6 +16,13 @@ li{list-style: none;}
 .nav>li>a:hover{
     color: #fff;
     background-color: #eee;
+}
+ul#info {
+    margin: -10px 0 10px 25px;
+    height: 150px;
+}
+ul#info li{
+    height: 50px;
 }
 #form_userinfo{
     margin-top:20px ;
@@ -115,6 +121,7 @@ li.bt_list button {
     white-space: nowrap;
     font-weight: 400;
     float: right;
+    margin-right: -2px;
 }
 .tab_search{
     float: right;
@@ -149,7 +156,7 @@ table input{
 .searchBtn{
     width: 40px;
     height: 30px;
-    margin: 0 0 1px -45px;
+    margin: 0 0 1px -4px;
     border: none;
     border-radius: 1px;
     background-color: #323652;
