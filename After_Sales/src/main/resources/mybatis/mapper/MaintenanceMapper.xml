@@ -28,7 +28,7 @@
                 User_id  like  CONCAT(CONCAT('%', #{User_id}), '%')
             </if>
             <if test="Start_time!=null">
-                Start_time like  CONCAT(CONCAT('%', #{Start_time), '%')
+                Start_time   like  CONCAT(CONCAT('%', #{Start_time}), '%')
             </if>
         </where>
           limit #{currIndex},#{pageSize};
