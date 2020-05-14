@@ -29,6 +29,7 @@ $(function(){
             url :'/user/logout',
 
             success :function(data,XMLHttpRequest) {
+                //跳转至首页
                 window.location.href="index.html";
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
