@@ -15,12 +15,42 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-5 right_info_heading">欢迎回来，管理员</div>
-                <div class="col-md-2 right_info"><i class="sp glyphicon glyphicon-bullhorn"></i><a href="#" class="info">通知</a></div>
-                <div class="col-md-2 right_info"><i class="sp glyphicon glyphicon-question-sign"></i><a href="#" class="info">帮助</a></div>
+                <div class="col-md-2 right_info"><i class="sp glyphicon glyphicon-bullhorn"></i><a href="javascript:;" class="info">通知</a></div>
+                <div class="col-md-2 right_info"><i class="sp glyphicon glyphicon-question-sign"></i><a href="javascript:;" class="info">帮助</a></div>
                 <div class="col-md-2 right_info"><i class="sp glyphicon glyphicon-user"></i><a href="login_tags.html" class="info">注销</a></div>
             </div>
         </div>
     </nav>
+    <!-- 成功模态框 -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">操作成功</h4>
+                </div>
+                <div class="modal-body">已成功修改个人信息</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- 失败模态框 -->
+    <div class="modal fade" id="failModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">操作失败</h4>
+                </div>
+                <div class="modal-body">编辑内容有误，请重新编辑!</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
     <div class="container-fluid">
         <div class="row mm" id="com">
             <!-- 左侧菜单导航栏 -->
@@ -34,15 +64,15 @@
                             </div>
                             <li role="presentation" id="user_info" class="active"><a><i class="glyphicon glyphicon-user"></i><span class="index_title"> 个人信息</span></a></li>
                             <li role="presentation" id="item_info"><a><i class="glyphicon glyphicon-inbox"></i><span class="index_title"> 项目</span></a></li>
-                            <li role="presentation" id="questions_check"><a href="#"><i class="glyphicon glyphicon-check"></i><span class="index_title">问题查看</span></a></li>
+                            <li role="presentation" id="questions_check"><a href="javascript:;"><i class="glyphicon glyphicon-check"></i><span class="index_title">问题查看</span></a></li>
                             <ul class="nav nav-pills nav-stacked second_list" style="display: none;" id="info">
-                                <li role="presentation" id="questions_info"><a href="#"><i class="glyphicon glyphicon-question-sign"></i><span class="index_title"> 用户问题</span></a></li>
-                                <li role="presentation" id="maintenance_info"><a href="#"><i class="glyphicon glyphicon-question-sign"></i><span class="index_title"> 问题处理</span></a></li>
-                                <li role="presentation" id="faq_present"><a href="#"><i class="glyphicon glyphicon-question-sign"></i><span class="index_title"> FAQ</span></a></li>
+                                <li role="presentation" id="questions_info"><a href="javascript:;"><i class="glyphicon glyphicon-question-sign"></i><span class="index_title"> 用户问题</span></a></li>
+                                <li role="presentation" id="maintenance_info"><a href="javascript:;"><i class="glyphicon glyphicon-question-sign"></i><span class="index_title"> 问题处理</span></a></li>
+                                <li role="presentation" id="faq_present"><a href="javascript:;"><i class="glyphicon glyphicon-question-sign"></i><span class="index_title"> FAQ</span></a></li>
                             </ul>
-                            <li role="presentation" id="task_assign"><a href="#"><i class="glyphicon glyphicon-tags"></i><span class="index_title"> 任务指派</span></a></li>
-                            <li role="presentation" id="role_assign"><a href="#"><i class="glyphicon glyphicon-user"></i><span class="index_title"> 角色控制</span></a></li>
-                            <li role="presentation" id="log_info"><a href="#"><i class="glyphicon glyphicon-cloud"></i><span class="index_title"> 日志</span></a></li>
+                            <li role="presentation" id="task_assign"><a href="javascript:;"><i class="glyphicon glyphicon-tags"></i><span class="index_title"> 任务指派</span></a></li>
+                            <li role="presentation" id="role_assign"><a href="javascript:;"><i class="glyphicon glyphicon-user"></i><span class="index_title"> 角色控制</span></a></li>
+                            <li role="presentation" id="log_info"><a href="javascript:;"><i class="glyphicon glyphicon-cloud"></i><span class="index_title"> 日志</span></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -81,39 +111,6 @@
                                         </li>
                                     </ul>
                                 </form>
-                                
-                                <!-- 保存按钮弹出模态框 -->
-                                <!-- 成功 -->
-                                <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel">修改成功</h4>
-                                            </div>
-                                            <div class="modal-body">已成功修改个人信息</div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                                            </div>
-                                        </div><!-- /.modal-content -->
-                                    </div><!-- /.modal -->
-                                </div>
-                                <!-- 失败 -->
-                                <div class="modal fade" id="failModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel">修改失败</h4>
-                                            </div>
-                                            <div class="modal-body">编辑内容有误，请重新编辑!</div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                                            </div>
-                                        </div><!-- /.modal-content -->
-                                    </div><!-- /.modal -->
-                                </div>
-                                
                             </div>
                         </div>
                         <!-- 项目 -->
@@ -302,45 +299,24 @@
                             <div class="panel-body" id="selectVue">
                                   <ul class="list-group">
                                     <li class="list-group-item">
-                                        <span class="select_lable">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;问题ID:</span>
-                                        <select class="select_form" id="first_select">
-                                            <option value>xxxxxxx</option>
-                                          </select>
+                                        <span class="select_lable">&nbsp;问题ID:</span>
+                                        <select class="select_form" v-model="firstSelected" @change="secondOptions()">
+                                            <option value=0 selected v-show="firstSelected==0">---请选择要分配的问题---</option>
+                                            <option v-for="item in firstContain" :value="item">{{item}}</option>
+                                        </select>
                                     </li>
                                   <ul class="list-group">
                                     <li class="list-group-item">
-                                        <span class="select_lable">选择维修员:</span>
-                                        <select class="select_form" id="second_select">
-                                            <option value></option>
-                                          </select>
+                                        <span class="select_lable">&nbsp;维修员:</span>
+                                        <select class="select_form" v-model="secondSelected">
+                                            <option value=0 selected v-show="secondSelected==0">---请指派问题处理人员---</option>
+                                            <option v-for="item in secondContain" :value="item">{{item}}</option>
+                                        </select>
                                     </li>
-                                    <!-- 提交按钮 -->
-                                    <!-- 按钮触发模态框 -->
-                                    <li class="list-group-item">
-                                        <button class="btn btn-primary " data-toggle="modal" data-target="#myModal" style="margin-left: 25%;">指派</button>
+                                    <li class="list-group-item assign_btn" >
+                                        <button class="btn btn-primary" @click="cancel">取消</button>
+                                        <button class="btn btn-primary" @click="assign">指派</button>
                                     </li>
-                                    <!-- 模态框（Modal） -->
-                                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                                        &times;
-                                                    </button>
-                                                    <h4 class="modal-title" id="myModalLabel">
-                                                        指派成功
-                                                    </h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                   维修员指派成功
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                                                    </button>
-                                                </div>
-                                            </div><!-- /.modal-content -->
-                                        </div><!-- /.modal -->
-                                    </div>        
                                 </ul>
                             </div>
                         </div>
@@ -349,10 +325,70 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">角色控制</h3>
                             </div>
-                            <div class="panel-body">
-                                <input type="date" name="" id="">
-                                    <!-- 按钮触发模态框 -->
-                                    <button class="btn btn-primary " data-toggle="modal" data-target="#myModal" style="margin-left: 25%;">指派</button>
+                            <div class="panel-body" id="roleControl">
+                                <!--搜索框  -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="tab_search">
+                                            <label>
+                                                <select name="itemSelect" v-model="selected" class="searchSel">
+                                                    <option v-if="index!=3" v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
+                                                </select>
+                                                <template v-if="selected==2">
+                                                    <select name="itemSelect" v-model="roleSearch" class="searchSel">
+                                                        <option v-for="(option, index) in roleOptions" :value='index'>{{option}}</option>
+                                                    </select>
+                                                </template>
+                                                <template v-else>
+                                                    <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                </template>
+                                                <button class="btn btn-default searchBtn" v-on:click="searchFor()"><i class="glyphicon glyphicon-search"></i></button>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 表格 -->
+                                <div id="role">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[0]}}</th>
+                                                <th class="task_check_tb_th" style="width:20%">{{placeholder[1]}}</th>
+                                                <th class="task_check_tb_th" style="width:40%">{{placeholder[2]}}</th>
+                                                <th class="task_check_tb_th" style="width:30%">{{placeholder[3]}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template v-for="(item,index) in data">
+                                                <tr id="showItems">
+                                                    <td class="task_check_tb_td">  
+                                                        {{item.User_id}}  
+                                                    </td>
+                                                    <td class="task_check_tb_td">  
+                                                        {{item.User_name}}
+                                                    </td>
+                                                    <td class="task_check_tb_td">  
+                                                        <select v-model="roleChoice">
+                                                            <option :value="item.Role_id" selected>{{roleOptions[item.Role_id]}}</option>
+                                                            <option :value="index" v-for="(option, index) in roleOptions" v-if="index!=item.Role_id">{{option}}</option>
+                                                        </select>
+                                                    </td>
+                                                    <td class="task_check_tb_td">  
+                                                        <a href="javascript:;">修改</a>
+                                                        <a href="javascript:;">删除</a>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- 页码 -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <ul class="pagination" id="pagination6">
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!--log-->
@@ -412,31 +448,31 @@
                             <ul class="sidebar">
                                 <li><h3 class="sidebar-widget-heading">待处理项目</h3></li>
                                 <li>
-                                    <a href="#" class="categories-link">消息一balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息一balabalbalbalba</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="categories-link">消息二balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息二balabalbalbalba</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="categories-link">消息三balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息三balabalbalbalba</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="categories-link">消息四balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息四balabalbalbalba</a>
                                 </li>
                             </ul>
                             <ul  class="sidebar">
                                 <li><h3 class="sidebar-widget-heading">未完成项目</h3></li>
                                 <li>
-                                    <a href="#" class="categories-link">消息一balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息一balabalbalbalba</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="categories-link">消息二balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息二balabalbalbalba</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="categories-link">消息三balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息三balabalbalbalba</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="categories-link">消息四balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息四balabalbalbalba</a>
                                 </li>
                             </ul>
                         </div>
