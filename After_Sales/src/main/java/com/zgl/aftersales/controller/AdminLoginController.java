@@ -84,7 +84,7 @@ public class AdminLoginController {
      * @param json
      * @return
      */
-    @PostMapping("/searchMaintenance/{currenPage}/{pageSize}")
+    @PostMapping("/searchMaintenance/{currenPage}/{pageS ize}")
     public List<List<?>> searchMaintenance(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize,@RequestBody JSONObject json){
         String key=json.getString("key");
         String choice=json.getString("choice");
