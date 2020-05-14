@@ -258,15 +258,20 @@ public class LoginController {
 
     /**
      * 注销
-     * @param json
      * @param req
      */
     @PostMapping("/logout")
-    public void logout(@RequestBody JSONObject json, HttpServletRequest req) {
+    public int logout(HttpServletRequest req) {
         int User_id = (int) req.getSession(true).getAttribute("userID");
 
-        req.removeAttribute("userID");
+        try {
+            req.removeAttribute("userID");
+        }catch (Exception e){
+            return 0;//注销失败
+        }
+        return 1;//注销成功
     }
+
 
 
 
