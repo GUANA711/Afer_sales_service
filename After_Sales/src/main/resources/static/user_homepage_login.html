@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- jQuery-->
+    <script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>
+    <script src="js/jquery.validate.js"></script>
+    <!-- <script src="http://mockjs.com/dist/mock.js"></script>; -->
+    <script src="js/userLoginHomepage.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>个人首页</title>
@@ -17,7 +22,7 @@
         <div class="row">
             <div class="col-md-6 right_info_heading">欢迎来到个人主页</div>
             <div class="col-md-2 right_info" id="top_message"><i class="sp glyphicon glyphicon-bullhorn"></i><a href="#" class="info">通知</a></div>
-            <div class="col-md-2 right_info" id="top_hlep"><i class="sp glyphicon glyphicon-question-sign"></i><a href="#" class="info">帮助</a></div>
+            <div class="col-md-2 right_info" id="top_help"><i class="sp glyphicon glyphicon-question-sign"></i><a href="#" class="info">帮助</a></div>
             <div class="col-md-2 right_info" id="top_destroy"><i class="sp glyphicon glyphicon-question-sign"></i><a href="#" class="info">注销</a></div>
         </div>
     </div>
@@ -27,7 +32,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times</button>
                 <h4 class="modal-title" id="myModalLabel1">通知</h4>
             </div>
             <div class="modal-body">
@@ -46,7 +51,7 @@
     </div><!-- /.modal -->
 </div>
 <!-- 点击帮助弹出模态框 -->
-<div class="modal fade" id="top_hlepModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="top_helpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -117,7 +122,7 @@
     </ul>
 
 
-    <!--顶部导航栏  -->
+    <!--右侧内容  -->
     <div class="col-md-9">
         <!-- 内容部分 -->
         <div class="container">
@@ -157,7 +162,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- 个人信息面板 -->
                 <div class="pa_all col-md-8 panel panel-default" id="user_panel" style="display: none;">
                     <div class="panel-heading">
@@ -166,14 +170,8 @@
                     <div class="panel-body">
                         <form id="form_userinfo">
                             <ul class="list-group" >
-                                <!-- <li class="list-group-item"><label for="id">用户ID：</label>
-                                    <input type="text" readonly="readonly" id="id" name="id" value=""></li> -->
                                 <li class="list-group-item"><label for="username">用户名：</label>
                                     <input type="text" readonly="readonly" id="username" name="username" value=""></li>
-                                <!-- <li class="list-group-item"><label for="sex">性别：</label>
-                                    <input type="radio" disabled id="male" name="sex" value="male" checked="男">男
-                                    <input type="radio" disabled id="female" name="sex" value="female">女
-                                </li> -->
                                 <li class="list-group-item"><label for="tel">电话：</label>
                                     <input type="tel" readonly="readonly" id="tel" name="tel" value=""></li>
                                 <li class="list-group-item"><label for="email">邮箱：</label>
@@ -181,20 +179,9 @@
                                 <li class="bt_list">
                                     <button type="button" id="edit_bt" class="btn btn-primary">编辑</button>
                                     <button type="button" id="save_bt" class="btn btn-primary">保存</button>
-<!--                                    <button type="button" id="eidtpass_bt" class="btn btn-primary">修改密码</button>-->
                                 </li>
                             </ul>
-                            <!-- 修改密码 -->
-                            <!-- <ul style="display: none;" id="pass_info">
-                                <li class="list-group-item"><label for="password">新密码：</label><input type="password" readonly="readonly" id="password" name="password" value=""></li>
-                                <li class="list-group-item"><label for="fin_password">确认密码：</label><input type="password"  required readonly="readonly" id="fin_password" name="fin_password" value=""></li>
-                                <li class="bt_list">
-                                    <button type="button" id="confrim_bt" class="btn btn-primary">确认</button>
-                                    <button type="button" id="cancel_bt" class="btn btn-primary">取消</button>
-                                </li>
-                            </ul> -->
                         </form>
-
                         <!-- 保存按钮弹出模态框 -->
                         <!-- 成功 -->
                         <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -231,52 +218,12 @@
                 </div>
 
                 <!-- 反馈面板 -->
-
                 <!-- 已提交的问题 -->
-                <div class="pa_all col-md-8 panel panel-default" id="alr_panel" style="display: none;">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">已提交的问题</h3>
-                    </div>
-                    <div class="panel-body">
-                        <ul class="list-group">
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Morbi leo risus</li>
-                            <li class="list-group-item">Porta ac consectetur ac</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
-                        </ul>
-                    </div>
-                </div>
+                <div class="pa_all col-md-8 panel panel-default" id="alr_panel"></div>
                 <!-- 已完成的问题 -->
-                <div class="pa_all col-md-8 panel panel-default" id="fin_panel" style="display: none;">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">已完成的信息</h3>
-                    </div>
-                    <div class="panel-body">
-                        <ul class="list-group">
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Morbi leo risus</li>
-                            <li class="list-group-item">Porta ac consectetur ac</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
-                        </ul>
-                    </div>
-                </div>
+                <div class="pa_all col-md-8 panel panel-default" id="fin_panel" style="display: none;"></div>
                 <!-- 处理中的问题 -->
-                <div class="pa_all col-md-8 panel panel-default" id="ing_panel" style="display: none;">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">处理中的问题</h3>
-                    </div>
-                    <div class="panel-body">
-                        <ul class="list-group">
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
-                            <li class="list-group-item">Morbi leo risus</li>
-                            <li class="list-group-item">Porta ac consectetur ac</li>
-                            <li class="list-group-item">Vestibulum at eros</li>
-                        </ul>
-                    </div>
-                </div>
+                <div class="pa_all col-md-8 panel panel-default" id="ing_panel" style="display: none;"></div>
                 <!--提交问题  -->
                 <div class="pa_all col-md-8 panel panel-default" id="wri_panel" style="display: none;">
                     <div class="panel-heading">
@@ -288,88 +235,76 @@
                             <li class="list-group-item">
                                 <span class="select_lable">问题分类:</span>
                                 <select class="select_form" id="first_select">
-                                    <option value="first">性能体验</option>
-                                    <option value="second">功能异常</option>
-                                    <option value="third">产品建议</option>
-                                    <option value="fourth">其他反馈</option>
+                                    <option value="性能体验">性能体验</option>
+                                    <option value="功能异常">功能异常</option>
+                                    <option value="产品建议">产品建议</option>
+                                    <option value="其他反馈">其他反馈</option>
                                 </select>
                             </li>
 
                             <!-- 第二个选项 -->
-                            <div id="second_select">
-                                <!-- 性能体验详情  默认不显示-->
-                                <li class="list-group-item" style="display: none;" id="firstshow">
+                            <div id="second_select" >
+                                <li class="list-group-item" id="firstshow">
                                     <span class="select_lable">问题详情:</span>
-                                    <select class="select_form">
-                                        <option value="first">软件运行较卡</option>
-                                        <option value="second">软件打卡较慢</option>
-                                        <option value="third">其他</option>
-                                    </select>
-                                </li>
-                                <!-- 功能异常详情  默认不显示 -->
-                                <li class="list-group-item" style="display: none;" id="secondshow">
-                                    <span class="select_lable">问题详情:</span>
-                                    <select class="select_form">
-                                        <option value="first">异常退出</option>
-                                        <option value="second">点击没有反应</option>
-                                        <option value="third">其他</option>
-                                    </select>
-                                </li>
-                                <!-- 产品建议详情  默认不显示 -->
-                                <li class="list-group-item" style="display: none;" id="thirdshow">
-                                    <span class="select_lable">问题详情:</span>
-                                    <select class="select_form">
-                                        <option value="first">界面需完善</option>
-                                        <option value="second">清理没有必要的广告</option>
-                                        <option value="third">其他</option>
-                                    </select>
-                                </li>
-                                <!-- 其他反馈详情  默认不显示 -->
-                                <li class="list-group-item" style="display: none;" id="fourthshow">
-                                    <span class="select_lable">问题详情:</span>
-                                    <select class="select_form">
-                                        <option value="third">其他</option>
+                                    <select class="select_form" id="select_form">
+                                        <option value="软件运行较卡">软件运行较卡</option>-->
+                                        <option value="软件打卡较慢">软件打卡较慢</option>
+                                        <option value="其他">其他</option>
                                     </select>
                                 </li>
                             </div>
                             <!-- 项目选择下拉栏 -->
                             <li class="list-group-item">
                                 <span class="select_lable">项目选择:</span>
-                                <select class="select_form" id="">
-                                    <option value="first">第一个软件</option>
-                                    <option value="second">第二个软件</option>
-                                    <option value="third">第三个软件</option>
-                                    <option value="fourth">第四个软件</option>
+                                <select class="select_form" id="item_id">
+                                    <option value="1">第一个软件</option>
+                                    <option value="2">第二个软件</option>
+                                    <option value="3">第三个软件</option>
+                                    <option value="4">第四个软件</option>
                                 </select>
                             </li>
 
                             <!-- 问题详情描述文本框 -->
                             <li class="list-group-item" id="question_clear">
                                 <span class="select_lable">问题描述:</span>
-                                <textarea rows="6" cols="50" name="summary_question" class="select_lable_clear">
-
-                                        </textarea>
+                                <textarea rows="6" cols="50" name="summary_question" class="select_lable_clear" id="question_detail"></textarea>
                             </li>
 
                             <!-- 提交按钮 -->
                             <!-- 按钮触发模态框 -->
                             <li class="list-group-item">
-                                <button class="btn btn-primary " data-toggle="modal" data-target="#myModal">提交</button>
+                                <button class="btn btn-primary " data-toggle="modal" data-target="#myModal" id="question_submit">提交</button>
                             </li>
                             <!-- 模态框（Modal） -->
-                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <!-- 成功 -->
+                            <div class="modal fade" id="successSubmitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="successSubmitModal1">提交成功</h4>
+                                        </div>
+                                        <div class="modal-body">已成功修改个人信息</div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal -->
+                            </div>
+                            <!-- 失败 -->
+                            <div class="modal fade" id="failSubmitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                                                 &times;
                                             </button>
-                                            <h4 class="modal-title" id="myModalLabel">
-                                                提交成功
+                                            <h4 class="modal-title" id="failSubmitModal1">
+                                                提交失败！
                                             </h4>
                                         </div>
                                         <div class="modal-body">
-                                            问题反馈提交成功
+                                            提交失败，请检查问题描述是否填写
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -381,39 +316,41 @@
                         </ul>
                     </div>
                 </div>
+
                 <!-- 公告栏 -->
-                <div class="col-md-3 pa_all message">
-                    <ul class="sidebar">
-                        <li><h3 class="sidebar-widget-heading">公告栏一</h3></li>
-                        <li>
-                            <a href="#" class="categories-link">消息一balabalbalbalba</a>
-                        </li>
-                        <li>
-                            <a href="#" class="categories-link">消息二balabalbalbalba</a>
-                        </li>
-                        <li>
-                            <a href="#" class="categories-link">消息三balabalbalbalba</a>
-                        </li>
-                        <li>
-                            <a href="#" class="categories-link">消息四balabalbalbalba</a>
-                        </li>
-                    </ul>
-                    <ul  class="sidebar">
-                        <li><h3 class="sidebar-widget-heading">公告栏二</h3></li>
-                        <li>
-                            <a href="#" class="categories-link">消息一balabalbalbalba</a>
-                        </li>
-                        <li>
-                            <a href="#" class="categories-link">消息二balabalbalbalba</a>
-                        </li>
-                        <li>
-                            <a href="#" class="categories-link">消息三balabalbalbalba</a>
-                        </li>
-                        <li>
-                            <a href="#" class="categories-link">消息四balabalbalbalba</a>
-                        </li>
-                    </ul>
-                </div>
+
+<!--                <div class="col-md-3 pa_all message">-->
+<!--                    <ul class="sidebar">-->
+<!--                        <li><h3 class="sidebar-widget-heading">公告栏一</h3></li>-->
+<!--                        <li>-->
+<!--                            <a href="#" class="categories-link">消息一balabalbalbalba</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#" class="categories-link">消息二balabalbalbalba</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#" class="categories-link">消息三balabalbalbalba</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#" class="categories-link">消息四balabalbalbalba</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                    <ul  class="sidebar">-->
+<!--                        <li><h3 class="sidebar-widget-heading">公告栏二</h3></li>-->
+<!--                        <li>-->
+<!--                            <a href="#" class="categories-link">消息一balabalbalbalba</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#" class="categories-link">消息二balabalbalbalba</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#" class="categories-link">消息三balabalbalbalba</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#" class="categories-link">消息四balabalbalbalba</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
             </div>
         </div>
     </div>
@@ -432,10 +369,6 @@
 </nav>
 
 </body>
-<!-- jQuery-->
-<script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>
-<script src="js/jquery.validate.js"></script>
-<!-- <script src="http://mockjs.com/dist/mock.js"></script>; -->
-<script src="js/userLoginHomepage.js"></script>
+
 
 </html>

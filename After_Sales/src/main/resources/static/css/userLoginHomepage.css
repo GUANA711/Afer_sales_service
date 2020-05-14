@@ -1,3 +1,8 @@
+.row mm{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 .index_title{
     font-size: 16px;
     font-weight: bolder;
@@ -117,6 +122,15 @@ label{
     width: 150px;
     vertical-align: top;
 }
+.lable_textarea{
+    cursor: pointer;
+    display: inline-block;
+    padding: 3px 6px;
+    text-align: right;
+    width: 150px;
+    vertical-align: top;
+    font-weight: bolder;
+}
 input{
     font-size: inherit;
 }
@@ -139,3 +153,4 @@ input{
     height: 80px;
     width: 300px;
 }
+
