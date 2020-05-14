@@ -74,6 +74,8 @@ $(function(){
 
                 success :function(data) {
                     $("#successSubmitModal").modal();
+                    //清空文本域
+                    $("#question_detail").val('');
                 },
                 error: function (XMLHttpRequest, textStatus) {
                     // 状态码
