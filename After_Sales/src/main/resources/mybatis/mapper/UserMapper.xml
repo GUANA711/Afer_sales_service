@@ -22,11 +22,9 @@
 
 <!--    shiro-->
     <select id="showRolesByUserID" parameterType="int" resultType="String">
-        select distinct r.Role_name from role r ,users u where r.Role_id=u.Role_id and u.User_id=#{userID}
+        select distinct r.Role_name from role r ,role_user t where  r.Role_id=t.Role_id and t.User_id=#{userID}
     </select>
-    <select id="showPermitByUserID" parameterType="int" resultType="String">
-        select distinct r.Permission from role_permit  r ,users u where r.Role_id=u.Role_id and u.User_id=#{userID}
-    </select>
+
 
     <resultMap id="data" type="map">
         <result property="User_id" column="User_id"></result>

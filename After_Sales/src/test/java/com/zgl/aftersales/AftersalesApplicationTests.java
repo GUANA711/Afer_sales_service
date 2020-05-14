@@ -150,15 +150,7 @@ class AftersalesApplicationTests {
     }
     @Autowired
     QuestionService questionService;
-    @Test
-    void updateusers(){
-        Users user=new Users();
-        user.setRole_id(2);
-        user.setUser_id(25);
-        List<Users> usersList=new ArrayList<>();
-        usersList.add(user);
-        questionService.updateUser(usersList);
-    }
+
 
 
 }

@@ -30,10 +30,6 @@ public class  UserImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    @Override
-    public List<String> showPermitByUserID(int userID) {
-        return userMapper.showPermitByUserID(userID);
-    }
 
     @Override
     public void addUser(Users user) {

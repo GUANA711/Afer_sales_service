@@ -351,13 +351,9 @@ public class AdminLoginController {
         int userID=Integer.parseInt(user_id_string);
         int roleID=Integer.parseInt(role_id_string);
         Status status=new Status();
-        Users user=new Users();
-        user.setRole_id(roleID);
-        user.setUser_id(userID);
-        List<Users> usersList=new ArrayList<>();
-        usersList.add(user);
+
         try {
-            questionService.updateUser(usersList);
+
             status.setMsg("权限修改成功");
             status.setStatus(true);
             return  status;
