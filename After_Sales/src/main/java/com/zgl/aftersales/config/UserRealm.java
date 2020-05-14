@@ -29,9 +29,8 @@ public class UserRealm extends AuthorizingRealm {
         List<String> roleNameList=userService.showRolesByUserID(user.getUser_id());
         SimpleAuthorizationInfo info=new SimpleAuthorizationInfo();
         info.addRoles(roleNameList);
-        //获取权限
-        List<String> permitList=userService.showPermitByUserID(user.getUser_id());
-        info.addStringPermissions(permitList);
+
+
 
         return info;
     }

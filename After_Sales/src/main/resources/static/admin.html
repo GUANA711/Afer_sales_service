@@ -6,21 +6,51 @@
     <title>欢迎您,管理员</title>
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="img/png_favicon.png" type=" image/png" >
-      <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-      <link rel="stylesheet" href="css/admin.css">
-    </head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/nprogress@0.2.0/nprogress.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
 <body>
     <nav class="navbar navbar-default navbar-static-top" role="navigation">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-5 right_info_heading">欢迎回来，管理员</div>
-                <div class="col-md-2 right_info"><i class="sp glyphicon glyphicon-bullhorn"></i><a href="#" class="info">通知</a></div>
-                <div class="col-md-2 right_info"><i class="sp glyphicon glyphicon-question-sign"></i><a href="#" class="info">帮助</a></div>
+                <div class="col-md-2 right_info"><i class="sp glyphicon glyphicon-bullhorn"></i><a href="javascript:;" class="info">通知</a></div>
+                <div class="col-md-2 right_info"><i class="sp glyphicon glyphicon-question-sign"></i><a href="javascript:;" class="info">帮助</a></div>
                 <div class="col-md-2 right_info"><i class="sp glyphicon glyphicon-user"></i><a href="login_tags.html" class="info">注销</a></div>
             </div>
         </div>
     </nav>
+    <!-- 成功模态框 -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">操作成功</h4>
+                </div>
+                <div class="modal-body">已成功修改个人信息</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- 失败模态框 -->
+    <div class="modal fade" id="failModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">操作失败</h4>
+                </div>
+                <div class="modal-body">编辑内容有误，请重新编辑!</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
     <div class="container-fluid">
         <div class="row mm" id="com">
             <!-- 左侧菜单导航栏 -->
@@ -34,19 +64,15 @@
                             </div>
                             <li role="presentation" id="user_info" class="active"><a><i class="glyphicon glyphicon-user"></i><span class="index_title"> 个人信息</span></a></li>
                             <li role="presentation" id="item_info"><a><i class="glyphicon glyphicon-inbox"></i><span class="index_title"> 项目</span></a></li>
-                            <li role="presentation" id="questions_check"><a href="#"><i class="glyphicon glyphicon-check"></i><span class="index_title">问题查看</span></a></li>
+                            <li role="presentation" id="questions_check"><a href="javascript:;"><i class="glyphicon glyphicon-check"></i><span class="index_title">问题查看</span></a></li>
                             <ul class="nav nav-pills nav-stacked second_list" style="display: none;" id="info">
-                                <li role="presentation" id="questions_info"><a href="#"><i class="glyphicon glyphicon-question-sign"></i><span class="index_title"> 用户问题</span></a></li>
-                                <li role="presentation" id="maintenance_info"><a href="#"><i class="glyphicon glyphicon-edit"></i><span class="index_title"> 问题处理</span></a></li>
-                                <li role="presentation" id="faq_present"><a href="#"><i class="glyphicon glyphicon-edit"></i><span class="index_title"> FAQ</span></a></li>
+                                <li role="presentation" id="questions_info"><a href="javascript:;"><i class="glyphicon glyphicon-question-sign"></i><span class="index_title"> 用户问题</span></a></li>
+                                <li role="presentation" id="maintenance_info"><a href="javascript:;"><i class="glyphicon glyphicon-question-sign"></i><span class="index_title"> 问题处理</span></a></li>
+                                <li role="presentation" id="faq_present"><a href="javascript:;"><i class="glyphicon glyphicon-question-sign"></i><span class="index_title"> FAQ</span></a></li>
                             </ul>
-                            <li role="presentation" id="task_assign"><a href="#"><i class="glyphicon glyphicon-tags"></i><span class="index_title"> 任务指派</span></a></li>
-                            <li role="presentation" id="log_info"><a href="#"><i class="glyphicon glyphicon-cloud"></i><span class="index_title"> 日志</span></a></li>
-                            <!-- <div>
-                                <ul class="nav nav-pills nav-stacked ">
-                                    <li class="mage"></li>
-                                </ul> 
-                            </div> -->
+                            <li role="presentation" id="task_assign"><a href="javascript:;"><i class="glyphicon glyphicon-tags"></i><span class="index_title"> 任务指派</span></a></li>
+                            <li role="presentation" id="role_assign"><a href="javascript:;"><i class="glyphicon glyphicon-user"></i><span class="index_title"> 角色控制</span></a></li>
+                            <li role="presentation" id="log_info"><a href="javascript:;"><i class="glyphicon glyphicon-cloud"></i><span class="index_title"> 日志</span></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -85,39 +111,6 @@
                                         </li>
                                     </ul>
                                 </form>
-                                
-                                <!-- 保存按钮弹出模态框 -->
-                                <!-- 成功 -->
-                                <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel">修改成功</h4>
-                                            </div>
-                                            <div class="modal-body">已成功修改个人信息</div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                                            </div>
-                                        </div><!-- /.modal-content -->
-                                    </div><!-- /.modal -->
-                                </div>
-                                <!-- 失败 -->
-                                <div class="modal fade" id="failModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel">修改失败</h4>
-                                            </div>
-                                            <div class="modal-body">编辑内容有误，请重新编辑!</div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                                            </div>
-                                        </div><!-- /.modal-content -->
-                                    </div><!-- /.modal -->
-                                </div>
-                                
                             </div>
                         </div>
                         <!-- 项目 -->
@@ -145,9 +138,9 @@
                                     <table>
                                         <thead>
                                             <tr id="item_th">
-                                            <th class="task_check_tb_th" style="width:25%">项目ID</th>
-                                            <th class="task_check_tb_th" style="width:50%">项目名</th>
-                                            <th class="task_check_tb_th" style="width:25%">用户ID</th>
+                                            <th class="task_check_tb_th" style="width:25%">{{placeholder[0]}}</th>
+                                            <th class="task_check_tb_th" style="width:50%">{{placeholder[1]}}</th>
+                                            <th class="task_check_tb_th" style="width:25%">{{placeholder[2]}}</th>
                                             </tr>
                                         </thead>
                                         <tbody><!-- 这里是查询结果 -->
@@ -168,22 +161,17 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">用户问题</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body" id="vueQuestion">
                                 <!--搜索框  -->
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="tab_search">
                                             <label>
-                                                <select class="searchSel">
-                                                    <option value="0" selected>问题ID</option>
-                                                    <option value="1">项目ID</option>
-                                                    <option value="2">问题类型</option>
-                                                    <option value="3">问题状态</option>
-                                                    <option value="4">问题描述</option>
-                                                    <option value="5">用户ID</option>
+                                                <select name="itemSelect" v-model="selected" class="searchSel">
+                                                    <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
                                                 </select>
-                                                <input type="text" placeholder="按问题ID搜索" class="searchIn">
-                                                <button class="btn btn-default searchBtn"><i class="glyphicon glyphicon-search"></i></button>
+                                                <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                <button class="btn btn-default searchBtn" v-on:click="searchFor()"><i class="glyphicon glyphicon-search"></i></button>
                                             </label>
                                         </div>
                                     </div>
@@ -193,13 +181,12 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th class="task_check_tb_th" style="width:10%">问题ID</th>
-                                                <th class="task_check_tb_th" style="width:10%">项目ID</th>
-                                                <th class="task_check_tb_th" style="width:15%">问题类型</th>
-                                                <th class="task_check_tb_th" style="width:15%">问题状态</th>
-                                                <th class="task_check_tb_th" style="width:30%">问题描述</th>
-                                                <th class="task_check_tb_th" style="width:15%">提交时间</th>
-                                                <th class="task_check_tb_th" style="width:10%">用户ID</th>
+                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[0]}}</th>
+                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[1]}}</th>
+                                                <th class="task_check_tb_th" style="width:15%">{{placeholder[2]}}</th>
+                                                <th class="task_check_tb_th" style="width:15%">{{placeholder[3]}}</th>
+                                                <th class="task_check_tb_th" style="width:35%">{{placeholder[4]}}</th>
+                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[5]}}</th>
                                             </tr>
                                         </thead>
                                         <tbody><!-- 这里是数据库查询结果 -->
@@ -220,19 +207,22 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">问题处理</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body" id="dealVue">
                                 <!--搜索框  -->
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="tab_search">
                                             <label>
-                                                <select class="searchSel">
-                                                    <option value="0" selected>问题ID</option>
-                                                    <option value="1">维护员ID</option>
-                                                    <option value="2">处理时间</option>
+                                                <select name="itemSelect" v-model="selected" class="searchSel">
+                                                    <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
                                                 </select>
-                                                <input type="text" placeholder="按问题ID搜索" class="searchIn">
-                                                <button class="btn btn-default searchBtn"><i class="glyphicon glyphicon-search"></i></button>
+                                                <template v-if="selected==2">
+                                                    <input type="date" v-model="key" class="searchIn">
+                                                </template>
+                                                <template v-else>
+                                                    <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                </template>
+                                                <button class="btn btn-default searchBtn" v-on:click="searchFor()"><i class="glyphicon glyphicon-search"></i></button>
                                             </label>
                                         </div>
                                     </div>
@@ -242,9 +232,7 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th class="task_check_tb_th" style="width:20%">问题ID</th>
-                                                <th class="task_check_tb_th" style="width:20%">维护员ID</th>
-                                                <th class="task_check_tb_th" style="width:60%">处理时间</th>
+                                                <th class="task_check_tb_th" v-for="option in placeholder">{{option}}</th>
                                             </tr>
                                         </thead>
                                         <tbody><!-- 这里是数据库查询结果 -->
@@ -265,19 +253,17 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">常见问题</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body" id="vueFaq">
                                 <!--搜索框  -->
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="tab_search">
                                             <label>
-                                                <select name="itemSelect" class="searchSel">
-                                                    <option value="0" selected>问题ID</option>
-                                                    <option value="1">常见问题</option>
-                                                    <option value="2">问题解答</option>
+                                                <select name="itemSelect" v-model="selected" class="searchSel">
+                                                    <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
                                                 </select>
-                                                <input type="text" placeholder="按问题ID搜索" class="searchIn">
-                                                <button class="btn btn-default searchBtn"><i class="glyphicon glyphicon-search"></i></button>
+                                                <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                <button class="btn btn-default searchBtn" v-on:click="searchFor()"><i class="glyphicon glyphicon-search"></i></button>
                                             </label>
                                         </div>
                                     </div>
@@ -287,9 +273,9 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th class="task_check_tb_th" style="width:10%">问题ID</th>
-                                                <th class="task_check_tb_th" style="width:35%">常见问题</th>
-                                                <th class="task_check_tb_th" style="width:55%">问题解答</th>
+                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[0]}}</th>
+                                                <th class="task_check_tb_th" style="width:35%">{{placeholder[1]}}</th>
+                                                <th class="task_check_tb_th" style="width:55%">{{placeholder[2]}}</th>
                                             </tr>
                                         </thead>
                                         <tbody><!-- 这里是查询结果 -->
@@ -310,64 +296,99 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">任务指派</h3>
                             </div>
-                            <div class="panel-body">
-                                <!-- <ul class="list-group">
-                                    <li class="list-group-item">Cras justo odio</li>
-                                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                                    <li class="list-group-item">Morbi leo risus</li>
-                                    <li class="list-group-item">Porta ac consectetur ac</li>
-                                    <li class="list-group-item">Vestibulum at eros</li>
-                                  </ul> -->
+                            <div class="panel-body" id="selectVue">
                                   <ul class="list-group">
                                     <li class="list-group-item">
-                                        <span class="select_lable">问题ID:</span>
-                                        <select class="select_form" id="first_select" style="margin-left: 4%;">
-                                            <option value="first">xxxxxxx</option>
-                                            <option value="second">xxxxxxxx</option>
-                                            <option value="third">xxxxxxxxx</option>
-                                            <option value="fourth">xxxxxxxxxx</option>
-                                          </select>
+                                        <span class="select_lable">&nbsp;问题ID:</span>
+                                        <select class="select_form" v-model="firstSelected" @change="secondOptions()">
+                                            <option value=0 selected v-show="firstSelected==0">---请选择要分配的问题---</option>
+                                            <option v-for="item in firstContain" :value="item">{{item}}</option>
+                                        </select>
                                     </li>
-
-                                  
                                   <ul class="list-group">
                                     <li class="list-group-item">
-                                        <span class="select_lable">选择维修员:</span>
-                                        <select class="select_form" id="first_select">
-                                            <option value="first">维修员1号</option>
-                                            <option value="second">维修员2号</option>
-                                            <option value="third">维修员3号</option>
-                                            <option value="fourth">维修员4号</option>
-                                          </select>
+                                        <span class="select_lable">&nbsp;维修员:</span>
+                                        <select class="select_form" v-model="secondSelected">
+                                            <option value=0 selected v-show="secondSelected==0">---请指派问题处理人员---</option>
+                                            <option v-for="item in secondContain" :value="item">{{item}}</option>
+                                        </select>
                                     </li>
-                                    <!-- 提交按钮 -->
-                                    <!-- 按钮触发模态框 -->
-                                    <li class="list-group-item">
-                                        <button class="btn btn-primary " data-toggle="modal" data-target="#myModal" style="margin-left: 25%;">指派</button>
+                                    <li class="list-group-item assign_btn" >
+                                        <button class="btn btn-primary" @click="cancel">取消</button>
+                                        <button class="btn btn-primary" @click="assign">指派</button>
                                     </li>
-                                    <!-- 模态框（Modal） -->
-                                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                                        &times;
-                                                    </button>
-                                                    <h4 class="modal-title" id="myModalLabel">
-                                                        指派成功
-                                                    </h4>
-                                                </div>
-                                                <div class="modal-body">
-                                                   维修员指派成功
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                                                    </button>
-                                                </div>
-                                            </div><!-- /.modal-content -->
-                                        </div><!-- /.modal -->
-                                    </div>        
                                 </ul>
+                            </div>
+                        </div>
+                        <!--角色控制-->
+                        <div class="pa_all col-md-8 panel panel-default" id="role_panel" style="display: none;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">角色控制</h3>
+                            </div>
+                            <div class="panel-body" id="roleControl">
+                                <!--搜索框  -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="tab_search">
+                                            <label>
+                                                <select name="itemSelect" v-model="selected" class="searchSel">
+                                                    <option v-if="index!=3" v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
+                                                </select>
+                                                <template v-if="selected==2">
+                                                    <select name="itemSelect" v-model="roleSearch" class="searchSel">
+                                                        <option v-for="(option, index) in roleOptions" :value='index'>{{option}}</option>
+                                                    </select>
+                                                </template>
+                                                <template v-else>
+                                                    <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                </template>
+                                                <button class="btn btn-default searchBtn" v-on:click="searchFor()"><i class="glyphicon glyphicon-search"></i></button>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 表格 -->
+                                <div id="role">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[0]}}</th>
+                                                <th class="task_check_tb_th" style="width:20%">{{placeholder[1]}}</th>
+                                                <th class="task_check_tb_th" style="width:40%">{{placeholder[2]}}</th>
+                                                <th class="task_check_tb_th" style="width:30%">{{placeholder[3]}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <template v-for="(item,index) in data">
+                                                <tr id="showItems">
+                                                    <td class="task_check_tb_td">  
+                                                        {{item.User_id}}  
+                                                    </td>
+                                                    <td class="task_check_tb_td">  
+                                                        {{item.User_name}}
+                                                    </td>
+                                                    <td class="task_check_tb_td">  
+                                                        <select v-model="roleChoice">
+                                                            <option :value="item.Role_id" selected>{{roleOptions[item.Role_id]}}</option>
+                                                            <option :value="index" v-for="(option, index) in roleOptions" v-if="index!=item.Role_id">{{option}}</option>
+                                                        </select>
+                                                    </td>
+                                                    <td class="task_check_tb_td">  
+                                                        <a href="javascript:;">修改</a>
+                                                        <a href="javascript:;">删除</a>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- 页码 -->
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <ul class="pagination" id="pagination6">
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!--log-->
@@ -375,19 +396,22 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">日志</h3>
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body" id="logVue">
                                 <!--搜索框  -->
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="tab_search">
                                             <label>
-                                                <select class="searchSel">
-                                                    <option value="0" selected>日志ID</option>
-                                                    <option value="1">表名</option>
-                                                    <option value="2">处理时间</option>
+                                                <select name="itemSelect" v-model="selected" class="searchSel">
+                                                    <option v-for="(option, index) in placeholder" :value='index' v-show="index != 5">{{option}}</option>
                                                 </select>
-                                                <input type="text" placeholder="按日志ID搜索" class="searchIn">
-                                                <button class="btn btn-default searchBtn"><i class="glyphicon glyphicon-search"></i></button>
+                                                <template v-if="selected==4">
+                                                    <input type="date" v-model="key" class="searchIn">
+                                                </template>
+                                                <template v-else>
+                                                    <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                </template>
+                                                <button class="btn btn-default searchBtn" v-on:click="searchFor()"><i class="glyphicon glyphicon-search"></i></button>
                                             </label>
                                         </div>
                                     </div>
@@ -397,13 +421,12 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th class="task_check_tb_th" style="width:10%">日志ID</th>
-                                                <th class="task_check_tb_th" style="width:20%">method</th>
-                                                <th class="task_check_tb_th" style="width:25%">操作描述</th>
-                                                <th class="task_check_tb_th" style="width:20%">操作时间</th>
-                                                <th class="task_check_tb_th" style="width:15%">IP地址</th>
-                                                <th class="task_check_tb_th" style="width:10%">用户ID</th>
-                                                <!-- <th class="task_check_tb_th" style="width:10%">用户名</th> -->
+                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[0]}}</th>
+                                                <th class="task_check_tb_th" style="width:25%">{{placeholder[1]}}</th>
+                                                <th class="task_check_tb_th" style="width:25%">{{placeholder[2]}}</th>
+                                                <th class="task_check_tb_th" style="width:15%">{{placeholder[3]}}</th>
+                                                <th class="task_check_tb_th" style="width:15%">{{placeholder[4]}}</th>
+                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[5]}}</th>
                                             </tr>
                                         </thead>
                                         <tbody><!-- 这里是数据库查询结果 -->
@@ -425,31 +448,31 @@
                             <ul class="sidebar">
                                 <li><h3 class="sidebar-widget-heading">待处理项目</h3></li>
                                 <li>
-                                    <a href="#" class="categories-link">消息一balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息一balabalbalbalba</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="categories-link">消息二balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息二balabalbalbalba</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="categories-link">消息三balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息三balabalbalbalba</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="categories-link">消息四balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息四balabalbalbalba</a>
                                 </li>
                             </ul>
                             <ul  class="sidebar">
                                 <li><h3 class="sidebar-widget-heading">未完成项目</h3></li>
                                 <li>
-                                    <a href="#" class="categories-link">消息一balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息一balabalbalbalba</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="categories-link">消息二balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息二balabalbalbalba</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="categories-link">消息三balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息三balabalbalbalba</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="categories-link">消息四balabalbalbalba</a>
+                                    <a href="javascript:;" class="categories-link">消息四balabalbalbalba</a>
                                 </li>
                             </ul>
                         </div>
@@ -462,6 +485,7 @@
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
     <script src="js/jq-paginator.min.js"></script>
     <script src="js/vue.js"></script>
     <script src="js/jquery.validate.js"></script>

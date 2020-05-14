@@ -36,12 +36,14 @@ public class ShrioConfig {
         filterMap.put("/login_tags.html","anon");
         filterMap.put("/user/*","anon");
         filterMap.put("/faq/selectAllFAQ","authc");
+        filterMap.put("/worker/*","authc");
         filterMap.put("/faq/addFAQ","roles[admin]");
         filterMap.put("/faq/addFAQ","roles[worker]");
         filterMap.put("/admin.html","roles[admin]");
         filterMap.put("/adminLoing/*","roles[admin]");
         filterMap.put("/maintainer_homepage_login.html","roles[worker]");
-        filterMap.put("/worker/*","roles[worker]");
+
+
         filterMap.put("/user_homepage_login.html","roles[user]");
         filterMap.put("/question/*","roles[user]");
         bean.setFilterChainDefinitionMap(filterMap);

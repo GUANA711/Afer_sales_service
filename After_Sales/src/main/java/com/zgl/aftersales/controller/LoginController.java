@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -259,13 +260,23 @@ public class LoginController {
     /**
      * 注销
      * @param json
-     * @param req
+     * @param resp
      */
     @PostMapping("/logout")
-    public void logout(@RequestBody JSONObject json, HttpServletRequest req) {
-        int User_id = (int) req.getSession(true).getAttribute("userID");
+    public int logout(@RequestBody JSONObject json, HttpServletResponse resp) throws IOException {
+        Subject subject = SecurityUtils.getSubject();
+        try {
+            if (subject.isAuthenticated()) {
+                subject.logout();
+                resp.sendRedirect("#");
+                return 1;//注销成功
+            }
+            return 0;
+        } catch (IOException e) {
+            return 0;//注销失败
+        }
 
-        req.removeAttribute("userID");
+
     }
 
 

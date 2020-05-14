@@ -55,8 +55,7 @@ public class WorkerController {
         map.put("Tel",workerService.worker_selectBy_Session_UserId(User_id).getTel());
         map.put("Email",workerService.worker_selectBy_Session_UserId(User_id).getEmail());
         map.put("Task_num",workerService.worker_selectBy_Session_UserId(User_id).getTask_num());
-        map.put("Role_id",workerService.worker_selectBy_Session_UserId(User_id).getRole_id());
-        map.put("Item_id",workerService.worker_selectBy_Session_UserId(User_id).getItem_id());
+
 
         return map;
     }

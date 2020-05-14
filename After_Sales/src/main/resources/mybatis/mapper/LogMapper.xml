@@ -18,7 +18,7 @@
         <result column="count"/>
     </resultMap>
     <select id="showLog" parameterType="map" resultMap="data,count3">
-         select SQL_CALC_FOUND_ROWS * from log limit #{currIndex},#{pageSize};
+         select SQL_CALC_FOUND_ROWS * from log order by Creat_time desc limit #{currIndex},#{pageSize};
          select FOUND_ROWS() as count;
     </select>
 
@@ -41,6 +41,7 @@
                 Creat_time like CONCAT(CONCAT('%', #{Creat_time}), '%')
             </if>
         </where>
+        order by Creat_time desc
         limit #{currIndex},#{pageSize};
         select FOUND_ROWS() as count;
     </select>
