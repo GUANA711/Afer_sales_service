@@ -350,7 +350,7 @@ public class AdminLoginController {
         String user_id_string=json.getString("userID");
         String role_id_string=json.getString("roleID");
         int userID=Integer.parseInt(user_id_string);
-        int roleID=Integer.parseInt(role_id_string);
+        int roleID=Integer.parseInt(role_id_string)+1;
         Status status=new Status();
         Map<String,Object> map=new HashMap<>();
         map.put("User_id",userID);
@@ -369,7 +369,7 @@ public class AdminLoginController {
     }
 
     /**
-     * 权限分配--添加权限
+     * 权限分配--删除权限
      * @param json
      * @return
      */
@@ -379,7 +379,7 @@ public class AdminLoginController {
         String user_id_string=json.getString("userID");
         String role_id_string=json.getString("roleID");
         int userID=Integer.parseInt(user_id_string);
-        int roleID=Integer.parseInt(role_id_string);
+        int roleID=Integer.parseInt(role_id_string)+1;
         Status status=new Status();
         Map<String,Object> map=new HashMap<>();
         map.put("User_id",userID);

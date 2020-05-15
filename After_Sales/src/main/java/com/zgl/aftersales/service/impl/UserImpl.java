@@ -37,6 +37,11 @@ public class  UserImpl implements UserService {
     }
 
     @Override
+    public int isLeader(int userID) {
+        return userMapper.isLeader(userID);
+    }
+
+    @Override
     public void deleteRolID(Map<String, Object> map) {
        userMapper.deleteRolID(map);
     }

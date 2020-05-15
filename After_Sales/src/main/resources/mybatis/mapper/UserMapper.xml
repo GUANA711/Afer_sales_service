@@ -67,4 +67,7 @@
     <delete id="deleteRolID" parameterType="map">
         delete from role_user where User_id=#{User_id} and Role_id=#{Role_id}
     </delete>
+    <select id="isLeader" parameterType="int" resultType="int">
+        select count(*) from itme_worker i where i.User_id=#{id}
+    </select>
 </mapper>
