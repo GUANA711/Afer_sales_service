@@ -1,12 +1,6 @@
-.row mm{
-    height: 100%;
-    margin: 0;
+.body{
     padding: 0;
-}
-.index_title{
-    font-size: 16px;
-    font-weight: bolder;
-    color: #B5C3D4;
+    height: 100%;
 }
 li{
     list-style: none;
@@ -15,10 +9,6 @@ li{
 .left_frame{
     z-index: 9999;
     margin: 0px;
-}
-.nav-pills{
-    background-color: #232f3a;
-    color: #fff;
 }
 .ma_top{
     height:20vh;
@@ -61,24 +51,136 @@ li{
     margin-right: 10px;
     margin-left: 20px;
 }
+/*顶部导航栏部分样式*/
+.navbar {
+    display: flex;
+    /*从右边开始布局*/
+    flex-direction: row;
+    flex: 2;
+    flex-basis: auto;
+    box-sizing: border-box;
+    min-width: 0;
+    padding: 0;
+    border-radius: 0 !important;
+    background-color: #373d41;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    margin-bottom: 0px !important;
+}
 .right_info{
-    vertical-align:middle;
-    font-weight: bolder;
-    text-align: center;
-    margin-top: 15px;
+    width: 140px;
+}
+.right_info_right{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-items: center;
+    justify-content: flex-end;
+
 }
 .right_info_heading{
-    font-weight: bolder;
-    text-align: center;
-    margin-top: 15px;
-    color: rgb(131, 130, 130);
+    margin-left: 20px;
+    color: #FFFFFF;
+    font: 20px "Microsoft YaHei UI";
 }
+.info{
+    color: #FFFFFF !important;
+    font: 16px Arial !important;
+}
+/*左侧菜单栏css样式*/
+/*最外层,使用绝对布局，让菜单栏撑满整个浏览器高度*/
+.aside{
+    position: absolute;
+    padding: 0;
+    display: block;
+    width: 200px;
+    background-color: #333744;
+    overflow: auto;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    min-height: 100%;
+    height: auto;
+}
+/*bootstrap组件样式*/
+/*左侧菜单宽度为200Px*/
+.nav-pills{
+    background-color: #333744;
+    padding:  0 ;
+    width: 200px;
+}
+/*让nav整体与导航栏有间距*/
+.nav_aside{
+    margin-top: 80px;
+}
+/*当鼠标停顿到选项时的变化*/
+.nav > li > a:hover {
+    text-decoration: none;
+    background-color: transparent!important;
+}
+/*当获取焦点时字体变蓝*/
+.nav > li > a:focus{
+    background-color: transparent!important;
+    color: #409EFF!important;
+}
+/*菜单信息字体样式*/
+.nav-pills > li > a {
+    border-radius: 0!important;
+    color: #FFFFFF;
+    font: 16px "Microsoft YaHei UI";
+}
+/*右侧面板样式*/
+/*整体样式*/
+.data_panel{
+    position: absolute;
+    padding: 0;
+    display: block;
+    margin-left: 200px;
+    overflow: auto;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    min-height: 100%;
+    height: auto;
+}
+/*默认页面*/
+.alert-info{
+    font: 20px "Microsoft YaHei UI";
+
+}
+/*面包屑导航*/
+.breadcrumb{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 60px;
+    background-color: transparent!important;
+    color:#606266;
+    font: 16px "Microsoft YaHei UI";
+}
+/*个人信息面板样式*/
+.pa_all{
+    margin-left: 60px;
+    width: 1200px;
+}
+.list-group-item{
+    display: flex;
+    /*从右边开始布局*/
+    flex-direction: row;
+    flex: 1;
+    flex-basis: auto;
+    box-sizing: border-box;
+    justify-content: space-between;
+    align-items: center;
+}
+input{
+    width: 60%;
+    border:1px solid #ddd;
+    height: 40px;
+}
+
 .info{
     color: rgb(131, 130, 130);
 }
-.pa_all{
-    margin-top: 20px;
-}
+
 .sidebar{
     background-color:#fff;
     margin: 0px 0px 24px;
@@ -96,9 +198,6 @@ li{
 }
 .bott{
     margin:0px;
-}
-.navbar-static-top{
-    margin: 0px;
 }
 .mm{
     background-color:#f3f6fa ;
