@@ -6,6 +6,8 @@ li{list-style: none;}
     font-weight: bolder;
     color: #B5C3D4;
 }
+/*顶部导航栏部分样式*/
+
 /* .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
     color: #fff;
     background-color: #337ab7;
@@ -48,7 +50,7 @@ li{list-style: none;}
     /* color: #B5C3D4; */
     padding: 5px 20px;
     font-size: 17px;
-    height: 70px;
+    height: 10px;
 }
 .logoImg > img{
     margin-right: 10px;
@@ -80,18 +82,7 @@ li{list-style: none;}
     margin-right: 10px;
     margin-left: 20px;
 }
-.right_info{
-    vertical-align:middle;
-    font-weight: bolder;
-    text-align: center;
-    margin-top: 15px;
-}
-.right_info_heading{
-    font-weight: bolder;
-    text-align: center;
-    margin-top: 15px;
-    color: rgb(131, 130, 130);
-}
+
 .info{
     color: rgb(131, 130, 130);
 }
@@ -199,5 +190,93 @@ input{
 .task_check_tb_td{
     height:30px;
 }
+/*bootstrap组件样式*/
+/*左侧菜单宽度为200Px*/
+.nav-pills{
+    background-color: #333744;
+    padding:  0 ;
+    width: 200px;
+}
+/*让nav整体与导航栏有间距*/
+.nav_aside{
+    margin-top: 80px;
+}
+/*当鼠标停顿到选项时的变化*/
+.nav > li > a:hover {
+    text-decoration: none;
+    background-color: transparent!important;
+}
+/*当获取焦点时字体变蓝*/
+.nav > li > a:focus{
+    background-color: transparent!important;
+    color: #409EFF!important;
+}
+/*菜单信息字体样式*/
+.nav-pills > li > a {
+    border-radius: 0!important;
+    color: #FFFFFF;
+    font: 16px "Microsoft YaHei UI";
+}
+/*右侧面板样式*/
+/*整体样式*/
+.data_panel{
+    position: absolute;
+    padding: 0;
+    display: block;
+    margin-left: 200px;
+    overflow: auto;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    min-height: 100%;
+    height: auto;
+    width: 100%;
+}
+.find_panel{
+    width: 100%;
+}
+.right_info{
+    width: 140px;
+}
+.right_info_right{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-items: center;
+    justify-content: flex-end;
 
-
+}
+.right_info_heading{
+    margin-left: 20px;
+    color: #FFFFFF;
+    font: 20px "Microsoft YaHei UI";
+}
+.navbar {
+    display: flex;
+    /*从右边开始布局*/
+    flex-direction: row;
+    flex: 2;
+    flex-basis: auto;
+    box-sizing: border-box;
+    min-width: 0;
+    padding: 0;
+    border-radius: 0 !important;
+    background-color: #373d41;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    margin-bottom: 0px !important;
+}
+/*左侧菜单栏css样式*/
+/*最外层,使用绝对布局，让菜单栏撑满整个浏览器高度*/
+.aside{
+    position: absolute;
+    padding: 0;
+    display: block;
+    width: 200px;
+    background-color: #333744;
+    overflow: auto;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    min-height: 100%;
+    height: auto;
+}
