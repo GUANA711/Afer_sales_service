@@ -121,7 +121,7 @@ li.bt_list button {
     margin-right: 30px;
 }
 /* 项目表格 */
-#items,#questions,#maintenance,#faq,#log{
+#items,#questions,#maintenance,#faq,#log,#role{
     display: flex;
     justify-content: center;
 }
@@ -181,9 +181,6 @@ table tr,td,th{
     padding-left: 5px;
     cursor: default;
 }
-table tr:hover td{
-    background-color: cornflowerblue;
-}
 table th{
     font-size: 16px;
     background-color: #364a5f;
@@ -195,19 +192,31 @@ table tbody td:hover{       /* 超出内容显示 */
     white-space: normal;
     cursor: hand;
 }
-table tbody tr:nth-child(even) td,table tbody tr:nth-child(even) th {
+table tbody tr:nth-child(even){
     background-color:#FFFFFF;
 }
 
-table tbody tr:nth-child(odd) td,table tbody tr:nth-child(odd) th {
+table tbody tr:nth-child(odd){
     background-color:#f9f9f9;
 }
+table tbody tr:hover td{background-color:none;}
+table tbody tr:hover{color:#fff;background-color:rgb(51, 122, 183);} 
+table tbody tr:hover a{color:#fff;}
+table tbody tr:hover .searchSel{color: rgb(0, 0, 0);}
 /* 任务指派按钮 */
 .assign_btn{
     padding-right: 100px;
 }
 .assign_btn button:last-child {
     margin-left: 100px;
+}
+/* roles */
+.roles{
+    width: 200px;
+    height: 29px;
+}
+.role_btn{
+    padding-left: 10px;
 }
 .pagination{
     display:flex;
