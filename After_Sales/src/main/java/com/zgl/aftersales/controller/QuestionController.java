@@ -2,6 +2,7 @@ package com.zgl.aftersales.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zgl.aftersales.dao.MyLog;
+import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.QuestionService;
@@ -16,6 +17,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController   //控制器注解
@@ -100,5 +102,12 @@ public class QuestionController {
         return db.checkPostMan(Integer.parseInt(req.getSession(false).getAttribute("userID").toString()));
     }
 
+    /**
+     * 获取item名称
+     */
+    @GetMapping("/checkItemname")
+    public List<Items> checkItemname(){
+        return db.checkItemname();
+    }
 
 }

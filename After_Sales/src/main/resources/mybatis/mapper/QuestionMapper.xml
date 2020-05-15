@@ -11,14 +11,10 @@
         SELECT * FROM users
     </select>
 
-<!--参数-->
+<!--jqw-->
     <insert id="addQuestion" parameterType="com.zgl.aftersales.pojo.Question">
              INSERT INTO questions(item_id,Question_type,Question_status,Question_detail,User_id,Commit_time) VALUES(#{ item_id },#{ Question_type },#{ Question_status },#{ Question_detail },#{ User_id},#{ Commit_time })
     </insert>
-
-    <select id="checkQuestion" parameterType="int" resultType="com.zgl.aftersales.pojo.Question">
-             SELECT * FROM questions WHERE Question_id = #{ Question_id }
-    </select>
 
     <select id="checkQuestionsubmited" parameterType="int" resultType="com.zgl.aftersales.pojo.Question">
              SELECT * FROM questions WHERE User_id = #{ User_id } and Question_status = "unaccepted"
@@ -34,6 +30,10 @@
 
     <select id="checkPostMan" parameterType="int" resultType="com.zgl.aftersales.pojo.Users">
              SELECT * FROM users WHERE User_id = #{ User_id }
+    </select>
+
+    <select id="checkItemname" resultType="com.zgl.aftersales.pojo.Items">
+             SELECT * FROM items
     </select>
 
 <!--    zgl-->
