@@ -32,6 +32,16 @@ public class  UserImpl implements UserService {
 
 
     @Override
+    public void insertRoleID(Map<String, Object> map) {
+        userMapper.insertRoleID(map);
+    }
+
+    @Override
+    public void deleteRolID(Map<String, Object> map) {
+       userMapper.deleteRolID(map);
+    }
+
+    @Override
     public void addUser(Users user) {
 
         String codePwd=DesDecodeUtiles.getEncryptString(user.getPassword());

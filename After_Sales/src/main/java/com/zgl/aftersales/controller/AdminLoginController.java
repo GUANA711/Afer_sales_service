@@ -257,7 +257,7 @@ public class AdminLoginController {
             map.put("User_name", key);
         }
         if (choice.equals("2")) {
-            map.put("Role_name", key);
+            map.put("Role_id", key);
         }
         List<List<?>> lists=userService.searchUser(map);
         return lists;
@@ -340,20 +340,53 @@ public class AdminLoginController {
     }
 
     /**
-     * 权限分配
+     * 权限分配--添加权限
      * @param json
      * @return
      */
-    @MyLog("修改users表中的权限id")
-    public Status roleEdit(@RequestBody JSONObject json){
+    @MyLog("动态分配权限--添加")
+    @PostMapping("/addrole")
+    public Status roleadd(@RequestBody JSONObject json){
         String user_id_string=json.getString("userID");
         String role_id_string=json.getString("roleID");
         int userID=Integer.parseInt(user_id_string);
         int roleID=Integer.parseInt(role_id_string);
         Status status=new Status();
+        Map<String,Object> map=new HashMap<>();
+        map.put("User_id",userID);
+        map.put("Role_id",roleID);
 
         try {
+            userService.insertRoleID(map);
+            status.setMsg("权限修改成功");
+            status.setStatus(true);
+            return  status;
+        }catch (Exception e){
+            status.setMsg("权限修改失败,该用户已拥有此角色");
+            e.printStackTrace();
+            return  status;
+        }
+    }
 
+    /**
+     * 权限分配--添加权限
+     * @param json
+     * @return
+     */
+    @MyLog("动态分配权限--删除")
+    @PostMapping("/deleterole")
+    public Status roledelete(@RequestBody JSONObject json){
+        String user_id_string=json.getString("userID");
+        String role_id_string=json.getString("roleID");
+        int userID=Integer.parseInt(user_id_string);
+        int roleID=Integer.parseInt(role_id_string);
+        Status status=new Status();
+        Map<String,Object> map=new HashMap<>();
+        map.put("User_id",userID);
+        map.put("Role_id",roleID);
+
+        try {
+            userService.deleteRolID(map);
             status.setMsg("权限修改成功");
             status.setStatus(true);
             return  status;

@@ -88,7 +88,7 @@
         select Question_id from questions
     </select>
     <select id="selectWorkerByQuesID" parameterType="String" resultType="String">
-       select distinct User_name from users s,questions t where s.Item_id=t.Item_id and t.Question_id=#{id} and s.Task_num &lt; 10
+        select distinct User_name from users u,questions q,itme_worker i where u.User_id=i.User_id and q.Item_id=i.Item_id and q.Question_id=#{id} and u.Task_num &lt; 10
     </select>
     <update id="updateStatus" parameterType="String">
         update questions set Question_status='accepted' where Question_id=#{questionID}

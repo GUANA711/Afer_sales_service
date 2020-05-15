@@ -24,9 +24,8 @@ public interface UserMapper {
 
     //shiro
     List<String> showRolesByUserID(int userID);
-    List<String> showPermitByUserID(int userID);
-    void insertRoleID(int userID);
-    void deleteRolID(int userID);
+    void insertRoleID(Map<String,Object> map);
+    void deleteRolID(Map<String,Object> map);
 
     List<List<?>> showUser(Map<String,Object> map);
     List<List<?>> searchUser(Map<String,Object> map);
