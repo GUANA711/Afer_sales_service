@@ -144,9 +144,8 @@ table input{
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     height: 30px;
-    padding: 2px 5px;
-    font-size: 15px;
-    line-height: 1.5;
+    padding: 2px;
+    font-size: 14px;
     border-radius: 3px;
 }
 .searchIn{
@@ -193,6 +192,13 @@ table tbody tr:nth-child(even) td,table tbody tr:nth-child(even) th {
 
 table tbody tr:nth-child(odd) td,table tbody tr:nth-child(odd) th {
     background-color:#f9f9f9;
+}
+/* 任务指派按钮 */
+.assign_btn{
+    padding-right: 100px;
+}
+.assign_btn button:last-child {
+    margin-left: 100px;
 }
 .pagination{
     display:flex;

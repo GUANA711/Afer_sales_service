@@ -1,5 +1,5 @@
+ /* jshint esversion: 6 */
 $(document).ready(function(){
-    // 加载个人页面信息
     $.ajax({
         type:'GET',
         data:'',
@@ -17,222 +17,13 @@ $(document).ready(function(){
             alert("连接超时，请重试！");
         }
     });
-    // 分页
-    var pageSize =8;
-    $(function() {
-        itemsRequest(1,true);
-        questionRequest(1,true);
-        maintenanceRequest(1,true);
-        faqRequest(1,true);
-        logRequest(1,true);
-    });
-    function itemsRequest(currPage,isFirst) {
-        $.ajax({
-            type:'post',
-            dataType: "json",
-            url:'/adminLoing/showItems/'+currPage+'/'+pageSize,
-            success:function(data){
-                $("#items table tbody").html('');
-                for(var i=0;i<data[0].length;i++){
-                    var item=data[0][i];
-                    var insert = '<tr id="showItems">'+
-                                 '<td class="task_check_tb_td">' + 
-                                 item.item_id + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.item_name + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.user_id + 
-                                 '</td></tr>';
-                    $("#items table tbody").append(insert);
-                }
-                if (isFirst) {
-                    $('#pagination1').jqPaginator({ 
-                        totalPages: Math.ceil(data[1]/pageSize),
-                        visiblePages: 6,
-                        currentPage: 1,
-                        first: '<li><a href="javascript:void(0);">首页</a></li>',
-                        prev: '<li><a href="javascript:void(0);">上一页</a></li>',
-                        next: '<li><a href="javascript:void(0);">下一页</a></li>',
-                        last: '<li><a href="javascript:void(0);">末页</a></li>',
-                        page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
-                        onPageChange: function (num, type) {
-                            itemsRequest(num,false);
-                        }
-                    });
-                }
-            },
-            error:function(){alert("请求超时，请重试！");}
-        });
-    }
-    function questionRequest(currPage,isFirst) {
-        $.ajax({
-            type:'post',
-            dataType: "json",
-            url:'/adminLoing/showquestion/'+currPage+'/'+pageSize,
-            success:function(data){
-                $("#questions table tbody").html('');
-                for(var i=0;i<data[0].length;i++){
-                    var item=data[0][i];
-                    var insert = '<tr id="showItems">'+
-                                 '<td class="task_check_tb_td">' + 
-                                 item.question_id + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.item_id + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.question_type + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.question_status + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.question_detail + 
-                                 '</td><td class="task_check_tb_td">'+
-                                 item.user_id + 
-                                 '</td></tr>';
-                    $("#questions table tbody").append(insert);
-                }
-                if (isFirst) {
-                    $('#pagination2').jqPaginator({ 
-                        totalPages: Math.ceil(data[1]/pageSize),
-                        visiblePages: 6,
-                        currentPage: 1,
-                        first: '<li><a href="javascript:void(0);">首页</a></li>',
-                        prev: '<li><a href="javascript:void(0);">上一页</a></li>',
-                        next: '<li><a href="javascript:void(0);">下一页</a></li>',
-                        last: '<li><a href="javascript:void(0);">末页</a></li>',
-                        page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
-                        onPageChange: function (num, type) {
-                            questionRequest(num,false);
-                        }
-                    });
-                }
-            },
-            error:function(){alert("请求超时，请重试！");}
-        });
-    }
-    function maintenanceRequest(currPage,isFirst) {
-        $.ajax({
-            type:'post',
-            dataType: "json",
-            url:'/adminLoing/showMaintenance/'+currPage+'/'+pageSize,
-            success:function(data){
-                $("#maintenance table tbody").html('');
-                for(var i=0;i<data[0].length;i++){
-                    var item=data[0][i];
-                    var insert = '<tr id="showItems">'+
-                                 '<td class="task_check_tb_td">' + 
-                                 item.question_id + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.user_id + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.start_time + 
-                                 '</td></tr>';
-                    $("#maintenance table tbody").append(insert);
-                }
-                if (isFirst) {
-                    $('#pagination3').jqPaginator({ 
-                        totalPages: Math.ceil(data[1]/pageSize),
-                        visiblePages: 6,
-                        currentPage: 1,
-                        first: '<li><a href="javascript:void(0);">首页</a></li>',
-                        prev: '<li><a href="javascript:void(0);">上一页</a></li>',
-                        next: '<li><a href="javascript:void(0);">下一页</a></li>',
-                        last: '<li><a href="javascript:void(0);">末页</a></li>',
-                        page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
-                        onPageChange: function (num, type) {
-                            maintenanceRequest(num,false);
-                        }
-                    });
-                }
-            },
-            error:function(){alert("请求超时，请重试！");}
-        });
-    }
-    function faqRequest(currPage,isFirst) {
-        $.ajax({
-            type:'post',
-            dataType: "json",
-            url:'/adminLoing/showfaq/'+currPage+'/'+pageSize,
-            success:function(data){
-                $("#faq table tbody").html('');
-                for(var i=0;i<data[0].length;i++){
-                    var item=data[0][i];
-                    var insert = '<tr id="showItems">'+
-                                 '<td class="task_check_tb_td">' + 
-                                 item.faq_id + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.faq_question + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.faq_answer + 
-                                 '</td>s</tr>';
-                    $("#faq table tbody").append(insert);
-                }
-                if (isFirst) {
-                    $('#pagination4').jqPaginator({ 
-                        totalPages: Math.ceil(data[1]/pageSize),
-                        visiblePages: 6,
-                        currentPage: 1,
-                        first: '<li><a href="javascript:void(0);">首页</a></li>',
-                        prev: '<li><a href="javascript:void(0);">上一页</a></li>',
-                        next: '<li><a href="javascript:void(0);">下一页</a></li>',
-                        last: '<li><a href="javascript:void(0);">末页</a></li>',
-                        page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
-                        onPageChange: function (num, type) {
-                            faqRequest(num,false);
-                        }
-                    });
-                }
-            },
-            error:function(){alert("请求超时，请重试！");}
-        });
-    }
-    function logRequest(currPage,isFirst) {
-        $.ajax({
-            type:'post',
-            dataType: "json",
-            url:'/adminLoing/showLog/'+currPage+'/'+pageSize,
-            success:function(data){
-                $("#log table tbody").html('');
-                for(var i=0;i<data[0].length;i++){
-                    var item=data[0][i];
-                    var str = item.method;
-                    var method = str;
-                    if (str != null) {
-                        method = str.split('.')[5];
-                    }
-                    var insert = '<tr id="showItems">'+
-                                    '<td class="task_check_tb_td">' + 
-                                    item.user_id + 
-                                    '</td><td class="task_check_tb_td">' + 
-                                    item.operation + 
-                                    '</td><td class="task_check_tb_td">' + 
-                                    method + 
-                                    '</td><td class="task_check_tb_td">' + 
-                                    item.ip + 
-                                    '</td><td class="task_check_tb_td">' + 
-                                    item.creat_time + 
-                                    '</td><td class="task_check_tb_td">' + 
-                                    item.log_id + 
-                                    '</td></tr>';
-                    $("#log table tbody").append(insert);
-                }
-                if (isFirst) {
-                    $('#pagination5').jqPaginator({ 
-                        totalPages: Math.ceil(data[1]/pageSize),
-                        visiblePages: 6,
-                        currentPage: 1,
-                        first: '<li><a href="javascript:void(0);">首页</a></li>',
-                        prev: '<li><a href="javascript:void(0);">上一页</a></li>',
-                        next: '<li><a href="javascript:void(0);">下一页</a></li>',
-                        last: '<li><a href="javascript:void(0);">末页</a></li>',
-                        page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
-                        onPageChange: function (num, type) {
-                            logRequest(num,false);
-                        }
-                    });
-                }
-            },
-            error:function(){alert("请求超时，请重试！");}
-        });
-    }
+    items.searchFor();
+    questions.searchFor();
+    maintenances.searchFor();
+    faqs.searchFor();
+    roles.searchFor();
+    logs.searchFor();
+    selects.firstOptions();
 });
 $(window).ajaxStart(function () {
     NProgress.start();
@@ -247,13 +38,9 @@ var items = new Vue({
         key:"",
         placeholder:["项目ID","项目名","负责人"],
         page: {
-            //页内条目数
             pageSize: 8,
-            //当前页
             pageNum: 1,
-            //记录总数
             length:1,
-            //总页数
             totalPage: 0
         },
         data:''
@@ -279,7 +66,7 @@ var items = new Vue({
             }
             $('#pagination1').jqPaginator({ 
                 totalPages: totalPage,
-                visiblePages: pageSize,
+                visiblePages: 6,
                 currentPage: currentPage,
                 first: '<li><a href="javascript:void(0);">首页</a></li>',
                 prev: '<li><a href="javascript:void(0);">上一页</a></li>',
@@ -361,7 +148,7 @@ var questions = new Vue({
             }
             $('#pagination2').jqPaginator({ 
                 totalPages: totalPage,
-                visiblePages: pageSize,
+                visiblePages: 6,
                 currentPage: currentPage,
                 first: '<li><a href="javascript:void(0);">首页</a></li>',
                 prev: '<li><a href="javascript:void(0);">上一页</a></li>',
@@ -437,7 +224,7 @@ var maintenances = new Vue({
             }
             $('#pagination3').jqPaginator({ 
                 totalPages: totalPage,
-                visiblePages: pageSize,
+                visiblePages: 6,
                 currentPage: currentPage,
                 first: '<li><a href="javascript:void(0);">首页</a></li>',
                 prev: '<li><a href="javascript:void(0);">上一页</a></li>',
@@ -513,7 +300,7 @@ var faqs = new Vue({
             }
             $('#pagination4').jqPaginator({ 
                 totalPages: totalPage,        //页码整数
-                visiblePages: pageSize,
+                visiblePages: 6,
                 currentPage: currentPage,
                 first: '<li><a href="javascript:void(0);">首页</a></li>',
                 prev: '<li><a href="javascript:void(0);">上一页</a></li>',
@@ -543,8 +330,9 @@ var faqs = new Vue({
                 faqs.calPage();
                 faqs.init_page(faqs.page.totalPage,faqs.page.pageSize ,faqs.page.pageNum);    
             })
-            .catch(function (error) { // 请求失败处理
-                alert(error);
+            .catch(function (error) {
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
             });
         }
     }
@@ -552,32 +340,135 @@ var faqs = new Vue({
 var selects = new Vue({
     el:'#selectVue',
     data: {
-        firstSelected: 0,
+        firstSelected:0,
         secondSelected:0,
-        firstKey:"",
-        secondKey:"",
-        // placeholder:["","问题","问题解答"],
-        firstReturn:''
+        firstContain:'',
+        secondContain:'',
+        final:''
     },
     methods:{
-        forSecond:function(){
+        firstOptions:function(){
             axios
-            .post('/adminLoing/droplistID', {
+            .post('/adminLoing/droplistID')
+            .then(response => (selects.firstContain = response.data))
+            .catch(function (error) {
+                alert(error);
+            });
+        },
+        secondOptions:function(){
+            axios
+            .post('/adminLoing/wokername',{
+                "key":selects.firstSelected
+            })
+            .then(response => (selects.secondContain = response.data))
+            .catch(function (error) {
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
+            });
+        },
+        cancel:function(){
+            selects.firstSelected=0;
+            selects.secondSelected=0;
+        },
+        assign:function(){
+            axios
+            .post('/adminLoing/wokername',{
+                "questionID":selects.firstSelected,
+                "workerName":selects.secondSelected
+            })
+            .then(function(response){
+                selects.final = response.data;
+                if (selects.final.status) {
+                    $('#successModal .modal-body').text("任务指派成功"); 
+                    $("#successModal").modal();
+                }
+            })
+            .catch(function (error) { // 请求失败处理
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
+            });
+
+        }
+    }
+
+});
+var roles = new Vue({
+    el:'#roleControl',
+    data: {
+        selected: 0,
+        roleSearch:0,
+        roleChoice:0,
+        key:"",
+        roleOptions:["管理员","维护人员","普通用户","负责人"],
+        placeholder:["用户ID","用户名","角色","角色分配"],
+        page: {
+            pageSize: 8,
+            pageNum: 1,
+            length:1,
+            totalPage: 0
+        },
+        data:''
+    },
+    methods:{
+        init_page: function (totalPage,pageSize,currentPage) {
+            $("#role table tbody").html('');            /* 清空tbody内容 */
+            if(totalPage == 0){
+                $("#role table tbody").append("没有查询到相关数据！");
+                return;
+            }
+            // for(var i=0;i<roles.data.length;i++){
+            //     var item=roles.data;
+            //     if (str != null) {
+            //         method = str.split('.')[5];
+            //     }
+                // var insert = '<tr id="showItems">'+
+                //             '<td class="task_check_tb_td">' + 
+                //             item.User_id + 
+                //             '</td><td class="task_check_tb_td">' + 
+                //             item.User_name + 
+                //             '</td><td class="task_check_tb_td">' + 
+                //             item.Role_name + 
+                //             '</td></tr>';
+            //     $("#role table tbody").append(insert);
+            // }
+            $('#pagination6').jqPaginator({ 
+                totalPages: totalPage,        //页码整数
+                visiblePages: 6,
+                currentPage: currentPage,
+                first: '<li><a href="javascript:void(0);">首页</a></li>',
+                prev: '<li><a href="javascript:void(0);">上一页</a></li>',
+                next: '<li><a href="javascript:void(0);">下一页</a></li>',
+                last: '<li><a href="javascript:void(0);">末页</a></li>',
+                page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
+                onPageChange: function (num, type) {
+                    if (type == 'change') {
+                        roles.page.pageNum= num;
+                        roles.searchFor();
+                    }
+                }
+            });
+        },
+        calPage:function(){
+            roles.page.totalPage =  Math.ceil(roles.page.length/roles.page.pageSize);
+        },
+        searchFor:function(){
+            axios
+            .post('/adminLoing/showuser/'+this.page.pageNum+'/'+this.page.pageSize, {
                 "key": this.key,        
                 "choice":this.selected    
             })
             .then(function (response) {
-                logs.data = response.data[0];
-                logs.page.length = response.data[1];
-                logs.calPage();
-                logs.init_page(logs.page.totalPage,logs.page.pageSize ,logs.page.pageNum);    
+                roles.data = response.data[0];
+                roles.page.length = response.data[1];
+                roles.calPage();
+                roles.init_page(roles.page.totalPage,roles.page.pageSize ,roles.page.pageNum);    
             })
             .catch(function (error) { // 请求失败处理
-                alert(error);
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
             });
         }
     }
-
 });
 var logs = new Vue({
     el:'#logVue',
@@ -629,7 +520,7 @@ var logs = new Vue({
             }
             $('#pagination5').jqPaginator({ 
                 totalPages: totalPage,        //页码整数
-                visiblePages: pageSize,
+                visiblePages: 6,
                 currentPage: currentPage,
                 first: '<li><a href="javascript:void(0);">首页</a></li>',
                 prev: '<li><a href="javascript:void(0);">上一页</a></li>',
@@ -660,7 +551,8 @@ var logs = new Vue({
                 logs.init_page(logs.page.totalPage,logs.page.pageSize ,logs.page.pageNum);    
             })
             .catch(function (error) { // 请求失败处理
-                alert(error);
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
             });
         }
     }

@@ -46,10 +46,8 @@ $(document).ready(function(){
                         alert("邮箱不正确！");
                 }else{
                         curCount = count;
-                        // $("#getCode").text("重新发送(60)");
                         InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
                         document.getElementById("getCode").style.fontSize = 12 + 'px';
-                        //向后台发送处理数据
                         var user = {
                             "mail":pwd_email
                         };
@@ -65,7 +63,6 @@ $(document).ready(function(){
                             url :'http://localhost:5050/user/mailSend',
 
                             success :function(data) {
-                                // console.dir(data.status);
                                 if (data.status) {      //登录成功
                                     alert("验证码发送成功，请注意查收！");
                                 } else {
@@ -76,7 +73,6 @@ $(document).ready(function(){
 
                             error: function (XMLHttpRequest, textStatus, errorThrown) {
                                 // 状态码
-                                // alert("test");
                                 console.log(XMLHttpRequest.status);
                                 // 状态
                                 console.log(XMLHttpRequest.readyState);
@@ -140,7 +136,6 @@ function login_check(){
                 "username":name,
                 "pwd":pwd
              };
-        // console.log(JSON.stringify(user));
         $.ajax({
 
                 type:'POST',
@@ -156,9 +151,7 @@ function login_check(){
                 url :'http://localhost:5050/user/login',
         
                 success :function(data) {
-                    // console.dir(data.status);
                     if (data.status) {      //登录成功
-                        // console.log(data.msg);
                         $(window).attr("location",data.data);       //网页重定向
                     } else {
                         alert(data.msg);

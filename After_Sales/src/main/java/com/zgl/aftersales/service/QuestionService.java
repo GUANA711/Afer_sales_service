@@ -1,5 +1,6 @@
 package com.zgl.aftersales.service;
 
+import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.Users;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,5 @@ public interface QuestionService {
 
     //int DeleteUser(int User_id);
     Users checkPostMan(int User_id);
-    int updateUser(List<Users> list);
+    List<Items> checkItemname();
 }

@@ -1,6 +1,7 @@
 package com.zgl.aftersales.dao;
 
 
+import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.Users;
 import org.apache.ibatis.annotations.Mapper;
@@ -39,13 +40,8 @@ public interface QuestionMapper {
 
     //int DeleteUser(int User_id);
     Users checkPostMan(int User_id);
-    int updateUser(List<Users> list);
-    //int updateUser(@Param("upassword") String upassword,@Param("uname") String uname);
+    List<Items> checkItemname();
 
-//    List<Question> batchSelect(List<String> list);//批量查询
-//    int batchInsert(List<Question> list);//批量插入
-//    int batchUpdate(List<Question> list);//批量更新
-//    int batchDelete(List<String> list);//批量删除
 
 }
 
