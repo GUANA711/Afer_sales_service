@@ -297,7 +297,6 @@ $(document).ready(function(){
                         $("#fin_panel").append("</ul>"+"</form>"+"</div>"+"</div>");
                     }
                 }
-
             },
             error: function (XMLHttpRequest) {
                 console.log(XMLHttpRequest.status);
