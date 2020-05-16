@@ -2,6 +2,7 @@ package com.zgl.aftersales.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zgl.aftersales.dao.MyLog;
+import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Maintenance;
 import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.WorkerStatus;
@@ -16,10 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 
@@ -261,7 +259,32 @@ public class WorkerController {
     }
 
     /**
-     *
+     *如果维修人员是负责人
+     *显示项目id，项目名字
      */
+    @RequestMapping(value = "/show_items",method = RequestMethod.GET)
+    public List<Items> show_items(HttpServletRequest req){
+
+        int User_id= (int) req.getSession(false).getAttribute("userID");
+        return workerService.show_items(User_id);
+    }
+    /**
+     * 修改
+     * 显示负责人其中一个选定项目所有的维修人员
+     * 一个人能负责很多项目，但是一个项目的负责人只有一个
+     */
+    @PostMapping("/show_item_workers")
+    public List<List<?>> show_item_workers(@RequestBody JSONObject json,HttpServletRequest req){
+
+        int User_id= (int) req.getSession(false).getAttribute("userID");
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        map.put("User_id",User_id);
+        map.put("Item_id",json.getString("Item_id"));
+
+        List<List<?>> item_workersList= Collections.singletonList(workerService.show_item_workers(map));
+        return item_workersList;
+    }
 
 }

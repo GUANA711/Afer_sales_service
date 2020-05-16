@@ -41,4 +41,12 @@
         select * from questions where User_id = #{User_id} and Question_status = 'done';
     </select>
 
+    <select id="show_items" parameterType="int" resultType="com.zgl.aftersales.pojo.Items">
+        select * from items where User_id = #{User_id};
+    </select>
+
+    <select id="show_item_workers" parameterType="map" resultType="int">
+        select q.User_id from items i,questions q where i.Item_id=q.Item_id and i.User_id=#{User_id} and i.Item_id=#{Item_id} group by q.User_id;
+    </select>
+
 </mapper>

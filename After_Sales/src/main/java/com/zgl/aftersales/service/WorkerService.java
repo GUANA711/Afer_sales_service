@@ -1,5 +1,6 @@
 package com.zgl.aftersales.service;
 
+import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.Users;
 
@@ -46,5 +47,8 @@ public interface WorkerService {
 
     List<Question> worker_show_done(int userId);
 
+    List<Items> show_items(int userId);
+
+    List<List<?>> show_item_workers(Map<String, Object> map);
 
 }

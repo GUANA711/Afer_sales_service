@@ -1,6 +1,7 @@
 package com.zgl.aftersales.service.impl;
 
 import com.zgl.aftersales.dao.WorkerMapper;
+import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.WorkerService;
@@ -64,5 +65,16 @@ public class WorkerImpl implements WorkerService {
     public List<Question> worker_show_done(int userId) {
         return workerMapper.worker_show_done(userId);
     }
+
+    @Override
+    public List<Items> show_items(int userId) {
+        return workerMapper.show_items(userId);
+    }
+
+    @Override
+    public List<List<?>> show_item_workers(Map<String, Object> map) {
+        return workerMapper.show_item_workers(map);
+    }
+
 
 }
