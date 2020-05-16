@@ -177,7 +177,7 @@
             </div>
         </div>
         <!-- 反馈面板 -->
-        <!-- 已提交的问题 -->
+        <!-- 已提交的问题，默认隐藏 -->
         <div style="display: none" id="alr_top">
             <ul class="breadcrumb">
                 <li>首页</li>
@@ -185,7 +185,7 @@
             </ul>
             <div class="pa_all panel panel-default" id="alr_panel" style="display: none"></div>
         </div>
-        <!-- 已完成的问题 -->
+        <!-- 已完成的问题，默认隐藏 -->
         <div style="display: none" id="fin_top">
             <ul class="breadcrumb">
                 <li>首页</li>
@@ -193,7 +193,7 @@
             </ul>
             <div class="pa_all panel panel-default" id="fin_panel" style="display: none;"></div>
         </div>
-        <!-- 处理中的问题 -->
+        <!-- 处理中的问题，默认隐藏 -->
         <div style="display: none" id="ing_top">
             <ul class="breadcrumb">
                 <li>首页</li>
@@ -201,7 +201,7 @@
             </ul>
             <div class="pa_all panel panel-default" id="ing_panel" style="display: none;"></div>
         </div>
-        <!--提交问题面板-->
+        <!--提交问题面板，默认隐藏-->
         <div style="display: none" id="wri_top">
             <ul class="breadcrumb">
                 <li>首页</li>
@@ -237,12 +237,7 @@
                         <!-- 项目选择下拉栏 -->
                         <li class="list-group-item">
                             <span class="select_lable">项目选择:</span>
-                            <select class="select_form" id="item_id">
-                                <option value="1">第一个软件</option>
-                                <option value="2">第二个软件</option>
-                                <option value="3">第三个软件</option>
-                                <option value="4">第四个软件</option>
-                            </select>
+                            <select class="select_form" id="item_id"></select>
                         </li>
                         <!-- 问题详情描述文本框 -->
                         <li class="list-group-item" id="question_clear">

@@ -228,7 +228,7 @@ $(document).ready(function(){
         });
         $(".message").show() ;
     });
-    //    点击已提交切换面板
+    // 点击已提交切换面板
     $("#alr_title").click(function(){
         $("#find_panel").children().hide();
         $("#default_panel").hide();
@@ -268,7 +268,7 @@ $(document).ready(function(){
         $("#alr_panel").show();
         $(".message").show();
     });
-    //    点击已完成切换面板
+    //点击已完成切换面板
     $("#fin_title").click(function(){
         $("#find_panel").children().hide();
         $("#default_panel").hide();
@@ -308,7 +308,7 @@ $(document).ready(function(){
         $("#fin_panel").show();
         $(".message").show();
     });
-    //    点击处理中切换面板
+    //点击处理中切换面板
     $("#ing_title").click(function(){
         $("#find_panel").children().hide();
         $("#default_panel").hide();
@@ -351,6 +351,29 @@ $(document).ready(function(){
     $("#wri_title").click(function(){
         $("#find_panel").children().hide();
         $("#wri_top").show();
+        //get方法获取项目名item_name
+        $.ajax({
+            type:'GET',
+
+            data:'',
+
+            contentType :'application/json',
+
+            dataType:'json',
+
+            url :'/question/checkItemname',
+
+            success :function(data) {
+                //动态生成项目名
+                for (var i in data){
+                    $("#item_id").append("<option value='"+data[i].item_id+"'>"+data[i].item_name+"</option>");
+                }
+            },
+            error: function (XMLHttpRequest) {
+                console.log(XMLHttpRequest.status);
+                console.log(XMLHttpRequest.readyState);
+            }
+        });
         $("#wri_panel").show();
         $(".message").show();
     });
