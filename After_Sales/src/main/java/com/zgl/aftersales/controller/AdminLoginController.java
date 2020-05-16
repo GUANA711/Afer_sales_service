@@ -257,7 +257,8 @@ public class AdminLoginController {
             map.put("User_name", key);
         }
         if (choice.equals("2")) {
-            map.put("Role_id", key);
+            int k=Integer.parseInt(key);
+            map.put("Role_id", k+1);
         }
         List<List<?>> lists=userService.searchUser(map);
         return lists;
