@@ -268,11 +268,10 @@ public class LoginController {
         try {
             if (subject.isAuthenticated()) {
                 subject.logout();
-                resp.sendRedirect("#");
                 return 1;//注销成功
             }
             return 0;
-        } catch (IOException e) {
+        } catch (Exception e) {
             return 0;//注销失败
         }
 
