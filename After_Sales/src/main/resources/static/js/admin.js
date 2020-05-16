@@ -352,7 +352,8 @@ var selects = new Vue({
             .post('/adminLoing/droplistID')
             .then(response => (selects.firstContain = response.data))
             .catch(function (error) {
-                alert(error);
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
             });
         },
         secondOptions:function(){
@@ -397,7 +398,7 @@ var roles = new Vue({
     data: {
         selected: 0,
         roleSearch:0,
-        roleChoice:0,
+        roleChoice:[],
         key:"",
         roleOptions:["管理员","维护人员","普通用户","负责人"],
         placeholder:["用户ID","用户名","角色","角色分配"],
@@ -410,27 +411,11 @@ var roles = new Vue({
         data:''
     },
     methods:{
-        init_page: function (totalPage,pageSize,currentPage) {
-            $("#role table tbody").html('');            /* 清空tbody内容 */
+        init_page: function (totalPage,currentPage) {
             if(totalPage == 0){
                 $("#role table tbody").append("没有查询到相关数据！");
                 return;
             }
-            // for(var i=0;i<roles.data.length;i++){
-            //     var item=roles.data;
-            //     if (str != null) {
-            //         method = str.split('.')[5];
-            //     }
-                // var insert = '<tr id="showItems">'+
-                //             '<td class="task_check_tb_td">' + 
-                //             item.User_id + 
-                //             '</td><td class="task_check_tb_td">' + 
-                //             item.User_name + 
-                //             '</td><td class="task_check_tb_td">' + 
-                //             item.Role_name + 
-                //             '</td></tr>';
-            //     $("#role table tbody").append(insert);
-            // }
             $('#pagination6').jqPaginator({ 
                 totalPages: totalPage,        //页码整数
                 visiblePages: 6,
@@ -443,6 +428,10 @@ var roles = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         roles.page.pageNum= num;
+                        for (const i in roles.data) {
+                            roles.data[i].Role_id -= 1;
+                            roles.roleChoice[i] = roles.data[i].Role_id;
+                        }
                         roles.searchFor();
                     }
                 }
@@ -461,12 +450,84 @@ var roles = new Vue({
                 roles.data = response.data[0];
                 roles.page.length = response.data[1];
                 roles.calPage();
-                roles.init_page(roles.page.totalPage,roles.page.pageSize ,roles.page.pageNum);    
+                for (const i in roles.data) {
+                    roles.data[i].Role_id -= 1;
+                    roles.roleChoice[i] = roles.data[i].Role_id;
+                }
+                console.log(roles.roleChoice);
+                roles.init_page(roles.page.totalPage,roles.page.pageNum);    
             })
-            .catch(function (error) { // 请求失败处理
+            .catch(function (error) {
                 $('#failModal .modal-body').text(error); 
                 $("#failModal").modal();
             });
+        },
+        alterRole:function(index){
+            if (roles.data[index].Role_id==roles.roleChoice[index] ) {
+                $('#failModal .modal-body').text("id为"+
+                roles.data[index].User_id+
+                "的用户已拥有"+
+                roles.roleOptions[roles.data[index].Role_id]+
+                "的权限了"); 
+                $("#failModal").modal();
+            }else{
+                axios
+                .post('/adminLoing/addrole', {
+                    "userID":roles.data[index].User_id,
+                    "roleID":roles.roleChoice[index] 
+                })
+                .then(function (response) {
+                    roles.data = response.data;
+                    if (roles.data.status) {
+                        $('#successModal .modal-body').text(roles.data.msg);
+                        $("#successModal").modal();
+                        this.key="";
+                        this.selected=0;
+                        roles.searchFor();
+                        return;
+                    }else{
+                        $('#failModal .modal-body').text(roles.data.msg); 
+                        $("#failModal").modal();
+                        return;
+                    }
+                })
+                .catch(function (error) {
+                    $('#failModal .modal-body').text(error); 
+                    $("#failModal").modal();
+                });
+            }
+        },
+        deleteRole:function(index){
+            if (confirm("确定删除id为"+
+            roles.data[index].User_id+
+            "的"+
+            roles.roleOptions[roles.data[index].Role_id]+
+            "角色吗？")) {
+                axios
+                .post('/adminLoing/deleterole', {
+                    "userID":roles.data[index].User_id,
+                    "roleID":roles.roleChoice[index] 
+                })
+                .then(function (response) {
+                    roles.data = response.data;
+                    if (roles.data.status) {
+                        $('#successModal .modal-body').text("权限删除成功！");
+                        $("#successModal").modal();
+                        this.key="";
+                        this.selected=0;
+                        roles.searchFor();
+                        return;
+                    }else{
+                        $('#failModal .modal-body').text(roles.data.msg); 
+                        $("#failModal").modal();
+                        return;
+                    }
+                })
+                .catch(function (error) {
+                    $('#failModal .modal-body').text(error); 
+                    $("#failModal").modal();
+                });
+            }
         }
     }
 });
@@ -590,6 +651,7 @@ $("#save_bt").click(function(){
             success :function(data) {
                 if(data.code == 0){      //修改成功
                     $("#successModal").modal();
+                    $('#successModal .modal-body').text("修改成功！");
                  }else{
                     $('#failModal .modal-body').text(data.status); 
                     $("#failModal").modal();

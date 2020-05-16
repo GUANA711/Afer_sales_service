@@ -1,22 +1,22 @@
 /* 登录后用户个人信息 */
 html,body { height: 100%; padding: 0; margin: 0; }
 li{list-style: none;}
-.index_title{
-    font-size: 16px;
-    font-weight: bolder;
-    color: #B5C3D4;
-}
+/*.index_title{*/
+/*    font-size: 16px;*/
+/*    font-weight: bolder;*/
+/*    color: #B5C3D4;*/
+/*}*/
 #info .index_title{
     font-size: 15px;
 }
-.nav>li.active a{
-    text-decoration: none;
-    background-color: #337ab7;
-}
-.nav>li>a:hover{
-    color: #fff;
-    background-color: #eee;
-}
+/*.nav>li.active a{*/
+/*    text-decoration: none;*/
+/*    background-color: #337ab7;*/
+/*}*/
+/*.nav>li>a:hover{*/
+/*    color: #fff;*/
+/*    background-color: #eee;*/
+/*}*/
 ul#info {
     margin: -10px 0 10px 25px;
     height: 150px;
@@ -33,13 +33,23 @@ ul#info li{
     justify-content: center;
 }
 .left_frame{
-    z-index: 9999;
-    margin: 0px;
+    margin: 0;
+    position: absolute;
+    padding: 0;
+    display: block;
+    width: 200px;
+    background-color: #333744;;
+    overflow: auto;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    min-height: 100%;
+    height: auto;
 }
 .fram2>.nav-pills{
-    background-color: #232f3a;
+    background-color: #333744;
     color: #fff;
     margin-top: 20px;
+    width: 100%;
 }
 .nav-pills li[role="presentation"]{
     height: 60px;
@@ -48,7 +58,6 @@ ul#info li{
     height:20vh;
     background-color:#1c252e;
     margin: 0px;
-    
 }
 .logoImg{
     /* color: #B5C3D4; */
@@ -79,12 +88,12 @@ ul#info li{
     font-size: 14px;
     font-weight: bold;
     height: 100px;
-    width: 100%;     
+    width: 100%;
 }
 .sp{
     color:rgb(165, 161, 161);
     margin-right: 10px;
-    margin-left: 20px; 
+    margin-left: 20px;
 }
 .right_info{
     vertical-align:middle;
@@ -112,7 +121,7 @@ li.bt_list button {
     margin-right: 30px;
 }
 /* 项目表格 */
-#items,#questions,#maintenance,#faq,#log{
+#items,#questions,#maintenance,#faq,#log,#role{
     display: flex;
     justify-content: center;
 }
@@ -172,9 +181,6 @@ table tr,td,th{
     padding-left: 5px;
     cursor: default;
 }
-table tr:hover td{
-    background-color: cornflowerblue;
-}
 table th{
     font-size: 16px;
     background-color: #364a5f;
@@ -186,19 +192,31 @@ table tbody td:hover{       /* 超出内容显示 */
     white-space: normal;
     cursor: hand;
 }
-table tbody tr:nth-child(even) td,table tbody tr:nth-child(even) th {
+table tbody tr:nth-child(even){
     background-color:#FFFFFF;
 }
 
-table tbody tr:nth-child(odd) td,table tbody tr:nth-child(odd) th {
+table tbody tr:nth-child(odd){
     background-color:#f9f9f9;
 }
+table tbody tr:hover td{background-color:none;}
+table tbody tr:hover{color:#fff;background-color:rgb(51, 122, 183);} 
+table tbody tr:hover a{color:#fff;}
+table tbody tr:hover .searchSel{color: rgb(0, 0, 0);}
 /* 任务指派按钮 */
 .assign_btn{
     padding-right: 100px;
 }
 .assign_btn button:last-child {
     margin-left: 100px;
+}
+/* roles */
+.roles{
+    width: 200px;
+    height: 29px;
+}
+.role_btn{
+    padding-left: 10px;
 }
 .pagination{
     display:flex;
@@ -208,7 +226,7 @@ table tbody tr:nth-child(odd) td,table tbody tr:nth-child(odd) th {
     margin-top: 20px;
 }
 .sidebar{
-   background-color:#fff;
+    background-color:#fff;
     margin: 0px 0px 24px;
     padding: 20px;
     height: 50%;
@@ -237,9 +255,10 @@ label.error{
     margin: 0px;
 }
 .mm{
-    background-color:#f3f6fa ;
+    background-color:#333744 ;
+    width: 100%;
     /* width: inherit; */
-    
+
 }
 .panel{
     box-shadow: 0px 1px 12px rgb(206, 203, 203);
@@ -282,12 +301,12 @@ input{
     height: 40px;
 }
 .select_lable{
-   margin-right: 20px;
+    margin-right: 20px;
 
 }
 .select_lable_clear{
-  height: 80px;
-  width: 300px;
+    height: 80px;
+    width: 300px;
 }
 .task_check_tb_th{
     height:50px;
@@ -296,5 +315,75 @@ input{
 .task_check_tb_td{
     height:30px;
 }
+.navbar {
+    display: flex;
+    /*从右边开始布局*/
+    flex-direction: row;
+    flex: 2;
+    flex-basis: auto;
+    box-sizing: border-box;
+    min-width: 0;
+    padding: 0;
+    border-radius: 0 !important;
+    background-color: #373d41;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    margin-bottom: 0px !important;
+}
+.right_info{
+    width: 140px;
+}
+.right_info_right{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-items: center;
+    justify-content: flex-end;
 
-
+}
+.right_info_heading{
+    margin-left: 20px;
+    color: #FFFFFF;
+    font: 20px "Microsoft YaHei UI";
+}
+.aside{
+    position: absolute;
+    padding: 0;
+    display: block;
+    margin-left: 200px;
+    overflow: auto;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    min-height: 100%;
+    height: auto;
+    width: 100%;
+}
+/*bootstrap组件样式*/
+/*左侧菜单宽度为200Px*/
+.nav-pills{
+    background-color: #333744;
+    padding:  0 ;
+    width: 200px;
+}
+/*让nav整体与导航栏有间距*/
+.nav_aside{
+    margin-top: 80px;
+}
+/*当鼠标停顿到选项时的变化*/
+.nav > li > a:hover {
+    text-decoration: none;
+    background-color: transparent!important;
+}
+/*当获取焦点时字体变蓝*/
+.nav > li > a:focus{
+    background-color: transparent!important;
+    color: #409EFF!important;
+}
+/*菜单信息字体样式*/
+.nav-pills > li > a {
+    border-radius: 0!important;
+    color: #FFFFFF !important;
+    background-color: transparent!important;
+    font: 16px "Microsoft YaHei UI" !important;
+}

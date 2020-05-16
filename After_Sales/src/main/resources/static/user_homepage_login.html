@@ -15,183 +15,255 @@
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="jquery.validate.js"></script>
+<!--    VUE内容-->
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-default navbar-static-top" role="navigation">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 right_info_heading">欢迎来到个人主页</div>
-            <div class="col-md-2 right_info" id="top_message"><i class="sp glyphicon glyphicon-bullhorn"></i><a href="#" class="info">通知</a></div>
-            <div class="col-md-2 right_info" id="top_help"><i class="sp glyphicon glyphicon-question-sign"></i><a href="#" class="info">帮助</a></div>
-            <div class="col-md-2 right_info" id="top_destroy"><i class="sp glyphicon glyphicon-question-sign"></i><a href="#" class="info">注销</a></div>
+    <!--顶部导航栏-->
+    <nav class="navbar" role="navigation">
+        <div class="right_info_heading">欢迎来到个人主页</div>
+        <div class="right_info_right">
+            <div class="right_info" id="top_message"><i class="sp glyphicon glyphicon-bullhorn"></i><a href="#" class="info">通知</a></div>
+            <div class="right_info" id="top_help"><i class="sp glyphicon glyphicon-question-sign"></i><a href="#" class="info">帮助</a></div>
+            <div class="right_info" id="top_destroy"><i class="sp glyphicon glyphicon-question-sign"></i><a href="#" class="info">注销</a></div>
         </div>
+    </nav>
+    <!--顶部导航栏模态框集合-->
+    <!-- 点击通知弹出模态框 -->
+    <div class="modal fade" id="top_messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times</button>
+                    <h4 class="modal-title" id="myModalLabel1">通知</h4>
+                </div>
+                <div class="modal-body">
+                    通知消息1
+                </div>
+                <div class="modal-body">
+                    通知消息2
+                </div>
+                <div class="modal-body">
+                    通知消息3
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
     </div>
-</nav>
-<!-- 点击通知弹出模态框 -->
-<div class="modal fade" id="top_messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times</button>
-                <h4 class="modal-title" id="myModalLabel1">通知</h4>
-            </div>
-            <div class="modal-body">
-                通知消息1
-            </div>
-            <div class="modal-body">
-                通知消息2
-            </div>
-            <div class="modal-body">
-                通知消息3
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-<!-- 点击帮助弹出模态框 -->
-<div class="modal fade" id="top_helpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel2">通知</h4>
-            </div>
-            <div class="modal-body">
-                帮助1
-            </div>
-            <div class="modal-body">
-                帮助2
-            </div>
-            <div class="modal-body">
-                帮助3
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-<!-- 点击注销模态框 -->
-<div class="modal fade" id="top_destroyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel3">提示信息</h4>
-            </div>
-            <div class="modal-body">
-                您确定要注销此账号吗？点击确定后将清除与此账号相关的所有信息！
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                <button type="button" id="destroy_submit" class="btn btn-primary">确认</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
+    <!-- 点击帮助弹出模态框 -->
+    <div class="modal fade" id="top_helpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel2">通知</h4>
+                </div>
+                <div class="modal-body">
+                    帮助1
+                </div>
+                <div class="modal-body">
+                    帮助2
+                </div>
+                <div class="modal-body">
+                    帮助3
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- 点击注销模态框 -->
+    <div class="modal fade" id="top_destroyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel3">提示信息</h4>
+                </div>
+                <div class="modal-body">
+                    您确定要注销此账号吗？点击确定后将清除与此账号相关的所有信息！
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                    <button type="button" id="destroy_submit" class="btn btn-primary">确认</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
 
-<div class="row mm">
     <!-- 左侧菜单导航栏 -->
-    <ul class="col-md-2 left_frame">
-        <li class="fram1"><div class="ma_top"></div></li>
-        <li class="fram2">
-            <ul class="nav nav-pills nav-stacked">
-                <div>
-                    <ul class="nav nav-pills nav-stacked ">
-                        <li class="mage1"></li>
-                    </ul>
-                </div>
-                <!-- <li role="presentation" ><a href="file:///E:/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/%E9%A1%B9%E7%9B%AE/%E4%BF%A1%E6%81%AF%E9%A6%96%E9%A1%B5_%E6%9C%AA%E7%99%BB%E5%BD%95.html"><i class="glyphicon glyphicon-home"></i><span class="index_title"> 首页</span></a></li> -->
-                <li role="presentation" id="user_info"><a href="#" ><i class="glyphicon glyphicon-user"></i><span class="index_title"> 个人信息</span></a></li>
-                <li role="presentation" id="info_title"><a href="#"><i class="glyphicon glyphicon-check"></i><span class="index_title">问题查看</span></a></li>
-                <ul class="nav nav-pills nav-stacked " style="display: none;" id="info">
-                    <li role="presentation" id="alr_title"><a href="#"><i class="glyphicon glyphicon-option-vertical"></i><span class="index_title"> 已提交的问题</span></a></li>
-                    <li role="presentation" id="fin_title"><a href="#"><i class="glyphicon glyphicon-option-vertical"></i><span class="index_title"> 已完成的问题</span></a></li>
-                    <li role="presentation" id="ing_title"><a href="#"><i class="glyphicon glyphicon-option-vertical"></i><span class="index_title"> 处理中的问题</span></a></li>
-                </ul>
-                <li role="presentation" id="wri_title"><a href="#"><i class="glyphicon glyphicon-edit"></i><span class="index_title"> 提交问题</span></a></li>
-                <div>
-                    <ul class="nav nav-pills nav-stacked ">
-                        <li class="mage"></li>
-                    </ul>
-                </div>
+    <div class="aside">
+        <ul class="nav nav-pills nav-stacked nav_aside">
+            <li role="presentation" id="user_info"><a href="#" ><i class="glyphicon glyphicon-user"></i>个人信息</a></li>
+            <li role="presentation" id="info_title"><a href="#"><i class="glyphicon glyphicon-check"></i>问题查看</a></li>
+            <ul class="nav nav-pills nav-stacked " style="display: none;" id="info">
+                <li role="presentation" id="alr_title"><a href="#"><i class="glyphicon glyphicon-option-vertical"></i>已提交的问题</a></li>
+                <li role="presentation" id="fin_title"><a href="#"><i class="glyphicon glyphicon-option-vertical"></i>已完成的问题</a></li>
+                <li role="presentation" id="ing_title"><a href="#"><i class="glyphicon glyphicon-option-vertical"></i>处理中的问题</a></li>
             </ul>
-        </li>
-    </ul>
+            <li role="presentation" id="wri_title"><a href="#"><i class="glyphicon glyphicon-edit"></i><span class="index_title"> 提交问题</span></a></li>
+        </ul>
+    </div>
 
-
-    <!--右侧内容  -->
-    <div class="col-md-9">
-        <!-- 内容部分 -->
-        <div class="container">
-            <div class="row find_panel">
-                <!--内容面板部分 -->
-                <div class=" pa_all col-md-8" id="change_panel">
-                    <div class="panel panel-default" >
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Panel title</h3>
-                        </div>
-                        <div class="panel-body">
-                            第五个FAQ的内容现代的辅助技术能够识别并朗读由CSS生成的内容和特定的Unicode字符。为了避免屏幕识读设备抓取非故意的和可能产生混淆的输出内容（尤其是当图标纯粹作为装饰用途时），我们为这些图标设置了aria-hidden="true"属性。如果你使用图标是为了表达某些含义（不仅仅是为了装饰用），请确保你所要表达的意思能够通过被辅助设备识别，例如，包含额外的内容并通过.sr-only 类让其在视觉上表现出隐藏的效果。如果你所创建的组件不包含任何文本内容你应当提供其他的内容来表示这个控件的意图，这样就能让使用辅助设备的用户知道其作用了。这种情况下，你可以为控件添加 aria-label属性。
-                        </div>
+    <!--右侧内容面板-->
+    <div class="data_panel" id="find_panel">
+        <!--默认显示的panel-->
+        <div class="alert alert-info" role="alert" id="default_panel">Welcome!</div>
+        <!--个人信息面板，默认隐藏-->
+        <div id="user_panel" style="display: none">
+            <!--面包靴导航-->
+            <ul class="breadcrumb">
+                <li>首页</li>
+                <li>个人信息</li>
+            </ul>
+            <!--信息部分面板-->
+            <div class="pa_all panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">个人信息</h3>
+                </div>
+                <div class="panel-body">
+                    <form id="form_userinfo">
+                        <ul class="list-group" >
+                            <li class="list-group-item"><label for="username">用户名：</label>
+                                <input type="text" readonly="readonly" id="username" name="username" value=""></li>
+                            <li class="list-group-item"><label for="tel">电话：</label>
+                                <input type="tel" readonly="readonly" id="tel" name="tel" value=""></li>
+                            <li class="list-group-item"><label for="email">邮箱：</label>
+                                <input type="email" readonly="readonly" id="email" name="email" value=""></li>
+                            <li class="bt_list">
+                                <button type="button" id="edit_bt" class="btn btn-primary">编辑</button>
+                                <button type="button" id="save_bt" class="btn btn-primary">保存</button>
+                            </li>
+                        </ul>
+                    </form>
+                    <!-- 保存按钮弹出模态框 -->
+                    <!-- 成功 -->
+                    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel4">提交成功</h4>
+                                </div>
+                                <div class="modal-body">已成功修改个人信息</div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
                     </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Panel title</h3>
-                        </div>
-                        <div class="panel-body">
-                            第五个FAQ的内容现代的辅助技术能够识别并朗读由CSS生成的内容和特定的Unicode字符。为了避免屏幕识读设备抓取非故意的和可能产生混淆的输出内容（尤其是当图标纯粹作为装饰用途时），我们为这些图标设置了aria-hidden="true"属性。如果你使用图标是为了表达某些含义（不仅仅是为了装饰用），请确保你所要表达的意思能够通过被辅助设备识别，例如，包含额外的内容并通过.sr-only 类让其在视觉上表现出隐藏的效果。如果你所创建的组件不包含任何文本内容你应当提供其他的内容来表示这个控件的意图，这样就能让使用辅助设备的用户知道其作用了。这种情况下，你可以为控件添加 aria-label属性。
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Panel title</h3>
-                        </div>
-                        <div class="panel-body">
-                            第五个FAQ的内容现代的辅助技术能够识别并朗读由CSS生成的内容和特定的Unicode字符。为了避免屏幕识读设备抓取非故意的和可能产生混淆的输出内容（尤其是当图标纯粹作为装饰用途时），我们为这些图标设置了aria-hidden="true"属性。如果你使用图标是为了表达某些含义（不仅仅是为了装饰用），请确保你所要表达的意思能够通过被辅助设备识别，例如，包含额外的内容并通过.sr-only 类让其在视觉上表现出隐藏的效果。如果你所创建的组件不包含任何文本内容你应当提供其他的内容来表示这个控件的意图，这样就能让使用辅助设备的用户知道其作用了。这种情况下，你可以为控件添加 aria-label属性。
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Panel title</h3>
-                        </div>
-                        <div class="panel-body">
-                            第五个FAQ的内容现代的辅助技术能够识别并朗读由CSS生成的内容和特定的Unicode字符。为了避免屏幕识读设备抓取非故意的和可能产生混淆的输出内容（尤其是当图标纯粹作为装饰用途时），我们为这些图标设置了aria-hidden="true"属性。如果你使用图标是为了表达某些含义（不仅仅是为了装饰用），请确保你所要表达的意思能够通过被辅助设备识别，例如，包含额外的内容并通过.sr-only 类让其在视觉上表现出隐藏的效果。如果你所创建的组件不包含任何文本内容你应当提供其他的内容来表示这个控件的意图，这样就能让使用辅助设备的用户知道其作用了。这种情况下，你可以为控件添加 aria-label属性。
-                        </div>
+                    <!-- 失败 -->
+                    <div class="modal fade" id="failModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title" id="myModalLabel5">提交失败</h4>
+                                </div>
+                                <div class="modal-body">编辑内容有误，请重新编辑!</div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal -->
                     </div>
                 </div>
-                <!-- 个人信息面板 -->
-                <div class="pa_all col-md-8 panel panel-default" id="user_panel" style="display: none;">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">个人信息</h3>
-                    </div>
-                    <div class="panel-body">
-                        <form id="form_userinfo">
-                            <ul class="list-group" >
-                                <li class="list-group-item"><label for="username">用户名：</label>
-                                    <input type="text" readonly="readonly" id="username" name="username" value=""></li>
-                                <li class="list-group-item"><label for="tel">电话：</label>
-                                    <input type="tel" readonly="readonly" id="tel" name="tel" value=""></li>
-                                <li class="list-group-item"><label for="email">邮箱：</label>
-                                    <input type="email" readonly="readonly" id="email" name="email" value=""></li>
-                                <li class="bt_list">
-                                    <button type="button" id="edit_bt" class="btn btn-primary">编辑</button>
-                                    <button type="button" id="save_bt" class="btn btn-primary">保存</button>
-                                </li>
-                            </ul>
-                        </form>
-                        <!-- 保存按钮弹出模态框 -->
+            </div>
+        </div>
+        <!-- 反馈面板 -->
+        <!-- 已提交的问题 -->
+        <div style="display: none" id="alr_top">
+            <ul class="breadcrumb">
+                <li>首页</li>
+                <li>已提交的问题</li>
+            </ul>
+            <div class="pa_all panel panel-default" id="alr_panel" style="display: none"></div>
+        </div>
+        <!-- 已完成的问题 -->
+        <div style="display: none" id="fin_top">
+            <ul class="breadcrumb">
+                <li>首页</li>
+                <li>已完成的问题</li>
+            </ul>
+            <div class="pa_all panel panel-default" id="fin_panel" style="display: none;"></div>
+        </div>
+        <!-- 处理中的问题 -->
+        <div style="display: none" id="ing_top">
+            <ul class="breadcrumb">
+                <li>首页</li>
+                <li>处理中的问题</li>
+            </ul>
+            <div class="pa_all panel panel-default" id="ing_panel" style="display: none;"></div>
+        </div>
+        <!--提交问题面板-->
+        <div style="display: none" id="wri_top">
+            <ul class="breadcrumb">
+                <li>首页</li>
+                <li>提交问题</li>
+            </ul>
+            <div class="pa_all panel panel-default" id="wri_panel" style="display: none;">
+                <div class="panel-heading">
+                    <h3 class="panel-title">提交问题</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <!-- 问题分类下拉栏 -->
+                        <li class="list-group-item">
+                            <span class="select_lable">问题分类:</span>
+                            <select class="select_form" id="first_select">
+                                <option value="性能体验">性能体验</option>
+                                <option value="功能异常">功能异常</option>
+                                <option value="产品建议">产品建议</option>
+                                <option value="其他反馈">其他反馈</option>
+                            </select>
+                        </li>
+                        <!-- 第二个选项 -->
+                        <div id="second_select" >
+                            <li class="list-group-item" id="firstshow">
+                                <span class="select_lable">问题详情:</span>
+                                <select class="select_form" id="select_form">
+                                    <option value="软件运行较卡">软件运行较卡</option>-->
+                                    <option value="软件打卡较慢">软件打卡较慢</option>
+                                    <option value="其他">其他</option>
+                                </select>
+                            </li>
+                        </div>
+                        <!-- 项目选择下拉栏 -->
+                        <li class="list-group-item">
+                            <span class="select_lable">项目选择:</span>
+                            <select class="select_form" id="item_id">
+                                <option value="1">第一个软件</option>
+                                <option value="2">第二个软件</option>
+                                <option value="3">第三个软件</option>
+                                <option value="4">第四个软件</option>
+                            </select>
+                        </li>
+                        <!-- 问题详情描述文本框 -->
+                        <li class="list-group-item" id="question_clear">
+                            <span class="select_lable">问题描述:</span>
+                            <textarea rows="6" cols="50" name="summary_question" class="select_lable_clear" id="question_detail"></textarea>
+                        </li>
+                        <!-- 提交按钮 -->
+                        <!-- 按钮触发模态框 -->
+                        <li class="list-group-item">
+                            <button class="btn btn-primary " data-toggle="modal" data-target="#myModal" id="question_submit">提交</button>
+                        </li>
+                        <!-- 模态框（Modal） -->
                         <!-- 成功 -->
-                        <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="successSubmitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        <h4 class="modal-title" id="myModalLabel4">提交成功</h4>
+                                        <h4 class="modal-title" id="successSubmitModal1">提交成功</h4>
                                     </div>
-                                    <div class="modal-body">已成功修改个人信息</div>
+                                    <div class="modal-body">已成功提交问题</div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
                                     </div>
@@ -199,160 +271,32 @@
                             </div><!-- /.modal -->
                         </div>
                         <!-- 失败 -->
-                        <div class="modal fade" id="failModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="failSubmitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        <h4 class="modal-title" id="myModalLabel5">提交失败</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title" id="failSubmitModal1">
+                                            提交失败！
+                                        </h4>
                                     </div>
-                                    <div class="modal-body">编辑内容有误，请重新编辑!</div>
+                                    <div class="modal-body">
+                                        提交失败，请检查问题描述是否填写
+                                    </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
                                     </div>
                                 </div><!-- /.modal-content -->
                             </div><!-- /.modal -->
                         </div>
-
-                    </div>
+                    </ul>
                 </div>
-
-                <!-- 反馈面板 -->
-                <!-- 已提交的问题 -->
-                <div class="pa_all col-md-8 panel panel-default" id="alr_panel"></div>
-                <!-- 已完成的问题 -->
-                <div class="pa_all col-md-8 panel panel-default" id="fin_panel" style="display: none;"></div>
-                <!-- 处理中的问题 -->
-                <div class="pa_all col-md-8 panel panel-default" id="ing_panel" style="display: none;"></div>
-                <!--提交问题  -->
-                <div class="pa_all col-md-8 panel panel-default" id="wri_panel" style="display: none;">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">提交问题</h3>
-                    </div>
-                    <div class="panel-body">
-                        <ul class="list-group">
-                            <!-- 问题分类下拉栏 -->
-                            <li class="list-group-item">
-                                <span class="select_lable">问题分类:</span>
-                                <select class="select_form" id="first_select">
-                                    <option value="性能体验">性能体验</option>
-                                    <option value="功能异常">功能异常</option>
-                                    <option value="产品建议">产品建议</option>
-                                    <option value="其他反馈">其他反馈</option>
-                                </select>
-                            </li>
-
-                            <!-- 第二个选项 -->
-                            <div id="second_select" >
-                                <li class="list-group-item" id="firstshow">
-                                    <span class="select_lable">问题详情:</span>
-                                    <select class="select_form" id="select_form">
-                                        <option value="软件运行较卡">软件运行较卡</option>-->
-                                        <option value="软件打卡较慢">软件打卡较慢</option>
-                                        <option value="其他">其他</option>
-                                    </select>
-                                </li>
-                            </div>
-                            <!-- 项目选择下拉栏 -->
-                            <li class="list-group-item">
-                                <span class="select_lable">项目选择:</span>
-                                <select class="select_form" id="item_id">
-                                    <option value="1">第一个软件</option>
-                                    <option value="2">第二个软件</option>
-                                    <option value="3">第三个软件</option>
-                                    <option value="4">第四个软件</option>
-                                </select>
-                            </li>
-
-                            <!-- 问题详情描述文本框 -->
-                            <li class="list-group-item" id="question_clear">
-                                <span class="select_lable">问题描述:</span>
-                                <textarea rows="6" cols="50" name="summary_question" class="select_lable_clear" id="question_detail"></textarea>
-                            </li>
-
-                            <!-- 提交按钮 -->
-                            <!-- 按钮触发模态框 -->
-                            <li class="list-group-item">
-                                <button class="btn btn-primary " data-toggle="modal" data-target="#myModal" id="question_submit">提交</button>
-                            </li>
-                            <!-- 模态框（Modal） -->
-                            <!-- 成功 -->
-                            <div class="modal fade" id="successSubmitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="successSubmitModal1">提交成功</h4>
-                                        </div>
-                                        <div class="modal-body">已成功提交问题</div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal -->
-                            </div>
-                            <!-- 失败 -->
-                            <div class="modal fade" id="failSubmitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                                &times;
-                                            </button>
-                                            <h4 class="modal-title" id="failSubmitModal1">
-                                                提交失败！
-                                            </h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            提交失败，请检查问题描述是否填写
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                                            </button>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal -->
-                            </div>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- 公告栏 -->
-
-<!--                <div class="col-md-3 pa_all message">-->
-<!--                    <ul class="sidebar">-->
-<!--                        <li><h3 class="sidebar-widget-heading">公告栏一</h3></li>-->
-<!--                        <li>-->
-<!--                            <a href="#" class="categories-link">消息一balabalbalbalba</a>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <a href="#" class="categories-link">消息二balabalbalbalba</a>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <a href="#" class="categories-link">消息三balabalbalbalba</a>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <a href="#" class="categories-link">消息四balabalbalbalba</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </div>-->
             </div>
         </div>
     </div>
-</div>
-<!-- </div> -->
-<!-- 底部 -->
-<nav class="navbar navbar-default bott">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 right_info_heading">底部信息1</div>
-            <div class="col-md-4 right_info_heading">底部信息2</a></div>
-            <div class="col-md-4 right_info_heading">底部信息3</a></div>
-        </div>
-    </div>
-
-</nav>
-
 </body>
 
 
