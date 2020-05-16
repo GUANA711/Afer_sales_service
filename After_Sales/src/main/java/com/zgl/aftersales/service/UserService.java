@@ -19,7 +19,9 @@ public interface UserService {
     void updateTask_num(String name);
     //shiro
     List<String> showRolesByUserID(int userID);
-
+    void insertRoleID(Map<String,Object> map);
+    void deleteRolID(Map<String,Object> map);
+    int isLeader(int userID);
 
     List<List<?>> showUser(Map<String,Object> map);
     List<List<?>> searchUser(Map<String,Object> map);

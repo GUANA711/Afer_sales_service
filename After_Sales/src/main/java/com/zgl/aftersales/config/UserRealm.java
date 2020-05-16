@@ -29,6 +29,11 @@ public class UserRealm extends AuthorizingRealm {
         List<String> roleNameList=userService.showRolesByUserID(user.getUser_id());
         SimpleAuthorizationInfo info=new SimpleAuthorizationInfo();
         info.addRoles(roleNameList);
+        //如果是项目组组长，授权leader角色
+        if(userService.isLeader(user.getUser_id())!=0){
+             info.addRole("leader");
+        }
+
 
 
 

@@ -38,25 +38,36 @@
     </resultMap>
 
     <select id="showUser" parameterType="map" resultMap="data,count5">
-        select SQL_CALC_FOUND_ROWS u.User_id,u.User_name,u.Tel,u.Email,r.Role_name from users u,role r where u.Role_id=r.Role_id limit #{currIndex},#{pageSize};
+        select SQL_CALC_FOUND_ROWS u.User_id,u.User_name,t.Role_id from users u,role_user t where  t.User_id=u.User_id order by u.User_id limit #{currIndex},#{pageSize};
         select FOUND_ROWS() as count;
     </select>
 
     <select id="searchUser" parameterType="map" resultMap="data,count5">
-        select SQL_CALC_FOUND_ROWS u.User_id,u.User_name,u.Tel,u.Email,r.Role_name from users u,role r
+        select SQL_CALC_FOUND_ROWS u.User_id,u.User_name,t.Role_id from users u,role_user t
            <where>
-               u.Role_id=r.Role_id
+                t.User_id=u.User_id
                <if  test="User_id!=null">
-                   and User_id like CONCAT(CONCAT('%', #{User_id}), '%')
+                   and u.User_id like CONCAT(CONCAT('%', #{User_id}), '%')
                </if>
                <if test="User_name!=null">
-                   and User_name like CONCAT(CONCAT('%', #{Question_id}), '%')
+                   and u.User_name like CONCAT(CONCAT('%', #{User_name}), '%')
                </if>
-               <if test="Role_name!=null">
-                   and Role_name like CONCAT(CONCAT('%', #{Question_id}), '%')
+               <if test="Role_id!=null">
+                   and t.Role_id like CONCAT(CONCAT('%', #{Role_id}), '%')
                </if>
            </where>
+        order by u.User_id
         limit #{currIndex},#{pageSize};
         select FOUND_ROWS() as count;
+    </select>
+
+    <insert id="insertRoleID" parameterType="map">
+        insert into role_user values( #{User_id}, #{Role_id})
+    </insert>
+    <delete id="deleteRolID" parameterType="map">
+        delete from role_user where User_id=#{User_id} and Role_id=#{Role_id}
+    </delete>
+    <select id="isLeader" parameterType="int" resultType="int">
+        select count(*) from itme_worker i where i.User_id=#{id}
     </select>
 </mapper>

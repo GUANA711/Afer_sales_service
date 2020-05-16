@@ -30,6 +30,7 @@ $(function(){
 
             success :function(data,XMLHttpRequest) {
                 //跳转至首页
+                console.log("前端跳转首页");
                 window.location.href="index.html";
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -39,15 +40,15 @@ $(function(){
                 // 状态
                 console.log(XMLHttpRequest.readyState);
                 // 错误信息
+                console.log("Post失败");
                 alert(textStatus);
-
             }
         });
 
 
     });
 
-    //点击提交问题的提交按钮question_submit
+    //点击提交问题的提交按钮
     $("#question_submit").click(function(){
         var item_id = document.getElementById("item_id").value;
         var question_detail = document.getElementById("select_form").value+": "+document.getElementById("question_detail").value;
@@ -205,7 +206,8 @@ $(document).ready(function(){
     });
     //点击个人信息切换面板
     $("#user_info").click(function(){
-        $(".find_panel").children().hide();
+        $("#find_panel").children().hide();
+        $("#default_panel").hide();
         $("#user_panel").show();
         $.ajax({
             type:'GET',
@@ -228,7 +230,8 @@ $(document).ready(function(){
     });
     //    点击已提交切换面板
     $("#alr_title").click(function(){
-        $(".find_panel").children().hide();
+        $("#find_panel").children().hide();
+        $("#default_panel").hide();
         //GET数据
         $.ajax({
             type:'GET',
@@ -243,6 +246,7 @@ $(document).ready(function(){
                 if (data.length==0){
                     $("#alr_panel").append("<div class=\"alert alert-info\" role=\"alert\">没有已提交的数据！</div>");
                 }else {
+                    // $("#alr_panel").append("<ul class=\"breadcrumb\"><li>首页</li><li>已提交的问题</li></ul>");
                     //设置面板
                     for(var i in data){
                         $("#alr_panel").append("<div class='pa_all panel panel-default' id="+i+">");
@@ -260,12 +264,14 @@ $(document).ready(function(){
                 console.log(XMLHttpRequest.readyState);
             }
         });
+        $("#alr_top").show();
         $("#alr_panel").show();
         $(".message").show();
     });
     //    点击已完成切换面板
     $("#fin_title").click(function(){
-        $(".find_panel").children().hide();
+        $("#find_panel").children().hide();
+        $("#default_panel").hide();
         //GET数据
         $.ajax({
             type:'GET',
@@ -298,12 +304,14 @@ $(document).ready(function(){
                 console.log(XMLHttpRequest.readyState);
             }
         });
+        $("#fin_top").show();
         $("#fin_panel").show();
         $(".message").show();
     });
     //    点击处理中切换面板
     $("#ing_title").click(function(){
-        $(".find_panel").children().hide();
+        $("#find_panel").children().hide();
+        $("#default_panel").hide();
         //GET数据
         $.ajax({
             type:'GET',
@@ -335,12 +343,14 @@ $(document).ready(function(){
                 console.log(XMLHttpRequest.readyState);
             }
         });
+        $("#ing_top").show();
         $("#ing_panel").show();
         $(".message").show();
     });
     //点击提交问题切换面板
     $("#wri_title").click(function(){
-        $(".find_panel").children().hide();
+        $("#find_panel").children().hide();
+        $("#wri_top").show();
         $("#wri_panel").show();
         $(".message").show();
     });
