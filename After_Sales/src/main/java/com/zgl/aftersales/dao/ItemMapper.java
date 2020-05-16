@@ -13,4 +13,6 @@ public interface ItemMapper {
     List<List<?>> selectAllItems(Map<String,Object> map);
     List<List<?>> fuzzyQuery(Map<String,Object> map);
 
+
+
 }

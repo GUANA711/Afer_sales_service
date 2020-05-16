@@ -70,4 +70,11 @@
     <select id="isLeader" parameterType="int" resultType="int">
         select count(*) from itme_worker i where i.User_id=#{id}
     </select>
+    <resultMap id="showWorker_data" type="map">
+        <result property="User_id" column="User_id"></result>
+        <result property="User_name" column="User_name"></result>
+    </resultMap>
+    <select id="showWorker" resultMap="showWorker_data">
+        select u.User_id , u.User_name from users u,role_user r where u.User_id=r.User_id and r.Role_id=2
+    </select>
 </mapper>

@@ -20,6 +20,11 @@ public class MaintenanceImpl implements MaintenanceService {
     }
 
     @Override
+    public void itemLeaderEdite(Map<String, Object> map) {
+        maintenanceMapper.itemLeaderEdite(map);
+    }
+
+    @Override
     public List<List<?>> fuzzyQuery(Map<String, Object> map) {
         return maintenanceMapper.fuzzyQuery(map);
     }

@@ -37,6 +37,11 @@ public class  UserImpl implements UserService {
     }
 
     @Override
+    public List<?> showWorker() {
+        return userMapper.showWorker();
+    }
+
+    @Override
     public int isLeader(int userID) {
         return userMapper.isLeader(userID);
     }

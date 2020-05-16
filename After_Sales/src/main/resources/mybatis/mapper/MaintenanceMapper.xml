@@ -39,5 +39,8 @@
 <select id="insert"  parameterType="com.zgl.aftersales.pojo.Maintenance">
         insert  into maintenance (Question_id,User_id,Start_time) values (#{Question_id},#{User_id},#{Start_time})
 </select>
+    <insert id="itemLeaderEdite" parameterType="map">
+        insert into itme_worker values(#{Item_id},#{User_id})
+    </insert>
 
 </mapper>

@@ -264,6 +264,9 @@ public class AdminLoginController {
     }
 
 
+
+
+
     /**
      * 任务分配——下拉框问题ID显示
      * @return
@@ -282,12 +285,16 @@ public class AdminLoginController {
      * @return
      */
     @PostMapping("/wokername")
-
     public List<String> dropListWorker(@RequestBody JSONObject json){
         String questionID=json.getString("key");
         List<String> stringList=questionService.selectWorkerByQuesID(questionID);
         return stringList;
     }
+
+
+
+
+
 
 
     /**
@@ -415,6 +422,43 @@ public class AdminLoginController {
         List<Question> questionList=questionService.shoeOvertimeUnaccepte();
         return questionList;
     }
+
+    /**
+     *@描述  显示可选择成为项目负责人的维修人员
+     *@参数
+     *@返回值
+     */
+    @PostMapping("/item_worker")
+    public List<?> showWorker(){
+        return userService.showWorker();
+    }
+
+    /**
+     * 项目负责人修改
+     * @param json
+     * @return
+     */
+    @PostMapping("/leaderEdit")
+    @MyLog("修改项目负责人")
+    public Status leaderEdit(@RequestBody JSONObject json){
+        Status status=new Status();
+        String itemID=json.getString("itemID");
+        String userID=json.getString("userID");
+        Map<String,Object> map=new HashMap<>();
+        map.put("Item_id",itemID);
+        map.put("User_id",userID);
+        try {
+            maintenanceService.itemLeaderEdite(map);
+            status.setStatus(true);
+            status.setMsg("修改成功");
+            return status;
+        }catch (Exception e){
+            status.setMsg("修改失败,此用户已是该项目负责人");
+            return status;
+        }
+    }
+
+
 
 
 
