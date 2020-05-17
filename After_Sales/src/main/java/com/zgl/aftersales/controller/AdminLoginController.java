@@ -356,13 +356,19 @@ public class AdminLoginController {
     @PostMapping("/addrole")
     public Status roleadd(@RequestBody JSONObject json){
         String user_id_string=json.getString("userID");
-        String role_id_string=json.getString("roleID");
         int userID=Integer.parseInt(user_id_string);
-        int roleID=Integer.parseInt(role_id_string)+1;
         Status status=new Status();
         Map<String,Object> map=new HashMap<>();
         map.put("User_id",userID);
-        map.put("Role_id",roleID);
+
+       try {
+           String role_id_string=json.getString("roleID");
+           int roleID=Integer.parseInt(role_id_string)+1;
+           map.put("Role_id",roleID);
+       }catch (Exception e){
+           status.setMsg("权限修改失败,请选择角色在点击修改");
+           return  status;
+       }
 
         try {
             userService.insertRoleID(map);
@@ -371,7 +377,6 @@ public class AdminLoginController {
             return  status;
         }catch (Exception e){
             status.setMsg("权限修改失败,该用户已拥有此角色");
-            e.printStackTrace();
             return  status;
         }
     }
@@ -385,13 +390,18 @@ public class AdminLoginController {
     @PostMapping("/deleterole")
     public Status roledelete(@RequestBody JSONObject json){
         String user_id_string=json.getString("userID");
-        String role_id_string=json.getString("roleID");
         int userID=Integer.parseInt(user_id_string);
-        int roleID=Integer.parseInt(role_id_string)+1;
         Status status=new Status();
         Map<String,Object> map=new HashMap<>();
         map.put("User_id",userID);
-        map.put("Role_id",roleID);
+        try {
+            String role_id_string=json.getString("roleID");
+            int roleID=Integer.parseInt(role_id_string)+1;
+            map.put("Role_id",roleID);
+        }catch (Exception e){
+            status.setMsg("权限删除失败,该用户没有课删除的角色");
+            return  status;
+        }
 
         try {
             userService.deleteRolID(map);
