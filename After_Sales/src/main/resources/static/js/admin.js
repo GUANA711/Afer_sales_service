@@ -23,7 +23,8 @@ $(document).ready(function(){
     faqs.searchFor(true);
     roles.searchFor(true);
     logs.searchFor(true);
-    selects.firstOptions(true);
+    selects.firstOptions();
+    notices.showNotice();
 });
 $(window).ajaxStart(function () {
     NProgress.start();
@@ -637,6 +638,63 @@ var logs = new Vue({
         }
     }
 });
+var notices = new Vue({
+    el:'#notice',
+    data:{
+        data1:'',
+        temp1:[],
+        data2:'',
+        temp2:[]
+    },
+    methods: {
+        showNotice:function() {
+            axios
+            .post('/adminLoing/overtime_unaccept')
+            .then(function (response) {
+                notices.data1 = response.data;
+                if (notices.data1.length==0) {
+                    $("#notice1 table").hide();
+                    $("#notice1").append("没有超时待处理项目");
+                }else if(notices.data1.length>6){
+                    setInterval(function(){ 
+                        var body = $("#notice1 table tbody"); 
+                        var liHeight = body.find("tr:last").height()+10;
+                        body.animate({marginTop : liHeight +"px"},1000,function(){ 
+                            body.find("tr:last").prependTo(body);
+                            body.css({marginTop:'10px'}); 
+                        });         
+                    },2000); 
+                }
+            })
+            .catch(function (error) { // 请求失败处理
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
+            });
+            axios
+            .post('/adminLoing/overtim_deal')
+            .then(function (response) {
+                notices.data2 = response.data;
+                if (notices.data2.length==0) {
+                    $("#notice2 table").hide();
+                    $("#notice2").append("没有超时未完成项目");
+                }else if(notices.data2.length>6){
+                    setInterval(function(){ 
+                        var body = $("#notice2 table tbody"); 
+                        var liHeight = body.find("tr:last").height()+10;
+                        body.animate({marginTop : liHeight +"px"},1000,function(){ 
+                            body.find("tr:last").prependTo(body);
+                            body.css({marginTop:'10px'}); 
+                        });         
+                    },2000);
+                }
+            })
+            .catch(function (error) { // 请求失败处理
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
+            });
+        }
+    }
+});
 
 
 /* 一些触发事件 */
@@ -662,6 +720,25 @@ $(document).on('click','#modalBtn',function () {
     .catch(function (error) {
         $('#failModal .modal-body').text(error); 
         $("#failModal").modal();
+    });
+});
+$("#loginOut").click(function () { 
+    $.ajax({
+        type:'post',
+        data:'',
+        contentType :'application/json',
+        dataType:'json',
+        url :'/user/logout',
+        success :function(data) {
+            if (data==1) {
+                $(window).attr("location",'/');
+            }else{
+                alert("退出登录失败！");
+            }
+        },
+        error: function () {
+            alert("连接超时，请重试！");
+        }
     });
 });
 // 点击编辑按钮

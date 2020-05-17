@@ -16,7 +16,7 @@
     <div class="right_info_right">
         <div class="right_info"><i class="sp glyphicon glyphicon-bullhorn"></i><a href="#" class="info">通知</a></div>
         <div class="right_info"><i class="sp glyphicon glyphicon-question-sign"></i><a href="#" class="info">帮助</a></div>
-        <div class="right_info"><i class="sp glyphicon glyphicon-user"></i><a href="login_tags.html" class="info">注销</a></div>
+        <div class="right_info"><i class="sp glyphicon glyphicon-user"></i><a href="javascript:;" class="info" id="loginOut">注销</a></div>
     </div>
 </nav>
     <!-- 成功模态框 -->
@@ -501,36 +501,48 @@
                         </div>
                         
                 <!-- 公告栏 -->
-                        <div class="col-md-4 message">       
-                            <ul class="sidebar">
-                                <li><h3 class="sidebar-widget-heading">超时待处理项目</h3></li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息一balabalbalbalba</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息二balabalbalbalba</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息三balabalbalbalba</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息四balabalbalbalba</a>
-                                </li>
+                        <div class="col-md-4 message" id="notice">       
+                            <ul class="sidebar" id="notice1">
+                                <li><h4 class="sidebar-widget-heading">超时未处理项目</h4></li>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 20%;"><b>项目ID</b></th>
+                                            <th style="width: 20%;"><b>问题ID</b></th>
+                                            <th style="width: 25%;"><b>问题类型</b></th>
+                                            <th><b>提交时间</b></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(item, index) in data1">
+                                            <td>{{item.item_id}}</td>
+                                            <td>{{item.question_id}}</td>
+                                            <td>{{item.question_type}}</td>
+                                            <td>{{item.commit_time}}</td>
+                                        </>
+                                    </tbody>
+                                </table>
                             </ul>
-                            <ul  class="sidebar">
-                                <li><h3 class="sidebar-widget-heading">超时未完成项目</h3></li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息一balabalbalbalba</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息二balabalbalbalba</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息三balabalbalbalba</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息四balabalbalbalba</a>
-                                </li>
+                            <ul  class="sidebar" id="notice2">
+                                <li><h4 class="sidebar-widget-heading">超时未完成项目</h4></li>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 20%;"><b>项目ID</b></th>
+                                            <th style="width: 20%;"><b>问题ID</b></th>
+                                            <th style="width: 25%;"><b>问题类型</b></th>
+                                            <th><b>提交时间</b></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(item, index) in data2">
+                                            <td>{{item.item_id}}</td>
+                                            <td>{{item.question_id}}</td>
+                                            <td>{{item.question_type}}</td>
+                                            <td>{{item.commit_time}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </ul>
                         </div>
                     </div>
