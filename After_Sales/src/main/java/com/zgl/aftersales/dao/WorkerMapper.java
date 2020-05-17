@@ -29,10 +29,13 @@ public interface WorkerMapper {
      */
     void worker_updateBy_Session_UserId(Map<String, Object> map);
 
+
     /**
      * 接收任务后
-     * @param questionID
+     * @param userID
+     * @return
      */
+    int worker_select_taskNum(int userID);
     void worker_update_ques_accept(String questionID);
 
     void worker_update_addtaskNum(int userID);
@@ -55,7 +58,21 @@ public interface WorkerMapper {
 
     List<Question> worker_show_done(int userId);
 
+    /**
+     * 显示该负责人负责的所有项目
+     * @param userId
+     * @return
+     */
     List<Items> show_items(int userId);
 
-    List<List<?>> show_item_workers(Map<String, Object> map);
+    List<?> show_item_workers(Map<String, Object> map);
+
+    List<?> select_userid(int userId);
+
+    void delete_item_worker(Map<String, Object> map);
+
+    List<?> show_item_other_workers(int itemID);
+
+    void insert_item_other_workers(Map<String,Object> map);
+
 }

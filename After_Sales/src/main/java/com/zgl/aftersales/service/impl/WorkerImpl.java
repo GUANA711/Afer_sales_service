@@ -32,6 +32,11 @@ public class WorkerImpl implements WorkerService {
     }
 
     @Override
+    public int worker_select_taskNum(int userID) {
+        return workerMapper.worker_select_taskNum(userID);
+    }
+
+    @Override
     public void worker_update_ques_accept(String questionID) {
         workerMapper.worker_update_ques_accept(questionID);
     }
@@ -72,9 +77,28 @@ public class WorkerImpl implements WorkerService {
     }
 
     @Override
-    public List<List<?>> show_item_workers(Map<String, Object> map) {
+    public List<?> show_item_workers(Map<String, Object> map) {
         return workerMapper.show_item_workers(map);
     }
 
+    @Override
+    public List<?> select_userid(int userId) {
+        return workerMapper.select_userid(userId);
+    }
+
+    @Override
+    public void delete_item_worker(Map<String, Object> map) {
+        workerMapper.delete_item_worker(map);
+    }
+
+    @Override
+    public List<?> show_item_other_workers(int itemID) {
+        return workerMapper.show_item_other_workers(itemID);
+    }
+
+    @Override
+    public void insert_item_other_workers(Map<String, Object> map) {
+        workerMapper.insert_item_other_workers(map);
+    }
 
 }

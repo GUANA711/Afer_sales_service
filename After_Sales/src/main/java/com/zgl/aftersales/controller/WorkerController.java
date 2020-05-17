@@ -28,7 +28,6 @@ import java.util.regex.Pattern;
 @ResponseBody
 @CrossOrigin //允许跨域
 @RequestMapping(value ="/worker")
-@Slf4j
 public class WorkerController {
     @Autowired
     private WorkerService workerService;
@@ -53,7 +52,6 @@ public class WorkerController {
         map.put("Tel",workerService.worker_selectBy_Session_UserId(User_id).getTel());
         map.put("Email",workerService.worker_selectBy_Session_UserId(User_id).getEmail());
         map.put("Task_num",workerService.worker_selectBy_Session_UserId(User_id).getTask_num());
-
 
         return map;
     }
@@ -163,16 +161,20 @@ public class WorkerController {
         String date=formatter.format(date_Date).toString();
 
         try {
-            maintenance.setQuestion_id(questionID);
-            maintenance.setUser_id(User_id);
-            maintenance.setStart_time(date);
+            if (workerService.worker_select_taskNum(User_id)<10){
+                maintenance.setQuestion_id(questionID);
+                maintenance.setUser_id(User_id);
+                maintenance.setStart_time(date);
 
-            maintenanceService.insert(maintenance);
-            workerService.worker_update_ques_accept(questionID_String);
-            workerService.worker_update_addtaskNum(User_id);
+                maintenanceService.insert(maintenance);
+                workerService.worker_update_ques_accept(questionID_String);
+                workerService.worker_update_addtaskNum(User_id);
 
-            workerStatus.setMsg("接收任务成功");
-            workerStatus.setStatus(true);
+                workerStatus.setMsg("接收任务成功");
+                workerStatus.setStatus(true);
+            } else {
+                workerStatus.setMsg("接收任务失败");
+            }
         }catch (Exception e){
             workerStatus.setMsg("接收任务失败");
             System.out.println(e);
@@ -223,7 +225,7 @@ public class WorkerController {
      */
 
     /**
-     * 显示未接收得任务
+     * 显示该维修人员被安排到的维修项目对应的所有未接收得任务
      * @param req
      * @return
      */
@@ -235,7 +237,7 @@ public class WorkerController {
     }
 
     /**
-     * 显示正在处理得任务
+     * 显示显示该维修人员被安排到的维修项目对应的所有正在处理得任务
      * @param req
      * @return
      */
@@ -247,7 +249,7 @@ public class WorkerController {
     }
 
     /**
-     * 显示已完成得任务
+     * 显示显示该维修人员被安排到的维修项目对应的所有已完成得任务
      * @param req
      * @return
      */
@@ -269,12 +271,11 @@ public class WorkerController {
         return workerService.show_items(User_id);
     }
     /**
-     * 修改
      * 显示负责人其中一个选定项目所有的维修人员
      * 一个人能负责很多项目，但是一个项目的负责人只有一个
      */
     @PostMapping("/show_item_workers")
-    public List<List<?>> show_item_workers(@RequestBody JSONObject json,HttpServletRequest req){
+    public List<?> show_item_workers(@RequestBody JSONObject json,HttpServletRequest req){
 
         int User_id= (int) req.getSession(false).getAttribute("userID");
 
@@ -283,8 +284,74 @@ public class WorkerController {
         map.put("User_id",User_id);
         map.put("Item_id",json.getString("Item_id"));
 
-        List<List<?>> item_workersList= Collections.singletonList(workerService.show_item_workers(map));
+        List<?> item_workersList= (List<?>) workerService.show_item_workers(map);
         return item_workersList;
+    }
+    /**
+     * 移除维修人员
+     * 直接从项目里面移除，
+     * 判断那个maintenance有没有他负责的这个项目的问题
+     * 如果没有就直接移出
+     */
+    @PostMapping("/delete_item_worker")
+    @MyLog(value = "从项目里面移除维修人员")
+    public WorkerStatus delete_item_worker(@RequestBody JSONObject json){
+        WorkerStatus workerStatus=new WorkerStatus();
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        map.put("Item_id",json.getString("Item_id"));
+        map.put("User_id",json.getString("User_id"));
+
+        try {
+            if (workerService.select_userid(Integer.parseInt(json.getString("User_id"))).isEmpty()){
+                workerService.delete_item_worker(map);
+                workerStatus.setStatus(true);
+                workerStatus.setMsg("移除维修人员"+json.getString("User_id")+"成功");
+            }
+            else {
+                workerStatus.setStatus(false);
+                workerStatus.setMsg("移除维修人员"+json.getString("User_id")+"失败");
+            }
+        }catch (Exception e){
+            System.out.println(e);
+            workerStatus.setMsg("移除维修人员"+json.getString("User_id")+"失败");
+        }
+
+        return workerStatus;
+    }
+    /**
+     * 显示该项目没有的,还可以接收任务的其他所有维修人员
+     * 维修人员最多接收任务为10
+     */
+    @PostMapping("/show_item_other_workers")
+    public List<?> show_item_other_workers(@RequestBody JSONObject json){
+
+        int Item_id= Integer.parseInt(json.getString("Item_id"));
+
+        List<?> item_other_workersList= (List<?>) workerService.show_item_other_workers(Item_id);
+        return item_other_workersList;
+    }
+    /**
+     * 在某个项目,负责人添加其他维修人员
+     */
+    @PostMapping("/insert_item_other_workers")
+    @MyLog(value = "给项目添加维修人员")
+    public WorkerStatus insert_item_other_workers(@RequestBody JSONObject json){
+        WorkerStatus workerStatus=new WorkerStatus();
+        Map<String,Object> map=new HashMap<>();
+        try {
+            map.put("Item_id",json.getString("Item_id"));
+            map.put("User_id",json.getString("User_id"));
+            workerService.insert_item_other_workers(map);
+            workerStatus.setStatus(true);
+            workerStatus.setMsg("添加成功");
+        }
+        catch (Exception e){
+            System.out.println(e);
+            workerStatus.setStatus(false);
+            workerStatus.setMsg("添加失败");
+        }
+        return workerStatus;
     }
 
 }
