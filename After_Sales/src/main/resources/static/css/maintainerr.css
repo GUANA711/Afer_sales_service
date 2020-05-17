@@ -229,7 +229,8 @@ input{
     flex-shrink: 0;
     min-height: 100%;
     height: auto;
-    width: 100%;
+    width: 80%;
+
 }
 .find_panel{
     width: 100%;
