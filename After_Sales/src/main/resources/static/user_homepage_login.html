@@ -15,7 +15,8 @@
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="jquery.validate.js"></script>
-<!--    VUE内容-->
+    <!--VUE-->
+    <script src="js/vue.js"></script>
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
@@ -96,7 +97,6 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
-
     <!-- 左侧菜单导航栏 -->
     <div class="aside">
         <ul class="nav nav-pills nav-stacked nav_aside">
@@ -110,11 +110,13 @@
             <li role="presentation" id="wri_title"><a href="#"><i class="glyphicon glyphicon-edit"></i><span class="index_title"> 提交问题</span></a></li>
         </ul>
     </div>
-
     <!--右侧内容面板-->
     <div class="data_panel" id="find_panel">
         <!--默认显示的panel-->
-        <div class="alert alert-info" role="alert" id="default_panel">Welcome!</div>
+        <div class="alert alert-info" role="alert" id="default_panel">
+            Welcome!
+            {{ title }}
+        </div>
         <!--个人信息面板，默认隐藏-->
         <div id="user_panel" style="display: none">
             <!--面包靴导航-->

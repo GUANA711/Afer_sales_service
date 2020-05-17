@@ -406,7 +406,12 @@ $(document).ready(function(){
         }
     });
 
-
+    let  default_panel = new Vue({
+       el: default_panel,
+        data: {
+           title:""
+        }
+    });
 
 
 });
