@@ -152,11 +152,14 @@ function login_check(){
         
                 success :function(data) {
                     if (data.status) {      //登录成功
-                        $(window).attr("location",data.data);       //网页重定向
+                        if (data.code==5) {
+                            alert("当前用户不允许登录，请联系管理员！");
+                        }else{
+                            $(window).attr("location",data.data);
+                        }
                     } else {
                         alert(data.msg);
                     }
-        
                 },
 
             error: function (XMLHttpRequest, textStatus, errorThrown) {

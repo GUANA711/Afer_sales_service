@@ -49,7 +49,7 @@
             </div>
         </div>
     </div>
-    <!-- 项目管理 -->
+    <!-- 项目管理模态框 -->
     <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="height:600px; overflow:auto; pointer-events:auto;">
             <div class="modal-content">
@@ -70,7 +70,7 @@
                             <template v-for="(item,index) in workers">
                                 <tr>
                                     <td class="task_check_tb_td"> 
-                                        <input type="radio" name="worker" value="index"> 
+                                        <input type="radio" name="worker" :value="index"> 
                                     </td>
                                     <td class="task_check_tb_td">  
                                         {{item.User_id}}  
@@ -85,7 +85,7 @@
                 </div>
                 <div class="modal-footer" id="modalFooter">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" id="modalBtn" @click='handle'>修改</button>
+                    <button type="button" class="btn btn-primary" id="modalBtn">修改</button>
                 </div>
             </div>
         </div>
@@ -168,7 +168,7 @@
                                                     <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
                                                 </select>
                                                 <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
-                                                <button class="btn btn-default searchBtn" v-on:click="searchFor()"><i class="glyphicon glyphicon-search"></i></button>
+                                                <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
                                             </label>
                                         </div>
                                     </div>
@@ -228,7 +228,7 @@
                                                     <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
                                                 </select>
                                                 <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
-                                                <button class="btn btn-default searchBtn" v-on:click="searchFor()"><i class="glyphicon glyphicon-search"></i></button>
+                                                <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
                                             </label>
                                         </div>
                                     </div>
@@ -279,7 +279,7 @@
                                                 <template v-else>
                                                     <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
                                                 </template>
-                                                <button class="btn btn-default searchBtn" v-on:click="searchFor()"><i class="glyphicon glyphicon-search"></i></button>
+                                                <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
                                             </label>
                                         </div>
                                     </div>
@@ -320,7 +320,7 @@
                                                     <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
                                                 </select>
                                                 <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
-                                                <button class="btn btn-default searchBtn" v-on:click="searchFor()"><i class="glyphicon glyphicon-search"></i></button>
+                                                <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
                                             </label>
                                         </div>
                                     </div>
@@ -399,7 +399,7 @@
                                                 <template v-else>
                                                     <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
                                                 </template>
-                                                <button class="btn btn-default searchBtn" v-on:click="searchFor()"><i class="glyphicon glyphicon-search"></i></button>
+                                                <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
                                             </label>
                                         </div>
                                     </div>
@@ -424,10 +424,10 @@
                                                     <td class="task_check_tb_td">  
                                                         {{item.User_name}}
                                                     </td>
-                                                    <td class="task_check_tb_td">  
+                                                    <td class="task_check_tb_td">
                                                         <select v-model="roleChoice[index]" class="searchSel  roles">
                                                             <option :value="item.Role_id" selected :key="item.Role_id">{{roleOptions[item.Role_id]}}</option>
-                                                            <option :value="index" v-for="(option, index) in roleOptions" v-if="index!=item.Role_id && index!=4" :key="index">{{option}}</option>
+                                                            <option :value="index" v-for="(option, index) in roleOptions" v-if="index!=item.Role_id&&index!=4" :key="index">{{option}}</option>
                                                         </select>
                                                     </td>
                                                     <td class="task_check_tb_td role_btn">  
@@ -468,7 +468,7 @@
                                                 <template v-else>
                                                     <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
                                                 </template>
-                                                <button class="btn btn-default searchBtn" v-on:click="searchFor()"><i class="glyphicon glyphicon-search"></i></button>
+                                                <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
                                             </label>
                                         </div>
                                     </div>
@@ -503,7 +503,7 @@
                 <!-- 公告栏 -->
                         <div class="col-md-4 message">       
                             <ul class="sidebar">
-                                <li><h3 class="sidebar-widget-heading">待处理项目</h3></li>
+                                <li><h3 class="sidebar-widget-heading">超时待处理项目</h3></li>
                                 <li>
                                     <a href="javascript:;" class="categories-link">消息一balabalbalbalba</a>
                                 </li>
@@ -518,7 +518,7 @@
                                 </li>
                             </ul>
                             <ul  class="sidebar">
-                                <li><h3 class="sidebar-widget-heading">未完成项目</h3></li>
+                                <li><h3 class="sidebar-widget-heading">超时未完成项目</h3></li>
                                 <li>
                                     <a href="javascript:;" class="categories-link">消息一balabalbalbalba</a>
                                 </li>
