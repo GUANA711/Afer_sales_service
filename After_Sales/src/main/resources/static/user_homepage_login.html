@@ -15,7 +15,8 @@
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="jquery.validate.js"></script>
-<!--    VUE内容-->
+    <!--VUE-->
+    <script src="js/vue.js"></script>
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <!-- 引入组件库 -->
@@ -87,7 +88,7 @@
                     <h4 class="modal-title" id="myModalLabel3">提示信息</h4>
                 </div>
                 <div class="modal-body">
-                    您确定要注销此账号吗？点击确定后将清除与此账号相关的所有信息！
+                    您确定要注销此账号吗？点击确定后将返回首页！
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
@@ -96,7 +97,6 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
-
     <!-- 左侧菜单导航栏 -->
     <div class="aside">
         <ul class="nav nav-pills nav-stacked nav_aside">
@@ -110,11 +110,13 @@
             <li role="presentation" id="wri_title"><a href="#"><i class="glyphicon glyphicon-edit"></i><span class="index_title"> 提交问题</span></a></li>
         </ul>
     </div>
-
     <!--右侧内容面板-->
     <div class="data_panel" id="find_panel">
         <!--默认显示的panel-->
-        <div class="alert alert-info" role="alert" id="default_panel">Welcome!</div>
+        <div class="alert alert-info" role="alert" id="default_panel">
+            Welcome!
+            {{ title }}
+        </div>
         <!--个人信息面板，默认隐藏-->
         <div id="user_panel" style="display: none">
             <!--面包靴导航-->
@@ -177,7 +179,7 @@
             </div>
         </div>
         <!-- 反馈面板 -->
-        <!-- 已提交的问题 -->
+        <!-- 已提交的问题，默认隐藏 -->
         <div style="display: none" id="alr_top">
             <ul class="breadcrumb">
                 <li>首页</li>
@@ -185,7 +187,7 @@
             </ul>
             <div class="pa_all panel panel-default" id="alr_panel" style="display: none"></div>
         </div>
-        <!-- 已完成的问题 -->
+        <!-- 已完成的问题，默认隐藏 -->
         <div style="display: none" id="fin_top">
             <ul class="breadcrumb">
                 <li>首页</li>
@@ -193,7 +195,7 @@
             </ul>
             <div class="pa_all panel panel-default" id="fin_panel" style="display: none;"></div>
         </div>
-        <!-- 处理中的问题 -->
+        <!-- 处理中的问题，默认隐藏 -->
         <div style="display: none" id="ing_top">
             <ul class="breadcrumb">
                 <li>首页</li>
@@ -201,7 +203,7 @@
             </ul>
             <div class="pa_all panel panel-default" id="ing_panel" style="display: none;"></div>
         </div>
-        <!--提交问题面板-->
+        <!--提交问题面板，默认隐藏-->
         <div style="display: none" id="wri_top">
             <ul class="breadcrumb">
                 <li>首页</li>
@@ -237,12 +239,7 @@
                         <!-- 项目选择下拉栏 -->
                         <li class="list-group-item">
                             <span class="select_lable">项目选择:</span>
-                            <select class="select_form" id="item_id">
-                                <option value="1">第一个软件</option>
-                                <option value="2">第二个软件</option>
-                                <option value="3">第三个软件</option>
-                                <option value="4">第四个软件</option>
-                            </select>
+                            <select class="select_form" id="item_id"></select>
                         </li>
                         <!-- 问题详情描述文本框 -->
                         <li class="list-group-item" id="question_clear">

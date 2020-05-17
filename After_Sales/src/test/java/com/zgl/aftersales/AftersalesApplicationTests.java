@@ -151,6 +151,11 @@ class AftersalesApplicationTests {
     @Autowired
     QuestionService questionService;
 
+    @Test
+    public void showWorker(){
+        List<?> list=userService.showWorker();
+        System.out.println(list);
+    }
 
 
 }

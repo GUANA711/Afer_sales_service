@@ -38,23 +38,27 @@
     </resultMap>
 
     <select id="showUser" parameterType="map" resultMap="data,count5">
-        select SQL_CALC_FOUND_ROWS u.User_id,u.User_name,t.Role_id from users u,role_user t where  t.User_id=u.User_id order by u.User_id limit #{currIndex},#{pageSize};
+        select SQL_CALC_FOUND_ROWS u.User_id,u.User_name,t.Role_id from users u left join role_user t on  t.User_id=u.User_id order by u.User_id limit #{currIndex},#{pageSize};
         select FOUND_ROWS() as count;
     </select>
 
     <select id="searchUser" parameterType="map" resultMap="data,count5">
-        select SQL_CALC_FOUND_ROWS u.User_id,u.User_name,t.Role_id from users u,role_user t
+        select SQL_CALC_FOUND_ROWS u.User_id,u.User_name,t.Role_id from users u left join role_user t on  t.User_id=u.User_id
            <where>
-                t.User_id=u.User_id
+
                <if  test="User_id!=null">
-                   and u.User_id like CONCAT(CONCAT('%', #{User_id}), '%')
+                   u.User_id like CONCAT(CONCAT('%', #{User_id}), '%')
                </if>
                <if test="User_name!=null">
-                   and u.User_name like CONCAT(CONCAT('%', #{User_name}), '%')
+                   u.User_name like CONCAT(CONCAT('%', #{User_name}), '%')
                </if>
-               <if test="Role_id!=null">
-                   and t.Role_id like CONCAT(CONCAT('%', #{Role_id}), '%')
+               <if test="Role_id!=null and Role_id!=5">
+                    t.Role_id like CONCAT(CONCAT('%', #{Role_id}), '%')
                </if>
+               <if test="Role_id==5">
+                   t.Role_id is null
+               </if>
+
            </where>
         order by u.User_id
         limit #{currIndex},#{pageSize};
@@ -69,5 +73,12 @@
     </delete>
     <select id="isLeader" parameterType="int" resultType="int">
         select count(*) from itme_worker i where i.User_id=#{id}
+    </select>
+    <resultMap id="showWorker_data" type="map">
+        <result property="User_id" column="User_id"></result>
+        <result property="User_name" column="User_name"></result>
+    </resultMap>
+    <select id="showWorker" resultMap="showWorker_data">
+        select u.User_id , u.User_name from users u,role_user r where u.User_id=r.User_id and r.Role_id=2
     </select>
 </mapper>

@@ -10,4 +10,5 @@ public interface MaintenanceService {
     List<List<?>> selectAll(Map<String, Object> map);
     List<List<?>> fuzzyQuery(Map<String, Object> map);
     void insert(Maintenance maintenance);
+    void itemLeaderEdite(Map<String, Object> map);
 }

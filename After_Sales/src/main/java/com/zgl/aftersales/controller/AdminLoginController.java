@@ -257,11 +257,15 @@ public class AdminLoginController {
             map.put("User_name", key);
         }
         if (choice.equals("2")) {
-            map.put("Role_id", key);
+            int k=Integer.parseInt(key);
+            map.put("Role_id", k+1);
         }
         List<List<?>> lists=userService.searchUser(map);
         return lists;
     }
+
+
+
 
 
     /**
@@ -282,12 +286,16 @@ public class AdminLoginController {
      * @return
      */
     @PostMapping("/wokername")
-
     public List<String> dropListWorker(@RequestBody JSONObject json){
         String questionID=json.getString("key");
         List<String> stringList=questionService.selectWorkerByQuesID(questionID);
         return stringList;
     }
+
+
+
+
+
 
 
     /**
@@ -348,13 +356,19 @@ public class AdminLoginController {
     @PostMapping("/addrole")
     public Status roleadd(@RequestBody JSONObject json){
         String user_id_string=json.getString("userID");
-        String role_id_string=json.getString("roleID");
         int userID=Integer.parseInt(user_id_string);
-        int roleID=Integer.parseInt(role_id_string)+1;
         Status status=new Status();
         Map<String,Object> map=new HashMap<>();
         map.put("User_id",userID);
-        map.put("Role_id",roleID);
+
+       try {
+           String role_id_string=json.getString("roleID");
+           int roleID=Integer.parseInt(role_id_string)+1;
+           map.put("Role_id",roleID);
+       }catch (Exception e){
+           status.setMsg("权限修改失败,请选择角色在点击修改");
+           return  status;
+       }
 
         try {
             userService.insertRoleID(map);
@@ -363,7 +377,6 @@ public class AdminLoginController {
             return  status;
         }catch (Exception e){
             status.setMsg("权限修改失败,该用户已拥有此角色");
-            e.printStackTrace();
             return  status;
         }
     }
@@ -377,13 +390,18 @@ public class AdminLoginController {
     @PostMapping("/deleterole")
     public Status roledelete(@RequestBody JSONObject json){
         String user_id_string=json.getString("userID");
-        String role_id_string=json.getString("roleID");
         int userID=Integer.parseInt(user_id_string);
-        int roleID=Integer.parseInt(role_id_string)+1;
         Status status=new Status();
         Map<String,Object> map=new HashMap<>();
         map.put("User_id",userID);
-        map.put("Role_id",roleID);
+        try {
+            String role_id_string=json.getString("roleID");
+            int roleID=Integer.parseInt(role_id_string)+1;
+            map.put("Role_id",roleID);
+        }catch (Exception e){
+            status.setMsg("权限删除失败,该用户没有课删除的角色");
+            return  status;
+        }
 
         try {
             userService.deleteRolID(map);
@@ -415,6 +433,43 @@ public class AdminLoginController {
         List<Question> questionList=questionService.shoeOvertimeUnaccepte();
         return questionList;
     }
+
+    /**
+     *@描述  显示可选择成为项目负责人的维修人员
+     *@参数
+     *@返回值
+     */
+    @PostMapping("/item_worker")
+    public List<?> showWorker(){
+        return userService.showWorker();
+    }
+
+    /**
+     * 项目负责人修改
+     * @param json
+     * @return
+     */
+    @PostMapping("/leaderEdit")
+    @MyLog("修改项目负责人")
+    public Status leaderEdit(@RequestBody JSONObject json){
+        Status status=new Status();
+        String itemID=json.getString("itemID");
+        String userID=json.getString("userID");
+        Map<String,Object> map=new HashMap<>();
+        map.put("Item_id",itemID);
+        map.put("User_id",userID);
+        try {
+            maintenanceService.itemLeaderEdite(map);
+            status.setStatus(true);
+            status.setMsg("修改成功");
+            return status;
+        }catch (Exception e){
+            status.setMsg("修改失败,此用户已是该项目负责人");
+            return status;
+        }
+    }
+
+
 
 
 

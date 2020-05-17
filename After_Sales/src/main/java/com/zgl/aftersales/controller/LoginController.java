@@ -151,12 +151,12 @@ public class LoginController {
             System.out.println(subject.hasRole("admin"));
             if(subject.hasRole("admin")){
                 status.setData("admin.html");
-            }
-            if(subject.hasRole("worker")){
+            }else if(subject.hasRole("worker")){
                 status.setData("maintainer_homepage_login.html");
-            }
-            if(subject.hasRole("user")){
+            }else if(subject.hasRole("user")){
                 status.setData("user_homepage_login.html");
+            }else {
+                status.setCode(5);//没有权限
             }
 
             status.setMsg("登录成功");
@@ -268,11 +268,10 @@ public class LoginController {
         try {
             if (subject.isAuthenticated()) {
                 subject.logout();
-                resp.sendRedirect("#");
                 return 1;//注销成功
             }
             return 0;
-        } catch (IOException e) {
+        } catch (Exception e) {
             return 0;//注销失败
         }
 
