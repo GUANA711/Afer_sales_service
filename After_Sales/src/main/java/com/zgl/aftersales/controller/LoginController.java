@@ -263,7 +263,7 @@ public class LoginController {
      * @param resp
      */
     @PostMapping("/logout")
-    public int logout(@RequestBody JSONObject json, HttpServletResponse resp) throws IOException {
+    public int logout(HttpServletResponse resp) throws IOException {
         Subject subject = SecurityUtils.getSubject();
         try {
             if (subject.isAuthenticated()) {
