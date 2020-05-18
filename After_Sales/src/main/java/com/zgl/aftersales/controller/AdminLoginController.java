@@ -84,7 +84,7 @@ public class AdminLoginController {
      * @param json
      * @return
      */
-    @PostMapping("/searchMaintenance/{currenPage}/{pageS ize}")
+    @PostMapping("/searchMaintenance/{currenPage}/{pageSize}")
     public List<List<?>> searchMaintenance(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize,@RequestBody JSONObject json){
         String key=json.getString("key");
         String choice=json.getString("choice");
@@ -153,6 +153,11 @@ public class AdminLoginController {
         return lists;
     }
 
+    /**
+     *@描述
+     *@参数 显示faq
+     *@返回值
+     */
     @Autowired
     FAQService faqService;
     @PostMapping("/showfaq/{currenPage}/{pageSize}")
