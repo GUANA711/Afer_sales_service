@@ -297,7 +297,7 @@ var faqs = new Vue({
         data:''
     },
     methods:{
-        init_page: function (totalPage,pageSize,currentPage) {
+        init_page: function (totalPage,currentPage) {
             $("#faq table tbody").html('');            /* 清空tbody内容 */
             if(totalPage == 0){
                 $("#faq table tbody").append("没有查询到相关数据！");
@@ -308,11 +308,11 @@ var faqs = new Vue({
                 var insert = '<tr id="showItems">'+
                 '<tr id="showItems">'+
                 '<td class="task_check_tb_td">' + 
-                item.question_id + 
+                item.faq_id + 
                 '</td><td class="task_check_tb_td">' + 
-                item.user_id + 
+                item.faq_question + 
                 '</td><td class="task_check_tb_td">' + 
-                item.start_time + 
+                item.faq_answer + 
                 '</td></tr>';
                 $("#faq table tbody").append(insert);
             }
@@ -341,7 +341,7 @@ var faqs = new Vue({
                 this.page.pageNum = 1;
             }
             axios
-            .post('/adminLoing/searchMaintenance/'+this.page.pageNum+'/'+this.page.pageSize, {
+            .post('/adminLoing/showfaq/'+this.page.pageNum+'/'+this.page.pageSize, {
                 "key": this.key,        
                 "choice":this.selected    
             })
