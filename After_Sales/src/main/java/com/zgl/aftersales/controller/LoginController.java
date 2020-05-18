@@ -15,6 +15,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -90,6 +92,12 @@ public class LoginController {
                         if (Pattern.matches(patternMail, mail) && !mail.equals("")) {
                             try {
                                 userService.addUser(user);
+                                Users selectUser=userService.selectByUsername(userName);
+                                int userID=selectUser.getUser_id();
+                                Map<String,Object> map=new HashMap<>();
+                                map.put("User_id",userID);
+                                map.put("Role_id","3");
+                                userService.insertRoleID(map);
                                 status.setStatus(true);
                                 status.setMsg("注册成功");
                             }
@@ -240,7 +248,7 @@ public class LoginController {
         if(checkCode.equals(postCheckCode)){
             if(Pattern.matches(patternPwd,newPwd)){
                 if(newPwd.equals(rePwd)){
-                    map.put("pwd",desDecodeUtiles.getEncryptString(newPwd));
+                    map.put("pwd",DesDecodeUtiles.getEncryptString(newPwd));
                     map.put("mail",mail);
                     userService.updateByEmailToPwd(map);
                     status.setMsg("密码重置成功！");
@@ -259,11 +267,11 @@ public class LoginController {
 
     /**
      * 注销
-     * @param json
+     * @param
      * @param resp
      */
     @PostMapping("/logout")
-    public int logout(@RequestBody JSONObject json, HttpServletResponse resp) throws IOException {
+    public int logout(HttpServletResponse resp) throws IOException {
         Subject subject = SecurityUtils.getSubject();
         try {
             if (subject.isAuthenticated()) {
@@ -274,6 +282,21 @@ public class LoginController {
         } catch (Exception e) {
             return 0;//注销失败
         }
+
+
+    }
+
+    /**
+     * 传递用户角色
+     * @param req
+     * @return
+     */
+    @PostMapping("/hasroles")
+    public List<String> hasRoles(HttpServletRequest req){
+        HttpSession session=req.getSession(false);
+        int userID=(int)session.getAttribute("userID");
+        List<String> list=userService.showRolesByUserID(userID);
+        return list;
 
 
     }

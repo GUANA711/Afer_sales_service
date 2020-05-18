@@ -23,7 +23,8 @@ $(document).ready(function(){
     faqs.searchFor(true);
     roles.searchFor(true);
     logs.searchFor(true);
-    selects.firstOptions(true);
+    selects.firstOptions();
+    notices.showNotice();
 });
 $(window).ajaxStart(function () {
     NProgress.start();
@@ -296,7 +297,7 @@ var faqs = new Vue({
         data:''
     },
     methods:{
-        init_page: function (totalPage,pageSize,currentPage) {
+        init_page: function (totalPage,currentPage) {
             $("#faq table tbody").html('');            /* 清空tbody内容 */
             if(totalPage == 0){
                 $("#faq table tbody").append("没有查询到相关数据！");
@@ -307,11 +308,11 @@ var faqs = new Vue({
                 var insert = '<tr id="showItems">'+
                 '<tr id="showItems">'+
                 '<td class="task_check_tb_td">' + 
-                item.question_id + 
+                item.faq_id + 
                 '</td><td class="task_check_tb_td">' + 
-                item.user_id + 
+                item.faq_question + 
                 '</td><td class="task_check_tb_td">' + 
-                item.start_time + 
+                item.faq_answer + 
                 '</td></tr>';
                 $("#faq table tbody").append(insert);
             }
@@ -340,7 +341,7 @@ var faqs = new Vue({
                 this.page.pageNum = 1;
             }
             axios
-            .post('/adminLoing/searchMaintenance/'+this.page.pageNum+'/'+this.page.pageSize, {
+            .post('/adminLoing/showfaq/'+this.page.pageNum+'/'+this.page.pageSize, {
                 "key": this.key,        
                 "choice":this.selected    
             })
@@ -637,6 +638,63 @@ var logs = new Vue({
         }
     }
 });
+var notices = new Vue({
+    el:'#notice',
+    data:{
+        data1:'',
+        temp1:[],
+        data2:'',
+        temp2:[]
+    },
+    methods: {
+        showNotice:function() {
+            axios
+            .post('/adminLoing/overtime_unaccept')
+            .then(function (response) {
+                notices.data1 = response.data;
+                if (notices.data1.length==0) {
+                    $("#notice1 table").hide();
+                    $("#notice1").append("没有超时待处理项目");
+                }else if(notices.data1.length>6){
+                    setInterval(function(){ 
+                        var body = $("#notice1 table tbody"); 
+                        var liHeight = body.find("tr:last").height()+10;
+                        body.animate({marginTop : liHeight +"px"},1000,function(){ 
+                            body.find("tr:last").prependTo(body);
+                            body.css({marginTop:'10px'}); 
+                        });         
+                    },2000); 
+                }
+            })
+            .catch(function (error) { // 请求失败处理
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
+            });
+            axios
+            .post('/adminLoing/overtim_deal')
+            .then(function (response) {
+                notices.data2 = response.data;
+                if (notices.data2.length==0) {
+                    $("#notice2 table").hide();
+                    $("#notice2").append("没有超时未完成项目");
+                }else if(notices.data2.length>6){
+                    setInterval(function(){ 
+                        var body = $("#notice2 table tbody"); 
+                        var liHeight = body.find("tr:last").height()+10;
+                        body.animate({marginTop : liHeight +"px"},1000,function(){ 
+                            body.find("tr:last").prependTo(body);
+                            body.css({marginTop:'10px'}); 
+                        });         
+                    },2000);
+                }
+            })
+            .catch(function (error) { // 请求失败处理
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
+            });
+        }
+    }
+});
 
 
 /* 一些触发事件 */
@@ -651,7 +709,7 @@ $(document).on('click','#modalBtn',function () {
     })
     .then(function (response) {
         if (response.data.status) {
-            items.data[items.chooseIndex].User_id = itemModal.workers[index].User_id;
+            items.searchFor(false);
             $("#successModal").modal();
             $('#successModal .modal-body').text(response.data.msg);
         } else {
@@ -664,7 +722,25 @@ $(document).on('click','#modalBtn',function () {
         $("#failModal").modal();
     });
 });
-// 点击编辑按钮
+$("#loginOut").click(function () { 
+    $.ajax({
+        type:'post',
+        data:'',
+        contentType :'application/json',
+        dataType:'json',
+        url :'/user/logout',
+        success :function(data) {
+            if (data==1) {
+                $(window).attr("location",'/');
+            }else{
+                alert("退出登录失败！");
+            }
+        },
+        error: function () {
+            alert("连接超时，请重试！");
+        }
+    });
+});
 $("#edit_bt").click(function(){
     var readonly = $("#username").attr("readonly")==='readonly'?false:true;
     $("#username").attr("readonly",readonly);
@@ -673,7 +749,6 @@ $("#edit_bt").click(function(){
     $("#form_userinfo").validate();
     $(this).text($(this).text()==='编辑'?'取消':'编辑');
 });
-// 点击保存按钮
 $("#save_bt").click(function(){
     var User_name = $("#username").val();
     var Tel = $("#tel").val();
@@ -712,7 +787,6 @@ $("#save_bt").click(function(){
         });            
     }
 });
-// 修改基础信息验证
 $("#form_userinfo").validate({
     rules:{
         username : {
@@ -745,12 +819,10 @@ $("#form_userinfo").validate({
         }
     }
 });
-//  二级菜单的滑动处理
 $("#questions_check").click(function(){
   $("#info").slideToggle("slow");
 });
-//点击个人信息切换面板 
-$('.nav-pills li[role="presentation"]').click(function() {                        //tags的切换
+$('.nav-pills li[role="presentation"]').click(function() {
     var i = $(this).index()-1;
     if(i!=2){
         i >= 4 ? i=i+1 : i = i;
@@ -761,7 +833,6 @@ $('.nav-pills li[role="presentation"]').click(function() {                      
         $(".message").show();
     }
 });   
-//点击二级菜单
 $('#info li').click(function (e) { 
     var i = $(this).index();
     $('.nav-pills li[role="presentation"]').removeClass('active');
