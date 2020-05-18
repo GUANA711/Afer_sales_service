@@ -101,4 +101,9 @@ public class WorkerImpl implements WorkerService {
         workerMapper.insert_item_other_workers(map);
     }
 
+    @Override
+    public List<Map<String, Object>> worker_show_overtime(int userId) {
+        return workerMapper.worker_show_overtime(userId);
+    }
+
 }

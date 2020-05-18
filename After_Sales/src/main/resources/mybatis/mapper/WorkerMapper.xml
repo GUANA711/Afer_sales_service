@@ -70,4 +70,11 @@
         insert into itme_worker (Item_id,User_id) values( #{Item_id}, #{User_id});
     </insert>
 
+    <select id="worker_show_overtime" parameterType="int" resultType="map">
+        select * from questions q, maintenance m,itme_worker iw where iw.User_id=m.User_id
+        and q.Item_id=iw.Item_id and iw.User_id = #{User_id} and q.Question_status = 'overtime' group by q.Question_id;
+    </select>
+
+
+
 </mapper>
