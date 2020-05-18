@@ -248,7 +248,7 @@ public class LoginController {
         if(checkCode.equals(postCheckCode)){
             if(Pattern.matches(patternPwd,newPwd)){
                 if(newPwd.equals(rePwd)){
-                    map.put("pwd",desDecodeUtiles.getEncryptString(newPwd));
+                    map.put("pwd",DesDecodeUtiles.getEncryptString(newPwd));
                     map.put("mail",mail);
                     userService.updateByEmailToPwd(map);
                     status.setMsg("密码重置成功！");
