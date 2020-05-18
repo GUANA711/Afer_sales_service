@@ -297,7 +297,7 @@ var faqs = new Vue({
         data:''
     },
     methods:{
-        init_page: function (totalPage,pageSize,currentPage) {
+        init_page: function (totalPage,currentPage) {
             $("#faq table tbody").html('');            /* 清空tbody内容 */
             if(totalPage == 0){
                 $("#faq table tbody").append("没有查询到相关数据！");
@@ -308,11 +308,11 @@ var faqs = new Vue({
                 var insert = '<tr id="showItems">'+
                 '<tr id="showItems">'+
                 '<td class="task_check_tb_td">' + 
-                item.question_id + 
+                item.faq_id + 
                 '</td><td class="task_check_tb_td">' + 
-                item.user_id + 
+                item.faq_question + 
                 '</td><td class="task_check_tb_td">' + 
-                item.start_time + 
+                item.faq_answer + 
                 '</td></tr>';
                 $("#faq table tbody").append(insert);
             }
@@ -341,7 +341,7 @@ var faqs = new Vue({
                 this.page.pageNum = 1;
             }
             axios
-            .post('/adminLoing/searchMaintenance/'+this.page.pageNum+'/'+this.page.pageSize, {
+            .post('/adminLoing/showfaq/'+this.page.pageNum+'/'+this.page.pageSize, {
                 "key": this.key,        
                 "choice":this.selected    
             })
@@ -709,7 +709,7 @@ $(document).on('click','#modalBtn',function () {
     })
     .then(function (response) {
         if (response.data.status) {
-            items.data[items.chooseIndex].User_id = itemModal.workers[index].User_id;
+            items.searchFor(false);
             $("#successModal").modal();
             $('#successModal .modal-body').text(response.data.msg);
         } else {
@@ -741,7 +741,6 @@ $("#loginOut").click(function () {
         }
     });
 });
-// 点击编辑按钮
 $("#edit_bt").click(function(){
     var readonly = $("#username").attr("readonly")==='readonly'?false:true;
     $("#username").attr("readonly",readonly);
@@ -750,7 +749,6 @@ $("#edit_bt").click(function(){
     $("#form_userinfo").validate();
     $(this).text($(this).text()==='编辑'?'取消':'编辑');
 });
-// 点击保存按钮
 $("#save_bt").click(function(){
     var User_name = $("#username").val();
     var Tel = $("#tel").val();
@@ -789,7 +787,6 @@ $("#save_bt").click(function(){
         });            
     }
 });
-// 修改基础信息验证
 $("#form_userinfo").validate({
     rules:{
         username : {
@@ -822,12 +819,10 @@ $("#form_userinfo").validate({
         }
     }
 });
-//  二级菜单的滑动处理
 $("#questions_check").click(function(){
   $("#info").slideToggle("slow");
 });
-//点击个人信息切换面板 
-$('.nav-pills li[role="presentation"]').click(function() {                        //tags的切换
+$('.nav-pills li[role="presentation"]').click(function() {
     var i = $(this).index()-1;
     if(i!=2){
         i >= 4 ? i=i+1 : i = i;
@@ -838,7 +833,6 @@ $('.nav-pills li[role="presentation"]').click(function() {                      
         $(".message").show();
     }
 });   
-//点击二级菜单
 $('#info li').click(function (e) { 
     var i = $(this).index();
     $('.nav-pills li[role="presentation"]').removeClass('active');
