@@ -135,28 +135,10 @@ var questions = new Vue({
     },
     methods:{
         init_page: function (totalPage,currentPage) {
-            $("#questions table tbody").html('');
             if(totalPage == 0){
+                $("#questions table tbody").html('');
                 $("#questions table tbody").append("没有查询到相关数据！");
                 return;
-            }
-            for(var i=0;i<questions.data.length;i++){
-                var item=questions.data[i];
-                var insert = '<tr id="showItems">'+
-                                 '<td class="task_check_tb_td">' + 
-                                 item.question_id + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.item_id + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.question_type + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.question_status + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.question_detail + 
-                                 '</td><td class="task_check_tb_td">'+
-                                 item.user_id + 
-                                 '</td></tr>';
-                $("#questions table tbody").append(insert);
             }
             $('#pagination2').jqPaginator({ 
                 totalPages: totalPage,
@@ -219,23 +201,10 @@ var maintenances = new Vue({
     },
     methods:{
         init_page: function (totalPage,currentPage) {
-            $("#maintenance table tbody").html('');
             if(totalPage == 0){
+                $("#maintenance table tbody").html('');
                 $("#maintenance table tbody").append("没有查询到相关数据！");
                 return;
-            }
-            for(var i=0;i<maintenances.data.length;i++){
-                var item=maintenances.data[i];
-                var insert = '<tr id="showItems">'+
-                '<tr id="showItems">'+
-                '<td class="task_check_tb_td">' + 
-                item.question_id + 
-                '</td><td class="task_check_tb_td">' + 
-                item.user_id + 
-                '</td><td class="task_check_tb_td">' + 
-                item.start_time + 
-                '</td></tr>';
-                $("#maintenance table tbody").append(insert);
             }
             $('#pagination3').jqPaginator({ 
                 totalPages: totalPage,
@@ -298,23 +267,10 @@ var faqs = new Vue({
     },
     methods:{
         init_page: function (totalPage,currentPage) {
-            $("#faq table tbody").html('');            /* 清空tbody内容 */
             if(totalPage == 0){
+                $("#faq table tbody").html('');
                 $("#faq table tbody").append("没有查询到相关数据！");
                 return;
-            }
-            for(var i=0;i<faqs.data.length;i++){
-                var item=faqs.data[i];
-                var insert = '<tr id="showItems">'+
-                '<tr id="showItems">'+
-                '<td class="task_check_tb_td">' + 
-                item.faq_id + 
-                '</td><td class="task_check_tb_td">' + 
-                item.faq_question + 
-                '</td><td class="task_check_tb_td">' + 
-                item.faq_answer + 
-                '</td></tr>';
-                $("#faq table tbody").append(insert);
             }
             $('#pagination4').jqPaginator({ 
                 totalPages: totalPage,        //页码整数
@@ -580,8 +536,8 @@ var logs = new Vue({
                 if (str != null) {
                     method = str.split('.')[5];
                 }
-                var insert = '<tr id="showItems">'+
-                            '<td class="task_check_tb_td">' + 
+                var insert = '<tr>'+
+                            '<td  class="task_check_tb_td">' + 
                             item.user_id + 
                             '</td><td class="task_check_tb_td">' + 
                             item.operation + 

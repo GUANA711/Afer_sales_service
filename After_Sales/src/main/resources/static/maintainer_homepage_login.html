@@ -430,42 +430,28 @@
                     </div>
                     <!-- 公告栏 -->
                     <div class="col-md-4 message">
-                        <ul class="sidebar">
-                            <li><h3 class="sidebar-widget-heading">新的任务</h3></li>
-                            <li>
-                                <a class="categories-link" >你有新的任务啦：问题id为</a>
-                                <a class="categories-link" id="new_task1"> </a>
-                                <a class="categories-link" id="new_task2"> </a>
-                                <a class="categories-link" id="new_task3"> </a>
-                                <a class="categories-link" id="new_task4"> </a>
-                                <a class="categories-link" id="new_task5"> </a>
-                            </li>
-                            <!--                                <li>-->
-                            <!--                                    <a href="#" class="categories-link">消息二balabalbalbalba</a>-->
-                            <!--                                </li>-->
-                            <!--                                <li>-->
-                            <!--                                    <a href="#" class="categories-link">消息三balabalbalbalba</a>-->
-                            <!--                                </li>-->
-                            <!--                                <li>-->
-                            <!--                                    <a href="#" class="categories-link">消息四balabalbalbalba</a>-->
-                            <!--                                </li>-->
+                        <ul class="sidebar" id="notice">
+                            <li><h4 class="sidebar-widget-heading">超时未完成项目</h4></li>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%;"><b>项目ID</b></th>
+                                        <th style="width: 20%;"><b>问题ID</b></th>
+                                        <th style="width: 25%;"><b>问题类型</b></th>
+                                        <th><b>提交时间</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in data">
+                                        <!-- <td>{{item}}</td> -->
+                                        <td>{{item.Item_id}}</td>
+                                        <td>{{item.Question_id}}</td>
+                                        <td>{{item.Question_type}}</td>
+                                        <td>{{item.Commit_time}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </ul>
-                        <ul  class="sidebar">
-                            <li><h3 class="sidebar-widget-heading">正在处理的任务</h3></li>
-                            <li>
-                                <a href="#" class="categories-link">消息一balabalbalbalba</a>
-                            </li>
-                            <li>
-                                <a href="#" class="categories-link">消息二balabalbalbalba</a>
-                            </li>
-                            <li>
-                                <a href="#" class="categories-link">消息三balabalbalbalba</a>
-                            </li>
-                            <li>
-                                <a href="#" class="categories-link">消息四balabalbalbalba</a>
-                            </li>
-                        </ul>
-
                     </div>
                 </div>
             </div>
@@ -491,7 +477,8 @@
 <script src="plugins/datatable/jquery.dataTables.min.js"></script>
 <script src="plugins/datatable/dataTables.bootstrap.min.js"></script>
 <script src="js/jquery.validate.js"></script>
-<script src="js/maintainerLoginHomepage.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="js/vue.js"></script>
+<script src="js/maintainerLoginHomepage.js"></script>
 </body>
 </html>

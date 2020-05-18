@@ -38,7 +38,7 @@ $(document).ready(function(){
             console.log(XMLHttpRequest.readyState);
         }
     });
-
+    notices.showNotice();
     // 点击编辑按钮
     $("#edit_bt").click(function(){
         $("#username").attr("readonly",false);
@@ -229,7 +229,7 @@ $(document).ready(function(){
                 console.log(XMLHttpRequest.readyState);
             }
         })
-    })
+    });
     // 点击正处理任务切换面板
     $("#ing_task").click(function(){
         $(".find_panel").children().hide();
@@ -342,7 +342,7 @@ $(document).ready(function(){
                 console.log(XMLHttpRequest.readyState);
             }
         })
-    })
+    });
 
     // 点击已完成任务切换面板
     $("#finished_task").click(function(){
@@ -511,7 +511,7 @@ $(document).ready(function(){
         $("#faq_question").attr("readonly",false);
         $("#faq_answer").attr("readonly",false);
 
-    })
+    });
 
     // 点击Faq保存按钮
     $("#saveFaq_bt").click(function(){
@@ -552,14 +552,6 @@ $(document).ready(function(){
             alert(data.status);
         }
     });
-    // // 点击Faq返回按钮
-    // $("#backFaq_bt").click(function(){
-    //     $("#addFaq_panel").hide();
-    //     $("#faq_panel").show();
-    //     $("#faq_present")
-    //     dt_faq.refresh();
-    // })
-
     // FAQ信息验证
     $("#form_addFaq").validate({
         rules:{
@@ -608,7 +600,37 @@ $(document).ready(function(){
         }
     });
 });
-
-//    function btn_recieved(){
-//        document.task_check_tb.btn.value = "已接收";
-//    };
+var notices = new Vue({
+    el:'#notice',
+    data:{
+        data:'',
+    },
+    methods: {
+        showNotice:function() {
+            axios
+            .get('/worker/worker_show_overtime')
+            .then(function (response) {
+                // notices.data = response.data;
+                console.log(notices.data);
+                console.log(response.data);
+                if (notices.data.length==0) {
+                    $("#notice table").hide();
+                    $("#notice").append("没有超时未完成项目");
+                }else if(notices.data.length>19){
+                    setInterval(function(){ 
+                        var body = $("#notice table tbody"); 
+                        var liHeight = body.find("tr:last").height()+10;
+                        body.animate({marginTop : liHeight +"px"},1000,function(){ 
+                            body.find("tr:last").prependTo(body);
+                            body.css({marginTop:'10px'}); 
+                        });         
+                    },2000); 
+                }
+            })
+            .catch(function (error) { // 请求失败处理
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
+            });
+        }
+    }
+});
