@@ -39,6 +39,18 @@
         select FOUND_ROWS() as count;
 
     </select>
+    <select id="select" parameterType="map" resultType="com.zgl.aftersales.pojo.Items">
+        select * from items
+        <where>
+            <if test="Item_id!=null">
+                Item_id=#{Item_id}
+            </if>
+            <if test="User_id!=null">
+                User_id=#{User_id}
+            </if>
+        </where>
+
+    </select>
 
 
 
