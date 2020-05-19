@@ -276,10 +276,19 @@ public class LoginController {
             return 0;//注销失败
         }
 
+//    @PostMapping("/logout")
+//    public int logout( HttpServletRequest req) throws IOException {
+//        int User_id=(int)req.getSession(false).getAttribute("userID");
+//
+//        try{
+//            req.removeAttribute("userID");
+//        }catch (Exception e){
+//            return 0;//注销失败
+//        }
+//        return 1;//注销成功
+//    }
 
     }
-
-
 
 }
 
