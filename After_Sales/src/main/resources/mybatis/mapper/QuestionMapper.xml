@@ -36,6 +36,10 @@
              SELECT * FROM items
     </select>
 
+    <select id="checkItemId" parameterType="int" resultType="com.zgl.aftersales.pojo.Items">
+             SELECT * FROM items WHERE Item_id = #{ Item_id }
+    </select>
+
 <!--    zgl-->
     <resultMap id="data" type="com.zgl.aftersales.pojo.Question">
         <result property="Question_id" column="Question_id"></result>

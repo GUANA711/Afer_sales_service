@@ -89,6 +89,12 @@ public class QuestionImpl implements QuestionService {
         return db.checkItemname();
     }
 
+    @Override
+    public Items checkItemId(Integer item_id){
+        return db.checkItemId(item_id);
+    }
+
+
 
 
 

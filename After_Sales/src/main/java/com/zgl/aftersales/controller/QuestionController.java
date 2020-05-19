@@ -103,11 +103,22 @@ public class QuestionController {
     }
 
     /**
-     * 获取item名称
+     * 查找item是否存在
      */
     @GetMapping("/checkItemname")
     public List<Items> checkItemname(){
         return db.checkItemname();
+    }
+
+    @GetMapping("/checkItemId")
+    public Items checkItemId(@RequestParam (value = "item_id",required = false)Integer item_id){
+        System.out.println(item_id);
+          return db.checkItemId(item_id);
+//        if(db.checkItemId(item_id)==0){
+//            return 0;//项目不存在
+//        }else {
+//            return 1;//项目存在
+//        }
     }
 
 }
