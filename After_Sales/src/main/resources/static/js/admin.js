@@ -350,15 +350,18 @@ var selects = new Vue({
         },
         assign:function(){
             axios
-            .post('/adminLoing/wokername',{
+            .post('/adminLoing/allocation',{
                 "questionID":selects.firstSelected,
                 "workerName":selects.secondSelected
             })
             .then(function(response){
                 selects.final = response.data;
                 if (selects.final.status) {
-                    $('#successModal .modal-body').text("任务指派成功"); 
+                    $('#successModal .modal-body').text(selects.final.msg);
                     $("#successModal").modal();
+                }else{
+                    $('#failModal .modal-body').text(selects.final.msg);
+                    $("#failModal").modal();
                 }
             })
             .catch(function (error) { // 请求失败处理
