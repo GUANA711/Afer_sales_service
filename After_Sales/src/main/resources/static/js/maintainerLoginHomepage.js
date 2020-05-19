@@ -512,27 +512,9 @@ $(document).ready(function() {
                 }
         });
     });
-<<<<<<< HEAD
     //选择移除按钮
     $("body").on("click", ".operate-btn-choose-delete", function () {
         var Item_id = $(this).parent().parent().find(".Item_id").text();
-=======
-
-    // 点击Faq添加按钮
-    $("#addFaq_bt").click(function(){
-        $("#faq_panel").hide();
-        $("#addFaq_panel").show();
-        $("#faq_question").attr("readonly",false);
-        $("#faq_answer").attr("readonly",false);
-
-    });
-
-    // 点击Faq保存按钮
-    $("#saveFaq_bt").click(function(){
-        //大写都是后端数据，小写都是js约束
-        var Faq_question = $("#faq_question").val();
-        var Faq_answer = $("#faq_answer").val();
->>>>>>> 24c38e828a3775c0134bea431763b12a048cb830
         var info = {
             "Item_id": Item_id
         };
@@ -663,7 +645,6 @@ $(document).ready(function() {
                     console.log(XMLHttpRequest.readyState);
                 }
             });
-<<<<<<< HEAD
         });
         //点击移除按钮
         $("body").on("click", ".operate-btn-delete", function () {
@@ -839,24 +820,9 @@ $(document).ready(function() {
                 });
             } else {
                 alert(data.status);
-=======
-        }else{
-            alert(data.status);
-        }
+            }
     });
     // FAQ信息验证
-    $("#form_addFaq").validate({
-        rules:{
-            faq_question:{
-                required:true,
-                minlength:10,
-            },
-            faq_answer:{
-                required:true,
-                minlength:6,
->>>>>>> 24c38e828a3775c0134bea431763b12a048cb830
-            }
-        });
         // // 点击Faq返回按钮
         // $("#backFaq_bt").click(function(){
         //     $("#addFaq_panel").hide();
@@ -913,15 +879,12 @@ $(document).ready(function() {
             }
         });
     });
-<<<<<<< HEAD
 })
 
 //    function btn_recieved(){
 //        document.task_check_tb.btn.value = "已接收";
 //    };
 // 点击项目分配面板
-=======
-});
 var notices = new Vue({
     el:'#notice',
     data:{
@@ -956,4 +919,3 @@ var notices = new Vue({
         }
     }
 });
->>>>>>> 24c38e828a3775c0134bea431763b12a048cb830
