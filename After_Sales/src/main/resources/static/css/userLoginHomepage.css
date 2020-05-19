@@ -254,4 +254,9 @@ input{
 .select_form{
     width: 500px;
 }
+.item_id_cl{
+    width: 500px!important;
+    border-color: #000000;
+    margin-right: 40px!important;
+}
 

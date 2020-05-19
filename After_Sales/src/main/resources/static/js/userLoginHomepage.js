@@ -47,16 +47,14 @@ $(function(){
 
 
     });
-
     //点击提交问题的提交按钮
     $("#question_submit").click(function(){
         var item_id = document.getElementById("item_id").value;
         var question_detail = document.getElementById("select_form").value+": "+document.getElementById("question_detail").value;
         var question_type = $("#first_select").find("option:selected").val();
-
         if (document.getElementById("question_detail").value==''){
             $("#failSubmitModal").modal();
-        }else{
+        }else {
             var question = {
                 "item_id": item_id,
                 "question_detail": question_detail,
@@ -65,20 +63,53 @@ $(function(){
             $.ajax({
                 type: 'POST',
 
-                data:JSON.stringify(question),
+                data: JSON.stringify(question),
+
+                contentType: 'application/json',
+
+                dataType: 'json',
+
+                url: '/question/addQuestion',
+
+                success: function (data) {
+                    //清空文本域
+                    $("#question_detail").val('');
+                    $("#item_id").val('');
+                },
+                error: function (XMLHttpRequest, textStatus) {
+                    // 状态码
+                    console.log(XMLHttpRequest.status);
+                    // 状态
+                    console.log(XMLHttpRequest.readyState);
+                    // 错误信息
+                    alert(textStatus);
+                }
+            });
+            //先检查项目ID对不对
+            var url = "/question/checkItemId?item_id="+item_id;
+            console.log(url);
+            $.ajax({
+                type:'GET',
+
+                data:'',
 
                 contentType :'application/json',
 
                 dataType:'json',
 
-                url :'/question/addQuestion',
+                url :url,
 
                 success :function(data) {
-                    $("#successSubmitModal").modal();
-                    //清空文本域
-                    $("#question_detail").val('');
+                    if (data == 0) {
+                        $("#iDfailSubmitModal").modal();
+                        //清空文本域
+                        $("#question_detail").val('');
+                        $("#item_id").val('');
+                    }else {
+                        $("#successSubmitModal").modal();
+                    }
                 },
-                error: function (XMLHttpRequest, textStatus) {
+                error: function (XMLHttpRequest, textStatus,data) {
                     // 状态码
                     console.log(XMLHttpRequest.status);
                     // 状态
@@ -199,7 +230,6 @@ $(document).ready(function(){
     var secondform = ["异常退出","点击没有反应"];
     var thirdform = ["界面需完善","清理没有必要的广告","其他"];
     var fourthform = ["其他"];
-
     //  二级菜单的滑动处理
     $("#info_title").click(function(){
         $("#info").slideToggle("slow");
@@ -232,38 +262,56 @@ $(document).ready(function(){
     $("#alr_title").click(function(){
         $("#find_panel").children().hide();
         $("#default_panel").hide();
-        //GET数据
-        $.ajax({
-            type:'GET',
-            data:'',
-            contentType :'application/json',
-            dataType:'json',
-            url :'/question/checkQuestionsubmited',
-            success :function(data) {
-                //动态生成面板
-                //首先清空面板
-                $("#alr_panel").empty();
-                if (data.length==0){
-                    $("#alr_panel").append("<div class=\"alert alert-info\" role=\"alert\">没有已提交的数据！</div>");
-                }else {
-                    // $("#alr_panel").append("<ul class=\"breadcrumb\"><li>首页</li><li>已提交的问题</li></ul>");
-                    //设置面板
-                    for(var i in data){
-                        $("#alr_panel").append("<div class='pa_all panel panel-default' id="+i+">");
-                        $("#alr_panel").append(" <div class=\"panel-heading\">" + "<h3 class=\"panel-title\">问题查看：</h3>" + "</div>"+"<div class=\"panel-body\">"+"<form>");
-                        $("#alr_panel").append("<ul class=\"list-group\" >");
-                        $("#alr_panel").append("<li class=\"list-group-item\"><label for=\"select\">问题分类:</label>"+"<input type=\"text\" id=\"select\" readonly=\"readonly\" value=\""+data[i].question_type+"\"></li>");
-                        $("#alr_panel").append("<li class=\"list-group-item\"><label for=\"number\">项目编号:</label>"+"<input type=\"text\" id=\"number\" readonly=\"readonly\" value=\""+data[i].item_id+"\"></li>");
-                        $("#alr_panel").append("<li class=\"list-group-item\"><span class='lable_textarea'>问题详情:</span>"+"<textarea rows=\"6\" cols=\"50\" readonly=\"readonly\">"+data[i].question_detail+"</textarea></li>");
-                        $("#alr_panel").append("</ul>"+"</form>"+"</div>"+"</div>");
-                    }
-                }
-            },
-            error: function (XMLHttpRequest) {
-                console.log(XMLHttpRequest.status);
-                console.log(XMLHttpRequest.readyState);
-            }
+        $("#arl_table").bootstrapTable({
+            url:'/question/checkQuestionsubmited',
+            methods:'get',
+            pagination:true,//显示分页
+            striped:true,//显示行间距色
+            pageSize: 5,//每一页的行数
+            pageList: [5,10,20],//每页可选择的行数
+            columns:[{
+                field:'question_type',
+                title:'问题分类'
+            },{
+                field:'item_id',
+                title:'项目名称'
+            }, {
+                field:'question_detail',
+                title:'问题详情'
+            }, ]
         });
+        // //GET数据
+        // $.ajax({
+        //     type:'GET',
+        //     data:'',
+        //     contentType :'application/json',
+        //     dataType:'json',
+        //     url :'/question/checkQuestionsubmited',
+        //     success :function(data) {
+        //         //动态生成面板
+        //         //首先清空面板
+        //         $("#alr_panel").empty();
+        //         if (data.length==0){
+        //             $("#alr_panel").append("<div class=\"alert alert-info\" role=\"alert\">没有已提交的数据！</div>");
+        //         }else {
+        //             // $("#alr_panel").append("<ul class=\"breadcrumb\"><li>首页</li><li>已提交的问题</li></ul>");
+        //             //设置面板
+        //             for(var i in data){
+        //                 $("#alr_panel").append("<div class='pa_all panel panel-default' id="+i+">");
+        //                 $("#alr_panel").append(" <div class=\"panel-heading\">" + "<h3 class=\"panel-title\">问题查看：</h3>" + "</div>"+"<div class=\"panel-body\">"+"<form>");
+        //                 $("#alr_panel").append("<ul class=\"list-group\" >");
+        //                 $("#alr_panel").append("<li class=\"list-group-item\"><label for=\"select\">问题分类:</label>"+"<input type=\"text\" id=\"select\" readonly=\"readonly\" value=\""+data[i].question_type+"\"></li>");
+        //                 $("#alr_panel").append("<li class=\"list-group-item\"><label for=\"number\">项目编号:</label>"+"<input type=\"text\" id=\"number\" readonly=\"readonly\" value=\""+data[i].item_id+"\"></li>");
+        //                 $("#alr_panel").append("<li class=\"list-group-item\"><span class='lable_textarea'>问题详情:</span>"+"<textarea rows=\"6\" cols=\"50\" readonly=\"readonly\">"+data[i].question_detail+"</textarea></li>");
+        //                 $("#alr_panel").append("</ul>"+"</form>"+"</div>"+"</div>");
+        //             }
+        //         }
+        //     },
+        //     error: function (XMLHttpRequest) {
+        //         console.log(XMLHttpRequest.status);
+        //         console.log(XMLHttpRequest.readyState);
+        //     }
+        // });
         $("#alr_top").show();
         $("#alr_panel").show();
         $(".message").show();
@@ -272,37 +320,55 @@ $(document).ready(function(){
     $("#fin_title").click(function(){
         $("#find_panel").children().hide();
         $("#default_panel").hide();
-        //GET数据
-        $.ajax({
-            type:'GET',
-            data:'',
-            contentType :'application/json',
-            dataType:'json',
-            url :'/question/checkQuestionfinished',
-            success :function(data) {
-                //动态生成面板
-                //首先清空面板
-                $("#fin_panel").empty();
-                if (data.length==0){
-                    $("#fin_panel").append("<div class=\"alert alert-info\" role=\"alert\">没有已完成的数据！</div>");
-                }else{
-                    //设置面板
-                    for(var i in data){
-                        $("#fin_panel").append("<div class='pa_all panel panel-default' id="+i+">");
-                        $("#fin_panel").append(" <div class=\"panel-heading\">" + "<h3 class=\"panel-title\">问题查看：</h3>" + "</div>"+"<div class=\"panel-body\">"+"<form>");
-                        $("#fin_panel").append("<ul class=\"list-group\" >");
-                        $("#fin_panel").append("<li class=\"list-group-item\"><label for=\"select\">问题分类:</label>"+"<input type=\"text\" id=\"select\" readonly=\"readonly\" value=\""+data[i].question_type+"\"></li>");
-                        $("#fin_panel").append("<li class=\"list-group-item\"><label for=\"number\">项目编号:</label>"+"<input type=\"text\" id=\"number\" readonly=\"readonly\" value=\""+data[i].item_id+"\"></li>");
-                        $("#fin_panel").append("<li class=\"list-group-item\"><span class='lable_textarea'>问题详情:</span>"+"<textarea rows=\"6\" cols=\"50\" readonly=\"readonly\">"+data[i].question_detail+"</textarea></li>");
-                        $("#fin_panel").append("</ul>"+"</form>"+"</div>"+"</div>");
-                    }
-                }
-            },
-            error: function (XMLHttpRequest) {
-                console.log(XMLHttpRequest.status);
-                console.log(XMLHttpRequest.readyState);
-            }
+        $("#fin_table").bootstrapTable({
+            url:'/question/checkQuestionfinished',
+            methods:'get',
+            pagination:true,//显示分页
+            striped:true,//显示行间距色
+            pageSize: 5,//每一页的行数
+            pageList: [5,10,20],//每页可选择的行数
+            columns:[{
+                field:'question_type',
+                title:'问题分类'
+            },{
+                field:'item_id',
+                title:'项目名称'
+            }, {
+                field:'question_detail',
+                title:'问题详情'
+            }, ]
         });
+        // //GET数据
+        // $.ajax({
+        //     type:'GET',
+        //     data:'',
+        //     contentType :'application/json',
+        //     dataType:'json',
+        //     url :'/question/checkQuestionfinished',
+        //     success :function(data) {
+        //         //动态生成面板
+        //         //首先清空面板
+        //         $("#fin_panel").empty();
+        //         if (data.length==0){
+        //             $("#fin_panel").append("<div class=\"alert alert-info\" role=\"alert\">没有已完成的数据！</div>");
+        //         }else{
+        //             //设置面板
+        //             for(var i in data){
+        //                 $("#fin_panel").append("<div class='pa_all panel panel-default' id="+i+">");
+        //                 $("#fin_panel").append(" <div class=\"panel-heading\">" + "<h3 class=\"panel-title\">问题查看：</h3>" + "</div>"+"<div class=\"panel-body\">"+"<form>");
+        //                 $("#fin_panel").append("<ul class=\"list-group\" >");
+        //                 $("#fin_panel").append("<li class=\"list-group-item\"><label for=\"select\">问题分类:</label>"+"<input type=\"text\" id=\"select\" readonly=\"readonly\" value=\""+data[i].question_type+"\"></li>");
+        //                 $("#fin_panel").append("<li class=\"list-group-item\"><label for=\"number\">项目编号:</label>"+"<input type=\"text\" id=\"number\" readonly=\"readonly\" value=\""+data[i].item_id+"\"></li>");
+        //                 $("#fin_panel").append("<li class=\"list-group-item\"><span class='lable_textarea'>问题详情:</span>"+"<textarea rows=\"6\" cols=\"50\" readonly=\"readonly\">"+data[i].question_detail+"</textarea></li>");
+        //                 $("#fin_panel").append("</ul>"+"</form>"+"</div>"+"</div>");
+        //             }
+        //         }
+        //     },
+        //     error: function (XMLHttpRequest) {
+        //         console.log(XMLHttpRequest.status);
+        //         console.log(XMLHttpRequest.readyState);
+        //     }
+        // });
         $("#fin_top").show();
         $("#fin_panel").show();
         $(".message").show();
@@ -311,37 +377,55 @@ $(document).ready(function(){
     $("#ing_title").click(function(){
         $("#find_panel").children().hide();
         $("#default_panel").hide();
-        //GET数据
-        $.ajax({
-            type:'GET',
-            data:'',
-            contentType :'application/json',
-            dataType:'json',
-            url :'/question/checkQuestionfinished',
-            success :function(data) {
-                //动态生成面板
-                //首先清空面板
-                $("#ing_panel").empty();
-                if (data.length==0){
-                    $("#ing_panel").append("<div class=\"alert alert-info\" role=\"alert\">没有处理中的数据！</div>");
-                }else {
-                    //设置面板
-                    for(var i in data){
-                        $("#ing_panel").append("<div class='pa_all panel panel-default' id="+i+">");
-                        $("#ing_panel").append(" <div class=\"panel-heading\">" + "<h3 class=\"panel-title\">问题查看：</h3>" + "</div>"+"<div class=\"panel-body\">"+"<form>");
-                        $("#ing_panel").append("<ul class=\"list-group\" >");
-                        $("#ing_panel").append("<li class=\"list-group-item\"><label for=\"select\">问题分类:</label>"+"<input type=\"text\" id=\"select\" readonly=\"readonly\" value=\""+data[i].question_type+"\"></li>");
-                        $("#ing_panel").append("<li class=\"list-group-item\"><label for=\"number\">项目编号:</label>"+"<input type=\"text\" id=\"number\" readonly=\"readonly\" value=\""+data[i].item_id+"\"></li>");
-                        $("#ing_panel").append("<li class=\"list-group-item\"><span class='lable_textarea'>问题详情:</span>"+"<textarea rows=\"6\" cols=\"50\" readonly=\"readonly\">"+data[i].question_detail+"</textarea></li>");
-                        $("#ing_panel").append("</ul>"+"</form>"+"</div>"+"</div>");
-                    }
-                }
-            },
-            error: function (XMLHttpRequest) {
-                console.log(XMLHttpRequest.status);
-                console.log(XMLHttpRequest.readyState);
-            }
+        $("#ing_table").bootstrapTable({
+            url:'/question/checkQuestiondealing',
+            methods:'get',
+            pagination:true,//显示分页
+            striped:true,//显示行间距色
+            pageSize: 5,//每一页的行数
+            pageList: [5,10,20],//每页可选择的行数
+            columns:[{
+                field:'question_type',
+                title:'问题分类'
+            },{
+                field:'item_id',
+                title:'项目名称'
+            }, {
+                field:'question_detail',
+                title:'问题详情'
+            }, ]
         });
+        // //GET数据
+        // $.ajax({
+        //     type:'GET',
+        //     data:'',
+        //     contentType :'application/json',
+        //     dataType:'json',
+        //     url :'/question/checkQuestionfinished',
+        //     success :function(data) {
+        //         //动态生成面板
+        //         //首先清空面板
+        //         $("#ing_panel").empty();
+        //         if (data.length==0){
+        //             $("#ing_panel").append("<div class=\"alert alert-info\" role=\"alert\">没有处理中的数据！</div>");
+        //         }else {
+        //             //设置面板
+        //             for(var i in data){
+        //                 $("#ing_panel").append("<div class='pa_all panel panel-default' id="+i+">");
+        //                 $("#ing_panel").append(" <div class=\"panel-heading\">" + "<h3 class=\"panel-title\">问题查看：</h3>" + "</div>"+"<div class=\"panel-body\">"+"<form>");
+        //                 $("#ing_panel").append("<ul class=\"list-group\" >");
+        //                 $("#ing_panel").append("<li class=\"list-group-item\"><label for=\"select\">问题分类:</label>"+"<input type=\"text\" id=\"select\" readonly=\"readonly\" value=\""+data[i].question_type+"\"></li>");
+        //                 $("#ing_panel").append("<li class=\"list-group-item\"><label for=\"number\">项目编号:</label>"+"<input type=\"text\" id=\"number\" readonly=\"readonly\" value=\""+data[i].item_id+"\"></li>");
+        //                 $("#ing_panel").append("<li class=\"list-group-item\"><span class='lable_textarea'>问题详情:</span>"+"<textarea rows=\"6\" cols=\"50\" readonly=\"readonly\">"+data[i].question_detail+"</textarea></li>");
+        //                 $("#ing_panel").append("</ul>"+"</form>"+"</div>"+"</div>");
+        //             }
+        //         }
+        //     },
+        //     error: function (XMLHttpRequest) {
+        //         console.log(XMLHttpRequest.status);
+        //         console.log(XMLHttpRequest.readyState);
+        //     }
+        // });
         $("#ing_top").show();
         $("#ing_panel").show();
         $(".message").show();

@@ -1,5 +1,6 @@
-$(document).ready(function(){
 
+$(document).ready(function(){
+    //
     $("#judge_first").click(function(){
         if( $("#panel_first").is(":hidden")){
             $("#judge_first").css({
