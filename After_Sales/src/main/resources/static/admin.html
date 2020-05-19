@@ -16,7 +16,7 @@
     <div class="right_info_right">
         <div class="right_info"><i class="sp glyphicon glyphicon-bullhorn"></i><a href="#" class="info">通知</a></div>
         <div class="right_info"><i class="sp glyphicon glyphicon-question-sign"></i><a href="#" class="info">帮助</a></div>
-        <div class="right_info"><i class="sp glyphicon glyphicon-user"></i><a href="login_tags.html" class="info">注销</a></div>
+        <div class="right_info"><i class="sp glyphicon glyphicon-user"></i><a href="javascript:;" class="info" id="loginOut">注销</a></div>
     </div>
 </nav>
     <!-- 成功模态框 -->
@@ -118,424 +118,476 @@
             <!--顶部导航栏  -->
             <div class="col-md-10">
                 <div class="aside">
-                <!-- 内容部分 -->
-                <div class="container-fluid">
-                    <div class="row find_panel">
-                        <!-- 个人信息面板 -->
-                        <div class="pa_all col-md-8 panel panel-default" id="user_panel">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">个人信息</h3>
+                    <!-- 内容部分 -->
+                    <div class="container-fluid">
+                        <div class="row find_panel">
+                            <!-- 个人信息面板 -->
+                            <div class="pa_all col-md-8 panel panel-default" >
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">个人信息</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <form id="form_userinfo">
+                                        <ul class="list-group" >
+                                            <li class="list-group-item">
+                                                <label for="userId">用户ID：</label>
+                                                <input type="text" readonly="true" id="userId" name="userId" value="">
+                                            </li>
+                                            <li class="list-group-item">
+                                                <label for="username">用户名：</label>
+                                                <input type="text" readonly="true" id="username" name="username" value="">
+                                            </li>
+                                            <li class="list-group-item">
+                                                <label for="tel">&ensp;&ensp;电话：</label>
+                                                <input type="tel" readonly="true" id="tel" name="tel" value="">
+                                            </li>
+                                            <li class="list-group-item">
+                                                <label for="email">&ensp;&ensp;邮箱：</label>
+                                                <input type="email" readonly="true" id="email" name="email" value="">
+                                            </li>
+                                            <li class="bt_list">
+                                                <button type="button" id="edit_bt" class="btn btn-primary">编辑</button>
+                                                <button type="button" id="save_bt" class="btn btn-primary">保存</button>
+                                            </li>
+                                        </ul>
+                                    </form>
+                                </div>
                             </div>
-                            <div class="panel-body">
-                                <form id="form_userinfo">
-                                    <ul class="list-group" >
-                                        <li class="list-group-item">
-                                            <label for="userId">用户ID：</label>
-                                            <input type="text" readonly="true" id="userId" name="userId" value="">
-                                        </li>
-                                        <li class="list-group-item">
-                                            <label for="username">用户名：</label>
-                                            <input type="text" readonly="true" id="username" name="username" value="">
-                                        </li>
-                                        <li class="list-group-item">
-                                            <label for="tel">&ensp;&ensp;电话：</label>
-                                            <input type="tel" readonly="true" id="tel" name="tel" value="">
-                                        </li>
-                                        <li class="list-group-item">
-                                            <label for="email">&ensp;&ensp;邮箱：</label>
-                                            <input type="email" readonly="true" id="email" name="email" value="">
-                                        </li>
-                                        <li class="bt_list">
-                                            <button type="button" id="edit_bt" class="btn btn-primary">编辑</button>
-                                            <button type="button" id="save_bt" class="btn btn-primary">保存</button>
-                                        </li>
-                                    </ul>
-                                </form>
-                            </div>
-                        </div>
-                        <!-- 项目管理 -->
-                        <div class="pa_all col-md-8 panel panel-default" id="item_panel" style="display: none;">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">项目</h3>
-                            </div>
-                            <div class="panel-body" id="vueItem">
-                                <!--搜索框  -->
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="tab_search">
-                                            <label>
-                                                <select name="itemSelect" v-model="selected" class="searchSel">
-                                                    <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
-                                                </select>
-                                                <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
-                                                <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
-                                            </label>
+                            <!-- 项目管理 -->
+                            <div class="pa_all col-md-8 panel panel-default" style="display: none;">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">项目</h3>
+                                </div>
+                                <div class="panel-body" id="vueItem">
+                                    <!--搜索框  -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="tab_search">
+                                                <label>
+                                                    <select name="itemSelect" v-model="selected" class="searchSel">
+                                                        <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
+                                                    </select>
+                                                    <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 表格 -->
+                                    <div id="items">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="task_check_tb_th" style="width:25%">{{placeholder[0]}}</th>
+                                                    <th class="task_check_tb_th" style="width:40%">{{placeholder[1]}}</th>
+                                                    <th class="task_check_tb_th" style="width:25%">{{placeholder[2]}}</th>
+                                                    <th class="task_check_tb_th" style="width:10%">管理</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <template v-for="(item,index) in data">
+                                                    <tr>
+                                                        <td class="task_check_tb_td">  
+                                                            {{item.item_id}}  
+                                                        </td>
+                                                        <td class="task_check_tb_td">  
+                                                            {{item.item_name}}
+                                                        </td>
+                                                        <td class="task_check_tb_td">  
+                                                            {{item.user_id}}
+                                                        </td>
+                                                        <td class="task_check_tb_td role_btn">
+                                                            <a href="javascript:;" @click="showWorker(index)">修改</a>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- 页码 -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <ul class="pagination" id="pagination1">
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- 表格 -->
-                                <div id="items">
+                            </div>
+                            <!-- 用户问题 -->
+                            <div class="pa_all col-md-8 panel panel-default" style="display: none;">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">用户问题</h3>
+                                </div>
+                                <div class="panel-body" id="vueQuestion">
+                                    <!--搜索框  -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="tab_search">
+                                                <label>
+                                                    <select name="itemSelect" v-model="selected" class="searchSel">
+                                                        <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
+                                                    </select>
+                                                    <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 表格 -->
+                                    <div id="questions">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="task_check_tb_th" style="width:10%">{{placeholder[0]}}</th>
+                                                    <th class="task_check_tb_th" style="width:10%">{{placeholder[1]}}</th>
+                                                    <th class="task_check_tb_th" style="width:15%">{{placeholder[2]}}</th>
+                                                    <th class="task_check_tb_th" style="width:15%">{{placeholder[3]}}</th>
+                                                    <th class="task_check_tb_th" style="width:35%">{{placeholder[4]}}</th>
+                                                    <th class="task_check_tb_th" style="width:10%">{{placeholder[5]}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <template v-for="(item,index) in data">
+                                                    <tr>
+                                                        <td class="task_check_tb_td">  
+                                                        {{item.question_id}}
+                                                        </td><td class="task_check_tb_td">  
+                                                        {{item.item_id}}
+                                                        </td><td class="task_check_tb_td">
+                                                        {{item.question_type}}
+                                                        </td><td class="task_check_tb_td">  
+                                                        {{item.question_status}}
+                                                        </td><td class="task_check_tb_td">  
+                                                        {{item.question_detail}}
+                                                        </td><td class="task_check_tb_td">
+                                                        {{item.user_id}}
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- 页码 -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <ul class="pagination" id="pagination2">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 问题处理 -->
+                            <div class="pa_all col-md-8 panel panel-default" style="display: none;">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">问题处理</h3>
+                                </div>
+                                <div class="panel-body" id="dealVue">
+                                    <!--搜索框  -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="tab_search">
+                                                <label>
+                                                    <select name="itemSelect" v-model="selected" class="searchSel">
+                                                        <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
+                                                    </select>
+                                                    <template v-if="selected==2">
+                                                        <input type="date" v-model="key" class="searchIn">
+                                                    </template>
+                                                    <template v-else>
+                                                        <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                    </template>
+                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 表格 -->
+                                    <div id="maintenance">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="task_check_tb_th" v-for="option in placeholder">{{option}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <template v-for="(item, index) in data">
+                                                    <tr>
+                                                        <td class="task_check_tb_td">  
+                                                        {{item.question_id}} 
+                                                        </td><td class="task_check_tb_td">
+                                                        {{item.user_id}}
+                                                        </td><td class="task_check_tb_td">
+                                                        {{item.start_time}}  
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- 页码 -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <ul class="pagination" id="pagination3">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--FAQ  -->
+                            <div class="pa_all col-md-8 panel panel-default" style="display: none;">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">常见问题</h3>
+                                </div>
+                                <div class="panel-body" id="vueFaq">
+                                    <!--搜索框  -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="tab_search">
+                                                <label>
+                                                    <select name="itemSelect" v-model="selected" class="searchSel">
+                                                        <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
+                                                    </select>
+                                                    <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 表格 -->
+                                    <div id="faq">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="task_check_tb_th" style="width:10%">{{placeholder[0]}}</th>
+                                                    <th class="task_check_tb_th" style="width:35%">{{placeholder[1]}}</th>
+                                                    <th class="task_check_tb_th" style="width:55%">{{placeholder[2]}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <template v-for="(item, index) in data">
+                                                    <tr>
+                                                        <tr>
+                                                        <td class="task_check_tb_td"> 
+                                                        {{item.faq_id}}
+                                                        </td><td class="task_check_tb_td"> 
+                                                        {{item.faq_question}}
+                                                        </td><td class="task_check_tb_td"> 
+                                                        {{item.faq_answer}}
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- 页码 -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <ul class="pagination" id="pagination4">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>                        
+                            </div>
+                            <!-- 任务指派 -->
+                            <div class="pa_all col-md-8 panel panel-default"style="display: none;">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">任务指派</h3>
+                                </div>
+                                <div class="panel-body" id="selectVue">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <span class="select_lable">&nbsp;问题ID:</span>
+                                            <select class="select_form" v-model="firstSelected" @change="secondOptions()">
+                                                <option value=0 selected v-show="firstSelected==0">---请选择要分配的问题---</option>
+                                                <option v-for="item in firstContain" :value="item">{{item}}</option>
+                                            </select>
+                                        </li>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <span class="select_lable">&nbsp;维修员:</span>
+                                            <select class="select_form" v-model="secondSelected">
+                                                <option value=0 selected v-show="secondSelected==0">---请指派问题处理人员---</option>
+                                                <option v-for="item in secondContain" :value="item">{{item}}</option>
+                                            </select>
+                                        </li>
+                                        <li class="list-group-item assign_btn" >
+                                            <button class="btn btn-primary" @click="cancel">取消</button>
+                                            <button class="btn btn-primary" @click="assign">指派</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--角色控制-->
+                            <div class="pa_all col-md-8 panel panel-default" style="display: none;">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">角色控制</h3>
+                                </div>
+                                <div class="panel-body" id="roleControl">
+                                    <!--搜索框  -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="tab_search">
+                                                <label>
+                                                    <select name="itemSelect" v-model="selected" class="searchSel">
+                                                        <option v-if="index!=3" v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
+                                                    </select>
+                                                    <template v-if="selected==2">
+                                                        <select name="itemSelect" v-model="roleSearch" class="searchSel">
+                                                            <option v-for="(option, index) in roleOptions" :value='index'>{{option}}</option>
+                                                        </select>
+                                                    </template>
+                                                    <template v-else>
+                                                        <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                    </template>
+                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 表格 -->
+                                    <div id="role">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="task_check_tb_th" style="width:10%">{{placeholder[0]}}</th>
+                                                    <th class="task_check_tb_th" style="width:20%">{{placeholder[1]}}</th>
+                                                    <th class="task_check_tb_th" style="width:40%">{{placeholder[2]}}</th>
+                                                    <th class="task_check_tb_th" style="width:30%">{{placeholder[3]}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <template v-for="(item,index) in data">
+                                                    <tr>
+                                                        <td class="task_check_tb_td">  
+                                                            {{item.User_id}}  
+                                                        </td>
+                                                        <td class="task_check_tb_td">  
+                                                            {{item.User_name}}
+                                                        </td>
+                                                        <td class="task_check_tb_td">
+                                                            <select v-model="roleChoice[index]" class="searchSel  roles">
+                                                                <option :value="item.Role_id" selected :key="item.Role_id">{{roleOptions[item.Role_id]}}</option>
+                                                                <option :value="index" v-for="(option, index) in roleOptions" v-if="index!=item.Role_id&&index!=4" :key="index">{{option}}</option>
+                                                            </select>
+                                                        </td>
+                                                        <td class="task_check_tb_td role_btn">  
+                                                            <a href="javascript:;" @click="alterRole(index)">修改</a>
+                                                            <a href="javascript:;" @click="deleteRole(index)">删除</a>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- 页码 -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <ul class="pagination" id="pagination6">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--log-->
+                            <div class="pa_all col-md-8 panel panel-default" style="display: none;">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">日志</h3>
+                                </div>
+                                <div class="panel-body" id="logVue">
+                                    <!--搜索框  -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="tab_search">
+                                                <label>
+                                                    <select name="itemSelect" v-model="selected" class="searchSel">
+                                                        <option v-for="(option, index) in placeholder" :value='index' v-show="index != 5">{{option}}</option>
+                                                    </select>
+                                                    <template v-if="selected==4">
+                                                        <input type="date" v-model="key" class="searchIn">
+                                                    </template>
+                                                    <template v-else>
+                                                        <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
+                                                    </template>
+                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 表格 -->
+                                    <div id="log">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="task_check_tb_th" style="width:10%">{{placeholder[0]}}</th>
+                                                    <th class="task_check_tb_th" style="width:25%">{{placeholder[1]}}</th>
+                                                    <th class="task_check_tb_th" style="width:25%">{{placeholder[2]}}</th>
+                                                    <th class="task_check_tb_th" style="width:15%">{{placeholder[3]}}</th>
+                                                    <th class="task_check_tb_th" style="width:15%">{{placeholder[4]}}</th>
+                                                    <th class="task_check_tb_th" style="width:10%">{{placeholder[5]}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody><!-- 这里是数据库查询结果 -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- 页码 -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <ul class="pagination" id="pagination5">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                    <!-- 公告栏 -->
+                            <div class="col-md-4 message" id="notice">       
+                                <ul class="sidebar" id="notice1">
+                                    <li><h4 class="sidebar-widget-heading">超时未处理项目</h4></li>
                                     <table>
                                         <thead>
-                                            <tr id="item_th">
-                                                <th class="task_check_tb_th" style="width:25%">{{placeholder[0]}}</th>
-                                                <th class="task_check_tb_th" style="width:40%">{{placeholder[1]}}</th>
-                                                <th class="task_check_tb_th" style="width:25%">{{placeholder[2]}}</th>
-                                                <th class="task_check_tb_th" style="width:10%">管理</th>
+                                            <tr>
+                                                <th style="width: 20%;"><b>项目ID</b></th>
+                                                <th style="width: 20%;"><b>问题ID</b></th>
+                                                <th style="width: 25%;"><b>问题类型</b></th>
+                                                <th><b>提交时间</b></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <template v-for="(item,index) in data">
-                                                <tr id="showItems">
-                                                    <td class="task_check_tb_td">  
-                                                        {{item.item_id}}  
-                                                    </td>
-                                                    <td class="task_check_tb_td">  
-                                                        {{item.item_name}}
-                                                    </td>
-                                                    <td class="task_check_tb_td">  
-                                                        {{item.user_id}}
-                                                    </td>
-                                                    <td class="task_check_tb_td role_btn">
-                                                        <a href="javascript:;" @click="showWorker(index)">修改</a>
-                                                    </td>
-                                                </tr>
-                                            </template>
+                                            <tr v-for="(item, index) in data1">
+                                                <td class="task_check_tb_td">{{item.item_id}}</td>
+                                                <td class="task_check_tb_td">{{item.question_id}}</td>
+                                                <td class="task_check_tb_td">{{item.question_type}}</td>
+                                                <td class="task_check_tb_td">{{item.commit_time}}</td>
+                                            </tr>
                                         </tbody>
                                     </table>
-                                </div>
-                                <!-- 页码 -->
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <ul class="pagination" id="pagination1">
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 用户问题 -->
-                        <div class="pa_all col-md-8 panel panel-default" id="questions_panel" style="display: none;">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">用户问题</h3>
-                            </div>
-                            <div class="panel-body" id="vueQuestion">
-                                <!--搜索框  -->
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="tab_search">
-                                            <label>
-                                                <select name="itemSelect" v-model="selected" class="searchSel">
-                                                    <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
-                                                </select>
-                                                <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
-                                                <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 表格 -->
-                                <div id="questions">
+                                </ul>
+                                <ul  class="sidebar" id="notice2">
+                                    <li><h4 class="sidebar-widget-heading">超时未完成项目</h4></li>
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[0]}}</th>
-                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[1]}}</th>
-                                                <th class="task_check_tb_th" style="width:15%">{{placeholder[2]}}</th>
-                                                <th class="task_check_tb_th" style="width:15%">{{placeholder[3]}}</th>
-                                                <th class="task_check_tb_th" style="width:35%">{{placeholder[4]}}</th>
-                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[5]}}</th>
+                                                <th style="width: 20%;"><b>项目ID</b></th>
+                                                <th style="width: 20%;"><b>问题ID</b></th>
+                                                <th style="width: 25%;"><b>问题类型</b></th>
+                                                <th><b>提交时间</b></th>
                                             </tr>
                                         </thead>
-                                        <tbody><!-- 这里是数据库查询结果 -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- 页码 -->
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <ul class="pagination" id="pagination2">
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 问题处理 -->
-                        <div class="pa_all col-md-8 panel panel-default" id="maintenance_panel" style="display: none;">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">问题处理</h3>
-                            </div>
-                            <div class="panel-body" id="dealVue">
-                                <!--搜索框  -->
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="tab_search">
-                                            <label>
-                                                <select name="itemSelect" v-model="selected" class="searchSel">
-                                                    <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
-                                                </select>
-                                                <template v-if="selected==2">
-                                                    <input type="date" v-model="key" class="searchIn">
-                                                </template>
-                                                <template v-else>
-                                                    <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
-                                                </template>
-                                                <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 表格 -->
-                                <div id="maintenance">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th class="task_check_tb_th" v-for="option in placeholder">{{option}}</th>
+                                        <tbody>
+                                            <tr v-for="(item, index) in data2">
+                                                <td class="task_check_tb_td">{{item.item_id}}</td>
+                                                <td class="task_check_tb_td">{{item.question_id}}</td>
+                                                <td class="task_check_tb_td">{{item.question_type}}</td>
+                                                <td class="task_check_tb_td">{{item.commit_time}}</td>
                                             </tr>
-                                        </thead>
-                                        <tbody><!-- 这里是数据库查询结果 -->
                                         </tbody>
                                     </table>
-                                </div>
-                                <!-- 页码 -->
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <ul class="pagination" id="pagination3">
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--FAQ  -->
-                        <div class="pa_all col-md-8 panel panel-default" id="faq_panel" style="display: none;">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">常见问题</h3>
-                            </div>
-                            <div class="panel-body" id="vueFaq">
-                                <!--搜索框  -->
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="tab_search">
-                                            <label>
-                                                <select name="itemSelect" v-model="selected" class="searchSel">
-                                                    <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
-                                                </select>
-                                                <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
-                                                <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 表格 -->
-                                <div id="faq">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[0]}}</th>
-                                                <th class="task_check_tb_th" style="width:35%">{{placeholder[1]}}</th>
-                                                <th class="task_check_tb_th" style="width:55%">{{placeholder[2]}}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody><!-- 这里是查询结果 -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- 页码 -->
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <ul class="pagination" id="pagination4">
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>                        
-                        </div>
-                        <!-- 任务指派 -->
-                        <div class="pa_all col-md-8 panel panel-default" id="task_assign_panel" style="display: none;">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">任务指派</h3>
-                            </div>
-                            <div class="panel-body" id="selectVue">
-                                  <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <span class="select_lable">&nbsp;问题ID:</span>
-                                        <select class="select_form" v-model="firstSelected" @change="secondOptions()">
-                                            <option value=0 selected v-show="firstSelected==0">---请选择要分配的问题---</option>
-                                            <option v-for="item in firstContain" :value="item">{{item}}</option>
-                                        </select>
-                                    </li>
-                                  <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <span class="select_lable">&nbsp;维修员:</span>
-                                        <select class="select_form" v-model="secondSelected">
-                                            <option value=0 selected v-show="secondSelected==0">---请指派问题处理人员---</option>
-                                            <option v-for="item in secondContain" :value="item">{{item}}</option>
-                                        </select>
-                                    </li>
-                                    <li class="list-group-item assign_btn" >
-                                        <button class="btn btn-primary" @click="cancel">取消</button>
-                                        <button class="btn btn-primary" @click="assign">指派</button>
-                                    </li>
                                 </ul>
                             </div>
                         </div>
-                        <!--角色控制-->
-                        <div class="pa_all col-md-8 panel panel-default" id="role_panel" style="display: none;">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">角色控制</h3>
-                            </div>
-                            <div class="panel-body" id="roleControl">
-                                <!--搜索框  -->
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="tab_search">
-                                            <label>
-                                                <select name="itemSelect" v-model="selected" class="searchSel">
-                                                    <option v-if="index!=3" v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
-                                                </select>
-                                                <template v-if="selected==2">
-                                                    <select name="itemSelect" v-model="roleSearch" class="searchSel">
-                                                        <option v-for="(option, index) in roleOptions" :value='index'>{{option}}</option>
-                                                    </select>
-                                                </template>
-                                                <template v-else>
-                                                    <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
-                                                </template>
-                                                <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 表格 -->
-                                <div id="role">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[0]}}</th>
-                                                <th class="task_check_tb_th" style="width:20%">{{placeholder[1]}}</th>
-                                                <th class="task_check_tb_th" style="width:40%">{{placeholder[2]}}</th>
-                                                <th class="task_check_tb_th" style="width:30%">{{placeholder[3]}}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <template v-for="(item,index) in data">
-                                                <tr id="showItems">
-                                                    <td class="task_check_tb_td">  
-                                                        {{item.User_id}}  
-                                                    </td>
-                                                    <td class="task_check_tb_td">  
-                                                        {{item.User_name}}
-                                                    </td>
-                                                    <td class="task_check_tb_td">
-                                                        <select v-model="roleChoice[index]" class="searchSel  roles">
-                                                            <option :value="item.Role_id" selected :key="item.Role_id">{{roleOptions[item.Role_id]}}</option>
-                                                            <option :value="index" v-for="(option, index) in roleOptions" v-if="index!=item.Role_id&&index!=4" :key="index">{{option}}</option>
-                                                        </select>
-                                                    </td>
-                                                    <td class="task_check_tb_td role_btn">  
-                                                        <a href="javascript:;" @click="alterRole(index)">修改</a>
-                                                        <a href="javascript:;" @click="deleteRole(index)">删除</a>
-                                                    </td>
-                                                </tr>
-                                            </template>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- 页码 -->
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <ul class="pagination" id="pagination6">
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--log-->
-                        <div class="pa_all col-md-8 panel panel-default" id="log_panel" style="display: none;">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">日志</h3>
-                            </div>
-                            <div class="panel-body" id="logVue">
-                                <!--搜索框  -->
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="tab_search">
-                                            <label>
-                                                <select name="itemSelect" v-model="selected" class="searchSel">
-                                                    <option v-for="(option, index) in placeholder" :value='index' v-show="index != 5">{{option}}</option>
-                                                </select>
-                                                <template v-if="selected==4">
-                                                    <input type="date" v-model="key" class="searchIn">
-                                                </template>
-                                                <template v-else>
-                                                    <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
-                                                </template>
-                                                <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- 表格 -->
-                                <div id="log">
-                                    <table>
-                                        <thead>
-                                            <tr>
-                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[0]}}</th>
-                                                <th class="task_check_tb_th" style="width:25%">{{placeholder[1]}}</th>
-                                                <th class="task_check_tb_th" style="width:25%">{{placeholder[2]}}</th>
-                                                <th class="task_check_tb_th" style="width:15%">{{placeholder[3]}}</th>
-                                                <th class="task_check_tb_th" style="width:15%">{{placeholder[4]}}</th>
-                                                <th class="task_check_tb_th" style="width:10%">{{placeholder[5]}}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody><!-- 这里是数据库查询结果 -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- 页码 -->
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <ul class="pagination" id="pagination5">
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                <!-- 公告栏 -->
-                        <div class="col-md-4 message">       
-                            <ul class="sidebar">
-                                <li><h3 class="sidebar-widget-heading">超时待处理项目</h3></li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息一balabalbalbalba</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息二balabalbalbalba</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息三balabalbalbalba</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息四balabalbalbalba</a>
-                                </li>
-                            </ul>
-                            <ul  class="sidebar">
-                                <li><h3 class="sidebar-widget-heading">超时未完成项目</h3></li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息一balabalbalbalba</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息二balabalbalbalba</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息三balabalbalbalba</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:;" class="categories-link">消息四balabalbalbalba</a>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>

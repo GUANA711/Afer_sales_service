@@ -6,6 +6,8 @@ import com.zgl.aftersales.dao.MyLog;
 import com.zgl.aftersales.pojo.*;
 import com.zgl.aftersales.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -84,7 +86,7 @@ public class AdminLoginController {
      * @param json
      * @return
      */
-    @PostMapping("/searchMaintenance/{currenPage}/{pageS ize}")
+    @PostMapping("/searchMaintenance/{currenPage}/{pageSize}")
     public List<List<?>> searchMaintenance(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize,@RequestBody JSONObject json){
         String key=json.getString("key");
         String choice=json.getString("choice");
@@ -153,6 +155,11 @@ public class AdminLoginController {
         return lists;
     }
 
+    /**
+     *@描述
+     *@参数 显示faq
+     *@返回值
+     */
     @Autowired
     FAQService faqService;
     @PostMapping("/showfaq/{currenPage}/{pageSize}")
@@ -457,14 +464,32 @@ public class AdminLoginController {
         String userID=json.getString("userID");
         Map<String,Object> map=new HashMap<>();
         map.put("Item_id",itemID);
-        map.put("User_id",userID);
+        map.put("Role_id","4");
+        Subject subject = SecurityUtils.getSubject();
+
+       Items item=itemsService.select(map);
+       String oldUserID=item.getUser_id();
+
         try {
+            map.put("User_id",userID);
             maintenanceService.itemLeaderEdite(map);
+            List<String> roleList=userService.showRolesByUserID(Integer.parseInt(userID));
+            if(!roleList.contains("leader")){
+                userService.insertRoleID(map);
+            }
+
+
+            map.remove("Item_id");
+            map.put("User_id",oldUserID);
+            if(itemsService.select(map) == null){
+                userService.deleteRolID(map);
+            }
             status.setStatus(true);
             status.setMsg("修改成功");
             return status;
         }catch (Exception e){
             status.setMsg("修改失败,此用户已是该项目负责人");
+            e.printStackTrace();
             return status;
         }
     }

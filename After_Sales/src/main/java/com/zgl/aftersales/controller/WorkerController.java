@@ -9,9 +9,6 @@ import com.zgl.aftersales.pojo.WorkerStatus;
 import com.zgl.aftersales.service.MaintenanceService;
 import com.zgl.aftersales.service.WorkerService;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
-import org.omg.CORBA.SystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +42,7 @@ public class WorkerController {
     @RequestMapping(value = "/worker_selectBy_Session_UserId",method = RequestMethod.GET)
     public Map<String, Object> worker_selectBy_Session_UserId(HttpServletRequest req){
 
+        //如果当前reqeust中的HttpSession 为null，当create为true，就创建一个新的Session，否则返回null。
         int User_id= (int) req.getSession(false).getAttribute("userID");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("User_id",User_id);
@@ -352,6 +350,18 @@ public class WorkerController {
             workerStatus.setMsg("添加失败");
         }
         return workerStatus;
+    }
+
+    /**
+     * 任务栏
+     * 显示当前登录的这个维修人员维修的所有项目 处理超时的任务
+     * 接收任务三天后还没处理为处理超时
+     */
+    @RequestMapping(value = "/worker_show_overtime",method = RequestMethod.GET)
+    public List<Map<String, Object>> worker_show_overtime(HttpServletRequest req){
+
+        int User_id= (int) req.getSession(false).getAttribute("userID");
+        return workerService.worker_show_overtime(User_id);
     }
 
 }

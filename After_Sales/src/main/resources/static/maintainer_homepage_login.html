@@ -360,6 +360,7 @@
                                 </li>
                             </div>
                         </div>
+<<<<<<< HEAD
                         <!-- 公告栏 -->
                         <div class="col-md-4 message">
                             <ul class="sidebar">
@@ -399,6 +400,33 @@
                             </ul>
 
                         </div>
+=======
+                    </div>
+                    <!-- 公告栏 -->
+                    <div class="col-md-4 message">
+                        <ul class="sidebar" id="notice">
+                            <li><h4 class="sidebar-widget-heading">超时未完成项目</h4></li>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%;"><b>项目ID</b></th>
+                                        <th style="width: 20%;"><b>问题ID</b></th>
+                                        <th style="width: 25%;"><b>问题类型</b></th>
+                                        <th><b>提交时间</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in data">
+                                        <!-- <td>{{item}}</td> -->
+                                        <td>{{item.Item_id}}</td>
+                                        <td>{{item.Question_id}}</td>
+                                        <td>{{item.Question_type}}</td>
+                                        <td>{{item.Commit_time}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </ul>
+>>>>>>> 24c38e828a3775c0134bea431763b12a048cb830
                     </div>
                 </div>
             </div>
@@ -423,8 +451,12 @@
 <script src="plugins/datatable/jquery.dataTables.min.js"></script>
 <script src="plugins/datatable/dataTables.bootstrap.min.js"></script>
 <script src="js/jquery.validate.js"></script>
-<script src="js/maintainerLoginHomepage.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="js/vue.js"></script>
+<<<<<<< HEAD
 <script src="js/worker_role_plugin.js"></script>
+=======
+<script src="js/maintainerLoginHomepage.js"></script>
+>>>>>>> 24c38e828a3775c0134bea431763b12a048cb830
 </body>
 </html>
