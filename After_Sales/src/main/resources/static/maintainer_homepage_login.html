@@ -36,74 +36,121 @@
             <li role="presentation" id="ing_task"><a href="#"><i class="glyphicon glyphicon-option-vertical"></i>正处理的任务</a></li>
             <li role="presentation" id="finished_task"><a href="#"><i class="glyphicon glyphicon-option-vertical"></i>已完成的任务</a></li>
         </ul>
+        <li user:hasRole="leader" role="presentation" id="allocate_present"><a href="#"><i class="glyphicon glyphicon-tags"></i>项目分配</a></li>
         <li role="presentation" id="faq_present"><a href="#"><i class="glyphicon glyphicon-edit"></i>FAQ</a></li>
     </ul>
 </div>
 <div class="container-fluid">
     <div class="row mm">
         <div class="data_panel">
-        <!--顶部导航栏  -->
-        <div class="col-md-12">
-            <!-- 内容部分 -->
-            <div class="container-fluid">
-                <div class="row find_panel">
-                    <!-- 个人信息面板  -->
-                    <div class="pa_all col-md-8 panel panel-default" id="user_panel">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">个人信息</h3>
-                        </div>
-                        <div class="panel-body">
-                            <form id="form_userinfo">
-                                <ul class="list-group" >
-                                    <li class="list-group-item">
-                                        <label for="userId">用户ID：</label>
-                                        <input type="text" readonly="readonly" id="userId" name="userId" value="">
-                                    </li>
-                                    <li class="list-group-item">
-                                        <label for="username">用户名：</label>
-                                        <input type="text" readonly="readonly" id="username" name="username" value="">
-                                    </li>
-                                    <li class="list-group-item">
-                                        <label for="tel">&ensp;&ensp;电话：</label>
-                                        <input type="tel" readonly="readonly" id="tel" name="tel" value="">
-                                    </li>
-                                    <li class="list-group-item">
-                                        <label for="email">&ensp;&ensp;邮箱：</label>
-                                        <input type="email" readonly="readonly" id="email" name="email" value="">
-                                    </li>
-                                    <li class="bt_list">
-                                        <button type="button" id="edit_bt" class="btn btn-primary" style="margin-left: 60px">编辑</button>
-                                        <button type="button" id="save_bt" class="btn btn-primary" style="margin-left: 60px">保存</button>
-                                    </li>
-                                </ul>
-                            </form>
+            <!--顶部导航栏  -->
+            <div class="col-md-12">
+                <!-- 内容部分 -->
+                <div class="container-fluid">
+                    <div class="row find_panel">
+                        <!-- 个人信息面板  -->
+                        <div class="pa_all col-md-8 panel panel-default" id="user_panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">个人信息</h3>
+                            </div>
+                            <div class="panel-body">
+                                <form id="form_userinfo">
+                                    <ul class="list-group" >
+                                        <li class="list-group-item">
+                                            <label for="userId">用户ID：</label>
+                                            <input type="text" readonly="readonly" id="userId" name="userId" value="">
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label for="tasknum">任务量：</label>
+                                            <input type="text" readonly="readonly" id="tasknum" name="tasknum" value="">
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label for="username">用户名：</label>
+                                            <input type="text" readonly="readonly" id="username" name="username" value="">
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label for="tel">&ensp;&ensp;电话：</label>
+                                            <input type="tel" readonly="readonly" id="tel" name="tel" value="">
+                                        </li>
+                                        <li class="list-group-item">
+                                            <label for="email">&ensp;&ensp;邮箱：</label>
+                                            <input type="email" readonly="readonly" id="email" name="email" value="">
+                                        </li>
+                                        <li class="bt_list">
+                                            <button type="button" id="edit_bt" class="btn btn-primary" style="margin-left: 60px">编辑</button>
+                                            <button type="button" id="save_bt" class="btn btn-primary" style="margin-left: 60px">保存</button>
+                                        </li>
+                                    </ul>
+                                </form>
 
-                            <!-- 保存按钮弹出模态框 -->
+                                <!-- 保存按钮弹出模态框 -->
+                                <!-- 成功 -->
+                                <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">提交成功</h4>
+                                            </div>
+                                            <div class="modal-body">已成功修改个人信息</div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                                <!-- 失败 -->
+                                <div class="modal fade" id="failModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">提交失败</h4>
+                                            </div>
+                                            <div class="modal-body">编辑内容有误，请重新编辑!</div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- 反馈面板 -->
+
+                        <!-- 未接收的任务 -->
+                        <div class="pa_all col-md-8 panel panel-default" id="task_check_panel" style="display: none;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">未接收的任务</h3>
+                            </div>
+                            <div class="panel-body">
+                                <table id="table">
+                                    <thead>
+                                    <tr>
+                                        <th>问题ID</th>
+                                        <th>问题类型</th>
+                                        <th>问题描述</th>
+                                        <th>任务接收</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- 任务接收成功弹出模态框 -->
                             <!-- 成功 -->
-                            <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="task_rec_successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel">提交成功</h4>
+                                            <h4 class="modal-title" id="myModalLabel">任务接收</h4>
                                         </div>
-                                        <div class="modal-body">已成功修改个人信息</div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal -->
-                            </div>
-
-                            <!-- 失败 -->
-                            <div class="modal fade" id="failModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel">提交失败</h4>
-                                        </div>
-                                        <div class="modal-body">编辑内容有误，请重新编辑!</div>
+                                        <div class="modal-body">已成功接收该任务</div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
                                         </div>
@@ -112,364 +159,274 @@
                             </div>
 
                         </div>
-                    </div>
+                        <!-- 正处理的任务 -->
+                        <div class="pa_all col-md-8 panel panel-default" id="task_ing_panel" style="display: none;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">正处理的任务</h3>
+                            </div>
+                            <div class="panel-body">
+                                <table id="table2">
+                                    <thead>
+                                    <tr>
+                                        <th>问题ID</th>
+                                        <th>问题描述</th>
+                                        <th>用户ID</th>
+                                        <th>开始处理时间</th>
+                                        <th>是否处理完成</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
-                    <!-- 反馈面板 -->
-
-                    <!-- 未接收的任务 -->
-                    <div class="pa_all col-md-8 panel panel-default" id="task_check_panel" style="display: none;">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">未接收的任务</h3>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="panel-body">
-                            <table id="table">
-                                <thead>
-                                <tr>
-                                    <th>问题ID</th>
-                                    <th>问题类型</th>
-                                    <th>问题描述</th>
-                                    <th>任务接收</th>
-                                </tr>
-                                </thead>
-                                <tbody>
+                        <!-- 已完成的任务 -->
+                        <div class="pa_all col-md-8 panel panel-default" id="task_finished_panel" style="display: none;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">已完成的任务</h3>
+                            </div>
+                            <div class="panel-body">
+                                <table id="table3">
+                                    <thead>
+                                    <tr>
+                                        <th>问题ID</th>
+                                        <th>问题描述</th>
+                                        <th>问题类型</th>
+                                        <th>用户ID</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
-                                </tbody>
-                            </table>
-
-                            <!--                                <table class="task_check_tb" border="2" style="margin-left: 15%;">-->
-                            <!--                                    <tr>-->
-                            <!--                                        <th class="task_check_tb_th" style="text-align: center;">问题ID</th>-->
-                            <!--                                        <th class="task_check_tb_th" style="text-align: center;">问题类型</th>-->
-                            <!--                                        <th class="task_check_tb_th" style="text-align: center;">问题描述</th>-->
-                            <!--                                        <th class="task_check_tb_th" style="text-align: center;">接受任务</th>-->
-                            <!--                                    </tr>-->
-                            <!--                                    <tr>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 80px;height: 40px;">-->
-                            <!--                                            <button type="button" id="recieve_bt1" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>-->
-                            <!--                                        </td>-->
-
-                            <!--                                    </tr>-->
-                            <!--                                    <tr>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 80px;height: 40px;">-->
-                            <!--                                            <button type="button" id="recieve_bt2" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>-->
-                            <!--                                        </td>-->
-
-                            <!--                                    </tr>-->
-                            <!--                                    <tr>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 80px;height: 40px;">-->
-                            <!--                                        <button type="button" id="recieve_bt3" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>-->
-                            <!--                                        </td>-->
-
-                            <!--                                    </tr>-->
-                            <!--                                    <tr>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 80px;height: 40px;">-->
-                            <!--                                        <button type="button" id="recieve_bt4" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>-->
-                            <!--                                        </td>-->
-
-                            <!--                                    </tr>-->
-                            <!--                                    <tr>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 80px;height: 40px;">-->
-                            <!--                                        <button type="button" id="recieve_bt5" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>-->
-                            <!--                                        </td>-->
-
-                            <!--                                    </tr>-->
-                            <!--                                    <tr>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 80px;height: 40px;">-->
-                            <!--                                        <button type="button" id="recieve_bt6" class="btn-recieve" onclick="this.innerHTML='已接收'">接收</button>-->
-                            <!--                                        </td>-->
-
-                            <!--                                    </tr>
-                                                            </table>-->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <!-- 任务接收成功弹出模态框 -->
-                        <!-- 成功 -->
-                        <div class="modal fade" id="task_rec_successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        <h4 class="modal-title" id="myModalLabel">任务接收</h4>
-                                    </div>
-                                    <div class="modal-body">已成功接收该任务</div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                                    </div>
-                                </div><!-- /.modal-content -->
-                            </div><!-- /.modal -->
+                        <!--项目分配  -->
+                        <div class="pa_all col-md-8 panel panel-default" id="allocate_panel" style="display: none;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">项目分配</h3>
+                            </div>
+                            <div class="panel-body">
+                                <table id="allocate_table">
+                                    <thead>
+                                    <tr>
+                                        <th>负责人 ID</th>
+                                        <th>项目 ID</th>
+                                        <th>项目名称</th>
+                                        <th>移除对应维修人员</th>
+                                        <th>添加对应维修人员</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
+                        <!-- 项目分配移除面板  -->
+                        <div class="pa_all col-md-8 panel panel-default" id="deleteAllocate_panel" style="display: none;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">项目人员移除</h3>
+                            </div>
+                            <div class="panel-body">
+                                <table id="deleteAllocate_table">
+                                    <thead>
+                                    <tr>
+                                        <th>维修人员 ID</th>
+                                        <th>移除该修改人员</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
-                    </div>
-                    <!-- 正处理的任务 -->
-                    <div class="pa_all col-md-8 panel panel-default" id="task_ing_panel" style="display: none;">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">正处理的任务</h3>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="panel-body">
-                            <table id="table2">
-                                <thead>
-                                <tr>
-                                    <th>问题ID</th>
-                                    <th>问题描述</th>
-                                    <th>用户ID</th>
-                                    <th>开始处理时间</th>
-                                    <th>是否处理完成</th>
-                                </tr>
-                                </thead>
-                                <tbody>
+                        <!-- 项目分配添加面板  -->
+                        <div class="pa_all col-md-8 panel panel-default" id="addAllocate_panel" style="display: none;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">项目人员添加</h3>
+                            </div>
+                            <div class="panel-body">
+                                <table id="addAllocate_table">
+                                    <thead>
+                                    <tr>
+                                        <th>维修人员 ID</th>
+                                        <th>添加该修改人员</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
-                                </tbody>
-                            </table>
-                            <!--                                <table id="task_ing_tb" border="2" style="margin-left: 4%;">-->
-                            <!--                                    <tr>-->
-                            <!--                                        <th class="task_check_tb_th" style="text-align: center;">问题ID</th>-->
-                            <!--                                        <th class="task_check_tb_th" style="text-align: center;">问题描述</th>-->
-                            <!--                                        <th class="task_check_tb_th" style="text-align: center;">是否处理完成</th>-->
-                            <!--                                        <th class="task_check_tb_th" style="text-align: center;">用户ID</th>-->
-                            <!--                                        <th class="task_check_tb_th" style="text-align: center;">开始处理时间</th>-->
-                            <!--                                    </tr>-->
-                            <!--                                    <tr>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 80px;height: 40px;">-->
-                            <!--                                            <button type="button" id="task_ing_bt1" class="btn-recieve" onclick="this.innerHTML='已完成'">完成</button>-->
-                            <!--                                        </td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-
-
-                            <!--                                    </tr>-->
-                            <!--                                    <tr>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 80px;height: 40px;">-->
-                            <!--                                            <button type="button" id="task_ing_bt2" class="btn-recieve" onclick="this.innerHTML='已完成'">完成</button>-->
-                            <!--                                        </td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-
-
-                            <!--                                    </tr>-->
-                            <!--                                    <tr>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 80px;height: 40px;">-->
-                            <!--                                            <button type="button" id="task_ing_bt3" class="btn-recieve" onclick="this.innerHTML='已完成'">完成</button>-->
-                            <!--                                        </td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-
-                            <!--                                    </tr>-->
-                            <!--                                    <tr>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 80px;height: 40px;">-->
-                            <!--                                            <button type="button" id="task_ing_bt4" class="btn-recieve" onclick="this.innerHTML='已完成'">完成</button>-->
-                            <!--                                        </td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-
-                            <!--                                    </tr>-->
-                            <!--                                    <tr>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 80px;height: 40px;">-->
-                            <!--                                            <button type="button" id="task_ing_bt5" class="btn-recieve" onclick="this.innerHTML='已完成'">完成</button>-->
-                            <!--                                        </td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-
-                            <!--                                    </tr>-->
-                            <!--                                    <tr>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 200px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 80px;height: 40px;">-->
-                            <!--                                            <button type="button" id="task_ing_bt6" class="btn-recieve" onclick="this.innerHTML='已完成'">完成</button>-->
-                            <!--                                        </td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                        <td class="task_check_tb_td" style="width: 100px;height: 40px;">  &nbsp;</td>-->
-                            <!--                                    </tr>-->
-                            <!--                                </table>-->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                    <!-- 已完成的任务 -->
-                    <div class="pa_all col-md-8 panel panel-default" id="task_finished_panel" style="display: none;">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">已完成的任务</h3>
-                        </div>
-                        <div class="panel-body">
-                            <table id="table3">
-                                <thead>
-                                <tr>
-                                    <th>问题ID</th>
-                                    <th>问题描述</th>
-                                    <th>问题类型</th>
-                                    <th>用户ID</th>
-                                </tr>
-                                </thead>
-                                <tbody>
+                        <!--FAQ  -->
+                        <div class="pa_all col-md-8 panel panel-default" id="faq_panel" style="display: none;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">常见问题</h3>
+                            </div>
+                            <div class="panel-body">
+                                <table id="faq_table">
+                                    <thead>
+                                    <tr>
+                                        <th>FAQ ID</th>
+                                        <th>常见问题</th>
+                                        <th>问题解答</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!--FAQ  -->
-                    <div class="pa_all col-md-8 panel panel-default" id="faq_panel" style="display: none;">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">常见问题</h3>
-                        </div>
-                        <div class="panel-body">
-                            <table id="faq_table">
-                                <thead>
-                                <tr>
-                                    <th>FAQ ID</th>
-                                    <th>常见问题</th>
-                                    <th>问题解答</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <div>
-                            <li>
-                                <button type="button" id="addFaq_bt" class="btn btn-primary" style="margin-left: 40%;">添加</button>
-                            </li>
-
-                        </div>
-                    </div>
-                    <!-- FAQ 添加 -->
-                    <div class="pa_all col-md-8 panel panel-default" id="addFaq_panel" style="display: none;">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">常见问题</h3>
-                        </div>
-                        <div class="panel-body">
-                            <form id="form_addFaq">
-                                <li class="list-group-item">
-                                    <label for="#faq_question">常见问题：</label>
-                                    <input type="text" readonly="readonly" id="faq_question" name="faq_answer" value="" style="width: 300px;height: 40px;">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <li>
+                                    <button type="button" id="addFaq_bt" class="btn btn-primary" style="margin-left: 40%;">添加</button>
                                 </li>
-                                <li class="list-group-item">
-                                    <label for="#faq_answer">问题解答：</label>
-                                    <input type="text" readonly="readonly" id="faq_answer" name="faq_answer" value="" style="width: 300px;height: 100px;">
-                                </li>
-                            </form>
 
-                            <!-- <table id="addFaq_tb" border="2" style="margin-left: 9%;">
-                            <tr>
-                                 <th class="task_check_tb_th" style="text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;FAQ ID&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                <th class="task_check_tb_th" style="text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;常见问题描述&nbsp;&nbsp;&nbsp;&nbsp;</th>
-                                <th class="task_check_tb_th" style="text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;问题解答&nbsp;&nbsp;&nbsp;&nbsp;</th>
-
-                            </tr>
-                            <tr>
-
-                                 <td class="task_check_tb_td" style="width: 80px;">  &nbsp;</td>
-                                <td id = "frequent_que_add" contenteditable="true" class="task_check_tb_td" style="width: 250px;height: 100px;">  &nbsp;</td>
-                                <td id = "frequent_ans_add"contenteditable="true" class="task_check_tb_td" style="width: 200px;">  &nbsp;</td>
-
-
-                            </tr>
-                        </table> -->
-                            <!-- 添加FAQ成功提示 -->
-                            <div class="modal fade" id="addFaq_successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel">提交成功</h4>
-                                        </div>
-                                        <div class="modal-body">已成功提交信息</div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal -->
                             </div>
-                            <!-- 失败 -->
-                            <div class="modal fade" id="addFaq_failModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title" id="myModalLabel">提交失败</h4>
-                                        </div>
-                                        <div class="modal-body">编辑内容有误，请重新编辑!</div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal -->
-                            </div>
-
                         </div>
-                        <div>
-                            <li>
-                                <button type="button" id="saveFaq_bt" class="btn btn-primary" style="margin-left: 40%;">保存</button>
-                                <!--                                    <button type="button" id="backFaq_bt" class="btn btn-primary" style="margin-left: 10%;">返回</button>-->
-                            </li>
+                        <!-- FAQ 添加 -->
+                        <div class="pa_all col-md-8 panel panel-default" id="addFaq_panel" style="display: none;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">常见问题</h3>
+                            </div>
+                            <div class="panel-body">
+                                <form id="form_addFaq">
+                                    <li class="list-group-item">
+                                        <label for="#faq_question">常见问题：</label>
+                                        <input type="text" readonly="readonly" id="faq_question" name="faq_answer" value="" style="width: 300px;height: 40px;">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <label for="#faq_answer">问题解答：</label>
+                                        <input type="text" readonly="readonly" id="faq_answer" name="faq_answer" value="" style="width: 300px;height: 100px;">
+                                    </li>
+                                </form>
+
+                                <!-- <table id="addFaq_tb" border="2" style="margin-left: 9%;">
+                                <tr>
+                                     <th class="task_check_tb_th" style="text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;FAQ ID&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                    <th class="task_check_tb_th" style="text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;常见问题描述&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                    <th class="task_check_tb_th" style="text-align:center;">&nbsp;&nbsp;&nbsp;&nbsp;问题解答&nbsp;&nbsp;&nbsp;&nbsp;</th>
+
+                                </tr>
+                                <tr>
+
+                                     <td class="task_check_tb_td" style="width: 80px;">  &nbsp;</td>
+                                    <td id = "frequent_que_add" contenteditable="true" class="task_check_tb_td" style="width: 250px;height: 100px;">  &nbsp;</td>
+                                    <td id = "frequent_ans_add"contenteditable="true" class="task_check_tb_td" style="width: 200px;">  &nbsp;</td>
+
+
+                                </tr>
+                            </table> -->
+                                <!-- 添加FAQ成功提示 -->
+                                <div class="modal fade" id="addFaq_successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">提交成功</h4>
+                                            </div>
+                                            <div class="modal-body">已成功提交信息</div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!-- 失败 -->
+                                <div class="modal fade" id="addFaq_failModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">提交失败</h4>
+                                            </div>
+                                            <div class="modal-body">编辑内容有误，请重新编辑!</div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                            </div>
+                            <div>
+                                <li>
+                                    <button type="button" id="saveFaq_bt" class="btn btn-primary" style="margin-left: 40%;">保存</button>
+                                    <!--                                    <button type="button" id="backFaq_bt" class="btn btn-primary" style="margin-left: 10%;">返回</button>-->
+                                </li>
+                            </div>
+                        </div>
+                        <!-- 公告栏 -->
+                        <div class="col-md-4 message">
+                            <ul class="sidebar">
+                                <li><h3 class="sidebar-widget-heading">新的任务</h3></li>
+                                <li>
+                                    <a class="categories-link" >你有新的任务啦：问题id为</a>
+                                    <a class="categories-link" id="new_task1"> </a>
+                                    <a class="categories-link" id="new_task2"> </a>
+                                    <a class="categories-link" id="new_task3"> </a>
+                                    <a class="categories-link" id="new_task4"> </a>
+                                    <a class="categories-link" id="new_task5"> </a>
+                                </li>
+                                <!--                                <li>-->
+                                <!--                                    <a href="#" class="categories-link">消息二balabalbalbalba</a>-->
+                                <!--                                </li>-->
+                                <!--                                <li>-->
+                                <!--                                    <a href="#" class="categories-link">消息三balabalbalbalba</a>-->
+                                <!--                                </li>-->
+                                <!--                                <li>-->
+                                <!--                                    <a href="#" class="categories-link">消息四balabalbalbalba</a>-->
+                                <!--                                </li>-->
+                            </ul>
+                            <ul  class="sidebar">
+                                <li><h3 class="sidebar-widget-heading">正在处理的任务</h3></li>
+                                <li>
+                                    <a href="#" class="categories-link">消息一balabalbalbalba</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="categories-link">消息二balabalbalbalba</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="categories-link">消息三balabalbalbalba</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="categories-link">消息四balabalbalbalba</a>
+                                </li>
+                            </ul>
+
                         </div>
                     </div>
                     <!-- 公告栏 -->
                     <div class="col-md-4 message">
-                        <ul class="sidebar">
-                            <li><h3 class="sidebar-widget-heading">新的任务</h3></li>
-                            <li>
-                                <a class="categories-link" >你有新的任务啦：问题id为</a>
-                                <a class="categories-link" id="new_task1"> </a>
-                                <a class="categories-link" id="new_task2"> </a>
-                                <a class="categories-link" id="new_task3"> </a>
-                                <a class="categories-link" id="new_task4"> </a>
-                                <a class="categories-link" id="new_task5"> </a>
-                            </li>
-                            <!--                                <li>-->
-                            <!--                                    <a href="#" class="categories-link">消息二balabalbalbalba</a>-->
-                            <!--                                </li>-->
-                            <!--                                <li>-->
-                            <!--                                    <a href="#" class="categories-link">消息三balabalbalbalba</a>-->
-                            <!--                                </li>-->
-                            <!--                                <li>-->
-                            <!--                                    <a href="#" class="categories-link">消息四balabalbalbalba</a>-->
-                            <!--                                </li>-->
+                        <ul class="sidebar" id="notice">
+                            <li><h4 class="sidebar-widget-heading">超时未完成项目</h4></li>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%;"><b>项目ID</b></th>
+                                        <th style="width: 20%;"><b>问题ID</b></th>
+                                        <th style="width: 25%;"><b>问题类型</b></th>
+                                        <th><b>提交时间</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in data">
+                                        <!-- <td>{{item}}</td> -->
+                                        <td>{{item.Item_id}}</td>
+                                        <td>{{item.Question_id}}</td>
+                                        <td>{{item.Question_type}}</td>
+                                        <td>{{item.Commit_time}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </ul>
-                        <ul  class="sidebar">
-                            <li><h3 class="sidebar-widget-heading">正在处理的任务</h3></li>
-                            <li>
-                                <a href="#" class="categories-link">消息一balabalbalbalba</a>
-                            </li>
-                            <li>
-                                <a href="#" class="categories-link">消息二balabalbalbalba</a>
-                            </li>
-                            <li>
-                                <a href="#" class="categories-link">消息三balabalbalbalba</a>
-                            </li>
-                            <li>
-                                <a href="#" class="categories-link">消息四balabalbalbalba</a>
-                            </li>
-                        </ul>
-
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 </div>
@@ -491,10 +448,9 @@
 <script src="plugins/datatable/jquery.dataTables.min.js"></script>
 <script src="plugins/datatable/dataTables.bootstrap.min.js"></script>
 <script src="js/jquery.validate.js"></script>
-<script src="js/maintainerLoginHomepage.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="js/vue.js"></script>
-
-
-
+<script src="js/worker_role_plugin.js"></script>
+<script src="js/maintainerLoginHomepage.js"></script>
 </body>
 </html>

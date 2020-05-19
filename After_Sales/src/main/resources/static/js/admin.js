@@ -17,13 +17,14 @@ $(document).ready(function(){
             alert("连接超时，请重试！");
         }
     });
-    items.searchFor();
-    questions.searchFor();
-    maintenances.searchFor();
-    faqs.searchFor();
-    roles.searchFor();
-    logs.searchFor();
+    items.searchFor(true);
+    questions.searchFor(true);
+    maintenances.searchFor(true);
+    faqs.searchFor(true);
+    roles.searchFor(true);
+    logs.searchFor(true);
     selects.firstOptions();
+    notices.showNotice();
 });
 $(window).ajaxStart(function () {
     NProgress.start();
@@ -43,26 +44,15 @@ var items = new Vue({
             length:1,
             totalPage: 0
         },
-        data:''
+        data:'',
+        chooseIndex:''
     },
     methods:{
-        init_page: function (totalPage,pageSize ,currentPage) {
-            $("#items table tbody").html('');
+        init_page: function (totalPage,currentPage) {
             if(totalPage == 0){
+                $("#items table tbody").html('');
                 $("#items table tbody").append("没有查询到相关数据！");
                 return;
-            }
-            for(var i=0;i<items.data.length;i++){
-                var item=items.data[i];
-                var insert = '<tr id="showItems">'+
-                                '<td class="task_check_tb_td">' + 
-                                item.item_id +
-                                '</td><td class="task_check_tb_td">' + 
-                                item.item_name + 
-                                '</td><td class="task_check_tb_td">' + 
-                                item.user_id + 
-                                '</td></tr>';
-                $("#items table tbody").append(insert);
             }
             $('#pagination1').jqPaginator({ 
                 totalPages: totalPage,
@@ -76,8 +66,7 @@ var items = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         items.page.pageNum= num;
-                        items.splitStart = num;
-                        items.searchFor();
+                        items.searchFor(false);
                     }
                 }
             });
@@ -85,7 +74,10 @@ var items = new Vue({
         calPage:function(){
             items.page.totalPage =  Math.ceil(items.page.length/items.page.pageSize);
         },
-        searchFor:function(){
+        searchFor:function(initial){
+            if (initial) {
+                this.page.pageNum = 1;
+            }
             axios
             .post('/adminLoing/searchItems/'+this.page.pageNum+'/'+this.page.pageSize, {
                 "key": this.key,        
@@ -95,13 +87,33 @@ var items = new Vue({
                 items.data = response.data[0];
                 items.page.length = response.data[1];
                 items.calPage();
-                items.init_page(items.page.totalPage,items.page.pageSize ,items.page.pageNum);    
+                items.init_page(items.page.totalPage,items.page.pageNum);    
             })
             .catch(function (error) {
-                alert(error);
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
+            });
+        },
+        showWorker:function(index){
+            axios
+            .post('/adminLoing/item_worker')
+            .then(function (response) {
+                itemModal.workers = response.data;
+                items.chooseIndex = index;
+                $("#itemModal").modal();
+            })
+            .catch(function (error) {
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
             });
         }
     }
+});
+var itemModal = new Vue({
+    el:"#itemModal",
+    data:{
+        workers:''
+    },
 });
 var questions = new Vue({
     el:'#vueQuestion',
@@ -122,29 +134,11 @@ var questions = new Vue({
         data:''
     },
     methods:{
-        init_page: function (totalPage,pageSize,currentPage) {
-            $("#questions table tbody").html('');
+        init_page: function (totalPage,currentPage) {
             if(totalPage == 0){
+                $("#questions table tbody").html('');
                 $("#questions table tbody").append("没有查询到相关数据！");
                 return;
-            }
-            for(var i=0;i<questions.data.length;i++){
-                var item=questions.data[i];
-                var insert = '<tr id="showItems">'+
-                                 '<td class="task_check_tb_td">' + 
-                                 item.question_id + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.item_id + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.question_type + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.question_status + 
-                                 '</td><td class="task_check_tb_td">' + 
-                                 item.question_detail + 
-                                 '</td><td class="task_check_tb_td">'+
-                                 item.user_id + 
-                                 '</td></tr>';
-                $("#questions table tbody").append(insert);
             }
             $('#pagination2').jqPaginator({ 
                 totalPages: totalPage,
@@ -158,7 +152,7 @@ var questions = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         questions.page.pageNum= num;
-                        questions.searchFor();
+                        questions.searchFor(false);
                     }
                 }
             });
@@ -166,7 +160,10 @@ var questions = new Vue({
         calPage:function(){
             questions.page.totalPage =  Math.ceil(questions.page.length/questions.page.pageSize);
         },
-        searchFor:function(){
+        searchFor:function(initial){
+            if (initial) {
+                this.page.pageNum = 1;
+            }
             axios
             .post('/adminLoing/searchquestion/'+this.page.pageNum+'/'+this.page.pageSize, {
                 "key": this.key,        
@@ -179,11 +176,11 @@ var questions = new Vue({
                 console.log(questions.page);
                 questions.page.length = response.data[1];
                 questions.calPage();
-                questions.init_page(questions.page.totalPage,questions.page.pageSize ,questions.page.pageNum);    
+                questions.init_page(questions.page.totalPage,questions.page.pageNum);    
             })
             .catch(function (error) {
-                alert(error);
-                
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
             });
         }
     }
@@ -203,24 +200,11 @@ var maintenances = new Vue({
         data:''
     },
     methods:{
-        init_page: function (totalPage,pageSize,currentPage) {
-            $("#maintenance table tbody").html('');
+        init_page: function (totalPage,currentPage) {
             if(totalPage == 0){
+                $("#maintenance table tbody").html('');
                 $("#maintenance table tbody").append("没有查询到相关数据！");
                 return;
-            }
-            for(var i=0;i<maintenances.data.length;i++){
-                var item=maintenances.data[i];
-                var insert = '<tr id="showItems">'+
-                '<tr id="showItems">'+
-                '<td class="task_check_tb_td">' + 
-                item.question_id + 
-                '</td><td class="task_check_tb_td">' + 
-                item.user_id + 
-                '</td><td class="task_check_tb_td">' + 
-                item.start_time + 
-                '</td></tr>';
-                $("#maintenance table tbody").append(insert);
             }
             $('#pagination3').jqPaginator({ 
                 totalPages: totalPage,
@@ -234,7 +218,7 @@ var maintenances = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         maintenances.page.pageNum= num;
-                        maintenances.searchFor();
+                        maintenances.searchFor(false);
                     }
                 }
             });
@@ -242,7 +226,10 @@ var maintenances = new Vue({
         calPage:function(){
             maintenances.page.totalPage =  Math.ceil(maintenances.page.length/maintenances.page.pageSize);
         },
-        searchFor:function(){
+        searchFor:function(initial){
+            if (initial) {
+                this.page.pageNum = 1;
+            }
             axios
             .post('/adminLoing/searchMaintenance/'+this.page.pageNum+'/'+this.page.pageSize, {
                 "key": this.key,        
@@ -252,7 +239,7 @@ var maintenances = new Vue({
                 maintenances.data = response.data[0];
                 maintenances.page.length = response.data[1];
                 maintenances.calPage();
-                maintenances.init_page(maintenances.page.totalPage,maintenances.page.pageSize ,maintenances.page.pageNum);    
+                maintenances.init_page(maintenances.page.totalPage,maintenances.page.pageNum);    
             })
             .catch(function (error) {
                 alert(error);
@@ -279,24 +266,11 @@ var faqs = new Vue({
         data:''
     },
     methods:{
-        init_page: function (totalPage,pageSize,currentPage) {
-            $("#faq table tbody").html('');            /* 清空tbody内容 */
+        init_page: function (totalPage,currentPage) {
             if(totalPage == 0){
+                $("#faq table tbody").html('');
                 $("#faq table tbody").append("没有查询到相关数据！");
                 return;
-            }
-            for(var i=0;i<faqs.data.length;i++){
-                var item=faqs.data[i];
-                var insert = '<tr id="showItems">'+
-                '<tr id="showItems">'+
-                '<td class="task_check_tb_td">' + 
-                item.question_id + 
-                '</td><td class="task_check_tb_td">' + 
-                item.user_id + 
-                '</td><td class="task_check_tb_td">' + 
-                item.start_time + 
-                '</td></tr>';
-                $("#faq table tbody").append(insert);
             }
             $('#pagination4').jqPaginator({ 
                 totalPages: totalPage,        //页码整数
@@ -310,7 +284,7 @@ var faqs = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         faqs.page.pageNum= num;
-                        faqs.searchFor();
+                        faqs.searchFor(false);
                     }
                 }
             });
@@ -318,9 +292,12 @@ var faqs = new Vue({
         calPage:function(){
             faqs.page.totalPage =  Math.ceil(faqs.page.length/faqs.page.pageSize);
         },
-        searchFor:function(){
+        searchFor:function(initial){
+            if (initial) {
+                this.page.pageNum = 1;
+            }
             axios
-            .post('/adminLoing/searchMaintenance/'+this.page.pageNum+'/'+this.page.pageSize, {
+            .post('/adminLoing/showfaq/'+this.page.pageNum+'/'+this.page.pageSize, {
                 "key": this.key,        
                 "choice":this.selected    
             })
@@ -328,7 +305,7 @@ var faqs = new Vue({
                 faqs.data = response.data[0];
                 faqs.page.length = response.data[1];
                 faqs.calPage();
-                faqs.init_page(faqs.page.totalPage,faqs.page.pageSize ,faqs.page.pageNum);    
+                faqs.init_page(faqs.page.totalPage,faqs.page.pageNum);    
             })
             .catch(function (error) {
                 $('#failModal .modal-body').text(error); 
@@ -373,15 +350,18 @@ var selects = new Vue({
         },
         assign:function(){
             axios
-            .post('/adminLoing/wokername',{
+            .post('/adminLoing/allocation',{
                 "questionID":selects.firstSelected,
                 "workerName":selects.secondSelected
             })
             .then(function(response){
                 selects.final = response.data;
                 if (selects.final.status) {
-                    $('#successModal .modal-body').text("任务指派成功"); 
+                    $('#successModal .modal-body').text(selects.final.msg);
                     $("#successModal").modal();
+                }else{
+                    $('#failModal .modal-body').text(selects.final.msg);
+                    $("#failModal").modal();
                 }
             })
             .catch(function (error) { // 请求失败处理
@@ -400,7 +380,7 @@ var roles = new Vue({
         roleSearch:0,
         roleChoice:[],
         key:"",
-        roleOptions:["管理员","维护人员","普通用户","负责人"],
+        roleOptions:["管理员","维护人员","普通用户","负责人","null"],
         placeholder:["用户ID","用户名","角色","角色分配"],
         page: {
             pageSize: 8,
@@ -413,6 +393,7 @@ var roles = new Vue({
     methods:{
         init_page: function (totalPage,currentPage) {
             if(totalPage == 0){
+                $("#role table tbody").html('');
                 $("#role table tbody").append("没有查询到相关数据！");
                 return;
             }
@@ -432,7 +413,7 @@ var roles = new Vue({
                             roles.data[i].Role_id -= 1;
                             roles.roleChoice[i] = roles.data[i].Role_id;
                         }
-                        roles.searchFor();
+                        roles.searchFor(false);
                     }
                 }
             });
@@ -440,9 +421,15 @@ var roles = new Vue({
         calPage:function(){
             roles.page.totalPage =  Math.ceil(roles.page.length/roles.page.pageSize);
         },
-        searchFor:function(){
+        searchFor:function(initial){
+            if (initial) {
+                this.page.pageNum = 1;
+            }
+            if (this.selected==2) {
+                this.key = this.roleSearch;
+            }
             axios
-            .post('/adminLoing/showuser/'+this.page.pageNum+'/'+this.page.pageSize, {
+            .post('/adminLoing/searchuser/'+this.page.pageNum+'/'+this.page.pageSize, {
                 "key": this.key,        
                 "choice":this.selected    
             })
@@ -454,7 +441,6 @@ var roles = new Vue({
                     roles.data[i].Role_id -= 1;
                     roles.roleChoice[i] = roles.data[i].Role_id;
                 }
-                console.log(roles.roleChoice);
                 roles.init_page(roles.page.totalPage,roles.page.pageNum);    
             })
             .catch(function (error) {
@@ -477,18 +463,13 @@ var roles = new Vue({
                     "roleID":roles.roleChoice[index] 
                 })
                 .then(function (response) {
-                    roles.data = response.data;
-                    if (roles.data.status) {
-                        $('#successModal .modal-body').text(roles.data.msg);
+                    if (response.data.status) {
+                        $('#successModal .modal-body').text(response.data.msg);
                         $("#successModal").modal();
-                        this.key="";
-                        this.selected=0;
-                        roles.searchFor();
-                        return;
+                        roles.searchFor(false);
                     }else{
-                        $('#failModal .modal-body').text(roles.data.msg); 
+                        $('#failModal .modal-body').text(response.data.msg); 
                         $("#failModal").modal();
-                        return;
                     }
                 })
                 .catch(function (error) {
@@ -509,18 +490,13 @@ var roles = new Vue({
                     "roleID":roles.roleChoice[index] 
                 })
                 .then(function (response) {
-                    roles.data = response.data;
-                    if (roles.data.status) {
-                        $('#successModal .modal-body').text("权限删除成功！");
+                    if (response.data.status) {
+                        $('#successModal .modal-body').text(response.data.msg);
                         $("#successModal").modal();
-                        this.key="";
-                        this.selected=0;
-                        roles.searchFor();
-                        return;
+                        roles.searchFor(false);
                     }else{
-                        $('#failModal .modal-body').text(roles.data.msg); 
+                        $('#failModal .modal-body').text(response.data.msg); 
                         $("#failModal").modal();
-                        return;
                     }
                 })
                 .catch(function (error) {
@@ -550,8 +526,8 @@ var logs = new Vue({
         data:''
     },
     methods:{
-        init_page: function (totalPage,pageSize,currentPage) {
-            $("#log table tbody").html('');            /* 清空tbody内容 */
+        init_page: function (totalPage,currentPage) {
+            $("#log table tbody").html('');
             if(totalPage == 0){
                 $("#log table tbody").append("没有查询到相关数据！");
                 return;
@@ -563,8 +539,8 @@ var logs = new Vue({
                 if (str != null) {
                     method = str.split('.')[5];
                 }
-                var insert = '<tr id="showItems">'+
-                            '<td class="task_check_tb_td">' + 
+                var insert = '<tr>'+
+                            '<td  class="task_check_tb_td">' + 
                             item.user_id + 
                             '</td><td class="task_check_tb_td">' + 
                             item.operation + 
@@ -591,7 +567,7 @@ var logs = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         logs.page.pageNum= num;
-                        logs.searchFor();
+                        logs.searchFor(false);
                     }
                 }
             });
@@ -599,7 +575,10 @@ var logs = new Vue({
         calPage:function(){
             logs.page.totalPage =  Math.ceil(logs.page.length/logs.page.pageSize);
         },
-        searchFor:function(){
+        searchFor:function(initial){
+            if (initial) {
+                this.page.pageNum = 1;
+            }
             axios
             .post('/adminLoing/searchLog/'+this.page.pageNum+'/'+this.page.pageSize, {
                 "key": this.key,        
@@ -609,7 +588,64 @@ var logs = new Vue({
                 logs.data = response.data[0];
                 logs.page.length = response.data[1];
                 logs.calPage();
-                logs.init_page(logs.page.totalPage,logs.page.pageSize ,logs.page.pageNum);    
+                logs.init_page(logs.page.totalPage,logs.page.pageNum);    
+            })
+            .catch(function (error) { // 请求失败处理
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
+            });
+        }
+    }
+});
+var notices = new Vue({
+    el:'#notice',
+    data:{
+        data1:'',
+        temp1:[],
+        data2:'',
+        temp2:[]
+    },
+    methods: {
+        showNotice:function() {
+            axios
+            .post('/adminLoing/overtime_unaccept')
+            .then(function (response) {
+                notices.data1 = response.data;
+                if (notices.data1.length==0) {
+                    $("#notice1 table").hide();
+                    $("#notice1").append("没有超时待处理项目");
+                }else if(notices.data1.length>6){
+                    setInterval(function(){ 
+                        var body = $("#notice1 table tbody"); 
+                        var liHeight = body.find("tr:last").height()+10;
+                        body.animate({marginTop : liHeight +"px"},1000,function(){ 
+                            body.find("tr:last").prependTo(body);
+                            body.css({marginTop:'10px'}); 
+                        });         
+                    },2000); 
+                }
+            })
+            .catch(function (error) { // 请求失败处理
+                $('#failModal .modal-body').text(error); 
+                $("#failModal").modal();
+            });
+            axios
+            .post('/adminLoing/overtim_deal')
+            .then(function (response) {
+                notices.data2 = response.data;
+                if (notices.data2.length==0) {
+                    $("#notice2 table").hide();
+                    $("#notice2").append("没有超时未完成项目");
+                }else if(notices.data2.length>6){
+                    setInterval(function(){ 
+                        var body = $("#notice2 table tbody"); 
+                        var liHeight = body.find("tr:last").height()+10;
+                        body.animate({marginTop : liHeight +"px"},1000,function(){ 
+                            body.find("tr:last").prependTo(body);
+                            body.css({marginTop:'10px'}); 
+                        });         
+                    },2000);
+                }
             })
             .catch(function (error) { // 请求失败处理
                 $('#failModal .modal-body').text(error); 
@@ -621,7 +657,49 @@ var logs = new Vue({
 
 
 /* 一些触发事件 */
-// 点击编辑按钮
+$(document).on('click','#modalBtn',function () {
+    var index = $("input[name='worker']:checked").val();
+    console.log(itemModal.workers);
+    $("#itemModal").modal('hide');
+    axios
+    .post('/adminLoing/leaderEdit',{
+        "itemID":items.data[items.chooseIndex].item_id,
+        "userID":itemModal.workers[index].User_id
+    })
+    .then(function (response) {
+        if (response.data.status) {
+            items.searchFor(false);
+            $("#successModal").modal();
+            $('#successModal .modal-body').text(response.data.msg);
+        } else {
+            $('#failModal .modal-body').text(response.data.msg); 
+            $("#failModal").modal();
+        }
+    })
+    .catch(function (error) {
+        $('#failModal .modal-body').text(error); 
+        $("#failModal").modal();
+    });
+});
+$("#loginOut").click(function () { 
+    $.ajax({
+        type:'post',
+        data:'',
+        contentType :'application/json',
+        dataType:'json',
+        url :'/user/logout',
+        success :function(data) {
+            if (data==1) {
+                $(window).attr("location",'/');
+            }else{
+                alert("退出登录失败！");
+            }
+        },
+        error: function () {
+            alert("连接超时，请重试！");
+        }
+    });
+});
 $("#edit_bt").click(function(){
     var readonly = $("#username").attr("readonly")==='readonly'?false:true;
     $("#username").attr("readonly",readonly);
@@ -630,7 +708,6 @@ $("#edit_bt").click(function(){
     $("#form_userinfo").validate();
     $(this).text($(this).text()==='编辑'?'取消':'编辑');
 });
-// 点击保存按钮
 $("#save_bt").click(function(){
     var User_name = $("#username").val();
     var Tel = $("#tel").val();
@@ -662,13 +739,13 @@ $("#save_bt").click(function(){
                 $("#email").attr("readonly",true).val(data.Email);
                 $('#edit_bt').text('编辑');
             },
-            error: function (XMLHttpRequest,textStatus) {
+            error: function (textStatus) {
                 $("#failModal").modal();
+                $('#failModal .modal-body').text(textStatus); 
             }
         });            
     }
 });
-// 修改基础信息验证
 $("#form_userinfo").validate({
     rules:{
         username : {
@@ -701,36 +778,10 @@ $("#form_userinfo").validate({
         }
     }
 });
-//FAQ信息验证
-$("#form_addFaq").validate({
-    rules:{
-        frequent_que_add:{
-            required:true,
-            minlength:10,
-        },
-        frequent_ans_add:{
-            required:true,
-            minlength:10,
-        }
-    },
-    messages:{
-        frequent_que_add:{
-            required:"问题不能为空",
-            minlength:"问题内容最短不能少于10"
-        },
-        frequent_ans_add:{
-            required:"问题解答不能为空",
-            minlength:"问题解答内容最短不能为10"
-        }
-    }
-});
-
-//  二级菜单的滑动处理
 $("#questions_check").click(function(){
   $("#info").slideToggle("slow");
 });
-//点击个人信息切换面板 
-$('.nav-pills li[role="presentation"]').click(function() {                        //tags的切换
+$('.nav-pills li[role="presentation"]').click(function() {
     var i = $(this).index()-1;
     if(i!=2){
         i >= 4 ? i=i+1 : i = i;
@@ -741,7 +792,6 @@ $('.nav-pills li[role="presentation"]').click(function() {                      
         $(".message").show();
     }
 });   
-//点击二级菜单
 $('#info li').click(function (e) { 
     var i = $(this).index();
     $('.nav-pills li[role="presentation"]').removeClass('active');

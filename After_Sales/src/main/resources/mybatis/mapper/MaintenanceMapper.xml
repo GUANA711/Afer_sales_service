@@ -40,7 +40,8 @@
         insert  into maintenance (Question_id,User_id,Start_time) values (#{Question_id},#{User_id},#{Start_time})
 </select>
     <insert id="itemLeaderEdite" parameterType="map">
-        insert into itme_worker values(#{Item_id},#{User_id})
+        update  items set User_id=#{User_id} where Item_id=#{Item_id}
+
     </insert>
 
 </mapper>

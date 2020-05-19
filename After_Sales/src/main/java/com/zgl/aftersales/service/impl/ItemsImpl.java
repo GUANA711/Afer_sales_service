@@ -20,7 +20,10 @@ public class ItemsImpl implements ItemsService {
     }
 
 
-
+    @Override
+    public Items select(Map<String, Object> map) {
+        return itemMapper.select(map);
+    }
 
     @Override
     public List<List<?>> fuzzyQuery(Map<String, Object> map) {

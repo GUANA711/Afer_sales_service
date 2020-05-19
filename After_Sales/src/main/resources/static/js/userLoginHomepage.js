@@ -297,7 +297,6 @@ $(document).ready(function(){
                         $("#fin_panel").append("</ul>"+"</form>"+"</div>"+"</div>");
                     }
                 }
-
             },
             error: function (XMLHttpRequest) {
                 console.log(XMLHttpRequest.status);
@@ -351,29 +350,29 @@ $(document).ready(function(){
     $("#wri_title").click(function(){
         $("#find_panel").children().hide();
         $("#wri_top").show();
-        //get方法获取项目名item_name
-        $.ajax({
-            type:'GET',
-
-            data:'',
-
-            contentType :'application/json',
-
-            dataType:'json',
-
-            url :'/question/checkItemname',
-
-            success :function(data) {
-                //动态生成项目名
-                for (var i in data){
-                    $("#item_id").append("<option value='"+data[i].item_id+"'>"+data[i].item_name+"</option>");
-                }
-            },
-            error: function (XMLHttpRequest) {
-                console.log(XMLHttpRequest.status);
-                console.log(XMLHttpRequest.readyState);
-            }
-        });
+        // //get方法获取项目名item_name
+        // $.ajax({
+        //     type:'GET',
+        //
+        //     data:'',
+        //
+        //     contentType :'application/json',
+        //
+        //     dataType:'json',
+        //
+        //     url :'/question/checkItemname',
+        //
+        //     success :function(data) {
+        //         //动态生成项目名
+        //         for (var i in data){
+        //             $("#item_id").append("<option value='"+data[i].item_id+"'>"+data[i].item_name+"</option>");
+        //         }
+        //     },
+        //     error: function (XMLHttpRequest) {
+        //         console.log(XMLHttpRequest.status);
+        //         console.log(XMLHttpRequest.readyState);
+        //     }
+        // });
         $("#wri_panel").show();
         $(".message").show();
     });
@@ -406,8 +405,5 @@ $(document).ready(function(){
                 break;
         }
     });
-
-
-
 
 });

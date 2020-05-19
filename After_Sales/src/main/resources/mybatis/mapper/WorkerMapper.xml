@@ -17,6 +17,10 @@
         update questions set Question_status='accepted' where Question_id=#{questionID};
     </update>
 
+    <select id="worker_select_taskNum" parameterType="int" resultType="int">
+        select Task_num from users where User_id = #{User_id};
+    </select>
+
     <update id="worker_update_addtaskNum" parameterType="int">
         update users u set u.Task_num=u.Task_num+1 where User_id=#{User_id};
     </update>
@@ -30,15 +34,46 @@
     </update>
 
     <select id="worker_show_unaccepted" parameterType="int" resultType="com.zgl.aftersales.pojo.Question">
-        select * from questions where User_id = #{User_id} and Question_status = 'unaccepted';
+        select * from questions q,itme_worker iw where q.Item_id=iw.Item_id and iw.User_id = #{User_id} and q.Question_status = 'unaccepted';
     </select>
 
-    <select id="worker_show_accepted" parameterType="int" resultType="map">
-        select * from questions q, maintenance m where q.User_id=m.User_id and q.User_id = #{User_id} and q.Question_status = 'accepted' group by q.Question_id;
+    <select id="worker_show_accepted" parameterType="int" resultType="com.zgl.aftersales.pojo.Question">
+        select * from questions q, maintenance m where q.Question_id=m.Question_id and m.User_id = #{User_id} and q.Question_status = 'accepted';
     </select>
 
     <select id="worker_show_done" parameterType="int" resultType="com.zgl.aftersales.pojo.Question">
-        select * from questions where User_id = #{User_id} and Question_status = 'done';
+        select * from questions q, maintenance m where q.Question_id=m.Question_id and m.User_id = #{User_id} and q.Question_status = 'done';
     </select>
+
+    <select id="show_items" parameterType="int" resultType="com.zgl.aftersales.pojo.Items">
+        select * from items where User_id = #{User_id};
+    </select>
+
+    <select id="show_item_workers" parameterType="map" resultType="map">
+        select iw.User_id,iw.Item_id from items i,itme_worker iw where i.Item_id=iw.Item_id and i.User_id=#{User_id} and i.Item_id=#{Item_id} and iw.User_id!=#{User_id} group by iw.User_id;
+    </select>
+
+    <select id="select_userid" parameterType="int" resultType="int">
+        select m.User_id from maintenance m where User_id=#{User_id};
+    </select>
+
+    <delete id="delete_item_worker" parameterType="map">
+        delete from itme_worker where Item_id=#{Item_id} and User_id=#{User_id} and User_id not in (select User_id from maintenance);
+    </delete>
+
+    <select id="show_item_other_workers" parameterType="int" resultType="map">
+        select u.User_id from users u,role_user r where u.User_id=r.User_id and r.Role_id = 2 and u.Task_num <![CDATA[<]]> 10 and u.User_id not in(select distinct iw.User_id from itme_worker iw where iw.Item_id=#{Item_id});
+    </select>
+
+    <insert id="insert_item_other_workers" parameterType="map">
+        insert into itme_worker (Item_id,User_id) values( #{Item_id}, #{User_id});
+    </insert>
+
+    <select id="worker_show_overtime" parameterType="int" resultType="map">
+        select * from questions q, maintenance m,itme_worker iw where iw.User_id=m.User_id
+        and q.Item_id=iw.Item_id and iw.User_id = #{User_id} and q.Question_status = 'overtime' group by q.Question_id;
+    </select>
+
+
 
 </mapper>

@@ -11,5 +11,5 @@ public interface ItemsService {
     List<List<?>> selectAllItems(Map<String,Object> map);
     List<List<?>> fuzzyQuery(Map<String,Object> map);
 
-
+    Items select(Map<String,Object> map);
 }

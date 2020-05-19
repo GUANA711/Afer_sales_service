@@ -6,6 +6,8 @@ import com.zgl.aftersales.dao.MyLog;
 import com.zgl.aftersales.pojo.*;
 import com.zgl.aftersales.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -153,6 +155,11 @@ public class AdminLoginController {
         return lists;
     }
 
+    /**
+     *@描述
+     *@参数 显示faq
+     *@返回值
+     */
     @Autowired
     FAQService faqService;
     @PostMapping("/showfaq/{currenPage}/{pageSize}")
@@ -257,7 +264,8 @@ public class AdminLoginController {
             map.put("User_name", key);
         }
         if (choice.equals("2")) {
-            map.put("Role_id", key);
+            int k=Integer.parseInt(key);
+            map.put("Role_id", k+1);
         }
         List<List<?>> lists=userService.searchUser(map);
         return lists;
@@ -355,13 +363,19 @@ public class AdminLoginController {
     @PostMapping("/addrole")
     public Status roleadd(@RequestBody JSONObject json){
         String user_id_string=json.getString("userID");
-        String role_id_string=json.getString("roleID");
         int userID=Integer.parseInt(user_id_string);
-        int roleID=Integer.parseInt(role_id_string)+1;
         Status status=new Status();
         Map<String,Object> map=new HashMap<>();
         map.put("User_id",userID);
-        map.put("Role_id",roleID);
+
+       try {
+           String role_id_string=json.getString("roleID");
+           int roleID=Integer.parseInt(role_id_string)+1;
+           map.put("Role_id",roleID);
+       }catch (Exception e){
+           status.setMsg("权限修改失败,请选择角色在点击修改");
+           return  status;
+       }
 
         try {
             userService.insertRoleID(map);
@@ -370,7 +384,6 @@ public class AdminLoginController {
             return  status;
         }catch (Exception e){
             status.setMsg("权限修改失败,该用户已拥有此角色");
-            e.printStackTrace();
             return  status;
         }
     }
@@ -384,13 +397,18 @@ public class AdminLoginController {
     @PostMapping("/deleterole")
     public Status roledelete(@RequestBody JSONObject json){
         String user_id_string=json.getString("userID");
-        String role_id_string=json.getString("roleID");
         int userID=Integer.parseInt(user_id_string);
-        int roleID=Integer.parseInt(role_id_string)+1;
         Status status=new Status();
         Map<String,Object> map=new HashMap<>();
         map.put("User_id",userID);
-        map.put("Role_id",roleID);
+        try {
+            String role_id_string=json.getString("roleID");
+            int roleID=Integer.parseInt(role_id_string)+1;
+            map.put("Role_id",roleID);
+        }catch (Exception e){
+            status.setMsg("权限删除失败,该用户没有课删除的角色");
+            return  status;
+        }
 
         try {
             userService.deleteRolID(map);
@@ -446,14 +464,32 @@ public class AdminLoginController {
         String userID=json.getString("userID");
         Map<String,Object> map=new HashMap<>();
         map.put("Item_id",itemID);
-        map.put("User_id",userID);
+        map.put("Role_id","4");
+        Subject subject = SecurityUtils.getSubject();
+
+       Items item=itemsService.select(map);
+       String oldUserID=item.getUser_id();
+
         try {
+            map.put("User_id",userID);
             maintenanceService.itemLeaderEdite(map);
+            List<String> roleList=userService.showRolesByUserID(Integer.parseInt(userID));
+            if(!roleList.contains("leader")){
+                userService.insertRoleID(map);
+            }
+
+
+            map.remove("Item_id");
+            map.put("User_id",oldUserID);
+            if(itemsService.select(map) == null){
+                userService.deleteRolID(map);
+            }
             status.setStatus(true);
             status.setMsg("修改成功");
             return status;
         }catch (Exception e){
             status.setMsg("修改失败,此用户已是该项目负责人");
+            e.printStackTrace();
             return status;
         }
     }
