@@ -36,8 +36,8 @@
              SELECT * FROM items
     </select>
 
-    <select id="checkItemId" parameterType="int" resultType="com.zgl.aftersales.pojo.Items">
-             SELECT * FROM items WHERE Item_id = #{ Item_id }
+    <select id="checkItemId" parameterType="int" resultType="int">
+             SELECT COUNT(*) FROM items WHERE Item_id = #{ Item_id }
     </select>
 
 <!--    zgl-->

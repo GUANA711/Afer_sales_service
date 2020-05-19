@@ -111,14 +111,14 @@ public class QuestionController {
     }
 
     @GetMapping("/checkItemId")
-    public Items checkItemId(@RequestParam (value = "item_id",required = false)Integer item_id){
+    public int checkItemId(@RequestParam (value = "item_id",required = false)Integer item_id){
         System.out.println(item_id);
-          return db.checkItemId(item_id);
-//        if(db.checkItemId(item_id)==0){
-//            return 0;//项目不存在
-//        }else {
-//            return 1;//项目存在
-//        }
+
+        if(db.checkItemId(item_id)==0){
+            return 0;//项目不存在
+        }else {
+            return 1;//项目存在
+        }
     }
 
 }
