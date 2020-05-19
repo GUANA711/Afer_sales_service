@@ -235,19 +235,19 @@ public class WorkerController {
     }
 
     /**
-     * 显示显示该维修人员被安排到的维修项目对应的所有正在处理得任务
+     * 显示该维修人员所有正在处理得任务
      * @param req
      * @return
      */
     @RequestMapping(value = "/worker_show_accepted",method = RequestMethod.GET)
-    public List<Map<String, Object>> worker_show_accepted(HttpServletRequest req){
+    public List<Question> worker_show_accepted(HttpServletRequest req){
 
         int User_id= (int) req.getSession(false).getAttribute("userID");
         return workerService.worker_show_accepted(User_id);
     }
 
     /**
-     * 显示显示该维修人员被安排到的维修项目对应的所有已完成得任务
+     * 显示该维修人员所有已完成任务
      * @param req
      * @return
      */

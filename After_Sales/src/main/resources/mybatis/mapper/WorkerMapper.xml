@@ -37,13 +37,12 @@
         select * from questions q,itme_worker iw where q.Item_id=iw.Item_id and iw.User_id = #{User_id} and q.Question_status = 'unaccepted';
     </select>
 
-    <select id="worker_show_accepted" parameterType="int" resultType="map">
-        select * from questions q, maintenance m,itme_worker iw where iw.User_id=m.User_id
-        and q.Item_id=iw.Item_id and iw.User_id = #{User_id} and q.Question_status = 'accepted' group by q.Question_id;
+    <select id="worker_show_accepted" parameterType="int" resultType="com.zgl.aftersales.pojo.Question">
+        select * from questions q, maintenance m where q.Question_id=m.Question_id and m.User_id = #{User_id} and q.Question_status = 'accepted';
     </select>
 
     <select id="worker_show_done" parameterType="int" resultType="com.zgl.aftersales.pojo.Question">
-        select * from questions q,itme_worker iw where q.Item_id=iw.Item_id and iw.User_id = #{User_id} and q.Question_status = 'done';
+        select * from questions q, maintenance m where q.Question_id=m.Question_id and m.User_id = #{User_id} and q.Question_status = 'done';
     </select>
 
     <select id="show_items" parameterType="int" resultType="com.zgl.aftersales.pojo.Items">
@@ -51,7 +50,7 @@
     </select>
 
     <select id="show_item_workers" parameterType="map" resultType="map">
-        select iw.User_id from items i,itme_worker iw where i.Item_id=iw.Item_id and i.User_id=#{User_id} and i.Item_id=#{Item_id} and iw.User_id!=#{User_id} group by iw.User_id;
+        select iw.User_id,iw.Item_id from items i,itme_worker iw where i.Item_id=iw.Item_id and i.User_id=#{User_id} and i.Item_id=#{Item_id} and iw.User_id!=#{User_id} group by iw.User_id;
     </select>
 
     <select id="select_userid" parameterType="int" resultType="int">

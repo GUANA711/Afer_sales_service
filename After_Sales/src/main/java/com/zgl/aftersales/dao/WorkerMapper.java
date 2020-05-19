@@ -54,7 +54,7 @@ public interface WorkerMapper {
      */
     List<Question> worker_show_unaccepted(int userId);
 
-    List<Map<String, Object>> worker_show_accepted(int userId);
+    List<Question> worker_show_accepted(int userId);
 
     List<Question> worker_show_done(int userId);
 
