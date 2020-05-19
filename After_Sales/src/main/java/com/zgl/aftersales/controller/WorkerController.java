@@ -308,7 +308,7 @@ public class WorkerController {
             }
             else {
                 workerStatus.setStatus(false);
-                workerStatus.setMsg("移除维修人员"+json.getString("User_id")+"失败");
+                workerStatus.setMsg("移除维修人员"+json.getString("User_id")+"失败，该维修人员有正在处理的任务");
             }
         }catch (Exception e){
             System.out.println(e);

@@ -62,7 +62,12 @@
     </delete>
 
     <select id="show_item_other_workers" parameterType="int" resultType="map">
-        select u.User_id from users u,role_user r where u.User_id=r.User_id and r.Role_id = 2 and u.Task_num <![CDATA[<]]> 10 and u.User_id not in(select distinct iw.User_id from itme_worker iw where iw.Item_id=#{Item_id});
+        select u.User_id from users u,role_user r where u.User_id=r.User_id and r.Role_id = 2 and u.Task_num <![CDATA[<]]> 10
+        and u.User_id not in(select distinct iw.User_id from itme_worker iw where iw.Item_id=#{Item_id});
+--         select u.User_id,iw.Item_id from users u,role_user r,itme_worker iw,questions q
+--         where u.User_id=r.User_id and u.User_id=q.User_id and  q.Item_id=iw.Item_id
+--         and r.Role_id = 2 and u.Task_num <![CDATA[<]]> 10
+--         and u.User_id not in(select distinct iw.User_id,iw.Item_id from itme_worker iw where iw.Item_id=#{Item_id});
     </select>
 
     <insert id="insert_item_other_workers" parameterType="map">

@@ -34,4 +34,5 @@ public interface QuestionService {
     //int DeleteUser(int User_id);
     Users checkPostMan(int User_id);
     List<Items> checkItemname();
+    int checkItemId(Integer item_id);
 }
