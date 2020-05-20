@@ -22,7 +22,7 @@ $(document).ready(function() {
             $("#username").val(data.User_name);
             $("#tel").val(data.Tel);
             $("#email").val(data.Email);
-            $("#tasknum").val(data.Task_num);
+            // $("#taskNum").val(data.Task_num);
 
             // $("#new_task1").val(data.Question_id);
             // alert(data.User_name+"欢迎回来！");
@@ -77,7 +77,7 @@ $(document).ready(function() {
                     $("#username").val(data.User_name);
                     $("#tel").val(data.Tel);
                     $("#email").val(data.Email);
-                    $("#tasknum").val(data.Task_num);
+                    // $("#taskNum").val(data.Task_num);
                     alert(data.status);
                 },
                 error: function (result) {
@@ -185,7 +185,7 @@ $(document).ready(function() {
                     "sInfoPostFix": "",
                     "sSearch": "搜索:",
                     "sUrl": "",
-                    "sEmptyTable": "表中数据为空",
+                    "sEmptyTable": "您目前没有未接收的任务",
                     "sLoadingRecords": "载入中...",
                     "sInfoThousands": ",",
                     "oPaginate":
@@ -202,7 +202,6 @@ $(document).ready(function() {
                         }
                 }
         });
-
     });
     $("body").on("click", ".operate-btn-accept", function () {
         var question_id = $(this).parent().parent().find(".Question_id").text();
@@ -297,7 +296,7 @@ $(document).ready(function() {
                     "sInfoPostFix": "",
                     "sSearch": "搜索:",
                     "sUrl": "",
-                    "sEmptyTable": "表中数据为空",
+                    "sEmptyTable": "您目前没有正在处理的任务!",
                     "sLoadingRecords": "载入中...",
                     "sInfoThousands": ",",
                     "oPaginate":
@@ -314,6 +313,9 @@ $(document).ready(function() {
                         }
                 }
         });
+        if(dt_ing.rows.count == 0){
+            alert("您目前没有正在处理中的任务！");
+        }
 
     });
     $("body").on("click", ".operate-btn-finish", function () {
@@ -412,7 +414,7 @@ $(document).ready(function() {
                     "sInfoPostFix": "",
                     "sSearch": "搜索:",
                     "sUrl": "",
-                    "sEmptyTable": "表中数据为空",
+                    "sEmptyTable": "您目前没有已完成的任务",
                     "sLoadingRecords": "载入中...",
                     "sInfoThousands": ",",
                     "oPaginate":
@@ -429,6 +431,9 @@ $(document).ready(function() {
                         }
                 }
         });
+        if(dt_done.rows.count == 0){
+            alert("您目前没有已经完成的任务！");
+        }
 
     });
     // 点击项目分配面板
@@ -471,14 +476,14 @@ $(document).ready(function() {
                 {
                     "data": null,
                     render: function (data, type, row) {
-                        var html = '<a href="javascript:void(0);" class="operate-btn-choose-delete" >移除人员</a>';
+                        var html = '<a href="javascript:void(0);" class="operate-btn-choose-delete" id="delete-btn">移除人员</a>';
                         return html;
                     }
                 },
                 {
                     "data": null,
                     render: function (data, type, row) {
-                        var html = '<a href="javascript:void(0);" class="operate-btn-choose-add" >添加人员</a>';
+                        var html = '<a href="javascript:void(0);" class="operate-btn-choose-add" id="add-btn">添加人员</a>';
                         return html;
                     }
                 }
@@ -494,7 +499,7 @@ $(document).ready(function() {
                     "sInfoPostFix": "",
                     "sSearch": "搜索:",
                     "sUrl": "",
-                    "sEmptyTable": "表中数据为空",
+                    "sEmptyTable": "您目前没有负责的项目",
                     "sLoadingRecords": "载入中...",
                     "sInfoThousands": ",",
                     "oPaginate":
@@ -513,7 +518,7 @@ $(document).ready(function() {
         });
     });
     //选择移除按钮
-    var delete_btn = $("body").on("click", ".operate-btn-choose-delete", function () {
+        $("body").on("click", ".operate-btn-choose-delete", function () {
         var Item_id = $(this).parent().parent().find(".Item_id").text();
         var info = {
             "Item_id": Item_id
@@ -604,7 +609,7 @@ $(document).ready(function() {
         $("#addAllocate_panel").show();
         $.ajax({
             type: "POST",
-            contentType: 'application/json',
+            contentType: 'application/json;charset=UTF-8',
             url: "http://localhost:5050/worker/show_item_other_workers",
             data: JSON.stringify(info),
             success: function (data) {
@@ -618,7 +623,8 @@ $(document).ready(function() {
                         {
                             "data" : null,
                             render:function(data, type, row){
-                                return Itemm_id;},
+                                return Itemm_id;
+                            },
                                 className : "Item_id"
                         },
                         {
@@ -661,7 +667,10 @@ $(document).ready(function() {
                                 }
                         }
                 });
-                },
+                if (jQuery.isEmptyObject(data)) {
+                    alert("该项目维修人员已满，无法继续添加！");
+                }
+            },
             error: function (XMLHttpRequest) {
                 console.log(XMLHttpRequest.status);
                 console.log(XMLHttpRequest.readyState);
@@ -684,13 +693,8 @@ $(document).ready(function() {
             success: function (data) {
                 // if (data.status==true)
                 alert(data.msg);
-                //reload???
+                document.getElementById("delete-btn").click();
             },
-            // error: function (xhr, error, thrown) {
-            //     // console.log(XMLHttpRequest.status);
-            //     // console.log(XMLHttpRequest.readyState);
-            //     console.error(error);
-            // }
         })
         $.fn.dataTable.ext.errMode = 'none';
         $('#deleteAllocate_table').on( 'error.dt', function ( e, settings, techNote, message ){
@@ -715,7 +719,7 @@ $(document).ready(function() {
             success: function (data) {
                 // if (data.status==true)
                 alert(data.msg);
-                // dt_addAllocate.ajax.reload();
+                document.getElementById("add-btn").click();
             },
             error: function (xhr, error, thrown) {
                 // console.log(XMLHttpRequest.status);
@@ -723,6 +727,10 @@ $(document).ready(function() {
                 console.error(error);
             }
         })
+        $.fn.dataTable.ext.errMode = 'none';
+        $('#addAllocate_table').on( 'error.dt', function ( e, settings, techNote, message ){
+            console.log( 'An error has been reported by DataTables: ', message );
+        }).DataTable();
     });
         // 点击FAQ面板
     $("#faq_present").click(function () {
@@ -917,8 +925,6 @@ $(document).ready(function() {
         });
     });
 });
-
-
 var notices = new Vue({
     el:'#notice',
     data:{
@@ -927,29 +933,30 @@ var notices = new Vue({
     methods: {
         showNotice:function() {
             axios
-            .get('/worker/worker_show_overtime')
-            .then(function (response) {
-                // notices.data = response.data;
-                console.log(notices.data);
-                console.log(response.data);
-                if (notices.data.length==0) {
-                    $("#notice table").hide();
-                    $("#notice").append("没有超时未完成项目");
-                }else if(notices.data.length>19){
-                    setInterval(function(){ 
-                        var body = $("#notice table tbody"); 
-                        var liHeight = body.find("tr:last").height()+10;
-                        body.animate({marginTop : liHeight +"px"},1000,function(){ 
-                            body.find("tr:last").prependTo(body);
-                            body.css({marginTop:'10px'}); 
-                        });         
-                    },2000); 
-                }
-            })
-            .catch(function (error) { // 请求失败处理
-                $('#failModal .modal-body').text(error); 
-                $("#failModal").modal();
-            });
+                .get('/worker/worker_show_overtime')
+                .then(function (response) {
+                    // notices.data = response.data;
+                    console.log(notices.data);
+                    console.log(response.data);
+                    if (notices.data.length==0) {
+                        $("#notice table").hide();
+                        $("#notice").append("没有超时未完成项目");
+                    }else if(notices.data.length>19){
+                        setInterval(function(){
+                            var body = $("#notice table tbody");
+                            var liHeight = body.find("tr:last").height()+10;
+                            body.animate({marginTop : liHeight +"px"},1000,function(){
+                                body.find("tr:last").prependTo(body);
+                                body.css({marginTop:'10px'});
+                            });
+                        },2000);
+                    }
+                })
+                .catch(function (error) { // 请求失败处理
+                    $('#failModal .modal-body').text(error);
+                    $("#failModal").modal();
+                });
         }
     }
 });
+
