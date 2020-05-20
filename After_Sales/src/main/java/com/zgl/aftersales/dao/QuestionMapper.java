@@ -1,6 +1,7 @@
 package com.zgl.aftersales.dao;
 
 
+import com.zgl.aftersales.pojo.FAQs;
 import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.Users;
@@ -42,6 +43,7 @@ public interface QuestionMapper {
     Users checkPostMan(int User_id);
     List<Items> checkItemname();
     int checkItemId(Integer item_id);
+    List<FAQs> checkFaqs(String faq_String);
 
 
 }

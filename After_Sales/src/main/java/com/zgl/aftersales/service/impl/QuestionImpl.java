@@ -2,6 +2,7 @@ package com.zgl.aftersales.service.impl;
 
 
 import com.zgl.aftersales.dao.QuestionMapper;
+import com.zgl.aftersales.pojo.FAQs;
 import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.Users;
@@ -94,7 +95,10 @@ public class QuestionImpl implements QuestionService {
         return db.checkItemId(item_id);
     }
 
-
+    @Override
+    public List<FAQs> checkFaqs(String faq_String){
+        return db.checkFaqs(faq_String);
+    }
 
 
 

@@ -40,6 +40,10 @@
              SELECT COUNT(*) FROM items WHERE Item_id = #{ Item_id }
     </select>
 
+    <select id="checkFaqs" parameterType="String" resultType="com.zgl.aftersales.pojo.FAQs">
+             SELECT * FROM faq WHERE Faq_question LIKE CONCAT('%', #{ faq_String },'%') OR Faq_answer LIKE CONCAT('%', #{ faq_String },'%')
+    </select>
+
 <!--    zgl-->
     <resultMap id="data" type="com.zgl.aftersales.pojo.Question">
         <result property="Question_id" column="Question_id"></result>

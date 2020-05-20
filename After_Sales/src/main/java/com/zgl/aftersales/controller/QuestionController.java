@@ -2,6 +2,7 @@ package com.zgl.aftersales.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zgl.aftersales.dao.MyLog;
+import com.zgl.aftersales.pojo.FAQs;
 import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.Users;
@@ -119,6 +120,14 @@ public class QuestionController {
         }else {
             return 1;//项目存在
         }
+    }
+
+    /**
+     * 模糊查找Faq
+     */
+    @GetMapping("/checkFaqs")
+    public List<FAQs> checkFaqs(String faq_String){
+        return db.checkFaqs(faq_String);
     }
 
 }

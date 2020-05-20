@@ -1,3 +1,4 @@
+var isValidata = false;
 $(document).ready(function(){
         var bgs = new Array(4);
         bgs[0] = "img/bg4.jpg";
@@ -22,6 +23,7 @@ $(document).ready(function(){
                         $('#forms .itme').eq(i).addClass('active').siblings().removeClass('active');
                 }
         });
+        SlidingValidation.create($('#slide'),{},function(){isValidata = true;}); 
         //验证码的计时timer处理函数
         var InterValObj; //timer变量，控制时间
         var count = 60; //间隔函数，1秒执行
@@ -123,56 +125,71 @@ function login_check(){
         var letter_reg = RegExp("[A-Za-z]");
         var name = $("input[name=login_name]").val();
         var pwd = $("input[name=login_pwd]").val();
-        console.log(name);
-        if (name=='') {
+        if (isValidata) {
+            isValidata = false;
+            if (name=='') {
                 alert("用户名不能为空！");
+                $('#slide').html('');
+                SlidingValidation.create($('#slide'),{},function(){isValidata = true;});
                 return false; 
-        } 
-        if(!num_reg.test(pwd)||!letter_reg.test(pwd)){
-                alert("密码应包含字母和数字！");
-                return false; 
-        }
-        var user={
-                "username":name,
-                "pwd":pwd
-             };
-        $.ajax({
-
-                type:'POST',
-
-                async:false,                //同步请求
-        
-                data:JSON.stringify(user),
-
-                contentType :'application/json',
-        
-                dataType:'json',
-        
-                url :'http://localhost:5050/user/login',
-        
-                success :function(data) {
-                    if (data.status) {      //登录成功
-                        if (data.code==5) {
-                            alert("当前用户不允许登录，请联系管理员！");
-                        }else{
-                            $(window).attr("location",data.data);
-                        }
-                    } else {
-                        alert(data.msg);
-                    }
-                },
-
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                // 状态码
-                // alert("test");
-                console.log(XMLHttpRequest.status);
-                // 状态
-                console.log(XMLHttpRequest.readyState);
-                // 错误信息
-                alert(textStatus);
+            } 
+            if(!num_reg.test(pwd)||!letter_reg.test(pwd)){
+                    alert("密码应包含字母和数字！");
+                    $('#slide').html('');
+                    SlidingValidation.create($('#slide'),{},function(){isValidata = true;});
+                    return false; 
             }
+            var user={
+                    "username":name,
+                    "pwd":pwd
+                    };
+            $.ajax({
 
-        });
+                    type:'POST',
+
+                    async:false,                //同步请求
+            
+                    data:JSON.stringify(user),
+
+                    contentType :'application/json',
+            
+                    dataType:'json',
+            
+                    url :'http://localhost:5050/user/login',
+            
+                    success :function(data) {
+                        if (data.status) {      //登录成功
+                            if (data.code==5) {
+                                alert("当前用户不允许登录，请联系管理员！");
+                                $('#slide').html('');
+                                SlidingValidation.create($('#slide'),{},function(){isValidata = true;});
+                            }else{
+                                $(window).attr("location",data.data);
+                            }
+                        } else {
+                            $('#slide').html('');
+                            SlidingValidation.create($('#slide'),{},function(){isValidata = true;});
+                            alert(data.msg);
+                        }
+                    },
+
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    // 状态码
+                    // alert("test");
+                    $('#slide').html('');
+                    SlidingValidation.create($('#slide'),{},function(){isValidata = true;});
+                    console.log(XMLHttpRequest.status);
+                    // 状态
+                    console.log(XMLHttpRequest.readyState);
+                    // 错误信息
+                    alert(textStatus);
+                }
+
+            });
+        }else{
+            alert("请先滑动验证块！");
+            return false;
+        }
         return true;
 }
 //注册的检验
