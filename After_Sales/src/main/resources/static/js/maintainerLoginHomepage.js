@@ -5,6 +5,7 @@ var dt_faq;
 var dt_allocate;
 var dt_deleteAllocate;
 var dt_addAllocate;
+var Itemm_id;
 // 预处理
 $(document).ready(function() {
     // 加载维修人员页面信息
@@ -261,21 +262,21 @@ $(document).ready(function() {
                 // 告诉 DataTables 每列对应的属性data
                 // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
                 {
-                    "data": "Question_id",
+                    "data": "question_id",
                     className: "Question_id",
                     "searchable": false
                 },
                 {
-                    "data": "Question_detail",
+                    "data": "question_detail",
                     className: "Question_detail"
                 },
                 {
-                    "data": "User_id",
+                    "data": "user_id",
                     className: "User_id"
                 },
                 {
-                    "data": "Start_time",
-                    className: "Start_time"
+                    "data": "commit_time",
+                    className: "commit_time"
                 },
                 {
                     "data": null,
@@ -448,7 +449,6 @@ $(document).ready(function() {
                     contentType: 'application/json',
                     dataType: 'json',
                     url: 'http://localhost:5050/worker/show_items'
-
                 },
             columns: [
                 // 配置columns
@@ -513,11 +513,12 @@ $(document).ready(function() {
         });
     });
     //选择移除按钮
-    $("body").on("click", ".operate-btn-choose-delete", function () {
+    var delete_btn = $("body").on("click", ".operate-btn-choose-delete", function () {
         var Item_id = $(this).parent().parent().find(".Item_id").text();
         var info = {
             "Item_id": Item_id
         };
+        Itemm_id = Item_id;
         // alert(Item_id);
         $("#allocate_panel").hide();
         $("#deleteAllocate_panel").show();
@@ -534,7 +535,17 @@ $(document).ready(function() {
                     serviceSize: true,// 开启服务端模式
                     data: data,
                     columns: [
-                        {data: 'User_id'},
+                        {
+                            "data": null,
+                            render: function (data, type, row) {
+                                return Itemm_id;
+                            },
+                            className: "Item_id",
+                        },
+                        {
+                            data: 'User_id',
+                            className: "User_id",
+                        },
                         {
                             "data": null,
                             render: function (data, type, row) {
@@ -571,7 +582,7 @@ $(document).ready(function() {
                                 }
                         }
                 });
-                if(jQuery.isEmptyObject(data)){
+                if (jQuery.isEmptyObject(data)) {
                     alert("该项目没有维修人员，请添加！");
                 }
             },
@@ -580,247 +591,255 @@ $(document).ready(function() {
                 console.log(XMLHttpRequest.readyState);
             }
         });
+    });
         //选择添加按钮
-        $("body").on("click", ".operate-btn-choose-add", function () {
-            var Item_id = $(this).parent().parent().find(".Item_id").text();
-            var info = {
-                "Item_id": Item_id
-            };
-            // alert(Item_id);
-            $("#allocate_panel").hide();
-            $("#addAllocate_panel").show();
-            $.ajax({
-                type: "POST",
-                contentType: 'application/json',
-                url: "http://localhost:5050/worker/show_item_other_workers",
-                data: JSON.stringify(info),
-                success: function (data) {
-                    // alert(data);
-                    dt_addAllocate = $('#addAllocate_table').DataTable({
-                        responsive: true,
-                        destroy: true,
-                        serviceSize: true,// 开启服务端模式
-                        data: data,
-                        columns: [
-                            {data: 'User_id'},
-                            {
-                                "data": null,
-                                render: function (data, type, row) {
-                                    var html = '<a href="javascript:void(0);" class="operate-btn-add" >添加该人员</a>';
-                                    return html;
-                                }
+    $("body").on("click", ".operate-btn-choose-add", function () {
+        var Item_id = $(this).parent().parent().find(".Item_id").text();
+        var info = {
+            "Item_id": Item_id
+        };
+        Itemm_id = Item_id;
+        // alert(Item_id);
+        $("#allocate_panel").hide();
+        $("#addAllocate_panel").show();
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json',
+            url: "http://localhost:5050/worker/show_item_other_workers",
+            data: JSON.stringify(info),
+            success: function (data) {
+                // alert(data);
+                dt_addAllocate = $('#addAllocate_table').DataTable({
+                    responsive: true,
+                    destroy: true,
+                    serviceSize: true,// 开启服务端模式
+                    data: data,
+                    columns: [
+                        {
+                            "data" : null,
+                            render:function(data, type, row){
+                                return Itemm_id;},
+                                className : "Item_id"
+                        },
+                        {
+                            data: 'User_id',
+                            className : "User_id"
+                        },
+                        {
+                            "data": null,
+                            render: function (data, type, row) {
+                                var html = '<a href="javascript:void(0);" class="operate-btn-add" >添加该人员</a>';
+                                return html;
                             }
+                        }
                         ],
-                        language:
-                            {// 配置
-                                "sProcessing": "处理中...",
-                                "sLengthMenu": "显示 _MENU_ 项结果",
-                                "sZeroRecords": "没有匹配结果",
-                                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-                                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-                                "sInfoPostFix": "",
-                                "sSearch": "搜索:",
-                                "sUrl": "",
-                                "sEmptyTable": "表中数据为空",
-                                "sLoadingRecords": "载入中...",
-                                "sInfoThousands": ",",
-                                "oPaginate":
-                                    {
-                                        "sFirst": "首页",
-                                        "sPrevious": "上页",
-                                        "sNext": "下页",
-                                        "sLast": "末页"
-                                    },
-                                "oAria":
-                                    {
-                                        "sSortAscending": ": 以升序排列此列",
-                                        "sSortDescending": ": 以降序排列此列"
-                                    }
-                            }
-                    });
+                    language:
+                        {// 配置
+                            "sProcessing": "处理中...",
+                            "sLengthMenu": "显示 _MENU_ 项结果",
+                            "sZeroRecords": "没有匹配结果",
+                            "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                            "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                            "sInfoPostFix": "",
+                            "sSearch": "搜索:",
+                            "sUrl": "",
+                            "sEmptyTable": "表中数据为空",
+                            "sLoadingRecords": "载入中...",
+                            "sInfoThousands": ",",
+                            "oPaginate":
+                                {
+                                    "sFirst": "首页",
+                                    "sPrevious": "上页",
+                                    "sNext": "下页",
+                                    "sLast": "末页"
+                                },
+                            "oAria":
+                                {
+                                    "sSortAscending": ": 以升序排列此列",
+                                    "sSortDescending": ": 以降序排列此列"
+                                }
+                        }
+                });
                 },
-                error: function (XMLHttpRequest) {
-                    console.log(XMLHttpRequest.status);
-                    console.log(XMLHttpRequest.readyState);
-                }
-            });
+            error: function (XMLHttpRequest) {
+                console.log(XMLHttpRequest.status);
+                console.log(XMLHttpRequest.readyState);
+            }
         });
+    });
         //点击移除按钮
-        $("body").on("click", ".operate-btn-delete", function () {
-            var Item_id = $(this).parent().parent().find(".Item_id").text();
-            var User_id = $(this).parent().parent().find(".User_id").text();
-            var info = {
-                "Item_id": Item_id,
-                "User_id": User_id
-            };
-            $.ajax({
-                type: "POST",
-                contentType: 'application/json',
-                dataType: "json",
-                url: "http://localhost:5050/worker/delete_item_worker",
-                data: JSON.stringify(info),
-                success: function (data) {
-                    // if (data.status==true)
-                    dt_deleteAllocate.ajax.reload();
-                    alert(data.msg);
-                },
-                error: function (XMLHttpRequest) {
-                    // 200: "OK"
-                    // 404: 未找到页面
-                    console.log(XMLHttpRequest.status);
-                    //readyState
-                    //存有 XMLHttpRequest 的状态。从 0 到 4 发生变化。
-                    // 0: 请求未初始化
-                    // 1: 服务器连接已建立
-                    // 2: 请求已接收
-                    // 3: 请求处理中
-                    // 4: 请求已完成，且响应已就绪
-                    console.log(XMLHttpRequest.readyState);
-                }
-            })
+    $("body").on("click", ".operate-btn-delete", function () {
+        var User_id = $(this).parent().parent().find(".User_id").text();
+        var info = {
+            "Item_id": Itemm_id,
+            "User_id": User_id
+        };
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json',
+            dataType: "json",
+            url: "http://localhost:5050/worker/delete_item_worker",
+            data: JSON.stringify(info),
+            success: function (data) {
+                // if (data.status==true)
+                alert(data.msg);
+                //reload???
+            },
+            // error: function (xhr, error, thrown) {
+            //     // console.log(XMLHttpRequest.status);
+            //     // console.log(XMLHttpRequest.readyState);
+            //     console.error(error);
+            // }
         })
+        $.fn.dataTable.ext.errMode = 'none';
+        $('#deleteAllocate_table').on( 'error.dt', function ( e, settings, techNote, message ){
+            console.log( 'An error has been reported by DataTables: ', message );
+        }).DataTable();
+    });
         //点击添加人员按钮
-        $("body").on("click", ".operate-btn-add", function () {
-            var Item_id = $(this).parent().parent().find(".Item_id").text();
-            var User_id = $(this).parent().parent().find(".User_id").text();
-            var info = {
-                "Item_id": Item_id,
-                "User_id": User_id
-            };
-            $.ajax({
-                type: "POST",
-                contentType: 'application/json',
-                dataType: "json",
-                url: "http://localhost:5050/worker/insert_item_other_workers",
-                data: JSON.stringify(info),
-                success: function (data) {
-                    // if (data.status==true)
-                    dt_addAllocate.ajax.reload();
-                    alert(data.msg);
-                },
-                error: function (XMLHttpRequest) {
-                    console.log(XMLHttpRequest.status);
-                    console.log(XMLHttpRequest.readyState);
-                }
-            })
+    $("body").on("click", ".operate-btn-add", function () {
+        // var Item_id = $(this).parent().parent().find(".Item_id").text();
+        var User_id = $(this).parent().parent().find(".User_id").text();
+        var info = {
+            // "Item_id": Item_id,
+            "Item_id": Itemm_id,
+            "User_id": User_id
+        };
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json',
+            dataType: "json",
+            url: "http://localhost:5050/worker/insert_item_other_workers",
+            data: JSON.stringify(info),
+            success: function (data) {
+                // if (data.status==true)
+                alert(data.msg);
+                // dt_addAllocate.ajax.reload();
+            },
+            error: function (xhr, error, thrown) {
+                // console.log(XMLHttpRequest.status);
+                // console.log(XMLHttpRequest.readyState);
+                console.error(error);
+            }
         })
+    });
         // 点击FAQ面板
-        $("#faq_present").click(function () {
-            $(".find_panel").children().hide();
-            $("#faq_panel").show();
-            $(".message").show();
-            dt_faq = $('#faq_table').DataTable({
-                responsive: true,
-                destroy: true,
-                serviceSize: true,// 开启服务端模式
-                ajax:
-                    {
-                        // 使用ajax异步请求的方式加载数据
-                        type: 'GET',
-                        async: false,
-                        dataSrc: '',
-                        contentType: 'application/json',
-                        dataType: 'json',
-                        url: 'http://localhost:5050/faq/selectAllFAQ'
-
-                    },
-                columns: [
-                    // 配置columns
-                    // 使用对象数组，一定要配置columns
-                    // 告诉 DataTables 每列对应的属性data
-                    // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
-                    {
-                        "data": "faq_id",
-                        className: "Faq_id",
-                        "searchable": false
-                    },
-                    {
-                        "data": "faq_question",
-                        className: "Faq_question"
-                    },
-                    {
-                        "data": "faq_answer",
-                        className: "Faq_answer"
-                    },
-                ],
-                language:
-                    {// 配置
-                        "sProcessing": "处理中...",
-                        "sLengthMenu": "显示 _MENU_ 项结果",
-                        "sZeroRecords": "没有匹配结果",
-                        "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                        "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-                        "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-                        "sInfoPostFix": "",
-                        "sSearch": "搜索:",
-                        "sUrl": "",
-                        "sEmptyTable": "表中数据为空",
-                        "sLoadingRecords": "载入中...",
-                        "sInfoThousands": ",",
-                        "oPaginate":
-                            {
-                                "sFirst": "首页",
-                                "sPrevious": "上页",
-                                "sNext": "下页",
-                                "sLast": "末页"
-                            },
-                        "oAria":
-                            {
-                                "sSortAscending": ": 以升序排列此列",
-                                "sSortDescending": ": 以降序排列此列"
-                            }
-                    }
-            });
-        });
-
-        // 点击Faq添加按钮
-        $("#addFaq_bt").click(function () {
-            $("#faq_panel").hide();
-            $("#addFaq_panel").show();
-            $("#faq_question").attr("readonly", false);
-            $("#faq_answer").attr("readonly", false);
-
-        })
-
-        // 点击Faq保存按钮
-        $("#saveFaq_bt").click(function () {
-            //大写都是后端数据，小写都是js约束
-            var Faq_question = $("#faq_question").val();
-            var Faq_answer = $("#faq_answer").val();
-            var info = {
-                "Faq_question": Faq_question,
-                "Faq_answer": Faq_answer,
-            };
-            if ($('#form_addFaq').valid()) {
-                $.ajax({
-                    type: 'POST',
-                    data: JSON.stringify(info),
+    $("#faq_present").click(function () {
+        $(".find_panel").children().hide();
+        $("#faq_panel").show();
+        $(".message").show();
+        dt_faq = $('#faq_table').DataTable({
+            responsive: true,
+            destroy: true,
+            serviceSize: true,// 开启服务端模式
+            ajax:
+                {
+                    // 使用ajax异步请求的方式加载数据
+                    type: 'GET',
+                    async: false,
+                    dataSrc: '',
                     contentType: 'application/json',
                     dataType: 'json',
-                    url: 'http://localhost:5050/faq/addFAQ',
-                    success: function (data) {
-                        console.dir(data);
-                        $("#faq_question").attr("readonly", true);
-                        $("#faq_answer").attr("readonly", true);
-                        // $(this).text($(this).text()==='添加');
-                        $("#faq_question").val(data.Faq_question);
-                        $("#faq_answer").val(data.Faq_answer);
-                        alert(data.faqmsg);
-                        //保存之后返回到FAQ页面
-                        $("#faq_panel").show();
-                        $("#addFaq_panel").hide();
-                        dt_faq.reload();
-                    },
-                    error: function (result) {
-                        console.log(XMLHttpRequest.status);
-                        console.log(XMLHttpRequest.readyState);
-                        alert(data.status);
-                    }
-                });
-            } else {
-                alert(data.status);
-            }
+                    url: 'http://localhost:5050/faq/selectAllFAQ'
+
+                },
+            columns: [
+                // 配置columns
+                // 使用对象数组，一定要配置columns
+                // 告诉 DataTables 每列对应的属性data
+                // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
+                {
+                    "data": "faq_id",
+                    className: "Faq_id",
+                    "searchable": false
+                },
+                {
+                    "data": "faq_question",
+                    className: "Faq_question"
+                },
+                {
+                    "data": "faq_answer",
+                    className: "Faq_answer"
+                },
+            ],
+            language:
+                {// 配置
+                    "sProcessing": "处理中...",
+                    "sLengthMenu": "显示 _MENU_ 项结果",
+                    "sZeroRecords": "没有匹配结果",
+                    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                    "sInfoPostFix": "",
+                    "sSearch": "搜索:",
+                    "sUrl": "",
+                    "sEmptyTable": "表中数据为空",
+                    "sLoadingRecords": "载入中...",
+                    "sInfoThousands": ",",
+                    "oPaginate":
+                        {
+                            "sFirst": "首页",
+                            "sPrevious": "上页",
+                            "sNext": "下页",
+                            "sLast": "末页"
+                        },
+                    "oAria":
+                        {
+                            "sSortAscending": ": 以升序排列此列",
+                            "sSortDescending": ": 以降序排列此列"
+                        }
+                }
+        });
+    });
+
+        // 点击Faq添加按钮
+    $("#addFaq_bt").click(function () {
+        $("#faq_panel").hide();
+        $("#addFaq_panel").show();
+        $("#faq_question").attr("readonly", false);
+        $("#faq_answer").attr("readonly", false);
+
+    });
+
+        // 点击Faq保存按钮
+    $("#saveFaq_bt").click(function () {
+        //大写都是后端数据，小写都是js约束
+        var Faq_question = $("#faq_question").val();
+        var Faq_answer = $("#faq_answer").val();
+        var info = {
+            "Faq_question": Faq_question,
+            "Faq_answer": Faq_answer,
+        };
+        if ($('#form_addFaq').valid()) {
+            $.ajax({
+                type: 'POST',
+                data: JSON.stringify(info),
+                contentType: 'application/json',
+                dataType: 'json',
+                url: 'http://localhost:5050/faq/addFAQ',
+                success: function (data) {
+                    console.dir(data);
+                    $("#faq_question").attr("readonly", true);
+                    $("#faq_answer").attr("readonly", true);
+                    // $(this).text($(this).text()==='添加');
+                    $("#faq_question").val(data.Faq_question);
+                    $("#faq_answer").val(data.Faq_answer);
+                    alert(data.faqmsg);
+                    //保存之后返回到FAQ页面
+                    $("#faq_panel").show();
+                    $("#addFaq_panel").hide();
+                    dt_faq.ajax.reload();
+                },
+                error: function (result) {
+                    console.log(XMLHttpRequest.status);
+                    console.log(XMLHttpRequest.readyState);
+                    alert(data.status);
+                }
+            });
+        } else {
+            alert(data.status);
+        }
     });
     // FAQ信息验证
         // // 点击Faq返回按钮
@@ -832,59 +851,74 @@ $(document).ready(function() {
         // })
 
         // FAQ信息验证
-        $("#form_addFaq").validate({
-            rules: {
-                faq_question: {
-                    required: true,
-                    minlength: 10,
-                },
-                faq_answer: {
-                    required: true,
-                    minlength: 6,
+    $("#form_addFaq").validate({
+        rules: {
+            faq_question: {
+                required: true,
+                minlength: 10,
+            },
+            faq_answer: {
+                required: true,
+                minlength: 6,
+            }
+        },
+        messages: {
+            faq_question: {
+                required: "问题不能为空",
+                minlength: "问题内容最短不能少于10"
+            },
+            faq_answer: {
+                required: "问题解答不能为空",
+                minlength: "问题解答内容最短不能为6"
+            }
+        }
+    });
+        // 根据第一个选项决定第二个选项
+    $("#first_select").click(function () {
+        var value = $("#first_select").val();
+        switch (value) {
+            case "first":
+                $("#second_select").children().hide();
+                $("#firstshow").show();
+                break;
+            case "second":
+                $("#second_select").children().hide();
+                $("#secondshow").show();
+                break;
+            case "third":
+                $("#second_select").children().hide();
+                $("#thirdshow").show();
+                break;
+            case "fourth":
+                $("#second_select").children().hide();
+                $("#fourthshow").show();
+                break;
+            default:
+                break;
+        }
+    });
+    $("#loginOut").click(function () {
+        $.ajax({
+            type:'post',
+            data:'',
+            contentType :'application/json',
+            dataType:'json',
+            url :'/user/logout',
+            success :function(data) {
+                if (data==1) {
+                    $(window).attr("location",'/');
+                }else{
+                    alert("退出登录失败！");
                 }
             },
-            messages: {
-                faq_question: {
-                    required: "问题不能为空",
-                    minlength: "问题内容最短不能少于10"
-                },
-                faq_answer: {
-                    required: "问题解答不能为空",
-                    minlength: "问题解答内容最短不能为6"
-                }
-            }
-        });
-        // 根据第一个选项决定第二个选项
-        $("#first_select").click(function () {
-            var value = $("#first_select").val();
-            switch (value) {
-                case "first":
-                    $("#second_select").children().hide();
-                    $("#firstshow").show();
-                    break;
-                case "second":
-                    $("#second_select").children().hide();
-                    $("#secondshow").show();
-                    break;
-                case "third":
-                    $("#second_select").children().hide();
-                    $("#thirdshow").show();
-                    break;
-                case "fourth":
-                    $("#second_select").children().hide();
-                    $("#fourthshow").show();
-                    break;
-                default:
-                    break;
+            error: function () {
+                alert("连接超时，请重试！");
             }
         });
     });
-})
+});
 
-//    function btn_recieved(){
-//        document.task_check_tb.btn.value = "已接收";
-//    };
-// 点击项目分配面板
+
 var notices = new Vue({
     el:'#notice',
     data:{
