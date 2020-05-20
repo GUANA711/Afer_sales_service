@@ -120,7 +120,6 @@ $(function(){
             });
         }
     });
-
     // 点击编辑按钮
     $("#edit_bt").click(function(){
         $("#username").attr("readonly",false);
@@ -222,7 +221,6 @@ $(function(){
         }
     });
 });
-
 // 预处理
 $(document).ready(function(){
     //问题详情分类数据，用于动态生成option
@@ -269,6 +267,7 @@ $(document).ready(function(){
             striped:true,//显示行间距色
             pageSize: 5,//每一页的行数
             pageList: [5,10,20],//每页可选择的行数
+            showRefresh: true,//显示刷新按钮
             columns:[{
                 field:'question_type',
                 title:'问题分类'
@@ -327,6 +326,7 @@ $(document).ready(function(){
             striped:true,//显示行间距色
             pageSize: 5,//每一页的行数
             pageList: [5,10,20],//每页可选择的行数
+            showRefresh: true,//显示刷新按钮
             columns:[{
                 field:'question_type',
                 title:'问题分类'
@@ -384,6 +384,7 @@ $(document).ready(function(){
             striped:true,//显示行间距色
             pageSize: 5,//每一页的行数
             pageList: [5,10,20],//每页可选择的行数
+            showRefresh: true,//显示刷新按钮
             columns:[{
                 field:'question_type',
                 title:'问题分类'
