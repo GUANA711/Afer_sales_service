@@ -240,7 +240,7 @@ table tbody tr:nth-child(odd){
 table tbody tr:hover td{background-color:none;}
 table tbody tr:hover{color:#fff;background-color:rgb(51, 122, 183);} 
 table tbody tr:hover a{color:#fff;}
-table tbody tr:hover .searchSel{color: rgb(0, 0, 0);}
+table tbody tr:hover .searchSel{background-color: #F8F8FF;color: black;}
 /* 任务指派按钮 */
 .assign_btn{
     padding-left: 100px;
@@ -252,6 +252,8 @@ table tbody tr:hover .searchSel{color: rgb(0, 0, 0);}
 .roles{
     width: 200px;
     height: 29px;
+    border: none;
+    background-color: transparent;
 }
 .role_btn{
     padding-left: 10px;

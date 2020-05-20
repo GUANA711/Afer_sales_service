@@ -22,6 +22,16 @@ $(document).ready(function() {
             $("#username").val(data.User_name);
             $("#tel").val(data.Tel);
             $("#email").val(data.Email);
+            var roleArray = data.roles;
+            console.log(roleArray);
+            $('[user\\:hasRole]').each(function(){            //判断角色
+                var role = $(this).attr('user:hasRole');
+                console.log(role);
+                //如果没有权限
+                if (-1 == $.inArray(role,roleArray)) {
+                    $(this).remove();
+                }
+            });
             // $("#taskNum").val(data.Task_num);
 
             // $("#new_task1").val(data.Question_id);
