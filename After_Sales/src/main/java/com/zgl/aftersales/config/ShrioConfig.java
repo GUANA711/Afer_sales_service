@@ -39,6 +39,8 @@ public class ShrioConfig {
         filterMap.put("/worker/*","authc");
         filterMap.put("/faq/addFAQ","roles[admin]");
         filterMap.put("/faq/addFAQ","roles[worker]");
+        filterMap.put("/faq/selectAllFAQ","authc");
+
         filterMap.put("/admin.html","roles[admin]");
         filterMap.put("/adminLoing/*","roles[admin]");
         filterMap.put("/maintainer_homepage_login.html","roles[worker]");

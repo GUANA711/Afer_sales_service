@@ -21,7 +21,7 @@ public class ItemsImpl implements ItemsService {
 
 
     @Override
-    public Items select(Map<String, Object> map) {
+    public List<Items> select(Map<String, Object> map) {
         return itemMapper.select(map);
     }
 

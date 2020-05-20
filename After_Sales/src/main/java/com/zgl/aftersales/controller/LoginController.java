@@ -157,6 +157,7 @@ public class LoginController {
             HttpSession seesion=req.getSession(true);
             seesion.setAttribute("userID",user.getUser_id());
             System.out.println(subject.hasRole("admin"));
+            List<String> list=userService.showRolesByUserID(user.getUser_id());
             if(subject.hasRole("admin")){
                 status.setData("admin.html");
             }else if(subject.hasRole("worker")){

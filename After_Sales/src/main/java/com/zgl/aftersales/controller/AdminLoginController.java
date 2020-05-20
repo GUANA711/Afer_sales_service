@@ -2,6 +2,7 @@ package com.zgl.aftersales.controller;
 
 import com.alibaba.druid.sql.ast.statement.SQLIfStatement;
 import com.alibaba.fastjson.JSONObject;
+import com.sun.mail.imap.protocol.Item;
 import com.zgl.aftersales.dao.MyLog;
 import com.zgl.aftersales.pojo.*;
 import com.zgl.aftersales.service.*;
@@ -466,12 +467,17 @@ public class AdminLoginController {
         map.put("Item_id",itemID);
         map.put("Role_id","4");
         Subject subject = SecurityUtils.getSubject();
+        List<Items> itemList=itemsService.select(map);
+        Items item=itemList.get(0);
+        String oldUserID=item.getUser_id();
 
-       Items item=itemsService.select(map);
-       String oldUserID=item.getUser_id();
 
         try {
             map.put("User_id",userID);
+            if(userID.equals(oldUserID)){
+                status.setMsg("修改失败，此用户以是该项目的负责人");
+                return status;
+            }
             maintenanceService.itemLeaderEdite(map);
             List<String> roleList=userService.showRolesByUserID(Integer.parseInt(userID));
             if(!roleList.contains("leader")){
@@ -488,7 +494,7 @@ public class AdminLoginController {
             status.setMsg("修改成功");
             return status;
         }catch (Exception e){
-            status.setMsg("修改失败,此用户已是该项目负责人");
+
             e.printStackTrace();
             return status;
         }

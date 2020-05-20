@@ -7,6 +7,7 @@ import com.zgl.aftersales.pojo.Maintenance;
 import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.WorkerStatus;
 import com.zgl.aftersales.service.MaintenanceService;
+import com.zgl.aftersales.service.UserService;
 import com.zgl.aftersales.service.WorkerService;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ import java.util.regex.Pattern;
 public class WorkerController {
     @Autowired
     private WorkerService workerService;
+    @Autowired
+    private UserService userService;
 
     public WorkerController(WorkerService workerService) {
         this.workerService = workerService;
@@ -50,6 +53,10 @@ public class WorkerController {
         map.put("Tel",workerService.worker_selectBy_Session_UserId(User_id).getTel());
         map.put("Email",workerService.worker_selectBy_Session_UserId(User_id).getEmail());
         map.put("Task_num",workerService.worker_selectBy_Session_UserId(User_id).getTask_num());
+
+        //查询用户角色
+        List<String> rolesList=userService.showRolesByUserID(User_id);
+        map.put("roles",rolesList);
 
         return map;
     }
