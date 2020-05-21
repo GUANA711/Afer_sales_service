@@ -136,7 +136,7 @@
             <version>2.1.0</version>
         </dependency>
 
-        <!-- sql语句过滤工具 -->
+        <!-- 语句过滤工具 -->
         <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
         <dependency>
             <groupId>commons-lang</groupId>

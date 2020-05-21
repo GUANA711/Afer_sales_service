@@ -140,12 +140,13 @@ public class LoginController {
     @PostMapping("/login")
     @MyLog("用户登录")
     public Status selectByUsername(@RequestBody JSONObject json, HttpServletRequest req,HttpServletResponse resp){
-        DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
+
         Status status=new Status();
         //前台传入的用户名
         String loginUsername=json.getString("username");
         //前台传入的密码
         String loginPwd=StringEscapeUtils.escapeSql(json.getString("pwd"));
+
        Users user=userService.selectByUsername(loginUsername);
        String codPwd=DesDecodeUtiles.getEncryptString(loginPwd);
         //获取当前用户
