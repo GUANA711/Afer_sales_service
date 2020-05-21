@@ -12,8 +12,7 @@ import org.apache.shiro.subject.Subject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
-
+import org.apache.commons.lang.StringEscapeUtils;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -157,5 +156,17 @@ class AftersalesApplicationTests {
         System.out.println(list);
     }
 
+    @Test
+    public void SqlEscapeExample() {
+
+            String userName = "1' or '1'='1";
+            String password = "123456;";
+            userName = StringEscapeUtils.escapeSql(userName);
+            password = StringEscapeUtils.escapeSql(password);
+            String sql = "SELECT COUNT(userId) FROM t_user WHERE userName='"
+                    + userName + "' AND password ='" + password + "'";
+            System.out.println(userName+" "+password);
+
+    }
 
 }
