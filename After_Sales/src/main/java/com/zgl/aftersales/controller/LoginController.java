@@ -9,6 +9,7 @@ import com.zgl.aftersales.service.MailService;
 import com.zgl.aftersales.service.UserService;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -62,10 +63,10 @@ public class LoginController {
 
         JSONObject userJson=json.getJSONObject("user");
         Users user=new Users();
-        user.setUser_name(userJson.getString("User_name"));
-        user.setPassword(userJson.getString("Password"));
-        user.setTel(userJson.getString("Tel"));
-        user.setEmail(userJson.getString("Email"));
+        user.setUser_name(StringEscapeUtils.escapeSql(userJson.getString("User_name")));
+        user.setPassword(StringEscapeUtils.escapeSql(userJson.getString("Password")));
+        user.setTel(StringEscapeUtils.escapeSql(userJson.getString("Tel")));
+        user.setEmail(StringEscapeUtils.escapeSql(userJson.getString("Email")));
 
         String repwd=json.getString("repwd");
 
@@ -144,7 +145,7 @@ public class LoginController {
         //前台传入的用户名
         String loginUsername=json.getString("username");
         //前台传入的密码
-        String loginPwd=json.getString("pwd");
+        String loginPwd=StringEscapeUtils.escapeSql(json.getString("pwd"));
        Users user=userService.selectByUsername(loginUsername);
        String codPwd=DesDecodeUtiles.getEncryptString(loginPwd);
         //获取当前用户

@@ -7,6 +7,7 @@ import com.zgl.aftersales.dao.MyLog;
 import com.zgl.aftersales.pojo.*;
 import com.zgl.aftersales.service.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ public class AdminLoginController {
      */
     @PostMapping("/searchItems/{currenPage}/{pageSize}")
     public List<List<?>> searchItems(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize ,@RequestBody JSONObject json){
+        //String key= StringEscapeUtils.escapeSql(json.getString("key"));
         String key=json.getString("key");
         String choice=json.getString("choice");
         Map<String,Object> map=new HashMap<String, Object>();
@@ -89,7 +91,7 @@ public class AdminLoginController {
      */
     @PostMapping("/searchMaintenance/{currenPage}/{pageSize}")
     public List<List<?>> searchMaintenance(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize,@RequestBody JSONObject json){
-        String key=json.getString("key");
+        String key=StringEscapeUtils.escapeSql(json.getString("key"));
         String choice=json.getString("choice");
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("currIndex",(currenPage-1)*pageSize);
@@ -132,7 +134,7 @@ public class AdminLoginController {
      */
     @PostMapping("/searchLog/{currenPage}/{pageSize}")
     public List<List<?>> searchLog(@RequestBody JSONObject json ,@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize){
-        String key=json.getString("key");
+        String key=StringEscapeUtils.escapeSql(json.getString("key"));
         String choice=json.getString("choice");
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("currIndex",(currenPage-1)*pageSize);
@@ -196,7 +198,7 @@ public class AdminLoginController {
 
     @PostMapping("/searchquestion/{currenPage}/{pageSize}")
     public List<List<?>> serchQuestion(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize,@RequestBody JSONObject json){
-        String key=json.getString("key");
+        String key=StringEscapeUtils.escapeSql(json.getString("key"));
         String choice=json.getString("choice");
         Map<String,Object> map=new HashMap<String, Object>();
         map.put("currIndex",(currenPage-1)*pageSize);
@@ -253,7 +255,7 @@ public class AdminLoginController {
      */
     @PostMapping("/searchuser/{currenPage}/{pageSize}")
     public List<List<?>> searchuser(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize,@RequestBody JSONObject json) {
-        String key = json.getString("key");
+        String key = StringEscapeUtils.escapeSql(json.getString("key"));
         String choice = json.getString("choice");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("currIndex", (currenPage - 1) * pageSize);
