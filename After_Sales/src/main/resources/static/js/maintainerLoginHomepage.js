@@ -323,10 +323,6 @@ $(document).ready(function() {
                         }
                 }
         });
-        if(dt_ing.rows.count == 0){
-            alert("您目前没有正在处理中的任务！");
-        }
-
     });
     $("body").on("click", ".operate-btn-finish", function () {
         var question_id = $(this).parent().parent().find(".Question_id").text();
