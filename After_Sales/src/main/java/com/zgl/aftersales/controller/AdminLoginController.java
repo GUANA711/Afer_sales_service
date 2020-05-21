@@ -315,7 +315,7 @@ public class AdminLoginController {
     @Autowired
     MailService mailService;
     @PostMapping("/allocation")
-    @MyLog(value = "向maintenance表中添加数据，修改users中task_num字段，修改question表中status字段")
+    @MyLog(value = "向maintenance表中添加数据，修改users中task_num字段，修改questions表中status字段")
     public Status allocationTask(@RequestBody JSONObject json){
         Status status=new Status();
         String questionID_String=json.getString("questionID");

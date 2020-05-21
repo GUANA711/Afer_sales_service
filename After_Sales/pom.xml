@@ -129,6 +129,13 @@
             <artifactId>shiro-spring</artifactId>
             <version>1.5.3</version>
         </dependency>
+        <!--加密工具-->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>

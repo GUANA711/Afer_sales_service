@@ -37,6 +37,11 @@ public class  UserImpl implements UserService {
     }
 
     @Override
+    public List<String> selectPreByRole(String roleName) {
+        return userMapper.selectPreByRole(roleName);
+    }
+
+    @Override
     public List<?> showWorker() {
         return userMapper.showWorker();
     }

@@ -81,4 +81,7 @@
     <select id="showWorker" resultMap="showWorker_data">
         select u.User_id , u.User_name from users u,role_user r where u.User_id=r.User_id and r.Role_id=2
     </select>
+    <select id="selectPreByRole" parameterType="String" resultType="String">
+        select distinct m.perms from role r,role_permission p,permission m where r.Role_id=p.role_id and p.permission_id=m.permission_id and  r.Role_name=#{RoleName}
+    </select>
 </mapper>

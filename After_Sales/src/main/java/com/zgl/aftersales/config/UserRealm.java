@@ -10,7 +10,9 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author GUANA
@@ -22,18 +24,36 @@ public class UserRealm extends AuthorizingRealm {
     //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        System.out.println("执行了授权");
+        //System.out.println("执行了授权");
         Users user =(Users) principalCollection.getPrimaryPrincipal();
-        System.out.println(user);
         //获取当前用户角色
         List<String> roleNameList=userService.showRolesByUserID(user.getUser_id());
-        System.out.println(roleNameList);
+
+        //获取用户权限
+        Set<String> perset =new HashSet();
+        for(String rolename:roleNameList){
+            List<String> permitList=userService.selectPreByRole(rolename);
+            System.out.println(permitList);
+            for(String perlist_for:permitList){
+                String permlist=perlist_for;
+                for( String perset_for:permlist.split(";")){
+                     perset.add(perset_for);
+                }
+
+
+            }
+        }
+
         SimpleAuthorizationInfo info=new SimpleAuthorizationInfo();
+        //添加角色
         info.addRoles(roleNameList);
         //如果是项目组组长，授权leader角色
         if(userService.isLeader(user.getUser_id())!=0){
              info.addRole("leader");
         }
+        //添加权限
+        info.addStringPermissions(perset);
+
 
 
 
