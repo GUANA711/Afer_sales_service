@@ -231,6 +231,12 @@ $(document).ready(function () {
         $("#alr_panel").show();
         $(".message").show();
     });
+    //自定义规则
+    jQuery.validator.addMethod("isPhone", function(value, element) {
+        var length = value.length;
+        var mobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+        return this.optional(element) || (length == 11 && mobile.test(value));
+    }, "请填写正确的手机号码");//可以自定义默认提示信息
     // 修改基础信息验证
     $("#form_userinfo").validate({
         rules: {
@@ -245,8 +251,8 @@ $(document).ready(function () {
             },
             tel: {
                 required: true,
-                minlength: 7,
-                maxlength: 15
+                digits:true,
+                isPhone:true
             }
         },
         messages: {
@@ -257,8 +263,8 @@ $(document).ready(function () {
             },
             tel: {
                 required: "请输入电话",
-                minlength: "长度不能小于7",
-                maxlength: "长度不能大于15"
+                digits:"只能输入数字",
+                isPhone: "格式错误"
             },
             email: {
                 required: "请输入电子邮件",
