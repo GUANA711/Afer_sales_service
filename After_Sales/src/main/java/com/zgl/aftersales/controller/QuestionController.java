@@ -54,11 +54,11 @@ public class QuestionController {
 
         question.setItem_id(json.getInteger("item_id"));
         //工具类，js过滤防止存入脏数据
-        question.setQuestion_detail(StringEscapeUtils.escapeJavaScript(json.getString("question_detail")));
-        question.setQuestion_status(StringEscapeUtils.escapeJavaScript("unaccepted"));
+        question.setQuestion_detail(json.getString("question_detail"));
+        question.setQuestion_status("unaccepted");
         question.setCommit_time(date1);
         question.setUser_id(User_id);
-        question.setQuestion_type(StringEscapeUtils.escapeJavaScript(json.getString("question_type")));
+        question.setQuestion_type(json.getString("question_type"));
 
         try {
             db.addQuestion(question);
