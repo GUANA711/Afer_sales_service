@@ -1,6 +1,48 @@
-
+//对面板的数据加载
+var paVue = new Vue({
+    el:'#pa',
+    data:{
+        fri:'',
+        friBody:'',
+        sec:'',
+        secBody:'',
+        thr:'',
+        thrBody:'',
+        fou:'',
+        fouBody:''
+    },
+    methods:{
+        getData:function () {
+            axios
+                .get('/faq/selectAllFAQ')
+                .then(function (response) {
+                    console.log("success");
+                    console.log(response.data);
+                    console.log("2");
+                    console.log(response.data[0]);
+                    console.log(response.data[0].faq_question);
+                    //对标题赋值
+                    paVue.fri = response.data[0].faq_question;
+                    paVue.sec = response.data[1].faq_question;
+                    paVue.thr = response.data[2].faq_question;
+                    paVue.fou = response.data[3].faq_question;
+                    //对内容赋值
+                    paVue.friBody = response.data[0].faq_answer;
+                    paVue.secBody = response.data[1].faq_answer;
+                    paVue.thrBody = response.data[2].faq_answer;
+                    paVue.fouBody = response.data[3].faq_answer;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    }
+});
 $(document).ready(function(){
-    //
+    paVue.getData();
+
+
+    //css样式设置
     $("#judge_first").click(function(){
         if( $("#panel_first").is(":hidden")){
             $("#judge_first").css({
