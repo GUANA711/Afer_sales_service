@@ -8,6 +8,17 @@ var dt_addAllocate;
 var Itemm_id;
 // 预处理
 $(document).ready(function() {
+    //xss
+    function filterXSS(str) {
+        return str
+            .replace(/&/g, '&amp;')
+            // .replace(/ /g, '&nbsp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/\r{0,}\n/g, '<br/>');
+    }
     // 加载维修人员页面信息
     $.ajax({
         type: 'GET',
@@ -19,14 +30,12 @@ $(document).ready(function() {
         success: function (data) {
             console.dir(data);
             $("#userId").val(data.User_id);
-            $("#username").val(data.User_name);
-            $("#tel").val(data.Tel);
-            $("#email").val(data.Email);
+            $("#username").val(filterXSS(data.User_name));
+            $("#tel").val(filterXSS(data.Tel));
+            $("#email").val(filterXSS(data.Email));
             var roleArray = data.roles;
-            console.log(roleArray);
             $('[user\\:hasRole]').each(function(){            //判断角色
                 var role = $(this).attr('user:hasRole');
-                console.log(role);
                 //如果没有权限
                 if (-1 == $.inArray(role,roleArray)) {
                     $(this).remove();
@@ -83,10 +92,10 @@ $(document).ready(function() {
                     $("#tel").attr("readonly", true);
                     $("#email").attr("readonly", true);
                     $(this).text($(this).text() === '编辑');
-                    $("#userId").val(data.User_id);
-                    $("#username").val(data.User_name);
-                    $("#tel").val(data.Tel);
-                    $("#email").val(data.Email);
+                    $("#userId").val(filterXSS(data.User_id));
+                    $("#username").val(filterXSS(data.User_name));
+                    $("#tel").val(filterXSS(data.Tel));
+                    $("#email").val(filterXSS(data.Email));
                     // $("#taskNum").val(data.Task_num);
                     alert(data.status);
                 },
@@ -164,16 +173,16 @@ $(document).ready(function() {
                 // 告诉 DataTables 每列对应的属性data
                 // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
                 {
-                    "data": "question_id",
+                    "data": filterXSS('question_id'),
                     className: "Question_id",
                     "searchable": false
                 },
                 {
-                    "data": "question_type",
+                    "data": filterXSS('question_type'),
                     className: "Question_type"
                 },
                 {
-                    "data": "question_detail",
+                    "data": filterXSS('question_detail'),
                     className: "Question_detail"
                 },
                 {
@@ -271,20 +280,20 @@ $(document).ready(function() {
                 // 告诉 DataTables 每列对应的属性data
                 // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
                 {
-                    "data": "question_id",
+                    "data": filterXSS('question_id'),
                     className: "Question_id",
                     "searchable": false
                 },
                 {
-                    "data": "question_detail",
+                    "data": filterXSS('question_detail'),
                     className: "Question_detail"
                 },
                 {
-                    "data": "user_id",
+                    "data": filterXSS('user_id'),
                     className: "User_id"
                 },
                 {
-                    "data": "commit_time",
+                    "data": filterXSS('commit_time'),
                     className: "commit_time"
                 },
                 {
@@ -383,21 +392,21 @@ $(document).ready(function() {
                 // 告诉 DataTables 每列对应的属性data
                 // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
                 {
-                    "data": "question_id",
+                    "data": filterXSS('question_id'),
                     className: "Question_id",
                     "searchable": false
                 },
                 {
-                    "data": "question_type",
+                    "data": filterXSS('question_type'),
                     className: "Question_type"
                 },
                 {
-                    "data": "question_detail",
+                    "data": filterXSS('question_detail'),
                     className: "Question_detail"
                 },
 
                 {
-                    "data": "user_id",
+                    "data": filterXSS('user_id'),
                     className: "User_id"
                 },
                 // {
@@ -467,16 +476,16 @@ $(document).ready(function() {
                 // 告诉 DataTables 每列对应的属性data
                 // 这里是固定不变的，user_id，item_id，item_name，为你数据里对应的属性
                 {
-                    "data": "user_id",
+                    "data": filterXSS('user_id'),
                     className: "User_id",
                     "searchable": false
                 },
                 {
-                    "data": "item_id",
+                    "data": filterXSS('item_id'),
                     className: "Item_id"
                 },
                 {
-                    "data": "item_name",
+                    "data": filterXSS('item_name'),
                     className: "Item_name"
                 },
                 {
@@ -554,7 +563,7 @@ $(document).ready(function() {
                             className: "Item_id",
                         },
                         {
-                            data: 'User_id',
+                            data: filterXSS('User_id'),
                             className: "User_id",
                         },
                         {
@@ -634,7 +643,7 @@ $(document).ready(function() {
                                 className : "Item_id"
                         },
                         {
-                            data: 'User_id',
+                            data: filterXSS('User_id'),
                             className : "User_id"
                         },
                         {
@@ -764,16 +773,16 @@ $(document).ready(function() {
                 // 告诉 DataTables 每列对应的属性data
                 // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
                 {
-                    "data": "faq_id",
+                    "data": filterXSS('faq_id'),
                     className: "Faq_id",
                     "searchable": false
                 },
                 {
-                    "data": "faq_question",
+                    "data": filterXSS('faq_question'),
                     className: "Faq_question"
                 },
                 {
-                    "data": "faq_answer",
+                    "data": filterXSS('faq_answer'),
                     className: "Faq_answer"
                 },
             ],
@@ -837,8 +846,8 @@ $(document).ready(function() {
                     $("#faq_question").attr("readonly", true);
                     $("#faq_answer").attr("readonly", true);
                     // $(this).text($(this).text()==='添加');
-                    $("#faq_question").val(data.Faq_question);
-                    $("#faq_answer").val(data.Faq_answer);
+                    $("#faq_question").val(filterXSS(data.Faq_question));
+                    $("#faq_answer").val(filterXSS(data.Faq_answer));
                     alert(data.faqmsg);
                     //保存之后返回到FAQ页面
                     $("#faq_panel").show();
