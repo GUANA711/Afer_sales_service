@@ -23,7 +23,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("进入登录拦截器");
-        if(request.getSession(false)!=null && request.getCookies()!=null){
+        if(request.getSession(false)!=null ){
 
             return true;
         }
