@@ -8,6 +8,7 @@ import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -52,11 +53,12 @@ public class QuestionController {
         int User_id = (int) req.getSession(false).getAttribute("userID");
 
         question.setItem_id(json.getInteger("item_id"));
-        question.setQuestion_detail(json.getString("question_detail"));
-        question.setQuestion_status("unaccepted");
+        //工具类，js过滤防止存入脏数据
+        question.setQuestion_detail(StringEscapeUtils.escapeJavaScript(json.getString("question_detail")));
+        question.setQuestion_status(StringEscapeUtils.escapeJavaScript("unaccepted"));
         question.setCommit_time(date1);
         question.setUser_id(User_id);
-        question.setQuestion_type(json.getString("question_type"));
+        question.setQuestion_type(StringEscapeUtils.escapeJavaScript(json.getString("question_type")));
 
         try {
             db.addQuestion(question);

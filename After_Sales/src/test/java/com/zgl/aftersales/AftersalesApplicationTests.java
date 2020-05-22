@@ -163,8 +163,6 @@ class AftersalesApplicationTests {
             String password = "123456;";
             userName = StringEscapeUtils.escapeSql(userName);
             password = StringEscapeUtils.escapeSql(password);
-            String sql = "SELECT COUNT(userId) FROM t_user WHERE userName='"
-                    + userName + "' AND password ='" + password + "'";
             System.out.println(userName+" "+password);
 
     }
