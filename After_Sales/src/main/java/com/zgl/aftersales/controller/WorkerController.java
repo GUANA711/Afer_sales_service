@@ -10,6 +10,7 @@ import com.zgl.aftersales.service.MaintenanceService;
 import com.zgl.aftersales.service.UserService;
 import com.zgl.aftersales.service.WorkerService;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -99,9 +100,9 @@ public class WorkerController {
                 if (Pattern.matches(patternMail, email) && !email.equals("")) {
                     try {
                         map.put("User_id",User_id);
-                        map.put("User_name",json.getString("User_name"));
-                        map.put("Tel",json.getString("Tel"));
-                        map.put("Email",json.getString("Email"));
+                        map.put("User_name", StringEscapeUtils.escapeJavaScript(json.getString("User_name")));
+                        map.put("Tel",StringEscapeUtils.escapeJavaScript(json.getString("Tel")));
+                        map.put("Email",StringEscapeUtils.escapeJavaScript(json.getString("Email")));
                         map.put("status","修改成功");
                         map.put("code","0");
                         workerService.worker_updateBy_Session_UserId(map);
@@ -178,7 +179,7 @@ public class WorkerController {
                 workerStatus.setMsg("接收任务成功");
                 workerStatus.setStatus(true);
             } else {
-                workerStatus.setMsg("接收任务失败");
+                workerStatus.setMsg("接收任务失败,任务数量达上限");
             }
         }catch (Exception e){
             workerStatus.setMsg("接收任务失败");
