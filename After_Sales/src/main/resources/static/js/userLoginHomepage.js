@@ -24,18 +24,25 @@ $(function () {
             showRefresh: true,//显示刷新按钮
             search: true, //显示搜索框
             columns: [{
-                field: filterXSS('faq_id'),
+                field: 'faq_id',
                 title: 'FAQ_ID',
                 searchable: true,
             }, {
-                field: filterXSS('faq_question'),
+                field: 'faq_question',
                 title: 'FAQ问题',
                 searchable: true,
             }, {
-                field: filterXSS('faq_answer'),
+                field: 'faq_answer',
                 title: 'FAQ答案',
                 searchable: true,
-            },]
+            },],
+            responseHandler: function (data) {
+                for (var i = 0; i < data.length; i++){
+                    data[i].faq_question = filterXSS(data[i].faq_question);
+                    data[i].faq_answer = filterXSS(data[i].faq_answer);
+                }
+                return data;
+            }
         });
         $("#faq_panel").show();
         $(".message").show();
@@ -169,15 +176,24 @@ $(document).ready(function () {
             pageList: [5, 10, 20],//每页可选择的行数
             showRefresh: true,//显示刷新按钮
             columns: [{
-                field: filterXSS('question_type'),
+                field: 'question_type',
                 title: '问题分类'
             }, {
-                field: filterXSS('item_id'),
+                field: 'item_id',
                 title: '项目名称'
             }, {
-                field: filterXSS('question_detail'),
+                field: 'question_detail',
                 title: '问题详情'
-            },]
+            },],
+            responseHandler: function (data) {
+                //**********注意**********\
+                for (var i = 0; i < data.length; i++){
+                    console.log(data[i].question_type);
+                    data[i].question_type = filterXSS(data[i].question_type);
+                    data[i].question_detail = filterXSS(data[i].question_detail);
+                }
+                return data;
+            }
         });
         // //GET数据
         // $.ajax({
@@ -263,15 +279,23 @@ $(document).ready(function () {
             pageList: [5, 10, 20],//每页可选择的行数
             showRefresh: true,//显示刷新按钮
             columns: [{
-                field: filterXSS('question_type'),
+                field: 'question_type',
                 title: '问题分类'
             }, {
-                field: filterXSS('item_id'),
+                field: 'item_id',
                 title: '项目名称'
             }, {
-                field: filterXSS('question_detail'),
+                field: 'question_detail',
                 title: '问题详情'
-            },]
+            },],
+            responseHandler: function (data) {
+                //**********注意**********\
+                for (var i = 0; i < data.length; i++){
+                    data[i].question_type = filterXSS(data[i].question_type);
+                    data[i].question_detail = filterXSS(data[i].question_detail);
+                }
+                return data;
+            }
         });
         // //GET数据
         // $.ajax({
@@ -321,15 +345,23 @@ $(document).ready(function () {
             pageList: [5, 10, 20],//每页可选择的行数
             showRefresh: true,//显示刷新按钮
             columns: [{
-                field: filterXSS('question_type'),
+                field: 'question_type',
                 title: '问题分类'
             }, {
-                field: filterXSS('item_id'),
+                field: 'item_id',
                 title: '项目名称'
             }, {
-                field: filterXSS('question_detail'),
+                field: 'question_detail',
                 title: '问题详情'
-            },]
+            },],
+            responseHandler: function (data) {
+                //**********注意**********\
+                for (var i = 0; i < data.length; i++){
+                    data[i].question_type = filterXSS(data[i].question_type);
+                    data[i].question_detail = filterXSS(data[i].question_detail);
+                }
+                return data;
+            }
         });
         $("#ing_top").show();
         $("#ing_panel").show();
@@ -443,6 +475,7 @@ $(document).ready(function () {
         var item_id = document.getElementById("item_id").value;
         var question_detail = document.getElementById("select_form").value + ": " + document.getElementById("question_detail").value;
         var question_type = $("#first_select").find("option:selected").val();
+        // question_type = filterXSS(question_type);
         if (document.getElementById("question_detail").value == '') {
             $("#failSubmitModal").modal();
         } else {

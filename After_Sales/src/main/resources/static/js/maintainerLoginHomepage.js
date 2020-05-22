@@ -193,6 +193,14 @@ $(document).ready(function() {
                     }
                 }
             ],
+            responseHandler: function (data) {
+                for (var i = 0; i < data.length; i++){
+                    data[i].faq_id = filterXSS(data[i].faq_id);
+                    data[i].faq_question = filterXSS(data[i].faq_question);
+                    data[i].faq_answer = filterXSS(data[i].faq_answer);
+                }
+                return data;
+            },
             language:
                 {// 配置
                     "sProcessing": "处理中...",
@@ -280,20 +288,20 @@ $(document).ready(function() {
                 // 告诉 DataTables 每列对应的属性data
                 // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
                 {
-                    "data": filterXSS('question_id'),
+                    "data": 'question_id',
                     className: "Question_id",
                     "searchable": false
                 },
                 {
-                    "data": filterXSS('question_detail'),
+                    "data": 'question_detail',
                     className: "Question_detail"
                 },
                 {
-                    "data": filterXSS('user_id'),
+                    "data": 'user_id',
                     className: "User_id"
                 },
                 {
-                    "data": filterXSS('commit_time'),
+                    "data": 'commit_time',
                     className: "commit_time"
                 },
                 {
@@ -304,6 +312,13 @@ $(document).ready(function() {
                     }
                 }
             ],
+            responseHandler: function (data) {
+                for (var i = 0; i < data.length; i++){
+                    data[i].question_detail = filterXSS(data[i].question_detail);
+                    data[i].commit_time = filterXSS(data[i].commit_time);
+                }
+                return data;
+            },
             language:
                 {// 配置
                     "sProcessing": "处理中...",
@@ -418,6 +433,13 @@ $(document).ready(function() {
                 //     }
                 // }
             ],
+            responseHandler: function (data) {
+                for (var i = 0; i < data.length; i++){
+                    data[i].question_detail = filterXSS(data[i].question_detail);
+                    data[i].question_type = filterXSS(data[i].question_type);
+                }
+                return data;
+            },
             language:
                 {// 配置
                     "sProcessing": "处理中...",
@@ -503,6 +525,12 @@ $(document).ready(function() {
                     }
                 }
             ],
+            responseHandler: function (data) {
+                for (var i = 0; i < data.length; i++){
+                    data[i].item_name = filterXSS(data[i].item_name);
+                }
+                return data;
+            },
             language:
                 {// 配置
                     "sProcessing": "处理中...",
@@ -786,6 +814,13 @@ $(document).ready(function() {
                     className: "Faq_answer"
                 },
             ],
+            responseHandler: function (data) {
+                for (var i = 0; i < data.length; i++){
+                    data[i].faq_question = filterXSS(data[i].faq_question);
+                    data[i].faq_answer = filterXSS(data[i].faq_answer);
+                }
+                return data;
+            },
             language:
                 {// 配置
                     "sProcessing": "处理中...",
