@@ -55,8 +55,8 @@ public class FAQController {
 
         //StringEscapeUtils.escapeJavaScript
         //防xss攻击,输入框传的值,后台的js过滤是为了不存入脏数据
-        faQs.setFaq_question(StringEscapeUtils.escapeJavaScript(json.getString("Faq_question")));
-        faQs.setFaq_answer(StringEscapeUtils.escapeJavaScript(json.getString("Faq_answer")));
+        faQs.setFaq_question(json.getString("Faq_question"));
+        faQs.setFaq_answer(json.getString("Faq_answer"));
 
         if (faQs.getFaq_question().equals("")||faQs.getFaq_answer().equals("")) {
             faqStatus.setFaqstatus(false);

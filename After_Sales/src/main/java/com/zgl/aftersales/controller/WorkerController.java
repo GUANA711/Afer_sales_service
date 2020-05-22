@@ -100,9 +100,9 @@ public class WorkerController {
                 if (Pattern.matches(patternMail, email) && !email.equals("")) {
                     try {
                         map.put("User_id",User_id);
-                        map.put("User_name", StringEscapeUtils.escapeJavaScript(json.getString("User_name")));
-                        map.put("Tel",StringEscapeUtils.escapeJavaScript(json.getString("Tel")));
-                        map.put("Email",StringEscapeUtils.escapeJavaScript(json.getString("Email")));
+                        map.put("User_name",json.getString("User_name"));
+                        map.put("Tel",json.getString("Tel"));
+                        map.put("Email",json.getString("Email"));
                         map.put("status","修改成功");
                         map.put("code","0");
                         workerService.worker_updateBy_Session_UserId(map);
