@@ -615,7 +615,7 @@ var notices = new Vue({
                     if (notices.data1.length == 0) {
                         $("#notice1 table").hide();
                         $("#notice1").append("没有超时待处理项目");
-                    } else if (notices.data1.length > 6) {
+                    } else if (notices.data1.length > 4) {
                         setInterval(function () {
                             var body = $("#notice1 table tbody");
                             var liHeight = body.find("tr:last").height() + 10;
@@ -666,8 +666,6 @@ function filterXSS(str) {
         .replace(/'/g, '&#39;')
         .replace(/\r{0,}\n/g, '<br/>');
 }
-console.log(filterXSS("<img src='/' onerror='alert(11)'/>"));
-// \u529F\u80FD\u5F02\u5E38
 /* 一些触发事件 */
 $(document).on('click', '#modalBtn', function () {
     var index = $("input[name='worker']:checked").val();
