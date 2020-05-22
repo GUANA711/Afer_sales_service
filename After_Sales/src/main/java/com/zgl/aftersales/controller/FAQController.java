@@ -7,6 +7,7 @@ import com.zgl.aftersales.pojo.FAQs;
 import com.zgl.aftersales.pojo.Status;
 import com.zgl.aftersales.service.FAQService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,8 +53,10 @@ public class FAQController {
 
         FAQs faQs = new FAQs();
 
-        faQs.setFaq_question(json.getString("Faq_question"));
-        faQs.setFaq_answer(json.getString("Faq_answer"));
+        //StringEscapeUtils.escapeJavaScript
+        //防xss攻击,输入框传的值,后台的js过滤是为了不存入脏数据
+        faQs.setFaq_question(StringEscapeUtils.escapeJavaScript(json.getString("Faq_question")));
+        faQs.setFaq_answer(StringEscapeUtils.escapeJavaScript(json.getString("Faq_answer")));
 
         if (faQs.getFaq_question().equals("")||faQs.getFaq_answer().equals("")) {
             faqStatus.setFaqstatus(false);
