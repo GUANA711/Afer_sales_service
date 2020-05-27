@@ -148,3 +148,10 @@ ul{
 .juminfo{
     font-size: 30px!important;
 }
+/*faq文本限制*/
+.panel-body{
+    width: 100%;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
+}
