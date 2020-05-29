@@ -53,12 +53,12 @@ public class QuestionController {
         int User_id = (int) req.getSession(false).getAttribute("userID");
 
         question.setItem_id(json.getInteger("item_id"));
-        //工具类，js过滤防止存入脏数据
-        question.setQuestion_detail(json.getString("question_detail"));
+        //工具类，防sql注入
+        question.setQuestion_detail(json.getString(StringEscapeUtils.escapeSql("question_detail")));
         question.setQuestion_status("unaccepted");
         question.setCommit_time(date1);
         question.setUser_id(User_id);
-        question.setQuestion_type(json.getString("question_type"));
+        question.setQuestion_type(json.getString(StringEscapeUtils.escapeSql("question_type")));
 
         try {
             db.addQuestion(question);
@@ -129,7 +129,7 @@ public class QuestionController {
      */
     @GetMapping("/checkFaqs")
     public List<FAQs> checkFaqs(String faq_String){
-        return db.checkFaqs(faq_String);
+        return db.checkFaqs(StringEscapeUtils.escapeSql(faq_String));
     }
 
 }
