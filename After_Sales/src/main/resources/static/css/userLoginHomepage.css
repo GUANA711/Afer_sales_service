@@ -259,13 +259,7 @@ input{
     border-color: #000000;
     margin-right: 40px!important;
 }
-.pagination-info{
-
-}
-.table-hover{
-
-}
-.th-inner {
-
+#item_id{
+    width: 300px;
 }
 

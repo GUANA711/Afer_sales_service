@@ -25,6 +25,8 @@ import java.util.*;
 class AftersalesApplicationTests {
    @Autowired
     DataSource dataSource;
+   @Autowired
+   UserService userService;
 
     @Test
     void contextLoads() throws SQLException {
@@ -32,25 +34,8 @@ class AftersalesApplicationTests {
         System.out.println(dataSource.getConnection());
     }
 
-    @Autowired
-    UserService userService;
-    @Test
-    void addUser(){
-        Users user=new Users();
-        user.setUser_name("wx1");
-        user.setPassword("123");
-        user.setEmail("979563197@qq.com");
-        user.setTask_num(0);
-        user.setTel("2304153");
-        userService.addUser(user);
-    }
 
-    @Test
-    void selectByUsername(){
-        String username="zgl";
-        Users user=userService.selectByUsername(username);
-        System.out.println(user);
-    }
+
 
     @Autowired
     FAQService faqService;
@@ -61,28 +46,12 @@ class AftersalesApplicationTests {
         System.out.println(faQs);
     }
 
-    @Test
-    void addFAQ(){
-        FAQs faQs=new FAQs();
-        faQs.setFaq_question("question");
-        faQs.setFaq_answer("answer");
-        faqService.addFAQ(faQs);
-        System.out.println(faQs);
-    }
+
 
 
     @Autowired
     WorkerService workerService;
-    @Test
-    void worker_selectBy_Session_UserId() {
-        DesDecodeUtiles desDecodeUtiles=new DesDecodeUtiles();
-        int userID=47;
-        Users user = workerService.worker_selectBy_Session_UserId(userID);
-        //密码解密之后输出
-        user.setPassword(desDecodeUtiles.getDecryptString(user.getPassword()));
 
-        System.out.println(user);
-    }
 
     @Test
     void worker_updateBy_Session_UserId() {
@@ -162,7 +131,7 @@ class AftersalesApplicationTests {
     public void SqlEscapeExample() {
 
             String userName = "1' or '1'='1";
-            String password = "123456;";
+            String password = "123456";
             userName = StringEscapeUtils.escapeSql(userName);
             password = StringEscapeUtils.escapeSql(password);
             System.out.println(userName+" "+password);

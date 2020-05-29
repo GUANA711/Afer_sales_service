@@ -16,11 +16,6 @@ var paVue = new Vue({
             axios
                 .get('/faq/selectAllFAQ')
                 .then(function (response) {
-                    console.log("success");
-                    console.log(response.data);
-                    console.log("2");
-                    console.log(response.data[0]);
-                    console.log(response.data[0].faq_question);
                     //对标题赋值
                     paVue.fri = response.data[0].faq_question;
                     paVue.sec = response.data[1].faq_question;
@@ -40,7 +35,6 @@ var paVue = new Vue({
 });
 $(document).ready(function(){
     paVue.getData();
-
 
     //css样式设置
     $("#judge_first").click(function(){

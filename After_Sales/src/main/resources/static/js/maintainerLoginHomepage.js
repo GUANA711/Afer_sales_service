@@ -195,9 +195,9 @@ $(document).ready(function() {
             ],
             responseHandler: function (data) {
                 for (var i = 0; i < data.length; i++){
-                    data[i].faq_id = filterXSS(data[i].faq_id);
-                    data[i].faq_question = filterXSS(data[i].faq_question);
-                    data[i].faq_answer = filterXSS(data[i].faq_answer);
+                    data[i].question_type = filterXSS(data[i].question_type);
+                    data[i].question_detail = filterXSS(data[i].question_detail);
+                    console.log(data);
                 }
                 return data;
             },
@@ -817,7 +817,7 @@ $(document).ready(function() {
             responseHandler: function (data) {
                 for (var i = 0; i < data.length; i++){
                     data[i].faq_question = filterXSS(data[i].faq_question);
-                    data[i].faq_answer = filterXSS(data[i].faq_answer);
+                    data[i].faq_answer = filterXSS(data[i].faq_answer);                    
                 }
                 return data;
             },
@@ -881,8 +881,8 @@ $(document).ready(function() {
                     $("#faq_question").attr("readonly", true);
                     $("#faq_answer").attr("readonly", true);
                     // $(this).text($(this).text()==='添加');
-                    $("#faq_question").val(filterXSS(data.Faq_question));
-                    $("#faq_answer").val(filterXSS(data.Faq_answer));
+                    $("#faq_question").val(data.Faq_question);
+                    $("#faq_answer").val(data.Faq_answer);
                     alert(data.faqmsg);
                     //保存之后返回到FAQ页面
                     $("#faq_panel").show();

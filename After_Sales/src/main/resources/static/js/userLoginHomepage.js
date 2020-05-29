@@ -36,6 +36,16 @@ $(function () {
                 title: 'FAQ答案',
                 searchable: true,
             },],
+            queryParams : function (params) {
+          //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
+               var temp = {
+                      rows: params.limit,                         //页面大小
+                      page: (params.offset / params.limit) + 1,   //页码
+                     sort: params.sort,      //排序列名
+                    sortOrder: params.order //排位命令（desc，asc）
+                    };
+                    return temp;
+            },
             responseHandler: function (data) {
                 for (var i = 0; i < data.length; i++){
                     data[i].faq_question = filterXSS(data[i].faq_question);
@@ -81,16 +91,17 @@ $(function () {
             postInfo() {
                 axios.post('/worker/worker_updateBy_Session_UserId', { User_name: userinfoVue.user.username, Tel: userinfoVue.user.tel, Email: userinfoVue.user.email })
                     .then(res => {
-                        console.log("success!");
-                        var username = userinfoVue.user.username;
-                        var email = userinfoVue.user.email;
-                        var tel = userinfoVue.user.tel;
-                        userinfoVue.user.username = username;
-                        userinfoVue.user.email = email;
-                        userinfoVue.user.tel = tel;
-                        Vue.set(userinfoVue.user.tel, 0, tel);
-                        Vue.set(userinfoVue.user, 0, { username: username, tel: tel, email: email, isReadOnly: true });
-                        $("#successModal").modal();
+                        if ($('#form_userinfo').valid() == true){
+                            var username = userinfoVue.user.username;
+                            var email = userinfoVue.user.email;
+                            var tel = userinfoVue.user.tel;
+                            userinfoVue.user.username = username;
+                            userinfoVue.user.email = email;
+                            userinfoVue.user.tel = tel;
+                            Vue.set(userinfoVue.user.tel, 0, tel);
+                            Vue.set(userinfoVue.user, 0, { username: username, tel: tel, email: email, isReadOnly: true });
+                            $("#successModal").modal();
+                        }
                     })
                     .catch(err => {
                         console.log(err);
@@ -195,42 +206,16 @@ $(document).ready(function () {
                 return data;
             }
         });
-        // //GET数据
-        // $.ajax({
-        //     type:'GET',
-        //     data:'',
-        //     contentType :'application/json',
-        //     dataType:'json',
-        //     url :'/question/checkQuestionsubmited',
-        //     success :function(data) {
-        //         //动态生成面板
-        //         //首先清空面板
-        //         $("#alr_panel").empty();
-        //         if (data.length==0){
-        //             $("#alr_panel").append("<div class=\"alert alert-info\" role=\"alert\">没有已提交的数据！</div>");
-        //         }else {
-        //             // $("#alr_panel").append("<ul class=\"breadcrumb\"><li>首页</li><li>已提交的问题</li></ul>");
-        //             //设置面板
-        //             for(var i in data){
-        //                 $("#alr_panel").append("<div class='pa_all panel panel-default' id="+i+">");
-        //                 $("#alr_panel").append(" <div class=\"panel-heading\">" + "<h3 class=\"panel-title\">问题查看：</h3>" + "</div>"+"<div class=\"panel-body\">"+"<form>");
-        //                 $("#alr_panel").append("<ul class=\"list-group\" >");
-        //                 $("#alr_panel").append("<li class=\"list-group-item\"><label for=\"select\">问题分类:</label>"+"<input type=\"text\" id=\"select\" readonly=\"readonly\" value=\""+data[i].question_type+"\"></li>");
-        //                 $("#alr_panel").append("<li class=\"list-group-item\"><label for=\"number\">项目编号:</label>"+"<input type=\"text\" id=\"number\" readonly=\"readonly\" value=\""+data[i].item_id+"\"></li>");
-        //                 $("#alr_panel").append("<li class=\"list-group-item\"><span class='lable_textarea'>问题详情:</span>"+"<textarea rows=\"6\" cols=\"50\" readonly=\"readonly\">"+data[i].question_detail+"</textarea></li>");
-        //                 $("#alr_panel").append("</ul>"+"</form>"+"</div>"+"</div>");
-        //             }
-        //         }
-        //     },
-        //     error: function (XMLHttpRequest) {
-        //         console.log(XMLHttpRequest.status);
-        //         console.log(XMLHttpRequest.readyState);
-        //     }
-        // });
         $("#alr_top").show();
         $("#alr_panel").show();
         $(".message").show();
     });
+    //自定义规则
+    jQuery.validator.addMethod("isPhone", function(value, element) {
+        var length = value.length;
+        var mobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+        return this.optional(element) || (length == 11 && mobile.test(value));
+    }, "请填写正确的手机号码");//可以自定义默认提示信息
     // 修改基础信息验证
     $("#form_userinfo").validate({
         rules: {
@@ -245,8 +230,8 @@ $(document).ready(function () {
             },
             tel: {
                 required: true,
-                minlength: 7,
-                maxlength: 15
+                digits:true,
+                isPhone:true
             }
         },
         messages: {
@@ -257,8 +242,8 @@ $(document).ready(function () {
             },
             tel: {
                 required: "请输入电话",
-                minlength: "长度不能小于7",
-                maxlength: "长度不能大于15"
+                digits:"只能输入数字",
+                isPhone: "格式错误"
             },
             email: {
                 required: "请输入电子邮件",
@@ -266,6 +251,15 @@ $(document).ready(function () {
             }
         }
     });
+
+
+
+
+
+    //
+
+
+
     //点击已完成切换面板
     $("#fin_title").click(function () {
         $("#find_panel").children().hide();
@@ -297,37 +291,6 @@ $(document).ready(function () {
                 return data;
             }
         });
-        // //GET数据
-        // $.ajax({
-        //     type:'GET',
-        //     data:'',
-        //     contentType :'application/json',
-        //     dataType:'json',
-        //     url :'/question/checkQuestionfinished',
-        //     success :function(data) {
-        //         //动态生成面板
-        //         //首先清空面板
-        //         $("#fin_panel").empty();
-        //         if (data.length==0){
-        //             $("#fin_panel").append("<div class=\"alert alert-info\" role=\"alert\">没有已完成的数据！</div>");
-        //         }else{
-        //             //设置面板
-        //             for(var i in data){
-        //                 $("#fin_panel").append("<div class='pa_all panel panel-default' id="+i+">");
-        //                 $("#fin_panel").append(" <div class=\"panel-heading\">" + "<h3 class=\"panel-title\">问题查看：</h3>" + "</div>"+"<div class=\"panel-body\">"+"<form>");
-        //                 $("#fin_panel").append("<ul class=\"list-group\" >");
-        //                 $("#fin_panel").append("<li class=\"list-group-item\"><label for=\"select\">问题分类:</label>"+"<input type=\"text\" id=\"select\" readonly=\"readonly\" value=\""+data[i].question_type+"\"></li>");
-        //                 $("#fin_panel").append("<li class=\"list-group-item\"><label for=\"number\">项目编号:</label>"+"<input type=\"text\" id=\"number\" readonly=\"readonly\" value=\""+data[i].item_id+"\"></li>");
-        //                 $("#fin_panel").append("<li class=\"list-group-item\"><span class='lable_textarea'>问题详情:</span>"+"<textarea rows=\"6\" cols=\"50\" readonly=\"readonly\">"+data[i].question_detail+"</textarea></li>");
-        //                 $("#fin_panel").append("</ul>"+"</form>"+"</div>"+"</div>");
-        //             }
-        //         }
-        //     },
-        //     error: function (XMLHttpRequest) {
-        //         console.log(XMLHttpRequest.status);
-        //         console.log(XMLHttpRequest.readyState);
-        //     }
-        // });
         $("#fin_top").show();
         $("#fin_panel").show();
         $(".message").show();
@@ -533,13 +496,12 @@ $(document).ready(function () {
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, data) {
-                    console.log("4444444");
                     // 状态码
                     console.log(XMLHttpRequest.status);
                     // 状态
                     console.log(XMLHttpRequest.readyState);
                     // 错误信息
-                    alert(textStatus);
+                    // alert(textStatus);
                 }
             });
         }
