@@ -33,6 +33,7 @@ $(window).ajaxStart(function () {
 $(window).ajaxStop(function () {
     NProgress.done();
 });
+// 项目管理
 var items = new Vue({
     el: '#vueItem',
     data: {
@@ -110,12 +111,14 @@ var items = new Vue({
         }
     }
 });
+//项目管理的模态框
 var itemModal = new Vue({
     el: "#itemModal",
     data: {
         workers: ''
     },
 });
+//用户问题
 var questions = new Vue({
     el: '#vueQuestion',
     data: {
@@ -186,6 +189,7 @@ var questions = new Vue({
         }
     }
 });
+//问题处理
 var maintenances = new Vue({
     el: '#dealVue',
     data: {
@@ -248,6 +252,7 @@ var maintenances = new Vue({
         }
     }
 });
+//faq
 var faqs = new Vue({
     el: '#vueFaq',
     data: {
@@ -315,6 +320,7 @@ var faqs = new Vue({
         }
     }
 });
+//任务指派
 var selects = new Vue({
     el: '#selectVue',
     data: {
@@ -374,6 +380,7 @@ var selects = new Vue({
     }
 
 });
+//角色控制
 var roles = new Vue({
     el: '#roleControl',
     data: {
@@ -508,6 +515,7 @@ var roles = new Vue({
         }
     }
 });
+//系统日志
 var logs = new Vue({
     el: '#logVue',
     data: {
@@ -598,6 +606,7 @@ var logs = new Vue({
         }
     }
 });
+//消息通知
 var notices = new Vue({
     el: '#notice',
     data: {

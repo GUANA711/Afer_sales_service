@@ -25,7 +25,7 @@ $(document).ready(function() {
         data: '',
         contentType: 'application/json',
         dataType: 'json',
-        url: 'http://localhost:5050/worker/worker_selectBy_Session_UserId',
+        url: '/worker/worker_selectBy_Session_UserId',
         // url2 :'http://localhost:5050/worker/worker_show_unaccepted',
         success: function (data) {
             console.dir(data);
@@ -85,7 +85,7 @@ $(document).ready(function() {
                 data: JSON.stringify(info),
                 contentType: 'application/json',
                 dataType: 'json',
-                url: 'http://localhost:5050/worker/worker_updateBy_Session_UserId',
+                url: '/worker/worker_updateBy_Session_UserId',
                 success: function (data) {
                     console.dir(data);
                     $("#username").attr("readonly", true);
@@ -164,7 +164,7 @@ $(document).ready(function() {
                     dataSrc: '',
                     contentType: 'application/json',
                     dataType: 'json',
-                    url: 'http://localhost:5050/worker/worker_show_unaccepted'
+                    url: '/worker/worker_show_unaccepted'
 
                 },
             columns: [
@@ -239,7 +239,7 @@ $(document).ready(function() {
             type: "POST",
             contentType: 'application/json',
             dataType: "json",
-            url: "http://localhost:5050/worker/worker_receive",
+            url: "/worker/worker_receive",
             data: JSON.stringify(info),
             success: function (data) {
                 // if (data.status==true)
@@ -279,7 +279,7 @@ $(document).ready(function() {
                     dataSrc: '',
                     contentType: 'application/json',
                     dataType: 'json',
-                    url: 'http://localhost:5050/worker/worker_show_accepted'
+                    url: '/worker/worker_show_accepted'
 
                 },
             columns: [
@@ -356,7 +356,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            url: "http://localhost:5050/worker/worker_finish",
+            url: "/worker/worker_finish",
             data: JSON.stringify(info),
             success: function (data) {
                 // alert("???");
@@ -398,7 +398,7 @@ $(document).ready(function() {
                     dataSrc: '',
                     contentType: 'application/json',
                     dataType: 'json',
-                    url: 'http://localhost:5050/worker/worker_show_done'
+                    url: '/worker/worker_show_done'
 
                 },
             columns: [
@@ -490,7 +490,7 @@ $(document).ready(function() {
                     dataSrc: '',
                     contentType: 'application/json',
                     dataType: 'json',
-                    url: 'http://localhost:5050/worker/show_items'
+                    url: '/worker/show_items'
                 },
             columns: [
                 // 配置columns
@@ -573,7 +573,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            url: "http://localhost:5050/worker/show_item_workers",
+            url: "/worker/show_item_workers",
             data: JSON.stringify(info),
             success: function (data) {
                 // alert(data);
@@ -653,7 +653,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             contentType: 'application/json;charset=UTF-8',
-            url: "http://localhost:5050/worker/show_item_other_workers",
+            url: "/worker/show_item_other_workers",
             data: JSON.stringify(info),
             success: function (data) {
                 // alert(data);
@@ -731,7 +731,7 @@ $(document).ready(function() {
             type: "POST",
             contentType: 'application/json',
             dataType: "json",
-            url: "http://localhost:5050/worker/delete_item_worker",
+            url: "/worker/delete_item_worker",
             data: JSON.stringify(info),
             success: function (data) {
                 // if (data.status==true)
@@ -757,7 +757,7 @@ $(document).ready(function() {
             type: "POST",
             contentType: 'application/json',
             dataType: "json",
-            url: "http://localhost:5050/worker/insert_item_other_workers",
+            url: "/worker/insert_item_other_workers",
             data: JSON.stringify(info),
             success: function (data) {
                 // if (data.status==true)
@@ -779,75 +779,50 @@ $(document).ready(function() {
     $("#faq_present").click(function () {
         $(".find_panel").children().hide();
         $("#faq_panel").show();
-        $(".message").show();
-        dt_faq = $('#faq_table').DataTable({
-            responsive: true,
-            destroy: true,
-            serviceSize: true,// 开启服务端模式
-            ajax:
-                {
-                    // 使用ajax异步请求的方式加载数据
-                    type: 'GET',
-                    async: false,
-                    dataSrc: '',
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    url: 'http://localhost:5050/faq/selectAllFAQ'
-
-                },
-            columns: [
-                // 配置columns
-                // 使用对象数组，一定要配置columns
-                // 告诉 DataTables 每列对应的属性data
-                // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
-                {
-                    "data": filterXSS('faq_id'),
-                    className: "Faq_id",
-                    "searchable": false
-                },
-                {
-                    "data": filterXSS('faq_question'),
-                    className: "Faq_question"
-                },
-                {
-                    "data": filterXSS('faq_answer'),
-                    className: "Faq_answer"
-                },
-            ],
+        // $(".message").show();
+        // $("notice").hide();
+        $("#faq_table").bootstrapTable({
+            url: '/faq/selectAllFAQ',
+            methods: 'get',
+            pagination: true,//显示分页
+            striped: true,//显示行间距色
+            pageSize: 5,//每一页的行数
+            pageList: [5, 10, 20],//每页可选择的行数
+            showRefresh: true,//显示刷新按钮
+            search: true, //显示搜索框
+            columns: [{
+                field: 'faq_id',
+                width: '15%',
+                title: 'FAQ_ID',
+                searchable: true,
+            }, {
+                field: 'faq_question',
+                width: '15%',
+                title: 'FAQ问题',
+                searchable: true,
+            }, {
+                field: 'faq_answer',
+                width: '70',
+                title: 'FAQ答案',
+                searchable: true,
+            },],
+            queryParams : function (params) {
+                //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
+                var temp = {
+                    rows: params.limit,                         //页面大小
+                    page: (params.offset / params.limit) + 1,   //页码
+                    sort: params.sort,      //排序列名
+                    sortOrder: params.order //排位命令（desc，asc）
+                };
+                return temp;
+            },
             responseHandler: function (data) {
                 for (var i = 0; i < data.length; i++){
                     data[i].faq_question = filterXSS(data[i].faq_question);
-                    data[i].faq_answer = filterXSS(data[i].faq_answer);                    
+                    data[i].faq_answer = filterXSS(data[i].faq_answer);
                 }
                 return data;
-            },
-            language:
-                {// 配置
-                    "sProcessing": "处理中...",
-                    "sLengthMenu": "共显示 _MENU_ 项结果",
-                    "sZeroRecords": "没有匹配结果",
-                    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-                    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-                    "sInfoPostFix": "",
-                    "sSearch": "搜索:",
-                    "sUrl": "",
-                    "sEmptyTable": "表中数据为空",
-                    "sLoadingRecords": "载入中...",
-                    "sInfoThousands": ",",
-                    "oPaginate":
-                        {
-                            "sFirst": "首页",
-                            "sPrevious": "上页",
-                            "sNext": "下页",
-                            "sLast": "末页"
-                        },
-                    "oAria":
-                        {
-                            "sSortAscending": ": 以升序排列此列",
-                            "sSortDescending": ": 以降序排列此列"
-                        }
-                }
+            }
         });
     });
 
@@ -875,7 +850,7 @@ $(document).ready(function() {
                 data: JSON.stringify(info),
                 contentType: 'application/json',
                 dataType: 'json',
-                url: 'http://localhost:5050/faq/addFAQ',
+                url: '/faq/addFAQ',
                 success: function (data) {
                     console.dir(data);
                     $("#faq_question").attr("readonly", true);

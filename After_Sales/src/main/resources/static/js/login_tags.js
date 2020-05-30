@@ -47,7 +47,7 @@ $(document).ready(function(){
                 if (!email_reg.test(pwd_email)) {
                         alert("邮箱不正确！");
                 }else{
-                        curCount = count;
+                        curCount = count;               //时间
                         InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
                         document.getElementById("getCode").style.fontSize = 12 + 'px';
                         var user = {
@@ -62,7 +62,7 @@ $(document).ready(function(){
 
                             dataType:'json',
 
-                            url :'http://localhost:5050/user/mailSend',
+                            url :'/user/mailSend',
 
                             success :function(data) {
                                 if (data.status) {      //登录成功
@@ -155,7 +155,7 @@ function login_check(){
             
                     dataType:'json',
             
-                    url :'http://localhost:5050/user/login',
+                    url :'/user/login',
             
                     success :function(data) {
                         if (data.status) {      //登录成功
@@ -236,15 +236,13 @@ function register_check(){
 
                 type:'POST',
 
-                // async:false,                //同步请求
-        
                 data:JSON.stringify(user),
         
                 contentType :'application/json',
         
                 dataType:'json',
         
-                url :'http://localhost:5050/user/register',
+                url :'/user/register',
         
                 success :function(data) {
 
@@ -277,10 +275,6 @@ function find_check() {
         var email_reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); 
         var num_reg = RegExp("[0-9]");
         var letter_reg = RegExp("[A-Za-z]");
-        // console.log(pwd_email);
-        // console.log(pwd_code);
-        // console.log(pwd_pwd);
-        // console.log(pwd_repwd);
         if (!email_reg.test(email)) {
                 alert("邮箱格式不正确！");
                 return false; 
@@ -316,7 +310,7 @@ function find_check() {
         
                 dataType:'json',
         
-                url :'http://localhost:5050/user/resetpwd',
+                url :'/user/resetpwd',
         
                 success :function(data) {
 
