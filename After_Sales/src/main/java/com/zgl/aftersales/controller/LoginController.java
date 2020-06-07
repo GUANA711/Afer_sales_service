@@ -4,6 +4,7 @@ package com.zgl.aftersales.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.zgl.aftersales.dao.MyLog;
 import com.zgl.aftersales.pojo.Status;
+import com.zgl.aftersales.pojo.UUIDUtils;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.MailService;
 import com.zgl.aftersales.service.UserService;
@@ -27,10 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -68,6 +66,13 @@ public class LoginController {
         user.setTel(StringEscapeUtils.escapeSql(userJson.getString("Tel")));
         user.setEmail(StringEscapeUtils.escapeSql(userJson.getString("Email")));
 
+        //邮箱验证
+        user.setStatus(0);
+        //UUIDUtils uuidUtils = new UUIDUtils();
+        String code = "qwertyuiasdfghjxcvbnm";
+        //String code = uuidUtils.getUUID()+ uuidUtils.getUUID();
+        user.setCode(code);
+
         String repwd=json.getString("repwd");
 
 
@@ -92,6 +97,7 @@ public class LoginController {
                     if (Pattern.matches(patternTel, tel) && !tel.equals("")) {
                         if (Pattern.matches(patternMail, mail) && !mail.equals("")) {
                             try {
+
                                 userService.addUser(user);
                                 Users selectUser=userService.selectByUsername(userName);
                                 int userID=selectUser.getUser_id();
@@ -100,6 +106,7 @@ public class LoginController {
                                 map.put("Role_id","3");
                                 userService.insertRoleID(map);
                                 status.setStatus(true);
+
                                 status.setMsg("注册成功");
                             }
                             catch (Exception e){
@@ -128,6 +135,34 @@ public class LoginController {
 
         return status;
 
+    }
+
+    /**
+     * 跳转到登录页面
+     * @return login
+     */
+    @RequestMapping(value = "/loginPage")
+    public String login(){
+        return "login";
+    }
+
+    /**
+     *校验邮箱中的code激活账户
+     * 首先根据激活码code查询用户，之后再把状态修改为"1"
+     */
+    @RequestMapping(value = "/checkCode")
+    public String checkCode(String code){
+        Users user = userService.checkCode(code);
+        System.out.println(user);
+        //如果用户不等于null，把用户状态修改status=1
+        if (user !=null){
+            user.setStatus(1);
+            //把code验证码清空，已经不需要了
+            user.setCode("");
+            System.out.println(user);
+            userService.updateUserStatus(user);
+        }
+        return "login";
     }
 
     /**

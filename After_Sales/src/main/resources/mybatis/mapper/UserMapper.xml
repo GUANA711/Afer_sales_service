@@ -5,10 +5,10 @@
 <!--namespace=绑定一个对应的DAO/Mapper接口-->
 <mapper namespace="com.zgl.aftersales.dao.UserMapper">
     <insert id="addUser" parameterType="com.zgl.aftersales.pojo.Users">
-       insert into users (User_name,Password,Tel,Email) values(#{User_name},#{Password},#{Tel},#{Email})
+       insert into users (User_name,Password,Tel,Email,Status,Code) values(#{User_name},#{Password},#{Tel},#{Email},#{Status},#{Code})
    </insert>
     <select id="selectByUsername" parameterType="String" resultType="com.zgl.aftersales.pojo.Users">
-         select * from users where User_name=#{username}
+         select * from users where User_name=#{username} AND Status = 1;
     </select>
     <select id="selectByEmail" parameterType="String" resultType="com.zgl.aftersales.pojo.Users">
         select * from users where Email=#{mail}
@@ -19,6 +19,16 @@
     <update id="updateTask_num" parameterType="String">
         update users u set u.Task_num=u.Task_num+1 where User_name=#{name}
     </update>
+
+    <!--根据激活码code查询用户-->
+    <select id="checkCode" parameterType="String" resultType="com.zgl.aftersales.pojo.Users">
+    select * from users where Code = #{Code}
+    </select>
+
+    <!--激活账户，修改用户状态-->
+    <update id="updateUserStatus" parameterType="com.zgl.aftersales.pojo.Users">
+    update users set Status=1,Code=null where User_id=#{User_id}
+  </update>
 
 <!--    shiro-->
     <select id="showRolesByUserID" parameterType="int" resultType="String">
