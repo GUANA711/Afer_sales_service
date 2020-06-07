@@ -1,6 +1,5 @@
 package com.zgl.aftersales.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.zgl.aftersales.dao.UserMapper;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.MailService;
@@ -9,9 +8,7 @@ import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +27,6 @@ public class  UserImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
-    private MailService mailService;
 
 
     @Override
@@ -73,11 +69,15 @@ public class  UserImpl implements UserService {
      * 用户注册，同时发送一封激活邮件
      * @param user
      */
+    @Autowired
+    MailService mailServer;
     @Override
     public void addUser(Users user) {
 
+        System.out.println("email"+user.getEmail());
         String codePwd=DesDecodeUtiles.getEncryptString(user.getPassword());
         user.setPassword(codePwd);
+
         userMapper.addUser(user);
         //获取激活码
         String code = user.getCode();
@@ -88,7 +88,7 @@ public class  UserImpl implements UserService {
         //上面的激活码发送到用户注册邮箱
         String context = "<a href=\"/user/checkCode?code="+code+"\">激活请点击:"+code+"</a>";
         //发送激活邮件
-        mailService.sendMail (user.getEmail(),subject,context);
+        mailServer.sendMail (user.getEmail(),subject,context);
         //
     }
 

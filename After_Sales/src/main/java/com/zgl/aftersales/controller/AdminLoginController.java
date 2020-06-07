@@ -1,8 +1,6 @@
 package com.zgl.aftersales.controller;
 
-import com.alibaba.druid.sql.ast.statement.SQLIfStatement;
 import com.alibaba.fastjson.JSONObject;
-import com.sun.mail.imap.protocol.Item;
 import com.zgl.aftersales.dao.MyLog;
 import com.zgl.aftersales.pojo.*;
 import com.zgl.aftersales.service.*;

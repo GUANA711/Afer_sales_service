@@ -8,7 +8,7 @@
        insert into users (User_name,Password,Tel,Email,Status,Code) values(#{User_name},#{Password},#{Tel},#{Email},#{Status},#{Code})
    </insert>
     <select id="selectByUsername" parameterType="String" resultType="com.zgl.aftersales.pojo.Users">
-         select * from users where User_name=#{username} AND Status = 1;
+         select * from users where User_name=#{username};
     </select>
     <select id="selectByEmail" parameterType="String" resultType="com.zgl.aftersales.pojo.Users">
         select * from users where Email=#{mail}

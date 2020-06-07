@@ -17,12 +17,10 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -68,9 +66,8 @@ public class LoginController {
 
         //邮箱验证
         user.setStatus(0);
-        //UUIDUtils uuidUtils = new UUIDUtils();
-        String code = "qwertyuiasdfghjxcvbnm";
-        //String code = uuidUtils.getUUID()+ uuidUtils.getUUID();
+        UUIDUtils uuidUtils = new UUIDUtils();
+        String code = uuidUtils.getUUID()+ uuidUtils.getUUID();
         user.setCode(code);
 
         String repwd=json.getString("repwd");
@@ -111,7 +108,7 @@ public class LoginController {
                             }
                             catch (Exception e){
                                 status.setMsg("注册失败,该用户已存在" );
-
+                                e.printStackTrace();
                             }
 
                         } else {
@@ -152,6 +149,7 @@ public class LoginController {
      */
     @RequestMapping(value = "/checkCode")
     public String checkCode(String code){
+        System.out.println("code"+code);
         Users user = userService.checkCode(code);
         System.out.println(user);
         //如果用户不等于null，把用户状态修改status=1
