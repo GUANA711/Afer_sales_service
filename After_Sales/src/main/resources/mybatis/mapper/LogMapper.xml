@@ -15,7 +15,7 @@
         <result property="Creat_time" column="Creat_time"></result>
     </resultMap>
     <resultMap id="count3" type="Integer">
-        <result column="count"/>
+    <result column="count"/>
     </resultMap>
     <select id="showLog" parameterType="map" resultMap="data,count3">
          select SQL_CALC_FOUND_ROWS * from log order by Creat_time desc limit #{currIndex},#{pageSize};

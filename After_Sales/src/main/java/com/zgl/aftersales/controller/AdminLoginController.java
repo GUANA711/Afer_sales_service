@@ -6,6 +6,7 @@ import com.zgl.aftersales.pojo.*;
 import com.zgl.aftersales.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -499,6 +500,253 @@ public class AdminLoginController {
             return status;
         }
     }
+
+    /**
+     * 显示所有角色
+     */
+    @Autowired
+    RoleService roleService;
+    @PostMapping("/role_show")
+    public List<Map<String ,?>> roleShow(){
+        return roleService.showAllRoles();
+    }
+
+    /**
+     * 添加角色
+     * @param json
+     * @return
+     */
+    @PostMapping("/add_role")
+    public Status addRole(@RequestBody JSONObject json){
+        Status status=new Status();
+        String rolename=json.getString("rolename");
+        Map<String,?> map=new HashMap<>();
+
+        try {
+            roleService.selectByORoleName(rolename);
+            if(map.isEmpty()){
+                status.setMsg("添加失败,该角色已存在");
+                status.setStatus(false);
+                return status;
+            }
+            else {
+                roleService.addRole(rolename);
+            }
+
+        }catch (Exception e){
+            status.setMsg("添加失败");
+            status.setStatus(false);
+            e.printStackTrace();
+            return status;
+        }
+        status.setMsg("添加成功");
+        status.setStatus(true);
+        return status;
+
+    }
+
+    @PostMapping("/delete_role")
+    public Status deleteRole(@RequestBody JSONObject json){
+        Status status=new Status();
+        String roleID=json.getString("roleID");
+        try {
+            roleService.deleteRole(roleID);
+        }catch (Exception e){
+            status.setMsg("删除失败");
+            status.setStatus(false);
+            e.printStackTrace();
+            return status;
+        }
+        status.setMsg("删除成功");
+        status.setStatus(true);
+        return status;
+    }
+
+    /**
+     * 按roleID显示角色对应烦的资源
+     * @param json
+     * @return
+     */
+    @PostMapping("/role_have_resource")
+    public List<String> roleHaveResource(@RequestBody JSONObject json){
+        String roleID=json.getString("roleID");
+        List<String> stringList=roleService.showHaveResourcr(roleID);
+        return stringList;
+    }
+
+    /**
+     * 显示角色可添加的资源
+     * @param json
+     * @return
+     */
+    @PostMapping("/role_dont_ave_resource")
+    public List<String> roleDontHaveResource(@RequestBody JSONObject json){
+        String roleID=json.getString("roleID");
+        List<String> stringList=roleService.showDontHaveResourcr(roleID);
+        return stringList;
+    }
+
+    /**
+     * 给角色添加资源
+     * @param json
+     * @return
+     */
+    @PostMapping("/add_role_resource")
+    public Status addRoleResource(@RequestBody JSONObject json) {
+        Status status = new Status();
+        String roleID = json.getString("roleID");
+        String resource = json.getString("resource");
+        try {
+
+            roleService.addRoleResource(roleID, resource);
+
+        } catch (Exception e) {
+            status.setMsg("添加资源失败");
+            status.setStatus(false);
+            e.printStackTrace();
+            return status;
+        }
+        status.setMsg("添加资源成功");
+        status.setStatus(true);
+        return status;
+    }
+
+    /**
+     * 给角色删除资源
+     * @param json
+     * @return
+     */
+    @PostMapping("/delete_role_resource")
+    public Status deleteRoleResource(@RequestBody JSONObject json) {
+        Status status = new Status();
+        String roleID = json.getString("roleID");
+        String resource = json.getString("resource");
+        try {
+
+            roleService.deleteRoleResource(roleID, resource);
+
+        } catch (Exception e) {
+            status.setMsg("删除资源失败");
+            status.setStatus(false);
+            e.printStackTrace();
+            return status;
+        }
+        status.setMsg("删除资源成功");
+        status.setStatus(true);
+        return status;
+    }
+
+    /**
+     * 分页显示、搜索资源
+     */
+    @Autowired
+    PermissionService permissionService;
+    @PostMapping("/search_permission/{currenPage}/{pageSize}")
+    public List<List<?>> searchPermission(@PathVariable("currenPage") int currenPage,@PathVariable("pageSize") int  pageSize,@RequestBody JSONObject json) {
+        String key = StringEscapeUtils.escapeSql(json.getString("key"));
+        String choice = json.getString("choice");
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("currIndex", (currenPage - 1) * pageSize);
+        map.put("pageSize", pageSize);
+        if (choice.equals("0")) {
+            map.put("name", key);
+        }
+        if (choice.equals("1")) {
+            map.put("perms", key);
+        }
+
+        List<List<?>> lists=permissionService.saerchPer(map);
+        return lists;
+    }
+
+    /**
+     * 添加资源
+     * @param json
+     * @return
+     */
+    @PostMapping("/permission_add")
+    public Status permissionAdd(@RequestBody JSONObject json){
+        Status status=new Status();
+        String name=json.getString("name");
+        String description=json.getString("description");
+        String url=json.getString("url");
+        String perms=json.getString("perms");
+        String parent_id=json.getString("parent_id");
+        String type=json.getString("type");
+        Permission permission=new Permission();
+        permission.setName(name);
+        permission.setDescription(description);
+        permission.setUrl(url);
+        permission.setPerms(perms);
+        permission.setParent_id(parent_id);
+        permission.setType(type);
+        try {
+            permissionService.addPer(permission);
+        }catch (Exception e){
+            status.setMsg("添加失败");
+            status.setStatus(false);
+            e.printStackTrace();
+            return status;
+        }
+        status.setMsg("添加成功");
+        status.setStatus(true);
+        return status;
+    }
+
+    @PostMapping("/permission_update")
+    public Status permissionUpdate(@RequestBody JSONObject json){
+        Status status=new Status();
+        int  permission_id=Integer.parseInt(json.getString("permission_id"));
+        String name=json.getString("name");
+        String description=json.getString("description");
+        String url=json.getString("url");
+        String perms=json.getString("perms");
+        String parent_id=json.getString("parent_id");
+        String type=json.getString("type");
+        Permission permission=new Permission();
+        permission.setPermission_id(permission_id);
+        permission.setName(name);
+        permission.setDescription(description);
+        permission.setUrl(url);
+        permission.setPerms(perms);
+        permission.setParent_id(parent_id);
+        permission.setType(type);
+        try {
+            permissionService.updatePer(permission);
+        }catch (Exception e){
+            status.setMsg("更新失败");
+            status.setStatus(false);
+            e.printStackTrace();
+            return status;
+        }
+        status.setMsg("更新成功");
+        status.setStatus(true);
+        return status;
+    }
+
+    @PostMapping("/delete_resource")
+    public Status deleteResource(@RequestBody JSONObject json) {
+        Status status = new Status();
+        int permission_id = Integer.parseInt(json.getString("permission_id"));
+        try {
+
+            permissionService.deletePer(permission_id);
+
+        } catch (Exception e) {
+            status.setMsg("删除资源失败");
+            status.setStatus(false);
+            e.printStackTrace();
+            return status;
+        }
+        status.setMsg("删除资源成功");
+        status.setStatus(true);
+        return status;
+    }
+
+
+
+
+
 
 
 

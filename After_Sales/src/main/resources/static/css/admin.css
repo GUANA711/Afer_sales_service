@@ -11,14 +11,6 @@ ul#info {
 ul#info li{
     height: 50px;
 }
-#form_userinfo{
-    margin-top:20px ;
-}
-#form_userinfo li{
-    padding: 15px;
-    display:flex;
-    justify-content: center;
-}
 .left_frame{
     margin: 0;
     position: absolute;
@@ -93,19 +85,6 @@ ul#info li{
     text-align: center;
     margin-top: 15px;
     color: rgb(131, 130, 130);
-}
-/* 个人信息 */
-.info{
-    color: rgb(131, 130, 130);
-}
-#userId{
-    cursor: default;
-}
-li.bt_list {
-    margin-top: 20px;
-}
-li.bt_list button {
-    margin-right: 30px;
 }
 /*项目管理模态框 */
 #itemModal .modal-content {
@@ -208,7 +187,7 @@ table input{
     background-color: #323652;
 }
 table{
-    width: 90%;
+    width: 100%;
     table-layout: fixed;
 }
 table tr,td,th{
@@ -284,13 +263,16 @@ label.error{
     padding: 5px 0 0 16px;
     background:url("../img/error.png") left no-repeat;
 }
+#notice th{
+    font-weight:normal;
+}
 .sidebar-widget {
     padding: 2.5rem;
     background: #f5f5f5!important;
 }
 .sidebar-widget-heading{
     color: #212529;
-    font-weight: bolder;
+    /* font-weight: bolder; */
     font-size: 24px;
 }
 #notice table {
@@ -327,8 +309,8 @@ label.error{
 }
 .panel{
     box-shadow: 0px 1px 12px rgb(206, 203, 203);
-    background-color:#F5F5F5;
     height: 500px;
+    padding: 0;
 }
 .message{
     margin-top: 20px;
