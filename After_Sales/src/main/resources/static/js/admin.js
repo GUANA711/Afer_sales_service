@@ -1,23 +1,5 @@
 /* jshint esversion: 6 */
 $(document).ready(function () {
-    //加载个人信息
-    $.ajax({
-        type: 'GET',
-        data: '',
-        contentType: 'application/json',
-        dataType: 'json',
-        url: '/worker/worker_selectBy_Session_UserId',
-        success: function (data) {
-            console.dir(data);
-            $("#userId").val(data.User_id);
-            $("#username").val(data.User_name);
-            $("#tel").val(data.Tel);
-            $("#email").val(data.Email);
-        },
-        error: function () {
-            alert("连接超时，请重试！");
-        }
-    });
     items.searchFor(true);
     questions.searchFor(true);
     maintenances.searchFor(true);
@@ -247,7 +229,8 @@ var maintenances = new Vue({
                     maintenances.init_page(maintenances.page.totalPage, maintenances.page.pageNum);
                 })
                 .catch(function (error) {
-                    alert(error);
+                    $('#failModal .modal-body').text(error);
+                    $("#failModal").modal();
                 });
         }
     }
@@ -678,6 +661,7 @@ function filterXSS(str) {
 // console.log(filterXSS("<img src='/' onerror='alert(11)'/>"));
 
 /* 一些触发事件 */
+$("#personal").load("info.html"); 
 $(document).on('click', '#modalBtn', function () {
     var index = $("input[name='worker']:checked").val();
     console.log(itemModal.workers);
@@ -717,88 +701,13 @@ $("#loginOut").click(function () {
             }
         },
         error: function () {
-            alert("连接超时，请重试！");
+            $('#failModal .modal-body').text("连接超时，请重试！");
+            $("#failModal").modal();
         }
     });
 });
-$("#edit_bt").click(function () {
-    var readonly = $("#username").attr("readonly") === 'readonly' ? false : true;
-    $("#username").attr("readonly", readonly);
-    $("#tel").attr("readonly", readonly);
-    $("#email").attr("readonly", readonly);
-    $("#form_userinfo").validate();
-    $(this).text($(this).text() === '编辑' ? '取消' : '编辑');
-});
-$("#save_bt").click(function () {
-    var User_name = $("#username").val();
-    var Tel = $("#tel").val();
-    var Email = $("#email").val();
-    var info = {
-        "User_name": User_name,
-        "Tel": Tel,
-        "Email": Email
-    };
-    $("#form_userinfo").validate();
-    if ($('#form_userinfo').valid()) {
-        $.ajax({
-            type: 'POST',
-            data: JSON.stringify(info),
-            contentType: 'application/json',
-            dataType: 'json',
-            url: '/worker/worker_updateBy_Session_UserId',
-            success: function (data) {
-                if (data.code == 0) {      //修改成功
-                    $("#successModal").modal();
-                    $('#successModal .modal-body').text("修改成功！");
-                } else {
-                    $('#failModal .modal-body').text(data.status);
-                    $("#failModal").modal();
-                }
-                $("#userId").val(data.User_id);
-                $("#username").attr("readonly", true).val(data.User_name);
-                $("#tel").attr("readonly", true).val(data.Tel);
-                $("#email").attr("readonly", true).val(data.Email);
-                $('#edit_bt').text('编辑');
-            },
-            error: function (textStatus) {
-                $("#failModal").modal();
-                $('#failModal .modal-body').text(textStatus);
-            }
-        });
-    }
-});
-$("#form_userinfo").validate({
-    rules: {
-        username: {
-            required: true,
-            minlength: 1,
-            maxlength: 20
-        },
-        email: {
-            email: true
-        },
-        tel: {
-            required: true,
-            minlength: 7,
-            maxlength: 15
-        }
-    },
-    messages: {
-        username: {
-            required: "请输入用户名",
-            minlength: "不能为空",
-            maxlength: "长度不能大于20",
-        },
-        tel: {
-            required: "请输入电话",
-            minlength: "长度不能小于7",
-            maxlength: "长度不能大于15",
-        },
-        email: {
-            email: "电子邮件格式错误"
-        }
-    }
-});
+
+
 $("#questions_check").click(function () {
     $("#info").slideToggle("slow");
 });

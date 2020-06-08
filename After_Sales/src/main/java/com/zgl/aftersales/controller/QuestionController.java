@@ -2,10 +2,7 @@ package com.zgl.aftersales.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zgl.aftersales.dao.MyLog;
-import com.zgl.aftersales.pojo.FAQs;
-import com.zgl.aftersales.pojo.Items;
-import com.zgl.aftersales.pojo.Question;
-import com.zgl.aftersales.pojo.Users;
+import com.zgl.aftersales.pojo.*;
 import com.zgl.aftersales.service.QuestionService;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -60,39 +57,7 @@ public class QuestionController {
         //工具类，防sql注入
         question.setQuestion_detail(json.getString(StringEscapeUtils.escapeSql("question_detail")));
 
-//        //图片
-//        String destDir = "/upload/image";
-//        InputStream inputStream = req.getInputStream();
-//
-//        //获取文件上传的真实路径
-//        String uploadPath = req.getSession().getServletContext().getRealPath("/");
-//        //保存文件的路径
-//        String filepath = destDir + File.separator + createNewDir();
-//        File destfile = new File(uploadPath + filepath);
-//        if (!destfile.exists()) {
-//            destfile.mkdirs();
-//        }
-//        //文件新名称
-//        String fileNameNew = getFileNameNew() + ".png";
-//        File f = new File(destfile.getAbsoluteFile() + File.separator + fileNameNew);
-//        if (!f.exists()) {
-//            OutputStream os = new FileOutputStream(f);
-//            BufferedOutputStream bos = new BufferedOutputStream(os);
-//
-//            byte[] buf = new byte[1024];
-//            int length;
-//            length = inputStream.read(buf, 0, buf.length);
-//
-//            while (length != -1) {
-//                bos.write(buf, 0, length);
-//                length = inputStream.read(buf);
-//            }
-//            bos.close();
-//            os.close();
-//            inputStream.close();
-//            String lastpath = filepath + File.separator + fileNameNew;
-//        }
-//        //
+
 
         question.setQuestion_status("unaccepted");
         question.setCommit_time(date1);
@@ -106,6 +71,40 @@ public class QuestionController {
             return 0;//插入失败
         }
         return 1;//插入成功
+    }
+
+    /**
+     * 上传图片
+     */
+//    @PostMapping("/addImage")
+//    public int addImage(@RequestBody List<Image> images) throws IOException {
+//        try {
+//             db.addImage(images);
+//        }catch (Exception e){
+//            return 0;//插入失败
+//        }
+//        return 1;//插入成功
+//    }
+
+    @PostMapping("/addImage")
+    public int addImage(@RequestBody JSONObject json,HttpServletRequest req) throws IOException {
+        try {
+            Image image = new Image();
+            image.setImageBlob(json.getString("ImageBlob"));
+            db.addImage(image);
+        }catch (Exception e){
+            return 0;//插入失败
+        }
+        return 1;//插入成功
+    }
+
+    /**
+     * 查询图片
+     */
+
+    @GetMapping("/checkImages")
+    public List<Image> checkImages(Integer Question_id) {
+        return db.checkImages(Question_id);
     }
 
 

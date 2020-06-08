@@ -19,6 +19,7 @@ $(document).ready(function() {
             .replace(/'/g, '&#39;')
             .replace(/\r{0,}\n/g, '<br/>');
     }
+    $("#user_panel").load("info.html"); 
     // 加载维修人员页面信息
     $.ajax({
         type: 'GET',

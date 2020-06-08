@@ -1,4 +1,6 @@
 $(function () {
+    // $("#user_panel").load("info.html");
+    $("#personal").load("info.html");
     //xss
     function filterXSS(str) {
         return str
@@ -59,56 +61,56 @@ $(function () {
     });
     //个人信息
     //获取个人信息
-    var userinfoVue = new Vue({
-        el: '#form_userinfo',
-        data() {
-            return {
-                user: {
-                    username: '',
-                    email: '',
-                    tel: '',
-                    isReadOnly: true
-                }
+    // var userinfoVue = new Vue({
+    //     el: '#form_userinfo',
+    //     data() {
+    //         return {
+    //             user: {
+    //                 username: '',
+    //                 email: '',
+    //                 tel: '',
+    //                 isReadOnly: true
+    //             }
 
-            }
-        },
-        methods: {
-            edit: function () {
-                userinfoVue.user.isReadOnly = false;
-            },
-            getData: function () {
-                axios
-                    .get('/question/checkPostMan')
-                    .then(function (response) {
-                        userinfoVue.user.username = response.data.user_name;
-                        userinfoVue.user.email = response.data.email;
-                        userinfoVue.user.tel = response.data.tel;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
-            postInfo() {
-                axios.post('/worker/worker_updateBy_Session_UserId', { User_name: userinfoVue.user.username, Tel: userinfoVue.user.tel, Email: userinfoVue.user.email })
-                    .then(res => {
-                        if ($('#form_userinfo').valid() == true){
-                            var username = userinfoVue.user.username;
-                            var email = userinfoVue.user.email;
-                            var tel = userinfoVue.user.tel;
-                            userinfoVue.user.username = username;
-                            userinfoVue.user.email = email;
-                            userinfoVue.user.tel = tel;
-                            Vue.set(userinfoVue.user.tel, 0, tel);
-                            Vue.set(userinfoVue.user, 0, { username: username, tel: tel, email: email, isReadOnly: true });
-                            $("#successModal").modal();
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    })
-            }
-        }
-    });
+    //         }
+    //     },
+    //     methods: {
+    //         edit: function () {
+    //             userinfoVue.user.isReadOnly = false;
+    //         },
+    //         getData: function () {
+    //             axios
+    //                 .get('/question/checkPostMan')
+    //                 .then(function (response) {
+    //                     userinfoVue.user.username = response.data.user_name;
+    //                     userinfoVue.user.email = response.data.email;
+    //                     userinfoVue.user.tel = response.data.tel;
+    //                 })
+    //                 .catch(function (error) {
+    //                     console.log(error);
+    //                 });
+    //         },
+    //         postInfo() {
+    //             axios.post('/worker/worker_updateBy_Session_UserId', { User_name: userinfoVue.user.username, Tel: userinfoVue.user.tel, Email: userinfoVue.user.email })
+    //                 .then(res => {
+    //                     if ($('#form_userinfo').valid() == true){
+    //                         var username = userinfoVue.user.username;
+    //                         var email = userinfoVue.user.email;
+    //                         var tel = userinfoVue.user.tel;
+    //                         userinfoVue.user.username = username;
+    //                         userinfoVue.user.email = email;
+    //                         userinfoVue.user.tel = tel;
+    //                         Vue.set(userinfoVue.user.tel, 0, tel);
+    //                         Vue.set(userinfoVue.user, 0, { username: username, tel: tel, email: email, isReadOnly: true });
+    //                         $("#successModal").modal();
+    //                     }
+    //                 })
+    //                 .catch(err => {
+    //                     console.log(err);
+    //                 })
+    //         }
+    //     }
+    // });
     //问题提交
     var queVue = new Vue({
         el: '#question_panel',

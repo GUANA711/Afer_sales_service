@@ -50,76 +50,43 @@
                 <div class="container-fluid">
                     <div class="row find_panel">
                         <!-- 个人信息面板  -->
-                        <div class="pa_all col-md-8 panel panel-default" id="user_panel">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">个人信息</h3>
-                            </div>
-                            <div class="panel-body">
-                                <form id="form_userinfo">
-                                    <ul class="list-group" >
-                                        <li class="list-group-item">
-                                            <label for="userId">用户ID：</label>
-                                            <input type="text" readonly="readonly" id="userId" name="userId" value="">
-                                        </li>
-<!--                                        <li class="list-group-item">-->
-<!--                                            <label for="taskNum">任务量：</label>-->
-<!--                                            <input type="text" readonly="readonly" id="taskNum" name="taskNum" value="">-->
-<!--                                        </li>-->
-                                        <li class="list-group-item">
-                                            <label for="username">用户名：</label>
-                                            <input type="text" readonly="readonly" id="username" name="username" value="">
-                                        </li>
-                                        <li class="list-group-item">
-                                            <label for="tel">&ensp;&ensp;电话：</label>
-                                            <input type="tel" readonly="readonly" id="tel" name="tel" value="">
-                                        </li>
-                                        <li class="list-group-item">
-                                            <label for="email">&ensp;&ensp;邮箱：</label>
-                                            <input type="email" readonly="readonly" id="email" name="email" value="">
-                                        </li>
-                                        <li class="bt_list">
-                                            <button type="button" id="edit_bt" class="btn btn-primary" style="margin-left: 60px">编辑</button>
-                                            <button type="button" id="save_bt" class="btn btn-primary" style="margin-left: 60px">保存</button>
-                                        </li>
-                                    </ul>
-                                </form>
-
-                                <!-- 保存按钮弹出模态框 -->
-                                <!-- 成功 -->
-                                <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel">提交成功</h4>
-                                            </div>
-                                            <div class="modal-body">已成功修改个人信息</div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                                            </div>
-                                        </div><!-- /.modal-content -->
-                                    </div><!-- /.modal -->
-                                </div>
-
-                                <!-- 失败 -->
-                                <div class="modal fade" id="failModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel">提交失败</h4>
-                                            </div>
-                                            <div class="modal-body">编辑内容有误，请重新编辑!</div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                                            </div>
-                                        </div><!-- /.modal-content -->
-                                    </div><!-- /.modal -->
-                                </div>
-
-                            </div>
+                        <div class="pa_all col-md-8 panel panel-default" id="user_panel"></div>
+                        <!-- 保存按钮弹出模态框 -->
+                        <!-- 成功 -->
+                        <div class="modal fade" id="successModal" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel">提交成功</h4>
+                                    </div>
+                                    <div class="modal-body">已成功修改个人信息</div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal -->
                         </div>
 
+                        <!-- 失败 -->
+                        <div class="modal fade" id="failModal" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel">提交失败</h4>
+                                    </div>
+                                    <div class="modal-body">编辑内容有误，请重新编辑!</div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal -->
+                        </div>
                         <!-- 反馈面板 -->
 
                         <!-- 未接收的任务 -->
