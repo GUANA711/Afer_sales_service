@@ -17,5 +17,7 @@ public class Users implements Serializable {
     private String Tel;
     private String Email;
     private int Task_num;
+    private int Status;
+    private String Code;
 
 }

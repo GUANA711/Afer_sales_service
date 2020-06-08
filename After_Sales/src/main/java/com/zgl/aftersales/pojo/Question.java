@@ -2,12 +2,14 @@ package com.zgl.aftersales.pojo;
 
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 
- enum Question_status1{
+enum Question_status1{
     unaccepted,accepted,done,overtime;
 };
 public class Question implements Serializable {
@@ -22,8 +24,9 @@ public class Question implements Serializable {
     private String Question_detail;
     private int User_id;
     private String Commit_time;
+    private List<Blob> Image;
 
-    public Question(int question_id,int item_id, String question_type, String question_status, String question_detail, int user_id,String commit_time) {
+    public Question(int question_id,int item_id, String question_type, String question_status, String question_detail, int user_id,String commit_time,List<Blob> image) {
         Question_id=question_id;
         this.item_id = item_id;
         Question_type= question_type;
@@ -31,6 +34,7 @@ public class Question implements Serializable {
         Question_detail = question_detail;
         User_id = user_id;
         Commit_time = commit_time;
+        Image=image;
     }
 
     public Question(){
@@ -91,6 +95,14 @@ public class Question implements Serializable {
 
     public void setCommit_time(String commit_time) {
         Commit_time = commit_time;
+    }
+
+    public List<Blob> getImage() {
+        return Image;
+    }
+
+    public void setImage(List<Blob> image) {
+        Image = image;
     }
 
     @Override

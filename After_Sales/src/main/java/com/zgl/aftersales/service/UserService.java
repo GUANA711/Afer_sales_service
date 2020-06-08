@@ -27,5 +27,18 @@ public interface UserService {
     List<List<?>> showUser(Map<String,Object> map);
     List<List<?>> searchUser(Map<String,Object> map);
     List<?> showWorker();
+
+    /**
+     * 根据激活码code查询用户，之后再进行修改状态
+     * @param code
+     * @return
+     */
+    Users checkCode(String code);
+
+    /**
+     * 激活账户，修改用户状态为“1”
+     * @param user
+     */
+    void updateUserStatus(Users user);
 }
 
