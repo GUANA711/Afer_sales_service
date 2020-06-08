@@ -7,15 +7,20 @@ import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Question;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.QuestionService;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.mybatis.logging.Logger;
+import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
+import java.io.*;
+import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -43,22 +48,57 @@ public class QuestionController {
      */
     @MyLog(value = "添加问题到数据库")
     @PostMapping("/addQuestion")
-    public int addQuestion(@RequestBody JSONObject json,HttpServletRequest req) {
+    public int addQuestion(@RequestBody JSONObject json,HttpServletRequest req) throws IOException {
         Question question = new Question();
         Date date=new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String date1=formatter.format(date).toString();
         System.out.println(formatter.format(date).toString());
-
         int User_id = (int) req.getSession(false).getAttribute("userID");
 
         question.setItem_id(json.getInteger("item_id"));
         //工具类，防sql注入
         question.setQuestion_detail(json.getString(StringEscapeUtils.escapeSql("question_detail")));
+
+//        //图片
+//        String destDir = "/upload/image";
+//        InputStream inputStream = req.getInputStream();
+//
+//        //获取文件上传的真实路径
+//        String uploadPath = req.getSession().getServletContext().getRealPath("/");
+//        //保存文件的路径
+//        String filepath = destDir + File.separator + createNewDir();
+//        File destfile = new File(uploadPath + filepath);
+//        if (!destfile.exists()) {
+//            destfile.mkdirs();
+//        }
+//        //文件新名称
+//        String fileNameNew = getFileNameNew() + ".png";
+//        File f = new File(destfile.getAbsoluteFile() + File.separator + fileNameNew);
+//        if (!f.exists()) {
+//            OutputStream os = new FileOutputStream(f);
+//            BufferedOutputStream bos = new BufferedOutputStream(os);
+//
+//            byte[] buf = new byte[1024];
+//            int length;
+//            length = inputStream.read(buf, 0, buf.length);
+//
+//            while (length != -1) {
+//                bos.write(buf, 0, length);
+//                length = inputStream.read(buf);
+//            }
+//            bos.close();
+//            os.close();
+//            inputStream.close();
+//            String lastpath = filepath + File.separator + fileNameNew;
+//        }
+//        //
+
         question.setQuestion_status("unaccepted");
         question.setCommit_time(date1);
         question.setUser_id(User_id);
         question.setQuestion_type(json.getString(StringEscapeUtils.escapeSql("question_type")));
+
 
         try {
             db.addQuestion(question);

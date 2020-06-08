@@ -6,7 +6,6 @@ import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.*;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -21,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @SpringBootTest
-@Ignore
 class AftersalesApplicationTests {
    @Autowired
     DataSource dataSource;
