@@ -28,6 +28,46 @@
              SELECT * FROM questions WHERE User_id = #{ User_id } and Question_status = "accepted"
     </select>
 
+    <insert id="addImage" parameterType="com.zgl.aftersales.pojo.Image">
+             INSERT INTO image(ImageBlob) VALUES(#{ ImageBlob })
+    </insert>
+
+    <!--批量插入-->
+<!--    <sql id="ImageColumnsList">-->
+<!--        <trim suffixOverrides=",">-->
+<!--            <if test="item.ImageBlob != null">ImageBlob</if>-->
+<!--        </trim>-->
+<!--    </sql>-->
+<!--    <sql id="ImageValuesList">-->
+<!--        <trim suffixOverrides=",">-->
+<!--            <if test="item.ImageBlob != null">#{item.ImageBlob}</if>-->
+<!--        </trim>-->
+<!--    </sql>-->
+
+
+<!--    &lt;!&ndash;测试动态批量插入成功,注意application.yml数据库设置要加上&allowMultiQueries=true,否者提示SQLSyntaxErrorException&ndash;&gt;-->
+<!--    <insert id="addImage" parameterType="List" keyColumn="Image_id" keyProperty="Image_id" useGeneratedKeys="true">-->
+
+<!--        INSERT INTO `image`-->
+<!--        (-->
+<!--        ImageBlob-->
+<!--        )-->
+<!--        VALUES-->
+<!--        <foreach collection="list" item="item" separator=",">-->
+<!--            (-->
+<!--            #{item.ImageBlob}-->
+<!--            )-->
+<!--        </foreach>-->
+<!--    </insert>-->
+
+    <insert id="addImageQuestion" parameterType="map">
+             INSERT INTO image_question(Image_id,Question_id) VALUES(#{ Image_id },#{ Question_id })
+    </insert>
+
+    <select id="checkImages" parameterType="int" resultType="com.zgl.aftersales.pojo.Image">
+             SELECT * FROM image WHERE Image_id IN (Select image_id FROM image_question Where Question_id = #{ Question_id })
+    </select>
+
     <select id="checkPostMan" parameterType="int" resultType="com.zgl.aftersales.pojo.Users">
              SELECT * FROM users WHERE User_id = #{ User_id }
     </select>

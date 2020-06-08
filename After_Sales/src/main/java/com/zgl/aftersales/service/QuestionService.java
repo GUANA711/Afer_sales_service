@@ -1,9 +1,6 @@
 package com.zgl.aftersales.service;
 
-import com.zgl.aftersales.pojo.FAQs;
-import com.zgl.aftersales.pojo.Items;
-import com.zgl.aftersales.pojo.Question;
-import com.zgl.aftersales.pojo.Users;
+import com.zgl.aftersales.pojo.*;
 import org.springframework.stereotype.Service;
 
 
@@ -19,7 +16,10 @@ public interface QuestionService {
     List<Question> checkQuestionsubmited(Integer User_id);
     List<Question> checkQuestionfinished(Integer User_id);
     List<Question> checkQuestiondealing(Integer User_id);
-
+    //int addImage(List<Image> images);
+    int addImage(Image image);
+    int addImageQuestion(Integer Image_id,Integer Question_id);
+    List<Image> checkImages(Integer Question_id);
     //分页
     List<List<?>> showAllQuestions(Map<String,Object> map);
     List<List<?>> fuzzyQuery(Map<String,Object> map);

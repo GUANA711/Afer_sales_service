@@ -2,15 +2,11 @@ package com.zgl.aftersales.service.impl;
 
 
 import com.zgl.aftersales.dao.QuestionMapper;
-import com.zgl.aftersales.pojo.FAQs;
-import com.zgl.aftersales.pojo.Items;
-import com.zgl.aftersales.pojo.Question;
-import com.zgl.aftersales.pojo.Users;
+import com.zgl.aftersales.pojo.*;
 import com.zgl.aftersales.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +39,25 @@ public class QuestionImpl implements QuestionService {
     public List<Question> checkQuestiondealing(Integer User_id) {
         return db.checkQuestiondealing(User_id);
     }
+
+    @Override
+    public int addImage(Image image) {
+        return db.addImage(image);
+    }
+
+//    @Override
+//    public int addImage(List<Image> images) {
+//        return db.addImage(images);
+//    }
+
+    @Override
+    public int addImageQuestion(Integer Image_id,Integer Question_id) {
+        return db.addImageQuestion(Image_id,Question_id);
+    }
+    @Override
+    public List<Image> checkImages(Integer Question_id){
+        return db.checkImages(Question_id);
+    };
 
     @Override
     public List<List<?>> showAllQuestions(Map<String, Object> map) {
