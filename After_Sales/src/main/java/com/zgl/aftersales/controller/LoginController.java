@@ -323,19 +323,26 @@ public class LoginController {
     }
 
     /**
-     * 传递用户角色
+     * 传递用户角色和权限
      * @param req
      * @return
      */
-    @PostMapping("/hasroles")
-    public List<String> hasRoles(HttpServletRequest req){
+    @PostMapping("/has_roles_pers")
+    public Map<String,?> hasRoles(HttpServletRequest req){
         HttpSession session=req.getSession(false);
-        int userID=(int)session.getAttribute("userID");
-        List<String> list=userService.showRolesByUserID(userID);
-        return list;
+        Subject subject= SecurityUtils.getSubject();
+        List<String> pers=( List<String>) session.getAttribute("permissions");
+        List<String> roles=(List<String>) session.getAttribute("roles");
+        Map<String, List<String>> map=new HashMap<>();
+        map.put("roles",roles);
+        map.put("pers",pers);
+
+
+        return map;
 
 
     }
+
 
 
 

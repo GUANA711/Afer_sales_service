@@ -2,6 +2,7 @@ package com.zgl.aftersales.config;
 
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.UserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -10,6 +11,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,9 +54,16 @@ public class UserRealm extends AuthorizingRealm {
              info.addRole("leader");
         }
         //添加权限
-        info.addStringPermissions(perset);
+        List<String> permissions=new ArrayList<>();
+        for(String per:perset){
+            permissions.add(per);
+        }
+        info.addStringPermissions(permissions);
 
+        //将用户和权限注入session中
 
+        SecurityUtils.getSubject().getSession().setAttribute("permissions",permissions);
+        SecurityUtils.getSubject().getSession().setAttribute("roles", roleNameList);
 
 
 
