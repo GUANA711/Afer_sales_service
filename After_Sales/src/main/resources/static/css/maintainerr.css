@@ -140,8 +140,22 @@ li{list-style: none;}
 }
 .panel{
     box-shadow: 0px 1px 12px rgb(206, 203, 203);
-    background-color:#F5F5F5;
+    /* background-color:#F5F5F5; */
     height: 500px;
+    padding: 0;
+}
+.breadcrumb {
+    font-size: 15px;
+    margin: 0;
+    background-color: transparent;
+}
+
+.breadcrumb>li {
+    font-weight: 16;
+}
+
+.panel-heading {
+    padding: 5px;
 }
 .message{
     margin-top: 20px;
