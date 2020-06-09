@@ -10,7 +10,7 @@ import java.sql.Blob;
 @NoArgsConstructor
 public class Image implements Serializable {
     private int Image_id;
-    private String ImageBlob;
+    private byte[] ImageBlob;
 
     public int getImage_id() {
         return Image_id;
@@ -20,11 +20,11 @@ public class Image implements Serializable {
         Image_id = image_id;
     }
 
-    public String getImageBlob() {
+    public byte[] getImageBlob() {
         return ImageBlob;
     }
 
-    public void setImageBlob(String imageBlob) {
+    public void setImageBlob(byte[] imageBlob) {
         ImageBlob = imageBlob;
     }
 

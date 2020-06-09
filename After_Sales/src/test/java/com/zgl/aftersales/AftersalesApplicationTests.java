@@ -2,6 +2,7 @@ package com.zgl.aftersales;
 
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.zgl.aftersales.pojo.FAQs;
+import com.zgl.aftersales.pojo.Image;
 import com.zgl.aftersales.pojo.Items;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.*;
@@ -135,5 +136,4 @@ class AftersalesApplicationTests {
             System.out.println(userName+" "+password);
 
     }
-
 }
