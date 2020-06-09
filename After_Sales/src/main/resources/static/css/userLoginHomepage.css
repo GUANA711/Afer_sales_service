@@ -264,4 +264,11 @@ input{
 #item_id{
     width: 300px;
 }
+.id_que {
+    margin-left: 12px!important;
+}
 
+ .w-e-text-container {
+     position: relative;
+     height: 160px!important;
+ }

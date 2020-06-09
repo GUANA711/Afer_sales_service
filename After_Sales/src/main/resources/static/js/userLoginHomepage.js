@@ -111,6 +111,98 @@ $(function () {
     //         }
     //     }
     // });
+    // var queclear = new Vue({
+    //     el:"#question_clear",
+    //     created() {
+    //         queclear.initEditor(queclear.question_clear);
+    //     },
+    //     data() {
+    //         return {
+    //             editor: {},
+    //             uploadImgForm: {
+    //                 Token: "40B8C283F7D339DFD2ABECD77C017C9C",
+    //                 file: {},
+    //                 SystemTag: "yiguan",
+    //                 Name: "touxiang.png",
+    //                 BusTag: ""
+    //             }
+    //         };
+    //     },
+    //     methods: {
+    //         initEditor(id) {
+    //             let self = queclear;
+    //             queclear.$nextTick(() => {
+    //                 self.editor = new Editor(queclear.$refs[id]);
+    //
+    //                 // 通过 url 参数配置 debug 模式。url 中带有 wangeditor_debug_mode=1 才会开启 debug 模式
+    //                 self.editor.customConfig.debug =
+    //                     location.href.indexOf("wangeditor_debug_mode=1") > 0;
+    //                 // 或者 var editor = new E( document.getElementById('editor') )
+    //
+    //                 self.editor.customConfig.customUploadImg = function(files, insert) {
+    //                     // files 是 input 中选中的文件列表
+    //                     // insert 是获取图片 url 后，插入到编辑器的方法
+    //
+    //                     // 上传代码返回结果之后，将图片插入到编辑器中
+    //                     self.filesToBase64(files);
+    //                 };
+    //
+    //                 self.editor.create();
+    //             });
+    //         },
+    //         filesToBase64(files) {
+    //             let self = queclear;
+    //             files.map(item => {
+    //                 var reader = new FileReader();
+    //                 reader.onload = function(e) {
+    //                     self.uploadImage(e.target.result, item)
+    //                 };
+    //                 // 传入一个参数对象即可得到基于该参数对象的文本内容
+    //                 reader.readAsDataURL(item);
+    //             });
+    //         },
+    //         uploadImage(base64, file) {
+    //             let self = queclear;
+    //             let formdata = new FormData(); // 创建form对象
+    //             // target.result 该属性表示目标对象的DataURL
+    //             queclear.Base64toBlob({
+    //                 base64,
+    //                 success(blob) {
+    //                     // 上传完成，表单储存数组
+    //                     self.uploadImgForm.file = blob;
+    //                     self.uploadImgForm.Name = file.name;
+    //
+    //                     // 转formData格式发送数据
+    //                     Object.keys(self.uploadImgForm).forEach((key) => {
+    //                         formdata.append(key, self.uploadImgForm[key]);
+    //                     });
+    //
+    //                     axios.post("上传服务器地址url", formdata, {
+    //                         headers: {
+    //                             "Content-Type": "multipart/form-data"
+    //                         }
+    //                     }).then(res => {
+    //                         let { data } = res;
+    //                         // 插入图片到editor
+    //                         self.editor.cmd.do('insertHtml', '<img src="' + data.data.Path + '" style="max-width:100%;"/>')
+    //                     });
+    //                 }
+    //             });
+    //         },
+    //         Base64toBlob({ base64, success }) {
+    //             var arr = base64.split(","),
+    //                 mime = arr[0].match(/:(.*?);/)[1],
+    //                 bstr = atob(arr[1]),
+    //                 n = bstr.length,
+    //                 u8arr = new Uint8Array(n);
+    //             while (n--) {
+    //                 u8arr[n] = bstr.charCodeAt(n);
+    //             }
+    //             let blob = new Blob([u8arr], { type: mime });
+    //             success(blob);
+    //         }
+    //     }
+    // });
     //问题提交
     var queVue = new Vue({
         el: '#question_panel',
@@ -435,79 +527,7 @@ $(document).ready(function () {
             }
         });
     });
-    //点击提交问题的提交按钮
-    $("#question_submit").click(function () {
-        var item_id = document.getElementById("item_id").value;
-        var question_detail = document.getElementById("select_form").value + ": " + document.getElementById("question_detail").value;
-        var question_type = $("#first_select").find("option:selected").val();
-        // question_type = filterXSS(question_type);
-        if (document.getElementById("question_detail").value == '') {
-            $("#failSubmitModal").modal();
-        } else {
-            var question = {
-                "item_id": item_id,
-                "question_detail": question_detail,
-                "question_type": question_type
-            };
-            $.ajax({
-                type: 'POST',
 
-                data: JSON.stringify(question),
-
-                contentType: 'application/json',
-
-                dataType: 'json',
-
-                url: '/question/addQuestion',
-
-                success: function (data) {
-                    //清空文本域
-                    $("#question_detail").val('');
-                    $("#item_id").val('');
-                },
-                error: function (XMLHttpRequest, textStatus) {
-                    // 状态码
-                    console.log(XMLHttpRequest.status);
-                    // 状态
-                    console.log(XMLHttpRequest.readyState);
-                    // 错误信息
-                    alert(textStatus);
-                }
-            });
-            //先检查项目ID对不对
-            var url1 = "/question/checkItemId?item_id=" + item_id;
-            $.ajax({
-                type: 'GET',
-
-                data: '',
-
-                contentType: 'application/json',
-
-                dataType: 'json',
-
-                url: url1,
-
-                success: function (data) {
-                    if (data == 0) {
-                        $("#iDfailSubmitModal").modal();
-                        //清空文本域
-                        $("#question_detail").val('');
-                        $("#item_id").val('');
-                    } else {
-                        $("#successSubmitModal").modal();
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, data) {
-                    // 状态码
-                    console.log(XMLHttpRequest.status);
-                    // 状态
-                    console.log(XMLHttpRequest.readyState);
-                    // 错误信息
-                    // alert(textStatus);
-                }
-            });
-        }
-    });
     // 点击编辑按钮
     $("#edit_bt").click(function () {
         $("#username").attr("readonly", false);
@@ -592,12 +612,170 @@ $(document).ready(function () {
     $("#info_title").click(function () {
         $("#info").slideToggle("slow");
     });
+
+    var editor;
+
+    $("#pop_but").click(function () {
+        var oFiles = document.getElementById("pop_file").files;
+        var params = new FormData();
+        params.append('file',oFiles[0]);
+        $.ajax({
+            type:'post',
+            url:'/question/addImage',
+            data:params,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success:function(data){
+                console.log(data)
+            }
+        });
+    });
+
     //点击提交问题切换面板
     $("#wri_title").click(function () {
         $("#find_panel").children().hide();
         $("#wri_top").show();
         $("#wri_panel").show();
+        //创建富文本框
+        var E = window.wangEditor;
+        editor = new E("#question_clear");
+        // 自定义菜单配置
+        editor.customConfig.menus = [
+            'head',  // 标题
+            'bold',  // 粗体
+            'fontSize',  // 字号
+            'fontName',  // 字体
+            'italic',  // 斜体
+            'underline',  // 下划线
+            'strikeThrough',  // 删除线
+            'foreColor',  // 文字颜色
+            'justify',  // 对齐方式
+            'emoticon',  // 表情
+            'image',  // 插入图片
+            'undo'  // 撤销
+        ];
+        //对网络图片地址的校验
+        editor.customConfig.linkImgCheck = function (src) {
+            console.log(src); // 图片的链接
+            return true // 返回 true 表示校验成功
+            // return '验证失败' // 返回字符串，即校验失败的提示信息
+        };
+
+        //上传图片
+        editor.customConfig.uploadImgServer = '/question/addImage'; // 上传图片到服务器
+
+        editor.customConfig.uploadImgHeaders = {
+            'Accept': 'text/x-json'
+        };
+        // 隐藏“网络图片”tab
+        editor.customConfig.showLinkImg = false;
+
+        // 通过 url 参数配置 debug 模式。url 中带有 wangeditor_debug_mode=1 才会开启 debug 模式
+        editor.customConfig.debug = location.href.indexOf('wangeditor_debug_mode=1') > 0;
+
+        // 限制一次最多上传 5 张图片
+        editor.customConfig.uploadImgMaxLength = 9;
+
+        editor.customConfig.debug = true; //是否开启Debug 默认为false 建议开启 可以看到错误
+        // editor.customConfig.debug = location.href.indexOf(‘wangeditor_debug_mode=1‘) > 0; // 同上 二选一
+        //图片在编辑器中回显
+        editor.customConfig.uploadImgHooks = {
+            error: function (xhr, editor) {
+                alert("2：" + xhr + "请查看你的json格式是否正确，图片并没有上传");
+                // 图片上传出错时触发 如果是这块报错 就说明文件没有上传上去，直接看自己的json信息。是否正确
+                // xhr 是 XMLHttpRequst 对象，editor 是编辑器对象
+            },
+            fail: function (xhr, editor, result) {
+                // 如果在这出现的错误 就说明图片上传成功了 但是没有回显在编辑器中，我在这做的是在原有的json 中添加了
+                // 一个url的key（参数）这个参数在 customInsert也用到
+                //
+                alert("1：" + xhr + "请查看你的json格式是否正确，图片上传了，但是并没有回显");
+            },
+            success:function(xhr, editor, result){
+                //成功 不需要alert 当然你可以使用console.log 查看自己的成功json情况
+                //console.log(result)
+                // insertImg(‘https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png‘)
+            },
+
+        };
+        editor.create();
         $(".message").show();
     });
+    //点击提交问题的提交按钮
+    $("#question_submit").click(function () {
+        // console.log("clear!!!!!!");
+        var text = editor.txt.text();
+        // console.log(text);
+        var item_id = document.getElementById("item_id").value;
+        var question_detail = document.getElementById("select_form").value + ": "+text;// + document.getElementById("question_clear").value;
+        var question_type = $("#first_select").find("option:selected").val();
+        // question_type = filterXSS(question_type);
+        if (text == '') {
+            $("#failSubmitModal").modal();
+        } else {
+            var question = {
+                "item_id": item_id,
+                "question_detail": question_detail,
+                "question_type": question_type
+            };
+            $.ajax({
+                type: 'POST',
 
+                data: JSON.stringify(question),
+
+                contentType: 'application/json',
+
+                dataType: 'json',
+
+                url: '/question/addQuestion',
+
+                success: function (data) {
+                    //清空文本域
+                    $("#question_detail").val('');
+                    $("#item_id").val('');
+                },
+                error: function (XMLHttpRequest, textStatus) {
+                    // 状态码
+                    console.log(XMLHttpRequest.status);
+                    // 状态
+                    console.log(XMLHttpRequest.readyState);
+                    // 错误信息
+                    alert(textStatus);
+                }
+            });
+            //先检查项目ID对不对
+            var url1 = "/question/checkItemId?item_id=" + item_id;
+            $.ajax({
+                type: 'GET',
+
+                data: '',
+
+                contentType: 'application/json',
+
+                dataType: 'json',
+
+                url: url1,
+
+                success: function (data) {
+                    if (data == 0) {
+                        $("#iDfailSubmitModal").modal();
+                        //清空文本域
+                        $("#question_detail").val('');
+                        $("#item_id").val('');
+                    } else {
+                        $("#successSubmitModal").modal();
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, data) {
+                    // 状态码
+                    console.log(XMLHttpRequest.status);
+                    // 状态
+                    console.log(XMLHttpRequest.readyState);
+                    // 错误信息
+                    // alert(textStatus);
+                }
+            });
+        }
+    });
 });
