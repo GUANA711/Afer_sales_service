@@ -75,9 +75,7 @@ public class QuestionController {
         }catch (Exception e){
             return 0;//插入失败
         }
-//        int questionid=question.getQuestion_id();
-//        System.out.print(questionid);
-        return question.getQuestion_id();//插入成功
+        return 1;//插入成功
     }
 
     /**
