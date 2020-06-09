@@ -24,7 +24,7 @@ public interface QuestionMapper {
     List<Question> checkQuestiondealing(Integer User_id);
     //int addImage(List<Image> images);
     int addImage(Image image);
-    int addImageQuestion(Integer Image_id,Integer Question_id);
+    int addImageQuestion(Map<String, Integer> map);
     List<Image> checkImages(Integer Question_id);
 
     /**

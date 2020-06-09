@@ -20,6 +20,7 @@ import java.io.*;
 import java.sql.Blob;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -74,6 +75,7 @@ public class QuestionController {
     }
 
     /**
+     * jqw
      * 上传图片
      */
 //    @PostMapping("/addImage")
@@ -86,6 +88,7 @@ public class QuestionController {
 //        return 1;//插入成功
 //    }
 
+
     @PostMapping("/addImage")
     public int addImage(@RequestBody JSONObject json,HttpServletRequest req) throws IOException {
         try {
@@ -97,6 +100,25 @@ public class QuestionController {
         }
         return 1;//插入成功
     }
+
+    /**
+     * jqw
+     * 添加关联到image_question表
+     */
+    @PostMapping("/addImageQuestion")
+    public int addImageQuestion(@RequestBody JSONObject json,HttpServletRequest req) throws IOException {
+        Map<String, Integer> map=new HashMap<>();
+        try {
+            map.put("Image_id",json.getInteger("Image_id"));
+            map.put("Question_id",json.getInteger("Question_id"));
+            db.addImageQuestion(map);
+        }catch (Exception e){
+            return 0;//插入失败
+        }
+        return 1;//插入成功
+    }
+
+
 
     /**
      * 查询图片

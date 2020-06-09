@@ -51,9 +51,10 @@ public class QuestionImpl implements QuestionService {
 //    }
 
     @Override
-    public int addImageQuestion(Integer Image_id,Integer Question_id) {
-        return db.addImageQuestion(Image_id,Question_id);
+    public int addImageQuestion(Map<String, Integer> map) {
+        return db.addImageQuestion(map);
     }
+
     @Override
     public List<Image> checkImages(Integer Question_id){
         return db.checkImages(Question_id);
