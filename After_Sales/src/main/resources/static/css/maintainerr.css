@@ -317,3 +317,17 @@ input{
     min-height: 100%;
     height: auto;
 }
+/*消息数*/
+.ii{
+    display: none;
+    background: #f00;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    top: 5px;
+    right: 0px;
+    position: absolute;
+    text-align: center;
+    color: #FFF;
+    z-index: 99999;
+}

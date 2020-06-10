@@ -827,6 +827,7 @@ $(document).ready(function() {
         });
     });
 
+
         // 点击Faq添加按钮
     $("#addFaq_bt").click(function () {
         $("#faq_panel").hide();
@@ -875,16 +876,65 @@ $(document).ready(function() {
             alert(data.status);
         }
     });
-    // FAQ信息验证
-        // // 点击Faq返回按钮
-        // $("#backFaq_bt").click(function(){
-        //     $("#addFaq_panel").hide();
-        //     $("#faq_panel").show();
-        //     $("#faq_present")
-        //     dt_faq.refresh();
-        // })
 
-        // FAQ信息验证
+    // 点击通知按钮
+    $("#goMessage").click(function () {
+        $(".find_panel").children().hide();
+        $("#message_panel").show();
+        // $(".message").show();
+        // $("notice").hide();
+        $("#message_table").bootstrapTable({
+            url: '/faq/selectAllFAQ',
+            methods: 'get',
+            pagination: true,//显示分页
+            striped: true,//显示行间距色
+            pageSize: 5,//每一页的行数
+            pageList: [5, 10, 20],//每页可选择的行数
+            showRefresh: true,//显示刷新按钮
+            search: true, //显示搜索框
+            columns: [{
+                field: 'faq_id',
+                width: '15%',
+                title: 'FAQ_ID',
+                searchable: true,
+            }, {
+                field: 'faq_question',
+                width: '15%',
+                title: 'FAQ问题',
+                searchable: true,
+            }, {
+                field: 'faq_answer',
+                width: '70',
+                title: 'FAQ答案',
+                searchable: true,
+            },],
+            queryParams : function (params) {
+                //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
+                var temp = {
+                    rows: params.limit,                         //页面大小
+                    page: (params.offset / params.limit) + 1,   //页码
+                    sort: params.sort,      //排序列名
+                    sortOrder: params.order //排位命令（desc，asc）
+                };
+                return temp;
+            },
+            responseHandler: function (data) {
+                for (var i = 0; i < data.length; i++){
+                    data[i].faq_question = filterXSS(data[i].faq_question);
+                    data[i].faq_answer = filterXSS(data[i].faq_answer);
+                }
+                return data;
+            }
+        });
+    });
+
+    // 点击发送通知按钮
+    $("#sendMes_bt").click(function () {
+        $("#message_panel").hide();
+        $("#sendMes_panel").show();
+    });
+
+    // FAQ信息验证
     $("#form_addFaq").validate({
         rules: {
             faq_question: {

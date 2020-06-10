@@ -18,7 +18,7 @@
 <nav class="navbar" role="navigation">
     <div class="right_info_heading">欢迎回来，维修员</div>
     <div class="right_info_right">
-<!--        <div class="right_info"><i class="sp glyphicon glyphicon-bullhorn"></i><a href="#" class="info">通知</a></div>-->
+        <div class="right_info"><i class="sp glyphicon glyphicon-bullhorn"></i><a id="goMessage" href="#" class="info">通知<span id="msgNum" class="ii"></span></a></div>
 <!--        <div class="right_info"><i class="sp glyphicon glyphicon-question-sign"></i><a href="#" class="info">帮助</a></div>-->
         <div class="right_info"><i class="sp glyphicon glyphicon-user"></i><a href="index.html" class="info" id="loginOut">注销</a></div>
     </div>
@@ -312,6 +312,105 @@
                                     <button type="button" id="saveFaq_bt" class="btn btn-primary" style="margin-left: 40%;">保存</button>
                                     <!--                                    <button type="button" id="backFaq_bt" class="btn btn-primary" style="margin-left: 10%;">返回</button>-->
                                 </li>
+                            </div>
+                        </div>
+
+                        <!--通知  -->
+                        <div class="pa_all col-md-8 panel panel-default" id="message_panel" style="display: none; height: 700px">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">您接收到的通知</h3>
+                            </div>
+                            <div class="panel-body">
+                                <table id="message_table" ><style type="text/css">.table {table-layout:fixed;word-break:break-all;}</style>
+                                    <thead>
+                                    <tr>
+                                        <th>发送人</th>
+                                        <th>发送时间</th>
+                                        <th>消息内容</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                <li>
+                                    <button type="button" id="sendMes_bt" class="btn btn-primary" style="margin-left: 40%;">发送通知</button>
+                                </li>
+
+                            </div>
+                        </div>
+
+
+                        <!--发送通知 -->
+                        <div class="pa_all col-md-8 panel panel-default" id="sendMes_panel" style="display: none;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">发送通知</h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul class="list-group">
+                                    <!-- 问题分类下拉栏 -->
+                                    <li class="list-group-item">
+                                        <span class="select_lable">消息类型:</span>
+                                        <select class="select_form" id="first_select">
+                                            <option value="性能体验">用户问题处理完成</option>
+                                            <option value="功能异常">软件版本更新</option>
+                                        </select>
+                                    </li>
+                                    <!-- 第二个选项 -->
+                                    <div id="second_select" >
+                                        <li class="list-group-item" id="firstshow">
+                                            <span class="select_lable">发送人群:</span>
+                                            <select class="select_form" id="select_form">
+                                                <option value="问题处理完成用户">问题处理完成用户</option>
+                                                <option value="群发">群发</option>
+                                            </select>
+                                        </li>
+                                    </div>
+                                    <li>
+                                        <button type="button" id="send_bt" class="btn btn-primary" style="margin-left: 40%;">发送</button>
+                                        <!--                                    <button type="button" id="backFaq_bt" class="btn btn-primary" style="margin-left: 10%;">返回</button>-->
+                                    </li>
+                                    <!-- 模态框（Modal） -->
+                                    <!-- 成功 -->
+                                    <div class="modal fade" id="successSubmitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title" id="successSendModal1">发送成功</h4>
+                                                </div>
+                                                <div class="modal-body">已成功发送消息</div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                                </div>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal -->
+                                    </div>
+                                    <!-- 失败 -->
+                                    <div class="modal fade" id="failSubmitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                        &times;
+                                                    </button>
+                                                    <h4 class="modal-title" id="failSendModal1">
+                                                        发送失败！
+                                                    </h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    发送失败，请重新发送！
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                    </button>
+                                                </div>
+                                            </div><!-- /.modal-content -->
+                                        </div><!-- /.modal -->
+                                    </div>
+                                </ul>
                             </div>
                         </div>
                     <!-- 公告栏 -->
