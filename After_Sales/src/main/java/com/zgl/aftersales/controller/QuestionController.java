@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -132,7 +133,7 @@ public class QuestionController {
 
     @RequestMapping(value = "/addImage", method = RequestMethod.POST)
     @ResponseBody
-    public String handleFileUpload(HttpServletRequest req) {
+    public List<Integer> handleFileUpload(HttpServletRequest req) {
         MultipartHttpServletRequest params=((MultipartHttpServletRequest) req);
         List<MultipartFile> files = ((MultipartHttpServletRequest) req)
                 .getFiles("files");
@@ -142,6 +143,9 @@ public class QuestionController {
         System.out.println("id:"+id);
         MultipartFile file = null;
         BufferedOutputStream stream = null;
+        List<Integer> imagids = new ArrayList<>();
+        List<Integer> fail = new ArrayList<>();
+        fail.add(0);
         for (int i = 0; i < files.size(); ++i) {
             file = files.get(i);
             if (!file.isEmpty()) {
@@ -150,21 +154,21 @@ public class QuestionController {
                     Image image = new Image();
                     image.setImageBlob(file.getBytes());
                     db.addImage(image);
+                    imagids.add(image.getImage_id());
                     stream = new BufferedOutputStream(new FileOutputStream(
                             new File(file.getOriginalFilename())));
                     stream.write(bytes);
                     stream.close();
                 } catch (Exception e) {
                     stream = null;
-                    return "You failed to upload " + i + " => "
-                            + e.getMessage();
+                    return fail;
                 }
             } else {
-                return "You failed to upload " + i
-                        + " because the file was empty.";
+                return fail;
             }
         }
-        return "upload successful";
+        System.out.print(imagids);
+        return imagids;
     }
 
     /**

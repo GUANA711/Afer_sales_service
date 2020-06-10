@@ -29,7 +29,8 @@
              SELECT * FROM questions WHERE User_id = #{ User_id } and Question_status = "accepted"
     </select>
 
-    <insert id="addImage" parameterType="com.zgl.aftersales.pojo.Image">
+    <insert id="addImage" parameterType="com.zgl.aftersales.pojo.Image" useGeneratedKeys="true"
+            keyProperty="Image_id">
              INSERT INTO image(ImageBlob) VALUES(#{ ImageBlob })
     </insert>
 
