@@ -12,7 +12,8 @@
     </select>
 
 <!--jqw-->
-    <insert id="addQuestion" parameterType="com.zgl.aftersales.pojo.Question">
+    <insert id="addQuestion" parameterType="com.zgl.aftersales.pojo.Question" useGeneratedKeys="true"
+            keyProperty="Question_id">
              INSERT INTO questions(item_id,Question_type,Question_status,Question_detail,User_id,Commit_time) VALUES(#{ item_id },#{ Question_type },#{ Question_status },#{ Question_detail },#{ User_id},#{ Commit_time })
     </insert>
 

@@ -75,7 +75,7 @@ public class QuestionController {
         }catch (Exception e){
             return 0;//插入失败
         }
-        return 1;//插入成功
+        return question.getQuestion_id();//插入成功
     }
 
     /**
@@ -135,7 +135,7 @@ public class QuestionController {
     public String handleFileUpload(HttpServletRequest req) {
         MultipartHttpServletRequest params=((MultipartHttpServletRequest) req);
         List<MultipartFile> files = ((MultipartHttpServletRequest) req)
-                .getFiles("file");
+                .getFiles("files");
         String name=params.getParameter("name");
         System.out.println("name:"+name);
         String id=params.getParameter("id");
