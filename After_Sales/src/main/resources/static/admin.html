@@ -94,25 +94,51 @@
     <div class="container-fluid">
         <div class="row mm" id="com">
             <!-- 左侧菜单导航栏 -->
-                <ul class="left_frame">
+                <ul class="left_frame" id="menu">
                     <li class="fram2">
                         <ul class="nav nav-pills nav-stacked">
                             <div>
                                 <ul class="nav nav-pills nav-stacked ">
-                                    <li class="logoImg"><img src="img/logo (1).png" alt="logo" srcset="">软件售后</li>
+                                    <li class="logoImg"><img src="img/logo (1).png" alt="logo">软件售后</li>
                                 </ul> 
                             </div>
-                            <li role="presentation" id="user_info" class="active"><a href="javascript:;"><i class="glyphicon glyphicon-user"></i><span class="index_title"> 个人信息</span></a></li>
-                            <li role="presentation" id="item_info"><a href="javascript:;"><i class="glyphicon glyphicon-inbox"></i><span class="index_title"> 项目管理</span></a></li>
-                            <li role="presentation" id="questions_check"><a href="javascript:;"><i class="glyphicon glyphicon-check"></i><span class="index_title">问题查看</span></a></li>
+                            <li role="presentation" @click="clickThis(0)"><a href=" javascript:;"><i
+                                    class="glyphicon glyphicon-user"></i><span class="index_title"> 个人信息</span></a></li>
+                            <li role="presentation" @click="clickThis(1)"><a href="javascript:;"><i
+                                        class="glyphicon glyphicon-inbox"></i><span class="index_title"> 项目管理</span></a>
+                            </li>
+                            <li role="presentation" id="questions_check"><a href="javascript:;"><i
+                                        class="glyphicon glyphicon-check"></i><span class="index_title">问题查看</span></a>
+                            </li>
                             <ul class="nav nav-pills nav-stacked second_list" style="display: none;" id="info">
-                                <li role="presentation" id="questions_info"><a href="javascript:;"><i class="glyphicon glyphicon-question-sign"></i><span class="index_title"> 用户问题</span></a></li>
-                                <li role="presentation" id="maintenance_info"><a href="javascript:;"><i class="glyphicon glyphicon-question-sign"></i><span class="index_title"> 问题处理</span></a></li>
-                                <li role="presentation" id="faq_present"><a href="javascript:;"><i class="glyphicon glyphicon-question-sign"></i><span class="index_title"> FAQ</span></a></li>
+                                <li role="presentation" @click="clickThis(2)"><a href="javascript:;"><i
+                                            class="glyphicon glyphicon-question-sign"></i><span class="index_title">
+                                            用户问题</span></a></li>
+                                <li role="presentation" @click="clickThis(3)"><a href="javascript:;"><i
+                                            class="glyphicon glyphicon-question-sign"></i><span class="index_title">
+                                            问题处理</span></a></li>
+                                <li role="presentation" @click="clickThis(4)"><a href="javascript:;"><i
+                                            class="glyphicon glyphicon-question-sign"></i><span class="index_title">
+                                            FAQ</span></a></li>
                             </ul>
-                            <li role="presentation" id="task_assign"><a href="javascript:;"><i class="glyphicon glyphicon-tags"></i><span class="index_title"> 任务指派</span></a></li>
-                            <li role="presentation" id="role_assign"><a href="javascript:;"><i class="glyphicon glyphicon-user"></i><span class="index_title"> 角色控制</span></a></li>
-                            <li role="presentation" id="log_info"><a href="javascript:;"><i class="glyphicon glyphicon-cloud"></i><span class="index_title"> 系统日志</span></a></li>
+                            <li role="presentation" @click="clickThis(5)"><a href="javascript:;"><i
+                                        class="glyphicon glyphicon-tags"></i><span class="index_title"> 任务指派</span></a>
+                            </li>
+                            <li role="presentation" id="authority"><a href="javascript:;"><i class="glyphicon glyphicon-lock"></i><span class="index_title">权限管理</span></a></li>
+                            <ul class="nav nav-pills nav-stacked second_list" style="display: none;" id="author">
+                                <li role="presentation" @click="clickThis(6)"><a href="javascript:;"><i
+                                            class="glyphicon glyphicon-ok-circle"></i><span class="index_title">
+                                             角色分配</span></a></li>
+                                <li role="presentation" @click="clickThis(7)"><a href="javascript:;"><i
+                                            class="glyphicon glyphicon-ok-circle"></i><span class="index_title">
+                                             资源分配</span></a></li>
+                                <li role="presentation" @click="clickThis(8)"><a href="javascript:;"><i
+                                            class="glyphicon glyphicon-ok-circle"></i><span class="index_title">
+                                             资源管理</span></a></li>
+                            </ul>
+                            <li role="presentation" @click="clickThis(9)"><a href="javascript:;"><i
+                                        class="glyphicon glyphicon-cloud"></i><span class="index_title"> 系统日志</span></a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -142,7 +168,7 @@
                                                         <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
                                                     </select>
                                                     <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
-                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
+                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(1)"><i class="glyphicon glyphicon-search"></i></button>
                                                 </label>
                                             </div>
                                         </div>
@@ -206,7 +232,7 @@
                                                         <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
                                                     </select>
                                                     <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
-                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
+                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(1)"><i class="glyphicon glyphicon-search"></i></button>
                                                 </label>
                                             </div>
                                         </div>
@@ -278,7 +304,7 @@
                                                     <template v-else>
                                                         <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
                                                     </template>
-                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
+                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(1)"><i class="glyphicon glyphicon-search"></i></button>
                                                 </label>
                                             </div>
                                         </div>
@@ -334,7 +360,7 @@
                                                         <option v-for="(option, index) in placeholder" :value='index'>{{option}}</option>
                                                     </select>
                                                     <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
-                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
+                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(1)"><i class="glyphicon glyphicon-search"></i></button>
                                                 </label>
                                             </div>
                                         </div>
@@ -406,12 +432,13 @@
                                     </ul>
                                 </div>
                             </div>
-                            <!--角色控制-->
+                            <!--角色分配-->
                             <div class="pa_all col-md-8 panel panel-default" style="display: none;">
                                 <div class="panel-heading">
                                     <ul class="breadcrumb">
                                         <li>个人主页</li>
-                                        <li>角色控制</li>
+                                        <li>权限控制</li>
+                                        <li>角色分配</li>
                                     </ul>
                                 </div>
                                 <div class="panel-body" id="roleControl">
@@ -431,7 +458,7 @@
                                                     <template v-else>
                                                         <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
                                                     </template>
-                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
+                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(1)"><i class="glyphicon glyphicon-search"></i></button>
                                                 </label>
                                             </div>
                                         </div>
@@ -480,6 +507,169 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--资源分配-->
+                            <div class="pa_all col-md-8 panel panel-default" style="display: none;">
+                                <div class="panel-heading">
+                                    <ul class="breadcrumb">
+                                        <li>个人主页</li>
+                                        <li>权限控制</li>
+                                        <li>资源分配</li>
+                                    </ul>
+                                </div>
+                                <div class="panel-body" id="resourceAllow">
+                                    <!--搜索框  -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="tab_search">
+                                                <label>
+=                                                    <select name="itemSelect" v-model="selected" class="searchSel">
+                                                        <!-- <option v-for="(option, index) in placeholder" :value='index'></option>
+                                                            {{option}}</option> -->
+                                                    </select>
+                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(1)">
+                                                        <i class="glyphicon glyphicon-search"></i>
+                                                    </button>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 表格 -->
+                                    <div id="role_resource">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="task_check_tb_th" style="width:10%">{{placeholder[0]}}
+                                                    </th>
+                                                    <th class="task_check_tb_th" style="width:20%">{{placeholder[1]}}
+                                                    </th>
+                                                    <th class="task_check_tb_th" style="width:40%">{{placeholder[2]}}
+                                                    </th>
+                                                    <th class="task_check_tb_th" style="width:30%">{{placeholder[3]}}
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <template v-for="(item,index) in data">
+                                                    <tr>
+                                                        <td class="task_check_tb_td">
+                                                            {{item.User_id}}
+                                                        </td>
+                                                        <td class="task_check_tb_td">
+                                                            {{item.User_name}}
+                                                        </td>
+                                                        <td class="task_check_tb_td">
+                                                            {{}}
+                                                        </td>
+                                                        <td class="task_check_tb_td role_btn">
+                                                            <a href="javascript:;" @click="deleteRole(index)">管理</a>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- 页码 -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <ul class="pagination" id="pagination7">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--资源管理-->
+                            <div class="pa_all col-md-8 panel panel-default" style="display: none;">
+                                <div class="panel-heading">
+                                    <ul class="breadcrumb">
+                                        <li>个人主页</li>
+                                        <li>权限控制</li>
+                                        <li>资源管理</li>
+                                    </ul>
+                                </div>
+                                <div class="panel-body" id="resourceControl">
+                                    <!--搜索框  -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="tab_search">
+                                                <label>
+                                                    <select name="itemSelect" v-model="selected" class="searchSel">
+                                                        <option v-for="(option, index) in placeholder"
+                                                            :value='index'>{{option}}</option>
+                                                    </select>
+                                                    <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'"
+                                                        v-model="key" class="searchIn">
+                                                    <button class="btn btn-default searchBtn"
+                                                        v-on:click="searchFor(1)"><i
+                                                            class="glyphicon glyphicon-search"></i></button>
+                                                    </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 表格 -->
+                                    <div id="resControl">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="task_check_tb_th" style="width:5%">{{placeholder[0]}}
+                                                    </th>
+                                                    <th class="task_check_tb_th" style="width:10%">{{placeholder[1]}}
+                                                    </th>
+                                                    <th class="task_check_tb_th" style="width:22%">{{placeholder[2]}}
+                                                    </th>
+                                                    <th class="task_check_tb_th" style="width:12%">{{placeholder[3]}}
+                                                    </th>
+                                                    <th class="task_check_tb_th" style="width:20%">{{placeholder[4]}}
+                                                    </th>
+                                                    <th class="task_check_tb_th" style="width:9%">{{placeholder[5]}}
+                                                    </th>
+                                                    <th class="task_check_tb_th" style="width:7%">{{placeholder[6]}}
+                                                    </th>
+                                                    <th class="task_check_tb_th" style="width:10%">资源管理
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <template v-for="(item,index) in data">
+                                                    <tr>
+                                                        <td class="task_check_tb_td">
+                                                            {{item.permission_id}}
+                                                        </td>
+                                                        <td class="task_check_tb_td">
+                                                            {{item.name}}
+                                                        </td>
+                                                        <td class="task_check_tb_td">
+                                                            {{item.url}}
+                                                        </td>
+                                                        <td class="task_check_tb_td">
+                                                            {{item.perms}}
+                                                        </td>
+                                                        <td class="task_check_tb_td">
+                                                            {{item.description}}
+                                                        </td>
+                                                        <td class="task_check_tb_td">
+                                                            {{item.parent_id}}
+                                                        </td>
+                                                        <td class="task_check_tb_td">
+                                                            {{item.type}}
+                                                        </td>
+                                                        <td class="task_check_tb_td role_btn" style="padding: 0;">
+                                                            <a href="javascript:;" @click="alterRole(index)">修改</a>
+                                                            <a href="javascript:;" @click="deleteRole(index)">删除</a>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- 页码 -->
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <ul class="pagination" id="pagination8">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <!--log-->
                             <div class="pa_all col-md-8 panel panel-default" style="display: none;">
                                 <div class="panel-heading">
@@ -503,7 +693,7 @@
                                                     <template v-else>
                                                         <input type="text" :placeholder="'按' + placeholder[selected] + '搜索'" v-model="key" class="searchIn">
                                                     </template>
-                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(true)"><i class="glyphicon glyphicon-search"></i></button>
+                                                    <button class="btn btn-default searchBtn" v-on:click="searchFor(1)"><i class="glyphicon glyphicon-search"></i></button>
                                                 </label>
                                             </div>
                                         </div>
@@ -590,7 +780,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="js/axios.js"></script>
     <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
-    <script src="https://raw.github.com/leizongmin/js-xss/master/dist/xss.js"></script>
+    <!-- <script src="https://raw.github.com/leizongmin/js-xss/master/dist/xss.js"></script> -->
     <script src="js/jq-paginator.min.js"></script>
     <script src="js/vue.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
