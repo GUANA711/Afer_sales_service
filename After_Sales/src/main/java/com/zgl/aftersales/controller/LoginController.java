@@ -181,10 +181,7 @@ public class LoginController {
         String loginPwd=StringEscapeUtils.escapeSql(json.getString("pwd"));
 
        Users user=userService.selectByUsername(loginUsername);
-       if(user.getStatus()==0){
-           status.setMsg("该用户未激活");
-           return status;
-       }
+
        String codPwd=DesDecodeUtiles.getEncryptString(loginPwd);
         //获取当前用户
 
@@ -206,6 +203,10 @@ public class LoginController {
             }else {
                 status.setCode(5);//没有权限
             }
+            if(user.getStatus()==0){
+                status.setMsg("该用户未激活");
+                return status;
+            }
 
             status.setMsg("登录成功");
             status.setStatus(true);
@@ -217,6 +218,7 @@ public class LoginController {
             status.setMsg("密码错误");
             return status;
         }
+
     }
 
     /**
