@@ -245,15 +245,18 @@ function register_check(){
                 url :'/user/register',
         
                 success :function(data) {
-
                     if (data.status) {      //注册成功
-                        alert(data.msg);
+                        if (beActive()) {   //active_code
+                            alert(data.msg+"，请前往邮箱激活");
+                        } else {
+                            alert(data.msg +"登录时激活账户");
+                        }      
                         $('form')[1].reset();
                     } else {
                         alert(data.msg);
                     }
                 },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                error: function (XMLHttpRequest, textStatus) {
                     // 状态码
                     // alert("test");
                     console.log(XMLHttpRequest.status);
@@ -265,6 +268,37 @@ function register_check(){
         });
         return true;
 
+}
+function beActive() {
+    $.ajax({
+        type: "post",
+        contentType: 'application/json',
+        url: "/user/checkCode",
+        data: "",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            return true;
+            // if (data.status) {      //注册成功
+            //     alert(data.msg);
+
+            //     $('form')[1].reset();
+            // } else {
+            //     alert(data.msg);
+            // }
+        },
+        error: function (XMLHttpRequest, textStatus) {
+            // 状态码
+            // alert("test");
+            console.log(XMLHttpRequest.status);
+            // 状态
+            console.log(XMLHttpRequest.readyState);
+            // 错误信息
+            alert(textStatus);
+
+        }
+    });
+    return false;
 }
 //找回密码的检验
 function find_check() {

@@ -1,12 +1,12 @@
 /* jshint esversion: 6 */
 $(document).ready(function () {
-    items.searchFor(true);
-    questions.searchFor(true);
-    maintenances.searchFor(true);
-    faqs.searchFor(true);
-    roles.searchFor(true);
-    logs.searchFor(true);
-    selects.firstOptions();
+    // items.searchFor(0);
+    // questions.searchFor(0);
+    // maintenances.searchFor(0);
+    // faqs.searchFor(0);
+    // roles.searchFor(0);
+    // logs.searchFor(0);
+    // selects.firstOptions();
     notices.showNotice();
 });
 $(window).ajaxStart(function () {
@@ -14,6 +14,53 @@ $(window).ajaxStart(function () {
 });
 $(window).ajaxStop(function () {
     NProgress.done();
+});
+// 菜单
+var menu = new Vue({
+    el: "#menu",
+    data() {
+        return {
+            
+        };
+    },
+    methods: {
+        clickThis: function (i) {
+            $('#info li').removeClass('active');
+            $('#author li').removeClass('active');
+            $(".find_panel").children().hide();
+            $(".pa_all").eq(i).show();
+            $(".message").show();
+            switch (i-1) {
+                case 0:
+                    items.searchFor(0);
+                    break;
+                case 1:
+                    questions.searchFor(0);
+                    break;
+                case 2:
+                    maintenances.searchFor(0);
+                    break;
+                case 3:
+                    faqs.searchFor(0);
+                    break;
+                case 4:
+                    selects.firstOptions();
+                    break;
+                case 5:
+                    roles.searchFor(0);
+                    break;
+                case 6:
+                    // roles.searchFor(0);
+                    break;
+                case 7:
+                    resourceControl.searchFor(0);
+                    break;
+                default:
+                    logs.searchFor(0);
+                    break;
+            }
+        }
+    },
 });
 // 项目管理
 var items = new Vue({
@@ -33,6 +80,7 @@ var items = new Vue({
     },
     methods: {
         init_page: function (totalPage, currentPage) {
+            // 
             if (totalPage == 0) {
                 $("#items table tbody").html('');
                 $("#items table tbody").append("没有查询到相关数据！");
@@ -50,7 +98,7 @@ var items = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         items.page.pageNum = num;
-                        items.searchFor(false);
+                        items.searchFor(2);
                     }
                 }
             });
@@ -59,8 +107,12 @@ var items = new Vue({
             items.page.totalPage = Math.ceil(items.page.length / items.page.pageSize);
         },
         searchFor: function (initial) {
-            if (initial) {
+            if (initial == 1) {
                 this.page.pageNum = 1;
+            } else if (initial == 0) {
+                this.page.pageNum = 1;
+                this.key = '';
+                this.selected = 0;
             }
             axios
                 .post('/adminLoing/searchItems/' + this.page.pageNum + '/' + this.page.pageSize, {
@@ -121,6 +173,7 @@ var questions = new Vue({
     },
     methods: {
         init_page: function (totalPage, currentPage) {
+            // 
             if (totalPage == 0) {
                 $("#questions table tbody").html('');
                 $("#questions table tbody").append("没有查询到相关数据！");
@@ -138,7 +191,7 @@ var questions = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         questions.page.pageNum = num;
-                        questions.searchFor(false);
+                        questions.searchFor(2);
                     }
                 }
             });
@@ -147,8 +200,12 @@ var questions = new Vue({
             questions.page.totalPage = Math.ceil(questions.page.length / questions.page.pageSize);
         },
         searchFor: function (initial) {
-            if (initial) {
+            if (initial == 1) {
                 this.page.pageNum = 1;
+            } else if (initial == 0) {
+                this.page.pageNum = 1;
+                this.key = '';
+                this.selected = 0;
             }
             axios
                 .post('/adminLoing/searchquestion/' + this.page.pageNum + '/' + this.page.pageSize, {
@@ -188,6 +245,7 @@ var maintenances = new Vue({
     },
     methods: {
         init_page: function (totalPage, currentPage) {
+            // 
             if (totalPage == 0) {
                 $("#maintenance table tbody").html('');
                 $("#maintenance table tbody").append("没有查询到相关数据！");
@@ -205,7 +263,7 @@ var maintenances = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         maintenances.page.pageNum = num;
-                        maintenances.searchFor(false);
+                        maintenances.searchFor(2);
                     }
                 }
             });
@@ -214,8 +272,12 @@ var maintenances = new Vue({
             maintenances.page.totalPage = Math.ceil(maintenances.page.length / maintenances.page.pageSize);
         },
         searchFor: function (initial) {
-            if (initial) {
+            if (initial == 1) {
                 this.page.pageNum = 1;
+            } else if (initial == 0) {
+                this.page.pageNum = 1;
+                this.key = '';
+                this.selected = 0;
             }
             axios
                 .post('/adminLoing/searchMaintenance/' + this.page.pageNum + '/' + this.page.pageSize, {
@@ -256,11 +318,13 @@ var faqs = new Vue({
     },
     methods: {
         init_page: function (totalPage, currentPage) {
+            // 
             if (totalPage == 0) {
                 $("#faq table tbody").html('');
                 $("#faq table tbody").append("没有查询到相关数据！");
                 return;
             }
+            $("#faq table tbody").empty("没有查询到相关数据！");
             $('#pagination4').jqPaginator({
                 totalPages: totalPage,        //页码整数
                 visiblePages: 6,
@@ -273,7 +337,7 @@ var faqs = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         faqs.page.pageNum = num;
-                        faqs.searchFor(false);
+                        faqs.searchFor(2);
                     }
                 }
             });
@@ -282,8 +346,12 @@ var faqs = new Vue({
             faqs.page.totalPage = Math.ceil(faqs.page.length / faqs.page.pageSize);
         },
         searchFor: function (initial) {
-            if (initial) {
+            if (initial == 1) {
                 this.page.pageNum = 1;
+            } else if (initial == 0) {
+                this.page.pageNum = 1;
+                this.key = '';
+                this.selected = 0;
             }
             axios
                 .post('/adminLoing/showfaq/' + this.page.pageNum + '/' + this.page.pageSize, {
@@ -383,8 +451,8 @@ var roles = new Vue({
     },
     methods: {
         init_page: function (totalPage, currentPage) {
+            $("#role table tbody").html('');
             if (totalPage == 0) {
-                $("#role table tbody").html('');
                 $("#role table tbody").append("没有查询到相关数据！");
                 return;
             }
@@ -404,7 +472,7 @@ var roles = new Vue({
                             roles.data[i].Role_id -= 1;
                             roles.roleChoice[i] = roles.data[i].Role_id;
                         }
-                        roles.searchFor(false);
+                        roles.searchFor(2);
                     }
                 }
             });
@@ -413,8 +481,12 @@ var roles = new Vue({
             roles.page.totalPage = Math.ceil(roles.page.length / roles.page.pageSize);
         },
         searchFor: function (initial) {
-            if (initial) {
+            if (initial == 1) {
+                this.page.pageNum = 1;                
+            } else if (initial == 0) {
                 this.page.pageNum = 1;
+                this.key = '';
+                this.selected = 0;
             }
             if (this.selected == 2) {
                 this.key = this.roleSearch;
@@ -457,7 +529,7 @@ var roles = new Vue({
                         if (response.data.status) {
                             $('#successModal .modal-body').text(response.data.msg);
                             $("#successModal").modal();
-                            roles.searchFor(false);
+                            roles.searchFor(2);
                         } else {
                             $('#failModal .modal-body').text(response.data.msg);
                             $("#failModal").modal();
@@ -484,7 +556,226 @@ var roles = new Vue({
                         if (response.data.status) {
                             $('#successModal .modal-body').text(response.data.msg);
                             $("#successModal").modal();
-                            roles.searchFor(false);
+                            roles.searchFor(2);
+                        } else {
+                            $('#failModal .modal-body').text(response.data.msg);
+                            $("#failModal").modal();
+                        }
+                    })
+                    .catch(function (error) {
+                        $('#failModal .modal-body').text(error);
+                        $("#failModal").modal();
+                    });
+            }
+        }
+    }
+});
+//资源分配
+var resourceAllow = new Vue({
+    el: "#resourceAllow",
+    data() {
+        return {
+            selected: 0,
+            roleSearch: 0,
+            roleChoice: [],
+            key: "",
+            roleOptions: ["管理员", "维护人员", "普通用户", "负责人"],
+            placeholder: ["id","资源名称", "资源描述", "路径", "权限", "父资源id"],
+            page: {
+                pageSize: 8,
+                pageNum: 1,
+                length: 1,
+                totalPage: 0
+            },
+            data: ''
+        };
+    },
+    methods: {
+        init_page: function (totalPage, currentPage) {
+            if (totalPage == 0) {
+                $("#role_resource table tbody").html('');
+                $("#role_resource table tbody").append("没有查询到相关数据！");
+                return;
+            }
+            $('#pagination7').jqPaginator({
+                totalPages: totalPage,        //页码整数
+                visiblePages: 6,
+                currentPage: currentPage,
+                first: '<li><a href="javascript:void(0);">首页</a></li>',
+                prev: '<li><a href="javascript:void(0);">上一页</a></li>',
+                next: '<li><a href="javascript:void(0);">下一页</a></li>',
+                last: '<li><a href="javascript:void(0);">末页</a></li>',
+                page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
+                onPageChange: function (num, type) {
+                    if (type == 'change') {
+                        resourceAllow.page.pageNum = num;
+                        for (const i in resourceAllow.data) {
+                            resourceAllow.data[i].Role_id -= 1;
+                            resourceAllow.roleChoice[i] = resourceAllow.data[i].Role_id;
+                        }
+                        resourceAllow.searchFor(2);
+                    }
+                }
+            });
+        },
+        calPage: function () {
+            resourceAllow.page.totalPage = Math.ceil(resourceAllow.page.length / resourceAllow.page.pageSize);
+        },
+        searchFor: function (initial) {
+            if (initial == 1) {
+                this.page.pageNum = 1;
+            } else if (initial == 0) {
+                this.page.pageNum = 1;
+                this.key = '';
+                this.selected = 0;
+            }
+            if (this.selected == 2) {
+                this.key = this.roleSearch;
+            }
+            axios
+                .post('/adminLoing/searchuser/' + this.page.pageNum + '/' + this.page.pageSize, {
+                    "key": this.key,
+                    "choice": this.selected
+                })
+                .then(function (response) {
+                    resourceAllow.data = response.data[0];
+                    resourceAllow.page.length = response.data[1];
+                    resourceAllow.calPage();
+                    for (const i in resourceAllow.data) {
+                        resourceAllow.data[i].Role_id -= 1;
+                        resourceAllow.roleChoice[i] = resourceAllow.data[i].Role_id;
+                    }
+                    resourceAllow.init_page(resourceAllow.page.totalPage, resourceAllow.page.pageNum);
+                })
+                .catch(function (error) {
+                    $('#failModal .modal-body').text(error);
+                    $("#failModal").modal();
+                });
+        },
+        deleteRole: function (index) {
+            if (confirm("确定删除id为" +
+                resourceAllow.data[index].User_id +
+                "的" +
+                resourceAllow.roleOptions[resourceAllow.data[index].Role_id] +
+                "角色吗？")) {
+                axios
+                    .post('/adminLoing/deleterole', {
+                        "userID": resourceAllow.data[index].User_id,
+                        "roleID": resourceAllow.roleChoice[index]
+                    })
+                    .then(function (response) {
+                        if (response.data.status) {
+                            $('#successModal .modal-body').text(response.data.msg);
+                            $("#successModal").modal();
+                            resourceAllow.searchFor(2);
+                        } else {
+                            $('#failModal .modal-body').text(response.data.msg);
+                            $("#failModal").modal();
+                        }
+                    })
+                    .catch(function (error) {
+                        $('#failModal .modal-body').text(error);
+                        $("#failModal").modal();
+                    });
+            }
+        }
+    }
+});
+//资源管理
+var resourceControl = new Vue({
+    el: "#resourceControl",
+    data() {
+        return {
+            selected: 0,
+            key: "",
+            placeholder: ["id", "资源名称", "资源描述", "路径", "权限", "父资源","类型"],
+            page: {
+                pageSize: 8,
+                pageNum: 1,
+                length: 1,
+                totalPage: 0
+            },
+            data: ''
+        };
+    },
+    methods: {
+        init_page: function (totalPage, currentPage) {
+            if (totalPage == 0) {
+                $("#resControl table tbody").html('');
+                $("#resControl table tbody").append("没有查询到相关数据！");
+                return;
+            }
+            $('#pagination8').jqPaginator({
+                totalPages: totalPage,        //页码整数
+                visiblePages: 6,
+                currentPage: currentPage,
+                first: '<li><a href="javascript:void(0);">首页</a></li>',
+                prev: '<li><a href="javascript:void(0);">上一页</a></li>',
+                next: '<li><a href="javascript:void(0);">下一页</a></li>',
+                last: '<li><a href="javascript:void(0);">末页</a></li>',
+                page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
+                onPageChange: function (num, type) {
+                    if (type == 'change') {
+                        resourceControl.page.pageNum = num;
+                        for (const i in resourceControl.data) {
+                            resourceControl.data[i].Role_id -= 1;
+                            resourceControl.roleChoice[i] = resourceControl.data[i].Role_id;
+                        }
+                        resourceControl.searchFor(2);
+                    }
+                }
+            });
+        },
+        calPage: function () {
+            resourceControl.page.totalPage = Math.ceil(resourceControl.page.length / resourceControl.page.pageSize);
+        },
+        searchFor: function (initial) {
+            if (initial == 1) {
+                this.page.pageNum = 1;
+            } else if (initial == 0) {
+                this.page.pageNum = 1;
+                this.key = '';
+                this.selected = 0;
+            }
+            if (this.selected == 2) {
+                this.key = this.roleSearch;
+            }
+            axios
+                .post('/adminLoing/search_permission/' + this.page.pageNum + '/' + this.page.pageSize, {
+                    "key": this.key,
+                    "choice": this.selected
+                })
+                .then(function (response) {
+                    resourceControl.data = response.data[0];
+                    resourceControl.page.length = response.data[1];
+                    resourceControl.calPage();
+                    // for (const i in resourceControl.data) {
+                    //     resourceControl.data[i].Role_id -= 1;
+                    //     resourceControl.roleChoice[i] = resourceControl.data[i].Role_id;
+                    // }
+                    resourceControl.init_page(resourceControl.page.totalPage, resourceControl.page.pageNum);
+                })
+                .catch(function (error) {
+                    $('#failModal .modal-body').text(error);
+                    $("#failModal").modal();
+                });
+        },
+        deleteRole: function (index) {
+            if (confirm("确定删除id为" +
+                resourceControl.data[index].User_id +
+                "的" +
+                resourceControl.roleOptions[resourceControl.data[index].Role_id] +
+                "角色吗？")) {
+                axios
+                    .post('/adminLoing/deleterole', {
+                        "userID": resourceControl.data[index].User_id,
+                        "roleID": resourceControl.roleChoice[index]
+                    })
+                    .then(function (response) {
+                        if (response.data.status) {
+                            $('#successModal .modal-body').text(response.data.msg);
+                            $("#successModal").modal();
+                            resourceControl.searchFor(2);
                         } else {
                             $('#failModal .modal-body').text(response.data.msg);
                             $("#failModal").modal();
@@ -559,7 +850,7 @@ var logs = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         logs.page.pageNum = num;
-                        logs.searchFor(false);
+                        logs.searchFor(2);
                     }
                 }
             });
@@ -568,8 +859,12 @@ var logs = new Vue({
             logs.page.totalPage = Math.ceil(logs.page.length / logs.page.pageSize);
         },
         searchFor: function (initial) {
-            if (initial) {
+            if (initial == 1) {
                 this.page.pageNum = 1;
+            } else if (initial == 0) {
+                this.page.pageNum = 1;
+                this.key = '';
+                this.selected = 0;
             }
             axios
                 .post('/adminLoing/searchLog/' + this.page.pageNum + '/' + this.page.pageSize, {
@@ -673,7 +968,7 @@ $(document).on('click', '#modalBtn', function () {
         })
         .then(function (response) {
             if (response.data.status) {
-                items.searchFor(false);
+                items.searchFor(2);
                 $("#successModal").modal();
                 $('#successModal .modal-body').text(response.data.msg);
             } else {
@@ -706,27 +1001,11 @@ $("#loginOut").click(function () {
         }
     });
 });
-
-
 $("#questions_check").click(function () {
     $("#info").slideToggle("slow");
+    $("#author").hide();
 });
-$('.nav-pills li[role="presentation"]').click(function () {
-    var i = $(this).index() - 1;
-    if (i != 2) {
-        i >= 4 ? i = i + 1 : i = i;
-        $(this).addClass('active').siblings().removeClass('active');
-        $('#info li').removeClass('active');
-        $(".find_panel").children().hide();
-        $(".pa_all").eq(i).show();
-        $(".message").show();
-    }
-});
-$('#info li').click(function (e) {
-    var i = $(this).index();
-    $('.nav-pills li[role="presentation"]').removeClass('active');
-    $(this).addClass('active').siblings().removeClass('active');
-    $(".find_panel").children().hide();
-    $(".pa_all").eq(i + 2).show();
-    $(".message").show();
+$("#authority").click(function () {
+    $("#author").slideToggle("slow");
+    $("#info").hide();
 });

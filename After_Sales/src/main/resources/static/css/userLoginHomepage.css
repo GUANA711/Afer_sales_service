@@ -169,6 +169,7 @@ li{
     box-sizing: border-box;
     justify-content: space-between;
     align-items: center;
+    border: none!important;
 }
 input{
     width: 60%;
@@ -238,9 +239,7 @@ input{
     margin-top: 20px;
     margin-left: 100px;
 }
-.btn-primary{
-    margin-left: 20px;
-}
+
 .select_form{
     width: 300px;
     height: 40px;
@@ -262,7 +261,8 @@ input{
     margin-right: 40px!important;
 }
 #item_id{
-    width: 300px;
+    width: 500px;
+    border-color: black;
 }
 .id_que {
     margin-left: 12px!important;
@@ -272,3 +272,13 @@ input{
      position: relative;
      height: 160px!important;
  }
+ #question_clear{
+     height: 200px!important;
+ }
+ .pic_form{
+
+ }
+ .pic_file{
+    border: none!important;
+ }
+

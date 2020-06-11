@@ -175,7 +175,7 @@
                         <li class="list-group-item" id="firstshow">
                             <span class="select_lable">问题详情:</span>
                             <select class="select_form" id="select_form">
-                                <option value="软件运行较卡">软件运行较卡</option>-->
+                                <option value="软件运行较卡">软件运行较卡</option>
                                 <option value="软件打卡较慢">软件打卡较慢</option>
                                 <option value="其他">其他</option>
                             </select>
@@ -187,41 +187,24 @@
                         <input type="text" id="item_id" class="id_que">
                     </li>
                     <!-- 问题详情描述文本框 -->
+
                     <li class="list-group-item">
-                        <div id="question_clear" style='height:200px; width:100%;'>
+                        <div id="question_clear">
                             <p>请在此输入问题详情描述</p>
                         </div>
                     </li>
                     <li class="list-group-item">
-                        <span >图片上传:</span>
-                        <input type="file" multiple id="pop_file" accept="image/*">
-                        <input id="pop_but" type="submit" value="提交"/>
+                        <span class="select_lable">图片上传:</span>
+                        <form id="filesForm" name="filesForm" action="#" method="post" enctype="multipart/form-data" class="pic_form">
+                            <input type="file" name="files" class="pic_file" multiple="multiple"/>
+<!--                            <input type="button" value="上传" class="btn btn-primary pic_submit">-->
+                        </form>
                     </li>
-<!--&lt;!&ndash;                        <div :ref="question_clear">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <p>请在此输入问题详情描述</p>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--                    </li>-->
-<!--                    <li class="list-group-item">-->
-<!--                        <div id="uploadContainer" class="select_lable">-->
-<!--                            <input type="button" value="选择文件" id="btnBrowse"/>-->
-<!--                            <input type="button" value="上传文件" id="btnUpload">-->
-<!--                            <ul id="fileList"></ul>-->
-<!--                        </div>-->
-<!--                    </li>-->
 
-<!--                    <li class="list-group-item">-->
-<!--                        <textarea id='question_clear' style='height:300px; width:100%;'></textarea>-->
-<!--                    </li>-->
-
-
-<!--                    <li class="list-group-item" id="question_clear">-->
-<!--                        <span class="select_lable">问题描述:</span>-->
-<!--                        <textarea rows="6" cols="50" name="summary_question" class="select_lable_clear" id="question_detail"></textarea>-->
-<!--                    </li>-->
                     <!-- 提交按钮 -->
                     <!-- 按钮触发模态框 -->
                     <li class="list-group-item">
-                        <button class="btn btn-primary " data-toggle="modal" data-target="#myModal" id="question_submit">提交</button>
+                        <button class="btn btn-primary " data-toggle="modal" data-target="#myModal" id="question_submit">提交问题</button>
                     </li>
                     <!-- 模态框（Modal） -->
                     <!-- 成功 -->
@@ -281,6 +264,26 @@
                                 </div>
                             </div><!-- /.modal-content -->
                         </div><!-- /.modal -->
+                        <div class="modal fade" id="picfailSubmitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title" id="picfailSubmitModal1">
+                                            提交失败！
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        提交失败，图片上传错误！
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                        </button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal -->
                     </div>
                 </ul>
             </div>
@@ -304,9 +307,11 @@
    <!--VUE-->
 <!--    <script type="text/javascript" src="plugins/wangEditor-2.1.23/dist/js/wangEditor.js"></script>-->
    <script src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
-   <script type="text/javascript" src="plugins/plupload-2.3.6/js/plupload.full.min.js"></script>
+<!--   <script type="text/javascript" src="plugins/plupload-2.3.6/js/plupload.full.min.js"></script>-->
    <script src="js/vue.js"></script>
    <script src="js/axios.js"></script>
+<!--   <script src="plugins/kartik-v-bootstrap-fileinput-8d9449b/css/fileinput.min.css"></script>-->
+<!--   <script src="plugins/kartik-v-bootstrap-fileinput-8d9449b/js/fileinput.min.js"></script>-->
    <script src="js/bootstrap-table.js"></script>
    <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
 </body>

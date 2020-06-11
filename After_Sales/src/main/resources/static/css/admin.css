@@ -1,15 +1,16 @@
 /* 登录后用户个人信息 */
 html,body { height: 100%; padding: 0; margin: 0; }
 li{list-style: none;}
-#info .index_title{
+.second_list .index_title {
     font-size: 15px;
 }
-ul#info {
+ul#info,
+ul#author {
     margin: -10px 0 10px 25px;
     height: 150px;
 }
-ul#info li{
-    height: 50px;
+.second_list li {
+    height: 50px !important;
 }
 .left_frame{
     margin: 0;
@@ -37,6 +38,10 @@ ul#info li{
     height:20vh;
     background-color:#1c252e;
     margin: 0px;
+}
+#questions_check span.index_title,
+#authority span.index_title {
+    padding-left: 5px;
 }
 .logoImg{
     /* color: #B5C3D4; */
