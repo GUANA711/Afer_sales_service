@@ -279,11 +279,16 @@ $(document).ready(function () {
             url: '/question/checkQuestionsubmited',
             methods: 'get',
             pagination: true,//显示分页
+            sidePagination: "true",
+            toolbar: "#toolbar",
             striped: true,//显示行间距色
             pageSize: 5,//每一页的行数
             pageList: [5, 10, 20],//每页可选择的行数
             showRefresh: true,//显示刷新按钮
             columns: [{
+                field: 'question_id',
+                title: '问题id'
+            },{
                 field: 'question_type',
                 title: '问题分类'
             }, {
@@ -292,6 +297,13 @@ $(document).ready(function () {
             }, {
                 field: 'question_detail',
                 title: '问题详情'
+            },{
+                field: 'price',
+                title: '操作',
+                width: 120,
+                align: 'center',
+                valign: 'middle',
+                formatter: actionFormatter,
             },],
             responseHandler: function (data) {
                 //**********注意**********\
@@ -303,6 +315,19 @@ $(document).ready(function () {
                 return data;
             }
         });
+        //操作栏的格式化
+        function actionFormatter(value, row, index) {
+            var id = value;
+            var result = "";
+            result += "<button class='btn btn-primary' title='查看图片'>查看图片</button>";
+            console.log("id:"+id);
+            console.log("result:"+result);
+            console.log("row:"+row);
+            // result += "<a href='javascript:;' class='btn btn-xs green' onclick=\"EditViewById('" + id + "', view='view')\" title='查看'><span class='glyphicon glyphicon-search'></span></a>";
+            // result += "<a href='javascript:;' class='btn btn-xs blue' onclick=\"EditViewById('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
+            // result += "<a href='javascript:;' class='btn btn-xs red' onclick=\"DeleteByIds('" + id + "')\" title='删除'><span class='glyphicon glyphicon-remove'></span></a>";
+            return result;
+        }
         $("#alr_top").show();
         $("#alr_panel").show();
         $(".message").show();
@@ -357,9 +382,11 @@ $(document).ready(function () {
             methods: 'get',
             pagination: true,//显示分页
             striped: true,//显示行间距色
+            sidePagination: "true",
+            toolbar: "#toolbar",
             pageSize: 5,//每一页的行数
             pageList: [5, 10, 20],//每页可选择的行数
-            showRefresh: true,//显示刷新按钮
+            showRefresh: true,//显示刷新按钮]
             columns: [{
                 field: 'question_type',
                 title: '问题分类'
@@ -369,6 +396,13 @@ $(document).ready(function () {
             }, {
                 field: 'question_detail',
                 title: '问题详情'
+            },{
+                field: 'price',
+                title: '操作',
+                width: 120,
+                align: 'center',
+                valign: 'middle',
+                formatter: actionFormatter,
             },],
             responseHandler: function (data) {
                 //**********注意**********\
@@ -379,10 +413,22 @@ $(document).ready(function () {
                 return data;
             }
         });
+        //操作栏的格式化
+        function actionFormatter(value, row, index) {
+            var id = value;
+            var result = "";
+            result += "<a href='javascript:;' class='btn btn-xs green' onclick=\"EditViewById('" + id + "', view='view')\" title='查看'><span class='glyphicon glyphicon-search'></span></a>";
+            result += "<a href='javascript:;' class='btn btn-xs blue' onclick=\"EditViewById('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
+            result += "<a href='javascript:;' class='btn btn-xs red' onclick=\"DeleteByIds('" + id + "')\" title='删除'><span class='glyphicon glyphicon-remove'></span></a>";
+            return result;
+        }
         $("#fin_top").show();
         $("#fin_panel").show();
         $(".message").show();
     });
+    function showpic() {
+
+    }
     //点击处理中切换面板
     $("#ing_title").click(function () {
         $("#find_panel").children().hide();
@@ -395,6 +441,9 @@ $(document).ready(function () {
             pageSize: 5,//每一页的行数
             pageList: [5, 10, 20],//每页可选择的行数
             showRefresh: true,//显示刷新按钮
+            sortable: true, // 是否启用排序
+            sidePagination: "true",
+            toolbar: "#toolbar",
             columns: [{
                 field: 'question_type',
                 title: '问题分类'
@@ -404,7 +453,15 @@ $(document).ready(function () {
             }, {
                 field: 'question_detail',
                 title: '问题详情'
-            },],
+            },{
+                field: 'price',
+                title: '操作',
+                width: 120,
+                align: 'center',
+                valign: 'middle',
+                formatter: actionFormatter,
+            },
+            ],
             responseHandler: function (data) {
                 //**********注意**********\
                 for (var i = 0; i < data.length; i++){
@@ -414,6 +471,15 @@ $(document).ready(function () {
                 return data;
             }
         });
+        //操作栏的格式化
+        function actionFormatter(value, row, index) {
+            var id = value;
+            var result = "";
+            result += "<a href='javascript:;' class='btn btn-xs green' onclick=\"EditViewById('" + id + "', view='view')\" title='查看'><span class='glyphicon glyphicon-search'></span></a>";
+            result += "<a href='javascript:;' class='btn btn-xs blue' onclick=\"EditViewById('" + id + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
+            result += "<a href='javascript:;' class='btn btn-xs red' onclick=\"DeleteByIds('" + id + "')\" title='删除'><span class='glyphicon glyphicon-remove'></span></a>";
+            return result;
+        }
         $("#ing_top").show();
         $("#ing_panel").show();
         $(".message").show();
@@ -837,7 +903,5 @@ $(document).ready(function () {
         }
     });
 //
-    function f() {
-        que_id;
-    }
+
 });
