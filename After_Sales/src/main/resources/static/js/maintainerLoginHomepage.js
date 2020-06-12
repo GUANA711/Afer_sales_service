@@ -153,7 +153,7 @@ $(document).ready(function() {
         $(".message").show();
 
         //加载未接收任务
-        dt_unaccepted = $('#table').DataTable({
+        dt_unaccepted = $("#table").DataTable({
             responsive: true,
             destroy: true,
             serviceSize: true,// 开启服务端模式
@@ -174,17 +174,20 @@ $(document).ready(function() {
                 // 告诉 DataTables 每列对应的属性data
                 // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
                 {
-                    "data": filterXSS('question_id'),
+                    "data": 'question_id',
                     className: "Question_id",
-                    "searchable": false
+                    "searchable": false,
+                    height:"35px"
                 },
                 {
-                    "data": filterXSS('question_type'),
-                    className: "Question_type"
+                    "data": 'question_type',
+                    className: "Question_type",
+                    height:"35px"
                 },
                 {
-                    "data": filterXSS('question_detail'),
-                    className: "Question_detail"
+                    "data": 'question_detail',
+                    className: "Question_detail",
+                    height:"35px"
                 },
                 {
                     "data": null,
@@ -196,9 +199,8 @@ $(document).ready(function() {
             ],
             responseHandler: function (data) {
                 for (var i = 0; i < data.length; i++){
-                    data[i].question_type = filterXSS(data[i].question_type);
                     data[i].question_detail = filterXSS(data[i].question_detail);
-                    console.log(data);
+                    data[i].commit_time = filterXSS(data[i].commit_time);
                 }
                 return data;
             },
@@ -213,7 +215,7 @@ $(document).ready(function() {
                     "sInfoPostFix": "",
                     "sSearch": "搜索:",
                     "sUrl": "",
-                    "sEmptyTable": "您目前没有未接收的任务",
+                    "sEmptyTable": "您目前没有正在处理的任务!",
                     "sLoadingRecords": "载入中...",
                     "sInfoThousands": ",",
                     "oPaginate":
@@ -228,11 +230,17 @@ $(document).ready(function() {
                             "sSortAscending": ": 以升序排列此列",
                             "sSortDescending": ": 以降序排列此列"
                         }
+                },
+            createdRow: function ( row, data, index ) {
+                if ( index %2 == 0 ) {
+                    $('td', row).css("background","#f0f0f0");
                 }
+            },
         });
     });
     $("body").on("click", ".operate-btn-accept", function () {
         var question_id = $(this).parent().parent().find(".Question_id").text();
+        alert(question_id);
         var info = {
             "questionID": question_id
         };
@@ -268,7 +276,7 @@ $(document).ready(function() {
         $("#task_ing_panel").show();
         $(".message").show();
 
-        dt_ing = $('#table2').DataTable({
+        dt_ing = $('#table2').dataTable({
             responsive: true,
             destroy: true,
             serviceSize: true,// 开启服务端模式
@@ -346,7 +354,12 @@ $(document).ready(function() {
                             "sSortAscending": ": 以升序排列此列",
                             "sSortDescending": ": 以降序排列此列"
                         }
+                },
+            createdRow: function ( row, data, index ) {
+                if ( index %2 == 0 ) {
+                    $('td', row).css("background","#f0f0f0");
                 }
+            },
         });
     });
     $("body").on("click", ".operate-btn-finish", function () {
@@ -467,7 +480,12 @@ $(document).ready(function() {
                             "sSortAscending": ": 以升序排列此列",
                             "sSortDescending": ": 以降序排列此列"
                         }
+                },
+            createdRow: function ( row, data, index ) {
+                if ( index %2 == 0 ) {
+                    $('td', row).css("background","#f0f0f0");
                 }
+            },
         });
         if(dt_done.rows.count == 0){
             alert("您目前没有已经完成的任务！");
@@ -558,7 +576,12 @@ $(document).ready(function() {
                             "sSortAscending": ": 以升序排列此列",
                             "sSortDescending": ": 以降序排列此列"
                         }
+                },
+            createdRow: function ( row, data, index ) {
+                if ( index %2 == 0 ) {
+                    $('td', row).css("background","#f0f0f0");
                 }
+            },
         });
     });
     //选择移除按钮
@@ -629,7 +652,13 @@ $(document).ready(function() {
                                     "sSortAscending": ": 以升序排列此列",
                                     "sSortDescending": ": 以降序排列此列"
                                 }
+                        },
+                    createdRow: function ( row, data, index ) {
+                        if ( index %2 == 0 ) {
+                            $('td', row).css("background","#f0f0f0");
                         }
+                    },
+
                 });
                 if (jQuery.isEmptyObject(data)) {
                     alert("该项目没有维修人员，请添加！");
@@ -709,7 +738,12 @@ $(document).ready(function() {
                                     "sSortAscending": ": 以升序排列此列",
                                     "sSortDescending": ": 以降序排列此列"
                                 }
+                        },
+                    createdRow: function ( row, data, index ) {
+                        if ( index %2 == 0 ) {
+                            $('td', row).css("background","#f0f0f0");
                         }
+                    },
                 });
                 if (jQuery.isEmptyObject(data)) {
                     alert("该项目维修人员已满，无法继续添加！");
