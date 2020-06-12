@@ -205,6 +205,7 @@ public class LoginController {
             }
             if(user.getStatus()==0){
                 status.setMsg("该用户未激活");
+                status.setCode(2);
                 return status;
             }
 
