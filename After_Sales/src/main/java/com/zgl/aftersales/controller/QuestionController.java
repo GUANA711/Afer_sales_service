@@ -43,6 +43,8 @@ public class QuestionController {
     @Qualifier("questionImpl")
     @Autowired
     QuestionService db;
+    int questionid;
+    List<Integer> Imageids;
 
     /**
      * 添加问题
@@ -76,6 +78,7 @@ public class QuestionController {
         }catch (Exception e){
             return 0;//插入失败
         }
+        questionid = question.getQuestion_id();
         return question.getQuestion_id();//插入成功
     }
 
@@ -168,6 +171,7 @@ public class QuestionController {
             }
         }
         System.out.print(imagids);
+        Imageids = imagids;
         return imagids;
     }
 
@@ -176,16 +180,29 @@ public class QuestionController {
      * 添加关联到image_question表
      */
     @PostMapping("/addImageQuestion")
-    public int addImageQuestion(@RequestBody JSONObject json,HttpServletRequest req) throws IOException {
-        Map<String, Integer> map=new HashMap<>();
-        try {
-            map.put("Image_id",json.getInteger("Image_id"));
-            map.put("Question_id",json.getInteger("Question_id"));
-            db.addImageQuestion(map);
-        }catch (Exception e){
-            return 0;//插入失败
+    public int addImageQuestion() throws IOException {
+        System.out.print(questionid);
+        if (Imageids!=null) {
+            for (int i = 0; i < Imageids.size(); ++i) {
+                Map<String, Integer> map = new HashMap<>();
+                int Imageid;
+                int Questionid;
+                Imageid = Imageids.get(i);
+                Questionid = questionid;
+                try {
+                    map.put("Image_id", Imageid);
+                    map.put("Question_id", Questionid);
+                    db.addImageQuestion(map);
+                } catch (Exception e) {
+                    return 0;//插入失败
+                }
+
+            }
+            Imageids = null;
+            return 1;//插入成功
+        }else {
+            return 0;//不操作
         }
-        return 1;//插入成功
     }
 
 
