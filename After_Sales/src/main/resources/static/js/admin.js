@@ -152,6 +152,48 @@ var itemModal = new Vue({
         workers: ''
     },
 });
+var alterResModal = new Vue({
+    el: "#alterResModal",
+    data: {
+        name: '',
+        description: '',
+        url: '',
+        perms: '',
+        parent_id: '',
+        type: '',
+        permission_id: '',
+    },
+    methods: {
+        comfirm: function () {
+            axios
+                .post('/adminLoing/permission_update', {
+                    "name":alterResModal.name,
+                    "description": alterResModal.description,
+                    "url": alterResModal.url,
+                    "perms": alterResModal.perms,
+                    "parent_id": alterResModal.parent_id,
+                    "type": alterResModal.type,
+                    "permission_id": alterResModal.permission_id
+                })
+                .then(function (response) {
+                    if (response.data.status) {
+                        $('#successModal .modal-body').text(response.data.msg);
+                        $("#successModal").modal();
+                        resourceControl.searchFor(2);
+                    } else {
+                        $('#failModal .modal-body').text(response.data.msg);
+                        $("#failModal").modal();
+                    }
+                })
+                .catch(function (error) {
+                    $('#failModal .modal-body').text(error);
+                    $("#failModal").modal();
+                });
+            $("#alterResModal").modal('hide');
+
+        }
+    },
+});
 //用户问题
 var questions = new Vue({
     el: '#vueQuestion',
@@ -641,10 +683,10 @@ var resourceAllow = new Vue({
                     resourceAllow.data = response.data[0];
                     resourceAllow.page.length = response.data[1];
                     resourceAllow.calPage();
-                    for (const i in resourceAllow.data) {
-                        resourceAllow.data[i].Role_id -= 1;
-                        resourceAllow.roleChoice[i] = resourceAllow.data[i].Role_id;
-                    }
+                    // for (const i in resourceAllow.data) {
+                    //     resourceAllow.data[i].Role_id -= 1;
+                    //     resourceAllow.roleChoice[i] = resourceAllow.data[i].Role_id;
+                    // }
                     resourceAllow.init_page(resourceAllow.page.totalPage, resourceAllow.page.pageNum);
                 })
                 .catch(function (error) {
@@ -717,10 +759,10 @@ var resourceControl = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         resourceControl.page.pageNum = num;
-                        for (const i in resourceControl.data) {
-                            resourceControl.data[i].Role_id -= 1;
-                            resourceControl.roleChoice[i] = resourceControl.data[i].Role_id;
-                        }
+                        // for (const i in resourceControl.data) {
+                        //     resourceControl.data[i].Role_id -= 1;
+                        //     resourceControl.roleChoice[i] = resourceControl.data[i].Role_id;
+                        // }
                         resourceControl.searchFor(2);
                     }
                 }
@@ -749,10 +791,6 @@ var resourceControl = new Vue({
                     resourceControl.data = response.data[0];
                     resourceControl.page.length = response.data[1];
                     resourceControl.calPage();
-                    // for (const i in resourceControl.data) {
-                    //     resourceControl.data[i].Role_id -= 1;
-                    //     resourceControl.roleChoice[i] = resourceControl.data[i].Role_id;
-                    // }
                     resourceControl.init_page(resourceControl.page.totalPage, resourceControl.page.pageNum);
                 })
                 .catch(function (error) {
@@ -760,16 +798,13 @@ var resourceControl = new Vue({
                     $("#failModal").modal();
                 });
         },
-        deleteRole: function (index) {
+        deleteRes: function (index) {
             if (confirm("确定删除id为" +
-                resourceControl.data[index].User_id +
-                "的" +
-                resourceControl.roleOptions[resourceControl.data[index].Role_id] +
-                "角色吗？")) {
+                resourceControl.data[index].permission_id +
+                "的资源吗？")) {
                 axios
-                    .post('/adminLoing/deleterole', {
-                        "userID": resourceControl.data[index].User_id,
-                        "roleID": resourceControl.roleChoice[index]
+                    .post('/adminLoing/delete_resource', {
+                        "permission_id": resourceControl.data[index].permission_id,
                     })
                     .then(function (response) {
                         if (response.data.status) {
@@ -786,7 +821,18 @@ var resourceControl = new Vue({
                         $("#failModal").modal();
                     });
             }
-        }
+        },
+        alterRes: function (index) {
+            $("#alterResModal").modal();
+            alterResModal.name=resourceControl.data[index].name;
+            alterResModal.description=resourceControl.data[index].description;
+            alterResModal.url=resourceControl.data[index].url;
+            alterResModal.perms=resourceControl.data[index].perms;
+            alterResModal.parent_id=resourceControl.data[index].parent_id;
+            alterResModal.type=resourceControl.data[index].type;
+            alterResModal.permission_id=resourceControl.data[index].permission_id;
+        },
+
     }
 });
 //系统日志
@@ -959,7 +1005,6 @@ function filterXSS(str) {
 $("#personal").load("info.html"); 
 $(document).on('click', '#modalBtn', function () {
     var index = $("input[name='worker']:checked").val();
-    console.log(itemModal.workers);
     $("#itemModal").modal('hide');
     axios
         .post('/adminLoing/leaderEdit', {

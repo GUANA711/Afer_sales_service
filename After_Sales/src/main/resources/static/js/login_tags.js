@@ -167,15 +167,19 @@ function login_check(){
                                 $(window).attr("location",data.data);
                             }
                         } else {
-                            $('#slide').html('');
-                            SlidingValidation.create($('#slide'),{},function(){isValidata = true;});
+                            console.log(data);
                             alert(data.msg);
-                        }
+                            if (data.code == 2) {
+                                if (!beActive(name)) {
+                                    return;
+                                }
+                            }
+                       }
+                        $('#slide').html('');
+                        SlidingValidation.create($('#slide'), {}, function () { isValidata = true; });
                     },
 
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    // 状态码
-                    // alert("test");
                     $('#slide').html('');
                     SlidingValidation.create($('#slide'),{},function(){isValidata = true;});
                     console.log(XMLHttpRequest.status);
@@ -246,7 +250,7 @@ function register_check(){
         
                 success :function(data) {
                     if (data.status) {      //注册成功
-                        if (beActive()) {   //active_code
+                        if (beActive(name)) {   //active_code
                             alert(data.msg+"，请前往邮箱激活");
                         } else {
                             alert(data.msg +"登录时激活账户");
@@ -269,27 +273,19 @@ function register_check(){
         return true;
 
 }
-function beActive() {
+function beActive(name) {
     $.ajax({
         type: "post",
         contentType: 'application/json',
-        url: "/user/checkCode",
+        url: "/user/sendMail?username=" + name,
         data: "",
         dataType: "json",
         success: function (data) {
             console.log(data);
             return true;
-            // if (data.status) {      //注册成功
-            //     alert(data.msg);
-
-            //     $('form')[1].reset();
-            // } else {
-            //     alert(data.msg);
-            // }
         },
         error: function (XMLHttpRequest, textStatus) {
             // 状态码
-            // alert("test");
             console.log(XMLHttpRequest.status);
             // 状态
             console.log(XMLHttpRequest.readyState);

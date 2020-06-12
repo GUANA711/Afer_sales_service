@@ -91,6 +91,31 @@
             </div>
         </div>
     </div>
+    <!-- 资源管理模态框 -->
+    <div class="modal fade" id="alterResModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" style="height:600px; overflow:auto; pointer-events:auto;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">修改资源</h4>
+                </div>
+                <div class="modal-body">
+                    ID：<input type="text" name="permission_id" readonly :value="permission_id"><br>
+                    名称：<input type="text" name="name" :value="name"><br>
+                    路径：<input type="text" name="url" :value="url"><br>
+                    权限：<input type="text" name="perms" :value="perms"><br>
+                    父资源：<input type="text" name="parent_id" :value="parent_id"><br>
+                    类型：<input type="text" name="type" :value="type"><br>
+                    描述：<textarea name="description" cols="30" rows="10" :value="description"></textarea>
+                </div>
+                <div class="modal-footer" id="modalFooter">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" @click="comfirm">修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid">
         <div class="row mm" id="com">
             <!-- 左侧菜单导航栏 -->
@@ -638,13 +663,13 @@
                                                             {{item.name}}
                                                         </td>
                                                         <td class="task_check_tb_td">
+                                                            {{item.description}}
+                                                        </td>
+                                                        <td class="task_check_tb_td">
                                                             {{item.url}}
                                                         </td>
                                                         <td class="task_check_tb_td">
                                                             {{item.perms}}
-                                                        </td>
-                                                        <td class="task_check_tb_td">
-                                                            {{item.description}}
                                                         </td>
                                                         <td class="task_check_tb_td">
                                                             {{item.parent_id}}
@@ -652,9 +677,9 @@
                                                         <td class="task_check_tb_td">
                                                             {{item.type}}
                                                         </td>
-                                                        <td class="task_check_tb_td role_btn" style="padding: 0;">
-                                                            <a href="javascript:;" @click="alterRole(index)">修改</a>
-                                                            <a href="javascript:;" @click="deleteRole(index)">删除</a>
+                                                        <td class="task_check_tb_td role_btn" style="padding-left: 5px;">
+                                                            <a href="javascript:;" @click="alterRes(index)">修改</a>
+                                                            <a href="javascript:;" @click="deleteRes(index)">删除</a>
                                                         </td>
                                                     </tr>
                                                 </template>

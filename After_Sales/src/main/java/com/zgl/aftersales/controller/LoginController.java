@@ -229,7 +229,7 @@ public class LoginController {
                 status.setCode(5);//没有权限
             }
             if(user.getStatus()==0){
-                status.setMsg("该用户未激活");
+                status.setMsg("该用户未激活，请前往邮箱激活");
                 status.setCode(2);
                 return status;
             }
