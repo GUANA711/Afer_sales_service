@@ -281,4 +281,27 @@ input{
  .pic_file{
     border: none!important;
  }
+#ing_table tr:nth-child(even){
+    background:#f4f8fb;
+}
+#fin_table tr:nth-child(even){
+    background:#f4f8fb;
+}
+#arl_table tr:nth-child(even){
+    background:#f4f8fb;
+}
+td{
+    height: 20px!important;
+}
+.table>tbody>tr>td{
+    height: 20px!important;
+}
+/*表格第一行*/
+thead{
+    background-color: #323652;
+    color: #fff;
+}
+.th-inner{
+    font-weight: normal!important;
+}
 
