@@ -135,6 +135,31 @@ public class LoginController {
     }
 
     /**
+     * 发送激活邮件
+     * @return void
+     */
+    @PostMapping(value = "/sendMail")
+    public void sendeMail(String username) {
+        Users user = userService.selectByUsername(username);
+
+        System.out.println("email"+user.getEmail());
+        String codePwd=DesDecodeUtiles.getEncryptString(user.getPassword());
+        user.setPassword(codePwd);
+
+        //获取激活码
+        String code = user.getCode();
+        System.out.println("code:"+code);
+        //主题
+        String subject = "来自软件售后服务系统网站的激活邮件";
+        //user/checkCode?code=code(激活码)是我们点击邮件链接之后根据激活码查询用户，如果存在说明一致，将用户状态修改为“1”激活
+        //上面的激活码发送到用户注册邮箱
+        String context = "<a href=\"/user/checkCode?code="+code+"\">激活请点击:"+code+"</a>";
+        //发送激活邮件
+        mailService.sendMail (user.getEmail(),subject,context);
+        //
+    }
+
+    /**
      * 跳转到登录页面
      * @return login
      */
@@ -205,6 +230,7 @@ public class LoginController {
             }
             if(user.getStatus()==0){
                 status.setMsg("该用户未激活");
+                status.setCode(2);
                 return status;
             }
 
