@@ -61,21 +61,6 @@ $(function () {
         $("#faq_panel").show();
         $(".message").show();
     });
-});
-// 预处理
-$(document).ready(function () {
-    //xss
-    function filterXSS(str) {
-        return str
-            .replace(/&/g, '&amp;')
-            // .replace(/ /g, '&nbsp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#39;')
-            .replace(/\r{0,}\n/g, '<br/>');
-    }
-
     /**
      * 点击表格的某一行的按钮显示图片
      * @type {{"click .RoleOfedit": Window.operateEvents.click .RoleOfedit}}
@@ -105,7 +90,7 @@ $(document).ready(function () {
 
                     //没有图片
                     if (data.length==0){
-                        $("#pic").append("<span>没有图片！！！</span>");
+                        $("#pic").append("<div class=\"alert alert-warning\">没有图片信息！</div>");
                     }else{
                         var id;
                         var blob;
@@ -172,6 +157,23 @@ $(document).ready(function () {
 
         }
     };
+});
+// 预处理
+$(document).ready(function () {
+    //xss
+    function filterXSS(str) {
+        return str
+            .replace(/&/g, '&amp;')
+            // .replace(/ /g, '&nbsp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/\r{0,}\n/g, '<br/>');
+    }
+
+
+
     //****三大面板的分页******
     // 点击已提交切换面板
     $("#alr_title").click(function () {
@@ -567,6 +569,27 @@ $(document).ready(function () {
     var editor;
 
     /**
+     * 图片表和问题表联系函数
+     */
+    function que() {
+        // addImageQuestion
+        $.ajax({
+            type: 'POST',
+            // data: '',
+            contentType: 'application/json',
+            // dataType: 'json',
+            url: "/question/addImageQuestion",
+            success: function (data) {
+                console.log("联系成功！");
+            },
+            error: function (XMLHttpRequest) {
+                console.log(XMLHttpRequest.status);
+                console.log(XMLHttpRequest.readyState);
+            }
+        });
+    }
+
+    /**
      * ajax上传多个图片
      */
     function uploadPic() {
@@ -730,6 +753,8 @@ $(document).ready(function () {
                                 console.log("pic_success!!!!");
                                 console.log(picresult);
                                 console.log(que_id);
+                                //联系图片和问题
+                                que();
                                 $("#successSubmitModal").modal();
                                 //清空文本域
                                 editor.txt.clear();

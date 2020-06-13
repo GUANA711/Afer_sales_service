@@ -290,6 +290,9 @@ input{
 #arl_table tr:nth-child(even){
     background:#f4f8fb;
 }
+#faq_table tr:nth-child(even){
+    background:#f4f8fb;
+}
 td{
     height: 20px!important;
 }
