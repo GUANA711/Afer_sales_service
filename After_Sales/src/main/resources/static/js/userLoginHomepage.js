@@ -38,6 +38,8 @@ $(function () {
             }, {
                 field: 'faq_answer',
                 title: 'FAQ答案',
+                cellStyle:formatTableUnit,
+                formatter:paramsMatter,
                 searchable: true,
             },],
             queryParams: function (params) {
@@ -61,6 +63,47 @@ $(function () {
         $("#faq_panel").show();
         $(".message").show();
     });
+    /**
+     * paramsMatter
+     * 表格超出宽度鼠标悬停显示td内容
+     */
+
+    var spanId = 0;
+    var spanString = "span";
+    function paramsMatter(value,row,index, field) {
+        //先清空上次内容
+        // $("#spanID").clear();
+        // var div = document.getElementById('spanID');
+        $(function () { $("[data-toggle='tooltip']").tooltip(); });
+        $(function () { $('.tooltip-hide').tooltip('hide');});
+        $(function () { $('.tooltip-show').tooltip('show');});
+        var id = spanString+spanId;
+        var span=document.createElement('span');
+        span.setAttribute('id',id);
+        span.setAttribute('class','tooltip-hide');
+        span.setAttribute('data-toggle','tooltip');
+        span.setAttribute('data-placement','bottom');
+        span.setAttribute('title',value);
+        span.innerHTML = value;
+        console.log("span!!"+span.outerHTML);
+        spanId++;
+        return span.outerHTML;
+    }
+    /**
+     * formatTableUnit
+     * td宽度以及内容超过宽度隐藏
+     */
+    function formatTableUnit(value,row,index){
+        return {
+            css: {
+            "white-space": 'nowrap',
+            "text-overflow": 'ellipsis',
+            "overflow": 'hidden',
+            "max-width":"400px"
+            }
+        }
+    }
+
     /**
      * 点击表格的某一行的按钮显示图片
      * @type {{"click .RoleOfedit": Window.operateEvents.click .RoleOfedit}}
@@ -160,6 +203,7 @@ $(function () {
 });
 // 预处理
 $(document).ready(function () {
+    $(function () { $("[data-toggle='tooltip']").tooltip(); });
     //xss
     function filterXSS(str) {
         return str
@@ -171,8 +215,48 @@ $(document).ready(function () {
             .replace(/'/g, '&#39;')
             .replace(/\r{0,}\n/g, '<br/>');
     }
+    $(function () { $('.tooltip-show').tooltip('show');});
+    $(function () { $('.tooltip-hide').tooltip('hide');});
+    $(function () { $('.tooltip-destroy').tooltip('destroy');});
+    $(function () { $('.tooltip-toggle').tooltip('toggle');});
+    $(function () { $(".tooltip-options a").tooltip({html : true });});
+    $(function () { $("[data-toggle='tooltip']").tooltip(); });
 
-
+    var spanid = 0;
+    var spanString1 = "spanin";
+    function paramsMatter1(value,row,index, field) {
+        //先清空上次内容
+        // $("#spanID").clear();
+        // var div = document.getElementById('spanID');
+        $(function () { $("[data-toggle='tooltip']").tooltip(); });
+        $(function () { $('.tooltip-hide').tooltip('hide');});
+        $(function () { $('.tooltip-show').tooltip('show');});
+        var id = spanString1+spanid;
+        var span=document.createElement('span');
+        span.setAttribute('id',id);
+        span.setAttribute('class','tooltip-hide');
+        span.setAttribute('data-toggle','tooltip');
+        span.setAttribute('data-placement','bottom');
+        span.setAttribute('title',value);
+        span.innerHTML = value;
+        console.log("span!!"+span.outerHTML);
+        spanid++;
+        return span.outerHTML;
+    }
+    /**
+     * formatTableUnit
+     * td宽度以及内容超过宽度隐藏
+     */
+    function formatTableUnit1(value,row,index){
+        return {
+            css: {
+                "white-space": 'nowrap',
+                "text-overflow": 'ellipsis',
+                "overflow": 'hidden',
+                "max-width":"400px"
+            }
+        }
+    }
 
     //****三大面板的分页******
     // 点击已提交切换面板
@@ -202,7 +286,9 @@ $(document).ready(function () {
                 title: '项目名称'
             }, {
                 field: 'question_detail',
-                title: '问题详情'
+                title: '问题详情',
+                cellStyle:formatTableUnit1,
+                formatter:paramsMatter1,
             },{
                 field: 'price',
                 title: '操作',
@@ -289,6 +375,7 @@ $(document).ready(function () {
             pageList: [5, 10, 20],//每页可选择的行数
             showRefresh: true,//显示刷新按钮]idField: 'question_id', //指定主键
             singleSelect: true, //开启单选,想要获取被选中的行数据必须要有该参数
+
             columns: [{
                 field: 'question_type',
                 title: '问题分类'
@@ -297,7 +384,9 @@ $(document).ready(function () {
                 title: '项目名称'
             }, {
                 field: 'question_detail',
-                title: '问题详情'
+                title: '问题详情',
+                cellStyle:formatTableUnit1,
+                formatter:paramsMatter1,
             },{
                 field: 'price',
                 title: '操作',
@@ -344,6 +433,7 @@ $(document).ready(function () {
             toolbar: "#toolbar",
             idField: 'question_id', //指定主键
             singleSelect: true, //开启单选,想要获取被选中的行数据必须要有该参数
+
             columns: [{
                 field: 'question_type',
                 title: '问题分类'
@@ -352,7 +442,9 @@ $(document).ready(function () {
                 title: '项目名称'
             }, {
                 field: 'question_detail',
-                title: '问题详情'
+                title: '问题详情',
+                cellStyle:formatTableUnit1,
+                formatter:paramsMatter1,
             },{
                 field: 'price',
                 title: '操作',

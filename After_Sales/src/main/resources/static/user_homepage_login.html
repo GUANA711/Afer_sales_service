@@ -118,14 +118,13 @@
 
         <div class="pa_all panel panel-default" style="margin-left:0;" id="personal"></div>
     </div>
+
     <!-- 反馈面板 -->
     <div class="modal fade" id="picSubmitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
 <!--                <div id="qrcode-image" class="bottom-image"></div>-->
-                <div id="pic" class="carousel slide">
-
-                </div>
+                <div id="pic" class="carousel slide"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
                 </div>
@@ -312,6 +311,9 @@
             <li>首页</li>
             <li>FAQ查看</li>
         </div>
+        <!-- FAQ内容过长的显示内容  -->
+<!--        <div style="display: none" id="spanID"></div>-->
+<!--        <a href="#" class="tooltip-show" data-toggle="tooltip" title="show">Tooltip 方法 show</a>.-->
         <div class="pa_all panel panel-default" id="faq_panel" style="display: none;">
             <table class="table table-hover" id="faq_table">
             </table>
@@ -332,5 +334,13 @@
 <!--<script src="plugins/kartik-v-bootstrap-fileinput-8d9449b/js/fileinput.min.js"></script>-->
 <script src="js/bootstrap-table.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+<script>
+    $(function () { $('.tooltip-show').tooltip('show');});
+    $(function () { $('.tooltip-hide').tooltip('hide');});
+    $(function () { $('.tooltip-destroy').tooltip('destroy');});
+    $(function () { $('.tooltip-toggle').tooltip('toggle');});
+    $(function () { $(".tooltip-options a").tooltip({html : true });});
+    $(function () { $("[data-toggle='tooltip']").tooltip(); });
+</script>
 </body>
 </html>
