@@ -290,6 +290,9 @@ input{
 #arl_table tr:nth-child(even){
     background:#f4f8fb;
 }
+#faq_table tr:nth-child(even){
+    background:#f4f8fb;
+}
 td{
     height: 20px!important;
 }
@@ -304,4 +307,13 @@ thead{
 .th-inner{
     font-weight: normal!important;
 }
+
+.tooltip-inner{
+    width: 400px!important;
+    max-width:600px!important;
+    text-align: left!important;
+    /*自动换行*/
+    word-break:break-all!important;
+}
+
 

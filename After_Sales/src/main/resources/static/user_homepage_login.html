@@ -115,9 +115,22 @@
             <li>个人信息</li>
         </ul> -->
         <!--信息部分面板-->
+
         <div class="pa_all panel panel-default" style="margin-left:0;" id="personal"></div>
     </div>
+
     <!-- 反馈面板 -->
+    <div class="modal fade" id="picSubmitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+<!--                <div id="qrcode-image" class="bottom-image"></div>-->
+                <div id="pic" class="carousel slide"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
     <!-- 已提交的问题，默认隐藏 -->
     <div style="display: none" id="alr_top">
         <ul class="breadcrumb">
@@ -298,27 +311,36 @@
             <li>首页</li>
             <li>FAQ查看</li>
         </div>
+        <!-- FAQ内容过长的显示内容  -->
+<!--        <div style="display: none" id="spanID"></div>-->
+<!--        <a href="#" class="tooltip-show" data-toggle="tooltip" title="show">Tooltip 方法 show</a>.-->
         <div class="pa_all panel panel-default" id="faq_panel" style="display: none;">
-            <table class="table table-bordered table-striped" id="faq_table">
+            <table class="table table-hover" id="faq_table">
             </table>
         </div>
     </div>
 </div>
-   <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-   <script src="jquery.validate.js"></script>
-   <!--VUE-->
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<!--<script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!--<script src="jquery.validate.js"></script>-->
+<!--VUE-->
 <!--    <script type="text/javascript" src="plugins/wangEditor-2.1.23/dist/js/wangEditor.js"></script>-->
-   <script src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
-<!--   <script type="text/javascript" src="plugins/plupload-2.3.6/js/plupload.full.min.js"></script>-->
-   <script src="js/vue.js"></script>
-   <script src="js/axios.js"></script>
-<!--   <script src="plugins/kartik-v-bootstrap-fileinput-8d9449b/css/fileinput.min.css"></script>-->
-<script src="plugins/bootstrap-table-master/src/bootstrap-table.js"></script>
-<script src="plugins/bootstrap-table-master/src/bootstrap-table.scss"></script>
-<script src="plugins/bootstrap-table-master/src/locale/bootstrap-table-zh-CN.js"></script>
-<!--   <script src="plugins/kartik-v-bootstrap-fileinput-8d9449b/js/fileinput.min.js"></script>-->
-   <script src="js/bootstrap-table.js"></script>
-   <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
+<script type="text/javascript" src="plugins/plupload-2.3.6/js/plupload.full.min.js"></script>
+<script src="js/vue.js"></script>
+<script src="js/axios.js"></script>
+<!--<script src="plugins/kartik-v-bootstrap-fileinput-8d9449b/css/fileinput.min.css"></script>-->
+<!--<script src="plugins/kartik-v-bootstrap-fileinput-8d9449b/js/fileinput.min.js"></script>-->
+<script src="js/bootstrap-table.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+<script>
+    $(function () { $('.tooltip-show').tooltip('show');});
+    $(function () { $('.tooltip-hide').tooltip('hide');});
+    $(function () { $('.tooltip-destroy').tooltip('destroy');});
+    $(function () { $('.tooltip-toggle').tooltip('toggle');});
+    $(function () { $(".tooltip-options a").tooltip({html : true });});
+    $(function () { $("[data-toggle='tooltip']").tooltip(); });
+</script>
 </body>
 </html>
