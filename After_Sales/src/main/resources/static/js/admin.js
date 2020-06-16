@@ -1,12 +1,5 @@
 /* jshint esversion: 6 */
 $(document).ready(function () {
-    // items.searchFor(0);
-    // questions.searchFor(0);
-    // maintenances.searchFor(0);
-    // faqs.searchFor(0);
-    // roles.searchFor(0);
-    // logs.searchFor(0);
-    // selects.firstOptions();
     notices.showNotice();
 });
 $(window).ajaxStart(function () {
@@ -152,6 +145,7 @@ var itemModal = new Vue({
         workers: ''
     },
 });
+//资源管理的模态框
 var alterResModal = new Vue({
     el: "#alterResModal",
     data: {
@@ -165,6 +159,7 @@ var alterResModal = new Vue({
     },
     methods: {
         comfirm: function () {
+            console.log(alterResModal);
             axios
                 .post('/adminLoing/permission_update', {
                     "name":alterResModal.name,
@@ -176,6 +171,7 @@ var alterResModal = new Vue({
                     "permission_id": alterResModal.permission_id
                 })
                 .then(function (response) {
+                    console.log(response);
                     if (response.data.status) {
                         $('#successModal .modal-body').text(response.data.msg);
                         $("#successModal").modal();
@@ -366,7 +362,6 @@ var faqs = new Vue({
                 $("#faq table tbody").append("没有查询到相关数据！");
                 return;
             }
-            $("#faq table tbody").empty("没有查询到相关数据！");
             $('#pagination4').jqPaginator({
                 totalPages: totalPage,        //页码整数
                 visiblePages: 6,
@@ -759,10 +754,6 @@ var resourceControl = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         resourceControl.page.pageNum = num;
-                        // for (const i in resourceControl.data) {
-                        //     resourceControl.data[i].Role_id -= 1;
-                        //     resourceControl.roleChoice[i] = resourceControl.data[i].Role_id;
-                        // }
                         resourceControl.searchFor(2);
                     }
                 }

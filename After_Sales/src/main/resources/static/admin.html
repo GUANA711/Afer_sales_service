@@ -101,13 +101,19 @@
                     <h4 class="modal-title" id="myModalLabel">修改资源</h4>
                 </div>
                 <div class="modal-body">
-                    ID：<input type="text" name="permission_id" readonly :value="permission_id"><br>
-                    名称：<input type="text" name="name" :value="name"><br>
-                    路径：<input type="text" name="url" :value="url"><br>
-                    权限：<input type="text" name="perms" :value="perms"><br>
-                    父资源：<input type="text" name="parent_id" :value="parent_id"><br>
-                    类型：<input type="text" name="type" :value="type"><br>
-                    描述：<textarea name="description" cols="30" rows="10" :value="description"></textarea>
+                    <ul>
+                        <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID：<input type="number" name="permission_id" readonly
+                                v-model="permission_id" style="width: 80px;"><br>
+                        </li>
+                        <li>&nbsp;&nbsp;&nbsp;名称：<input type="text" name="name" v-model="name"><br></li>
+                        <li>&nbsp;&nbsp;&nbsp;路径：<input type="text" name="url" v-model="url"><br></li>
+                        <li>&nbsp;&nbsp;&nbsp;权限：<input type="text" name="perms" v-model="perms"><br></li>
+                        <li>父资源：<input type="number" name="parent_id" v-model="parent_id" style="width: 80px;"><br></li>
+                        <li style="margin:-30px 0 0 180px">类型：<input type="number" name="type" v-model="type"
+                            style="width: 80px;"><br></li>
+                        <li>&nbsp;&nbsp;&nbsp;描述：<textarea name="description" cols="40" rows="6"
+                                v-model="description"></textarea></li>
+                    </ul>
                 </div>
                 <div class="modal-footer" id="modalFooter">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
