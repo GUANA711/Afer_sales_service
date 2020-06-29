@@ -19,7 +19,7 @@ $(document).ready(function() {
             .replace(/'/g, '&#39;')
             .replace(/\r{0,}\n/g, '<br/>');
     }
-    $("#user_panel").load("info.html"); 
+    $("#user_panel").load("info.html");
     // 加载维修人员页面信息
     $.ajax({
         type: 'GET',
@@ -189,6 +189,13 @@ $(document).ready(function() {
                     className: "Question_detail",
                     height:"35px"
                 },
+                // {
+                //     "data": null,
+                //     render: function (data, type, row) {
+                //         var html = '<a href="javascript:void(0);" class="operate-btn-accept-pic">查看详情</a>';
+                //         return html;
+                //     }
+                // },
                 {
                     "data": null,
                     render: function (data, type, row) {
@@ -238,9 +245,31 @@ $(document).ready(function() {
             },
         });
     });
+    // $("body").on("click", ".operate-btn-accept-pic", function () {
+    //     var Item_id = $(this).parent().parent().find(".Item_id").text();
+    //     var info = {
+    //         "Item_id": Item_id
+    //     };
+    //     Itemm_id = Item_id;
+    //     // alert(Item_id);
+    //     $("#task_check_panel").hide();
+    //     $("#detail_panel").show();
+    //     // $.ajax({
+    //     //     type: "POST",
+    //     //     contentType: 'application/json',
+    //     //     url: "/worker/show_item_workers",
+    //     //     data: JSON.stringify(info),
+    //     //     success: function (data) {
+    //     //     },
+    //     //     error: function (XMLHttpRequest) {
+    //     //         console.log(XMLHttpRequest.status);
+    //     //         console.log(XMLHttpRequest.readyState);
+    //     //     }
+    //     // });
+    // });
     $("body").on("click", ".operate-btn-accept", function () {
         var question_id = $(this).parent().parent().find(".Question_id").text();
-        alert(question_id);
+        // alert(question_id);
         var info = {
             "questionID": question_id
         };
@@ -276,7 +305,7 @@ $(document).ready(function() {
         $("#task_ing_panel").show();
         $(".message").show();
 
-        dt_ing = $('#table2').dataTable({
+        dt_ing = $("#table2").DataTable({
             responsive: true,
             destroy: true,
             serviceSize: true,// 开启服务端模式
@@ -364,19 +393,20 @@ $(document).ready(function() {
     });
     $("body").on("click", ".operate-btn-finish", function () {
         var question_id = $(this).parent().parent().find(".Question_id").text();
+        // alert(question_id);
         var info = {
             "questionID": question_id
         };
         $.ajax({
             type: "POST",
             contentType: 'application/json',
+            dataType: "json",
             url: "/worker/worker_finish",
             data: JSON.stringify(info),
             success: function (data) {
-                // alert("???");
+                // if (data.status==true)
                 dt_ing.ajax.reload();
                 alert(data.msg);
-                // alert("...");
             },
             error: function (XMLHttpRequest) {
                 // 200: "OK"
@@ -426,12 +456,12 @@ $(document).ready(function() {
                     "searchable": false
                 },
                 {
-                    "data": filterXSS('question_type'),
-                    className: "Question_type"
-                },
-                {
                     "data": filterXSS('question_detail'),
                     className: "Question_detail"
+                },
+                {
+                    "data": filterXSS('question_type'),
+                    className: "Question_type"
                 },
 
                 {
@@ -585,7 +615,7 @@ $(document).ready(function() {
         });
     });
     //选择移除按钮
-        $("body").on("click", ".operate-btn-choose-delete", function () {
+    $("body").on("click", ".operate-btn-choose-delete", function () {
         var Item_id = $(this).parent().parent().find(".Item_id").text();
         var info = {
             "Item_id": Item_id
@@ -670,7 +700,7 @@ $(document).ready(function() {
             }
         });
     });
-        //选择添加按钮
+    //选择添加按钮
     $("body").on("click", ".operate-btn-choose-add", function () {
         var Item_id = $(this).parent().parent().find(".Item_id").text();
         var info = {
@@ -698,7 +728,7 @@ $(document).ready(function() {
                             render:function(data, type, row){
                                 return Itemm_id;
                             },
-                                className : "Item_id"
+                            className : "Item_id"
                         },
                         {
                             data: filterXSS('User_id'),
@@ -711,7 +741,7 @@ $(document).ready(function() {
                                 return html;
                             }
                         }
-                        ],
+                    ],
                     language:
                         {// 配置
                             "sProcessing": "处理中...",
@@ -755,7 +785,7 @@ $(document).ready(function() {
             }
         });
     });
-        //点击移除按钮
+    //点击移除按钮
     $("body").on("click", ".operate-btn-delete", function () {
         var User_id = $(this).parent().parent().find(".User_id").text();
         var info = {
@@ -779,7 +809,7 @@ $(document).ready(function() {
             console.log( 'An error has been reported by DataTables: ', message );
         }).DataTable();
     });
-        //点击添加人员按钮
+    //点击添加人员按钮
     $("body").on("click", ".operate-btn-add", function () {
         // var Item_id = $(this).parent().parent().find(".Item_id").text();
         var User_id = $(this).parent().parent().find(".User_id").text();
@@ -810,13 +840,13 @@ $(document).ready(function() {
             console.log( 'An error has been reported by DataTables: ', message );
         }).DataTable();
     });
-        // 点击FAQ面板
+    // 点击FAQ面板
     $("#faq_present").click(function () {
         $(".find_panel").children().hide();
         $("#faq_panel").show();
         // $(".message").show();
         // $("notice").hide();
-        $("#faq_table").bootstrapTable({
+        dt_faq = $("#faq_table").bootstrapTable({
             url: '/faq/selectAllFAQ',
             methods: 'get',
             pagination: true,//显示分页
@@ -862,7 +892,7 @@ $(document).ready(function() {
     });
 
 
-        // 点击Faq添加按钮
+    // 点击Faq添加按钮
     $("#addFaq_bt").click(function () {
         $("#faq_panel").hide();
         $("#addFaq_panel").show();
@@ -871,7 +901,7 @@ $(document).ready(function() {
 
     });
 
-        // 点击Faq保存按钮
+    // 点击Faq保存按钮
     $("#saveFaq_bt").click(function () {
         //大写都是后端数据，小写都是js约束
         var Faq_question = $("#faq_question").val();
@@ -895,10 +925,12 @@ $(document).ready(function() {
                     $("#faq_question").val(data.Faq_question);
                     $("#faq_answer").val(data.Faq_answer);
                     alert(data.faqmsg);
-                    //保存之后返回到FAQ页面
+                    //保存之后返回到FAQ页
                     $("#faq_panel").show();
                     $("#addFaq_panel").hide();
-                    dt_faq.ajax.reload();
+                    // dt_faq.ajax.reload();
+                    dt_faq.bootstrapTable('refresh');
+
                 },
                 error: function (result) {
                     console.log(XMLHttpRequest.status);
@@ -991,7 +1023,7 @@ $(document).ready(function() {
             }
         }
     });
-        // 根据第一个选项决定第二个选项
+    // 根据第一个选项决定第二个选项
     $("#first_select").click(function () {
         var value = $("#first_select").val();
         switch (value) {
@@ -1069,4 +1101,5 @@ var notices = new Vue({
         }
     }
 });
+
 

@@ -358,3 +358,11 @@ thead{
 .th-inner{
     font-weight: normal!important;
 }
+
+table.dataTable tbody tr:hover {
+    background-color: rgb(225, 243, 255);
+}
+
+.table2-bordered > tbody > tr > td, .table2-bordered > tbody > tr > th, .table2-bordered > tfoot > tr > td, .table2-bordered > tfoot > tr > th, .table2-bordered > thead > tr > td, .table2-bordered > thead > tr > th {
+    border: 1px solid #ddd;
+}
