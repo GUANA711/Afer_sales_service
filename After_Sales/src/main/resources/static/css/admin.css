@@ -172,6 +172,7 @@ table input{
     line-height: 1.5;
     border-radius: 3px;
 }
+
 .searchSel{
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -224,7 +225,7 @@ table{
     table-layout: fixed;
 }
 table tr,td,th{
-    word-wrap: break-word;
+    word-wrap: break-word;          /* 隐藏超出内容 */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -232,9 +233,11 @@ table tr,td,th{
     padding-left: 5px;
     cursor: default;
 }
-table tbody td:hover{
-    overflow: visible;
+table tbody td:hover,
+#role_resource td {
+    overflow: visible;              /* 恢复隐藏内容 */
     white-space: normal;
+    font-size: 15px;
     cursor: hand;
 }
 table th{
@@ -255,6 +258,60 @@ table tbody tr:hover td{background-color:none;}
 table tbody tr:hover{color:#fff;background-color:rgb(51, 122, 183);} 
 table tbody tr:hover a{color:#fff;}
 table tbody tr:hover .searchSel{background-color: #F8F8FF;color: black;}
+#role_resource{
+    height: 350px;
+    overflow-y: auto;
+}
+#role_resource tbody tr{
+    color: #364a5f;
+    background-color: transparent;
+}
+#role_resource tbody td{
+    padding: 0px;
+}
+#role_resource tbody tr:hover a {
+    color: rgb(51, 122, 183);
+}
+#resourceAllow {
+    overflow: auto;
+}
+
+/* tags */
+
+.button-new-tag {
+    /* margin-left: 5px; */
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.input-new-tag {
+    width: 90px;
+    margin-left: 5px;
+    vertical-align: bottom;
+}
+.button{
+    width: 100px;
+    line-height: 30px;
+    text-align: center;
+    font-weight: 500;
+    color: #fff;
+    text-shadow:1px 1px 1px #333;
+    border-radius: 5px;
+    margin:0 20px 0 0;
+    position: relative;
+    overflow: hidden;
+}
+.button.gray {
+    color: #8c96a0;
+    text-shadow: 1px 1px 1px #fff;
+    border: 1px solid #dce1e6;
+    box-shadow: 0 1px 2px #fff inset, 0 -1px 0 #a8abae inset;
+    background: -webkit-linear-gradient(top, #f2f3f7, #e4e8ec);
+    background: -moz-linear-gradient(top, #f2f3f7, #e4e8ec);
+    background: linear-gradient(top, #f2f3f7, #e4e8ec);
+}
 /* 任务指派按钮 */
 .assign_btn{
     padding-left: 100px;

@@ -1,4 +1,5 @@
 /* jshint esversion: 6 */
+// import Vue from 'vue';
 $(document).ready(function () {
     notices.showNotice();
 });
@@ -43,7 +44,7 @@ var menu = new Vue({
                     roles.searchFor(0);
                     break;
                 case 6:
-                    // roles.searchFor(0);
+                    resourceAllow.init();
                     break;
                 case 7:
                     resourceControl.searchFor(0);
@@ -488,8 +489,8 @@ var roles = new Vue({
     },
     methods: {
         init_page: function (totalPage, currentPage) {
-            $("#role table tbody").html('');
             if (totalPage == 0) {
+                $("#role table tbody").html('');
                 $("#role table tbody").append("没有查询到相关数据！");
                 return;
             }
@@ -610,101 +611,148 @@ var roles = new Vue({
 //资源分配
 var resourceAllow = new Vue({
     el: "#resourceAllow",
-    data() {
-        return {
-            selected: 0,
-            roleSearch: 0,
-            roleChoice: [],
-            key: "",
-            roleOptions: ["管理员", "维护人员", "普通用户", "负责人"],
-            placeholder: ["id","资源名称", "资源描述", "路径", "权限", "父资源id"],
-            page: {
-                pageSize: 8,
-                pageNum: 1,
-                length: 1,
-                totalPage: 0
-            },
-            data: ''
-        };
+    data:{
+        roles: [],
+        roleNames: ["管理员", "维护人员", "普通用户", "负责人"],
+        hasRes: [],
+        notRes: [],
+        inputValue: '',
+        inputVisible: false,
+        showName: false,
+        roleName:'',
+        row:-1
     },
     methods: {
-        init_page: function (totalPage, currentPage) {
-            if (totalPage == 0) {
-                $("#role_resource table tbody").html('');
-                $("#role_resource table tbody").append("没有查询到相关数据！");
-                return;
-            }
-            $('#pagination7').jqPaginator({
-                totalPages: totalPage,        //页码整数
-                visiblePages: 6,
-                currentPage: currentPage,
-                first: '<li><a href="javascript:void(0);">首页</a></li>',
-                prev: '<li><a href="javascript:void(0);">上一页</a></li>',
-                next: '<li><a href="javascript:void(0);">下一页</a></li>',
-                last: '<li><a href="javascript:void(0);">末页</a></li>',
-                page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
-                onPageChange: function (num, type) {
-                    if (type == 'change') {
-                        resourceAllow.page.pageNum = num;
-                        for (const i in resourceAllow.data) {
-                            resourceAllow.data[i].Role_id -= 1;
-                            resourceAllow.roleChoice[i] = resourceAllow.data[i].Role_id;
-                        }
-                        resourceAllow.searchFor(2);
-                    }
-                }
-            });
-        },
-        calPage: function () {
-            resourceAllow.page.totalPage = Math.ceil(resourceAllow.page.length / resourceAllow.page.pageSize);
-        },
-        searchFor: function (initial) {
-            if (initial == 1) {
-                this.page.pageNum = 1;
-            } else if (initial == 0) {
-                this.page.pageNum = 1;
-                this.key = '';
-                this.selected = 0;
-            }
-            if (this.selected == 2) {
-                this.key = this.roleSearch;
-            }
-            axios
-                .post('/adminLoing/searchuser/' + this.page.pageNum + '/' + this.page.pageSize, {
-                    "key": this.key,
-                    "choice": this.selected
-                })
+        init: function () {
+            this.roles = [];  //清空数组
+            this.hasRes = [];
+            this.notRes.splice(0)
+            axios          //查角色this.set(this.arr,‘2’,’‘testStr’’) 即this.$set(obj,key,val)
+                .post('/adminLoing/role_show')
                 .then(function (response) {
-                    resourceAllow.data = response.data[0];
-                    resourceAllow.page.length = response.data[1];
-                    resourceAllow.calPage();
-                    // for (const i in resourceAllow.data) {
-                    //     resourceAllow.data[i].Role_id -= 1;
-                    //     resourceAllow.roleChoice[i] = resourceAllow.data[i].Role_id;
-                    // }
-                    resourceAllow.init_page(resourceAllow.page.totalPage, resourceAllow.page.pageNum);
+                    for (let i = 0; i < response.data.length; i++) {
+                        n = response.data[i].Role_id;
+                        if (n < 5 && n > 0) {
+                            n = n - 1;
+                            response.data[i].Role_name = resourceAllow.roleNames[n];
+                            n = n + 1;
+                        }
+                        Vue.set(resourceAllow.roles, i, response.data[i]);
+                        resFor(i, n);
+                    }
                 })
                 .catch(function (error) {
                     $('#failModal .modal-body').text(error);
                     $("#failModal").modal();
                 });
+            function resFor(x,id) {     
+                axios       //查角色拥有资源
+                    .post('/adminLoing/role_have_resource', {
+                        "roleID": id
+                    })
+                    .then(function (response) {
+                        Vue.set(resourceAllow.hasRes, x, response.data);
+                        // resourceAllow.[x] = response.data;
+                    })
+                    .catch(function (error) {
+                        $('#failModal .modal-body').text(error);
+                        $("#failModal").modal();
+                    });
+                axios       //查角色未有资源
+                    .post('/adminLoing/role_dont_ave_resource', {
+                        "roleID": id
+                    })
+                    .then(function (response) {
+                        Vue.set(resourceAllow.notRes, x, response.data);
+                        // resourceAllow.notRes[x] = response.data;
+                    })
+                    .catch(function (error) {
+                        $('#failModal .modal-body').text(error);
+                        $("#failModal").modal();
+                    });
+            }
+            // console.dir(resourceAllow.notRes);
+            // console.log(resourceAllow.hasRes);
+            // console.log(resourceAllow.roles);
         },
-        deleteRole: function (index) {
-            if (confirm("确定删除id为" +
-                resourceAllow.data[index].User_id +
-                "的" +
-                resourceAllow.roleOptions[resourceAllow.data[index].Role_id] +
-                "角色吗？")) {
+        showInput(index) {
+            this.row = index;
+            this.inputVisible = true;
+            // this.$nextTick(_ => {        结合@blur="handleInputConfirm(index)"使用
+            //     this.$refs.saveTagInput.$refs.input.focus();        //$nextTick
+            // });
+        },
+        handleInputConfirm(index) {                     //添加
+            let inputValue = this.inputValue;
+            isAble = false;
+            indexOf = resourceAllow.notRes[index].indexOf(inputValue);
+            if (indexOf != -1) {            //输入合法
                 axios
-                    .post('/adminLoing/deleterole', {
-                        "userID": resourceAllow.data[index].User_id,
-                        "roleID": resourceAllow.roleChoice[index]
+                    .post('/adminLoing/delete_role_resource', {
+                        "roleID": this.roles[index].Role_id,
+                        "resource": inputValue
+                    })
+                    .then((response) => {
+                        if (response.data.status) {//修改视图
+                            resourceAllow.notRes[index].splice(indexOf, 1);
+                            Vue.set(resourceAllow.hasRes[index], resourceAllow.hasRes[index].length, inputValue);
+                        } else {
+                            $('#failModal .modal-body').text(response.data.msg);
+                            $("#failModal").modal();
+                        }
+                    }).catch((error) => {
+                        $('#failModal .modal-body').text(error);
+                        $("#failModal").modal();
+                    });
+                }else{          //输入权限不合法
+                    let allow = this.notRes[index].toString();
+                    $('#failModal .modal-body').text("输入权限不合法，当前角色可添加权限："+allow);
+                    $("#failModal").modal();
+                }
+            this.inputVisible = false;
+            this.row = -1;
+            this.inputValue = '';
+        },
+        handleClose: function (idIndex, tag) {          //删除角色对应权限
+            if (confirm("确定删除" + this.roles[idIndex].Role_name+"的" +
+                tag +
+                "的权限吗？")) {
+                axios
+                    .post('/adminLoing/delete_role_resource', {
+                        "roleID": resourceAllow.roles[idIndex].Role_id,
+                        "resource": tag
+                    })
+                    .then((response) => {
+                        if (response.data.status) {
+                            indexOf = resourceAllow.hasRes[idIndex].indexOf(tag);
+                            // console.log("id:" + indexOf);
+                            // console.log(idIndex);
+                            // console.log(resourceAllow.hasRes[idIndex]);
+                            resourceAllow.hasRes[idIndex].splice(indexOf, 1);       //修改视图
+                            Vue.set(resourceAllow.notRes[idIndex], resourceAllow.notRes[idIndex].length, tag);
+                        } else {
+                            $('#failModal .modal-body').text(response.data.msg);
+                            $("#failModal").modal();
+                        }
+                    }).catch((error) => {
+                        $('#failModal .modal-body').text(error);
+                        $("#failModal").modal();
+                    });
+                } 
+        },
+        deleteRoleRes: function (index) {
+            if (confirm("确定删除id为" +
+                resourceAllow.roles[index].Role_id +
+                "的角色吗？")) {
+                axios
+                    .post('/adminLoing/delete_role', {
+                        "roleID": resourceAllow.roles[index].Role_id,
                     })
                     .then(function (response) {
                         if (response.data.status) {
+                            resourceAllow.init();
                             $('#successModal .modal-body').text(response.data.msg);
                             $("#successModal").modal();
-                            resourceAllow.searchFor(2);
                         } else {
                             $('#failModal .modal-body').text(response.data.msg);
                             $("#failModal").modal();
@@ -715,6 +763,28 @@ var resourceAllow = new Vue({
                         $("#failModal").modal();
                     });
             }
+        },
+        createRole() {
+            axios
+                .post('/adminLoing/add_role', {
+                    "rolename": this.roleName,
+                })
+                .then(function (response) {
+                    if (response.data.status) {
+                        resourceAllow.init();
+                        $('#successModal .modal-body').text(response.data.msg);
+                        $("#successModal").modal();
+                    } else {
+                        $('#failModal .modal-body').text(response.data.msg);
+                        $("#failModal").modal();
+                    }
+                })
+                .catch(function (error) {
+                    $('#failModal .modal-body').text(error);
+                    $("#failModal").modal();
+                });
+            showName = false;
+            this.roleName = '';
         }
     }
 });

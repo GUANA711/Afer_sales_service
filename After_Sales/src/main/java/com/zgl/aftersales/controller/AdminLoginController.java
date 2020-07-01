@@ -522,11 +522,10 @@ public class AdminLoginController {
     public Status addRole(@RequestBody JSONObject json){
         Status status=new Status();
         String rolename=json.getString("rolename");
-        Map<String,?> map=new HashMap<>();
 
         try {
-            roleService.selectByORoleName(rolename);
-            if(map.isEmpty()){
+            Map<String,?> map = roleService.selectByORoleName(rolename);
+            if(map!=null){
                 status.setMsg("添加失败,该角色已存在");
                 status.setStatus(false);
                 return status;
@@ -650,10 +649,10 @@ public class AdminLoginController {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("currIndex", (currenPage - 1) * pageSize);
         map.put("pageSize", pageSize);
-        if (choice.equals("0")) {
+        if (choice.equals("1")) {
             map.put("name", key);
         }
-        if (choice.equals("1")) {
+        if (choice.equals("3")) {
             map.put("perms", key);
         }
 
