@@ -316,4 +316,9 @@ thead{
     word-break:break-all!important;
 }
 
+.item > img{
+    height: 500px!important;
+    width: 500px!important;
+}
+
 

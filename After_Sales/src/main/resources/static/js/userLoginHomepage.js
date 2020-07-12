@@ -157,8 +157,8 @@ $(function () {
                             par++;
 
                         }
-                        console.log("%%%%%%%%%%%$$$$$$$$$$$$$$$$$");
-                        console.log(item);
+                        // console.log("%%%%%%%%%%%$$$$$$$$$$$$$$$$$");
+                        // console.log(item);
 
                         $("#pic").empty();
 
@@ -177,10 +177,19 @@ $(function () {
                         $("#pic").append("<div class=\"carousel-inner\">"+item+"</div>");
 
                         //插入左右切换按钮
-                        var slide = "<a class=\"carousel-control left\" href=\"#pic\"" +
-                            "       data-slide=\"prev\"> <span _ngcontent-c3=\"\" aria-hidden=\"true\" class=\"glyphicon glyphicon-chevron-right\"></span></a>" +
-                            "    <a class=\"carousel-control right\" href=\"#pic\"" +
-                            "       data-slide=\"next\">&rsaquo;</a>";
+                        // var slide = "<a class=\"carousel-control left\" href=\"#pic\"" +
+                        //     "       data-slide=\"prev\"> <span _ngcontent-c3=\"\" aria-hidden=\"true\" class=\"glyphicon glyphicon-chevron-right\"></span></a>" +
+                        //     "    <a class=\"carousel-control right\" href=\"#pic\"" +
+                        //     "       data-slide=\"next\">&rsaquo;</a>";
+
+                        var slide = "<a class=\"left carousel-control\" href=\"#pic\" role=\"button\" data-slide=\"prev\">" +
+                            "        <span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span>" +
+                            "        <span class=\"sr-only\">Previous</span>" +
+                            "    </a>" +
+                            "    <a class=\"right carousel-control\" href=\"#pic\" role=\"button\" data-slide=\"next\">" +
+                            "        <span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>" +
+                            "        <span class=\"sr-only\">Next</span>" +
+                            "    </a>";
 
                         $("#pic").append(slide);
                     }
@@ -709,7 +718,7 @@ $(document).ready(function () {
                 // alert("上传成功");
                 picflag = true;
                 picresult = data;
-                console.log(data);
+                // console.log(data);
             },
             error: function () {
                 picflag = false;
