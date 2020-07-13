@@ -64,7 +64,7 @@ public class LoginController {
         user.setTel(StringEscapeUtils.escapeSql(userJson.getString("Tel")));
         user.setEmail(StringEscapeUtils.escapeSql(userJson.getString("Email")));
 
-        //邮箱验证
+        //邮箱验证生成激活码code
         user.setStatus(0);
         UUIDUtils uuidUtils = new UUIDUtils();
         String code = uuidUtils.getUUID()+ uuidUtils.getUUID();
@@ -153,7 +153,8 @@ public class LoginController {
         String subject = "来自软件售后服务系统网站的激活邮件";
         //user/checkCode?code=code(激活码)是我们点击邮件链接之后根据激活码查询用户，如果存在说明一致，将用户状态修改为“1”激活
         //上面的激活码发送到用户注册邮箱
-        String context = "<a href=\"/user/checkCode?code="+code+"\">激活请点击:"+code+"</a>";
+        //String context = "<a href=\"/user/checkCode?code="+code+"\">激活请点击:"+code+"</a>";
+          String context = "激活请点击:"+"http://127.0.0.1:5050/user/checkCode?Code="+code;
         //发送激活邮件
         mailService.sendMail (user.getEmail(),subject,context);
         //
@@ -172,20 +173,25 @@ public class LoginController {
      *校验邮箱中的code激活账户
      * 首先根据激活码code查询用户，之后再把状态修改为"1"
      */
-    @RequestMapping(value = "/checkCode")
-    public String checkCode(String code){
-        System.out.println("code"+code);
-        Users user = userService.checkCode(code);
+    @GetMapping("/checkCode")
+    public String checkCode(@RequestParam(value = "Code",required=false)String Code){
+        System.out.println("code"+Code);
+        Users user = userService.checkCode(Code);
         System.out.println(user);
         //如果用户不等于null，把用户状态修改status=1
         if (user !=null){
             user.setStatus(1);
             //把code验证码清空，已经不需要了
             user.setCode("");
-            System.out.println(user);
+            System.out.println("user:"+user);
+            System.out.println("status:"+user.getStatus());
             userService.updateUserStatus(user);
         }
-        return "login";
+        if(user.getStatus()==1){
+            return "激活成功，请重新登陆！";
+        }else {
+            return "激活失败！";
+        }
     }
 
     /**
