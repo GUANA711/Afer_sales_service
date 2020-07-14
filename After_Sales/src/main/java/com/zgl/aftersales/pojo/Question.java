@@ -2,12 +2,14 @@ package com.zgl.aftersales.pojo;
 
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 
- enum Question_status1{
+enum Question_status1{
     unaccepted,accepted,done,overtime;
 };
 public class Question implements Serializable {
@@ -92,6 +94,7 @@ public class Question implements Serializable {
     public void setCommit_time(String commit_time) {
         Commit_time = commit_time;
     }
+
 
     @Override
     public String toString() {

@@ -1,4 +1,7 @@
 $(function () {
+    // $("#user_panel").load("info.html");
+    $("#personal").load("info.html");
+
     //xss
     function filterXSS(str) {
         return str
@@ -8,8 +11,9 @@ $(function () {
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#39;')
-            .replace(/\r{0,}\n/g,'<br/>');
+            .replace(/\r{0,}\n/g, '<br/>');
     }
+
     //faq的分页搜索
     $("#faq_title").click(function () {
         $("#find_panel").children().hide();
@@ -34,10 +38,22 @@ $(function () {
             }, {
                 field: 'faq_answer',
                 title: 'FAQ答案',
+                cellStyle:formatTableUnit,
+                formatter:paramsMatter,
                 searchable: true,
             },],
+            queryParams: function (params) {
+                //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
+                var temp = {
+                    rows: params.limit,                         //页面大小
+                    page: (params.offset / params.limit) + 1,   //页码
+                    sort: params.sort,      //排序列名
+                    sortOrder: params.order //排位命令（desc，asc）
+                };
+                return temp;
+            },
             responseHandler: function (data) {
-                for (var i = 0; i < data.length; i++){
+                for (var i = 0; i < data.length; i++) {
                     data[i].faq_question = filterXSS(data[i].faq_question);
                     data[i].faq_answer = filterXSS(data[i].faq_answer);
                 }
@@ -47,110 +63,156 @@ $(function () {
         $("#faq_panel").show();
         $(".message").show();
     });
-    //个人信息
-    //获取个人信息
-    var userinfoVue = new Vue({
-        el: '#form_userinfo',
-        data() {
-            return {
-                user: {
-                    username: '',
-                    email: '',
-                    tel: '',
-                    isReadOnly: true
-                }
+    /**
+     * paramsMatter
+     * 表格超出宽度鼠标悬停显示td内容
+     */
 
-            }
-        },
-        methods: {
-            edit: function () {
-                userinfoVue.user.isReadOnly = false;
-            },
-            getData: function () {
-                axios
-                    .get('/question/checkPostMan')
-                    .then(function (response) {
-                        userinfoVue.user.username = response.data.user_name;
-                        userinfoVue.user.email = response.data.email;
-                        userinfoVue.user.tel = response.data.tel;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
-            postInfo() {
-                axios.post('/worker/worker_updateBy_Session_UserId', { User_name: userinfoVue.user.username, Tel: userinfoVue.user.tel, Email: userinfoVue.user.email })
-                    .then(res => {
-                        console.log("success!");
-                        var username = userinfoVue.user.username;
-                        var email = userinfoVue.user.email;
-                        var tel = userinfoVue.user.tel;
-                        userinfoVue.user.username = username;
-                        userinfoVue.user.email = email;
-                        userinfoVue.user.tel = tel;
-                        Vue.set(userinfoVue.user.tel, 0, tel);
-                        Vue.set(userinfoVue.user, 0, { username: username, tel: tel, email: email, isReadOnly: true });
-                        $("#successModal").modal();
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    })
+    var spanId = 0;
+    var spanString = "span";
+    function paramsMatter(value,row,index, field) {
+        //先清空上次内容
+        // $("#spanID").clear();
+        // var div = document.getElementById('spanID');
+        $(function () { $("[data-toggle='tooltip']").tooltip(); });
+        $(function () { $('.tooltip-hide').tooltip('hide');});
+        $(function () { $('.tooltip-show').tooltip('show');});
+        var id = spanString+spanId;
+        var span=document.createElement('span');
+        span.setAttribute('id',id);
+        span.setAttribute('class','tooltip-hide');
+        span.setAttribute('data-toggle','tooltip');
+        span.setAttribute('data-placement','bottom');
+        span.setAttribute('title',value);
+        span.innerHTML = value;
+        console.log("span!!"+span.outerHTML);
+        spanId++;
+        return span.outerHTML;
+    }
+    /**
+     * formatTableUnit
+     * td宽度以及内容超过宽度隐藏
+     */
+    function formatTableUnit(value,row,index){
+        return {
+            css: {
+            "white-space": 'nowrap',
+            "text-overflow": 'ellipsis',
+            "overflow": 'hidden',
+            "max-width":"400px"
             }
         }
-    });
-    //问题提交
-    var queVue = new Vue({
-        el: '#question_panel',
-        data() {
-            return {
-                question: {
-                    itemId: '',
-                    question_detail: '',
-                    question_type: '',
-                }
-            }
-        },
-        methods: {
-            getItem: function () {
-                axios
-                    .get('/question/checkItemId?item_id=' + queVue.question.itemId)
-                    .then(function (response) {
-                        if (response.data == 0) {
-                            //数据库中没有ID，提示ID错误
-                            $("#iDfailSubmitModal").modal();
-                            //清空文本域
-                            queVue.question.itemId = "";
-                            queVue.question.question_detail = "";
-                        } else {
-                            $("#successSubmitModal").modal();
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
-            postInfo() {
-                axios.post('/question/addQuestion', { item_id: queVue.question.itemId, question_detail: queVue.question.question_detail, question_type: queVue.question.question_type })
-                    .then(res => {
-                        console.log("success!");
-                        //没有输入文本域
-                        if (queVue.question.question_type == "") {
-                            $("#failSubmitModal").modal();
-                        }
-                        //清空文本域
-                        queVue.question.itemId = "";
-                        queVue.question.question_detail = "";
-                    })
-                    .catch(err => {
-                        console.log(err);
-                    })
-            }
-        }
-    })
+    }
 
+    /**
+     * 点击表格的某一行的按钮显示图片
+     * @type {{"click .RoleOfedit": Window.operateEvents.click .RoleOfedit}}
+     */
+    window.operateEvents = {
+        'click .RoleOfedit': function (e, value, row, index) {
+            // var rows = $("#arl_table").bootstrapTable('getSelections');
+            // console.log("this is data!!! ");
+            // console.log("this is row.data!!! "+row['question_id']);
+
+            //ID
+            var url1 = "/question/checkImages?Question_id="+row['question_id'];
+            $.ajax({
+                type: 'GET',
+
+                data: '',
+
+                contentType: 'application/json',
+
+                dataType: 'json',
+
+                url: url1,
+
+                success: function (data) {
+                    //先清空
+                    $("#pic").empty();
+
+                    //没有图片
+                    if (data.length==0){
+                        $("#pic").append("<div class=\"alert alert-warning\">没有图片信息！</div>");
+                    }else{
+                        var id;
+                        var blob;
+                        var picurl = "data:image/jpeg;base64,";
+
+                        //轮播图片
+                        var item ="";
+                        var par = 5000;
+                        for (var k=0;k<data.length;k++){
+                            id = data[k].image_id;
+                            blob = data[k].imageBlob;
+                            if (k==0){
+                                $("#pic").append("<div class=\"item active\" id= "+par+">"+"<img id="+id+"  />"+"</div>");
+                                document.getElementById(''+id).src = picurl+blob;
+                                item = item + $("#"+par).prop("outerHTML");
+                            }else {
+                                $("#pic").append("<div class=\"item \" id="+par+">"+"<img id="+id+" />"+"</div>");
+                                document.getElementById(''+id).src = picurl+blob;
+                                item = item + $("#"+par).prop("outerHTML");
+                            }
+                            par++;
+
+                        }
+                        // console.log("%%%%%%%%%%%$$$$$$$$$$$$$$$$$");
+                        // console.log(item);
+
+                        $("#pic").empty();
+
+                        var str = "<ol class=\"carousel-indicators\">";
+                        // <!-- 指示符 -->
+                        for (var j=0;j<data.length;j++){
+                            if (j==0){
+                                str = str +"<li data-target='#pic' class='active' data-slide-to="+j+"></li>";
+                            }else{
+                                str = str +"<li data-target='#pic' data-slide-to="+j+"></li>";
+                            }
+                        }
+                        $("#pic").append(str);
+
+                        //正式插入轮播图片
+                        $("#pic").append("<div class=\"carousel-inner\">"+item+"</div>");
+
+                        //插入左右切换按钮
+                        // var slide = "<a class=\"carousel-control left\" href=\"#pic\"" +
+                        //     "       data-slide=\"prev\"> <span _ngcontent-c3=\"\" aria-hidden=\"true\" class=\"glyphicon glyphicon-chevron-right\"></span></a>" +
+                        //     "    <a class=\"carousel-control right\" href=\"#pic\"" +
+                        //     "       data-slide=\"next\">&rsaquo;</a>";
+
+                        var slide = "<a class=\"left carousel-control\" href=\"#pic\" role=\"button\" data-slide=\"prev\">" +
+                            "        <span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span>" +
+                            "        <span class=\"sr-only\">Previous</span>" +
+                            "    </a>" +
+                            "    <a class=\"right carousel-control\" href=\"#pic\" role=\"button\" data-slide=\"next\">" +
+                            "        <span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>" +
+                            "        <span class=\"sr-only\">Next</span>" +
+                            "    </a>";
+
+                        $("#pic").append(slide);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, data) {
+                    // 状态码
+                    console.log(XMLHttpRequest.status);
+                    // 状态
+                    console.log(XMLHttpRequest.readyState);
+                    // 错误信息
+                    // alert(textStatus);
+                }
+            });
+
+            console.log("modal!!!!");
+            $("#picSubmitModal").modal();
+
+        }
+    };
 });
 // 预处理
 $(document).ready(function () {
+    $(function () { $("[data-toggle='tooltip']").tooltip(); });
     //xss
     function filterXSS(str) {
         return str
@@ -162,6 +224,49 @@ $(document).ready(function () {
             .replace(/'/g, '&#39;')
             .replace(/\r{0,}\n/g, '<br/>');
     }
+    $(function () { $('.tooltip-show').tooltip('show');});
+    $(function () { $('.tooltip-hide').tooltip('hide');});
+    $(function () { $('.tooltip-destroy').tooltip('destroy');});
+    $(function () { $('.tooltip-toggle').tooltip('toggle');});
+    $(function () { $(".tooltip-options a").tooltip({html : true });});
+    $(function () { $("[data-toggle='tooltip']").tooltip(); });
+
+    var spanid = 0;
+    var spanString1 = "spanin";
+    function paramsMatter1(value,row,index, field) {
+        //先清空上次内容
+        // $("#spanID").clear();
+        // var div = document.getElementById('spanID');
+        $(function () { $("[data-toggle='tooltip']").tooltip(); });
+        $(function () { $('.tooltip-hide').tooltip('hide');});
+        $(function () { $('.tooltip-show').tooltip('show');});
+        var id = spanString1+spanid;
+        var span=document.createElement('span');
+        span.setAttribute('id',id);
+        span.setAttribute('class','tooltip-hide');
+        span.setAttribute('data-toggle','tooltip');
+        span.setAttribute('data-placement','bottom');
+        span.setAttribute('title',value);
+        span.innerHTML = value;
+        console.log("span!!"+span.outerHTML);
+        spanid++;
+        return span.outerHTML;
+    }
+    /**
+     * formatTableUnit
+     * td宽度以及内容超过宽度隐藏
+     */
+    function formatTableUnit1(value,row,index){
+        return {
+            css: {
+                "white-space": 'nowrap',
+                "text-overflow": 'ellipsis',
+                "overflow": 'hidden',
+                "max-width":"400px"
+            }
+        }
+    }
+
     //****三大面板的分页******
     // 点击已提交切换面板
     $("#alr_title").click(function () {
@@ -171,11 +276,18 @@ $(document).ready(function () {
             url: '/question/checkQuestionsubmited',
             methods: 'get',
             pagination: true,//显示分页
+            sidePagination: "true",
+            toolbar: "#toolbar",
             striped: true,//显示行间距色
             pageSize: 5,//每一页的行数
             pageList: [5, 10, 20],//每页可选择的行数
             showRefresh: true,//显示刷新按钮
+            idField: 'question_id', //指定主键
+            singleSelect: true, //开启单选,想要获取被选中的行数据必须要有该参数
             columns: [{
+                field: 'question_id',
+                title: '问题id'
+            },{
                 field: 'question_type',
                 title: '问题分类'
             }, {
@@ -183,7 +295,17 @@ $(document).ready(function () {
                 title: '项目名称'
             }, {
                 field: 'question_detail',
-                title: '问题详情'
+                title: '问题详情',
+                cellStyle:formatTableUnit1,
+                formatter:paramsMatter1,
+            },{
+                field: 'price',
+                title: '操作',
+                width: 120,
+                align: 'center',
+                valign: 'middle',
+                events:operateEvents,
+                formatter: actionFormatter,
             },],
             responseHandler: function (data) {
                 //**********注意**********\
@@ -195,42 +317,23 @@ $(document).ready(function () {
                 return data;
             }
         });
-        // //GET数据
-        // $.ajax({
-        //     type:'GET',
-        //     data:'',
-        //     contentType :'application/json',
-        //     dataType:'json',
-        //     url :'/question/checkQuestionsubmited',
-        //     success :function(data) {
-        //         //动态生成面板
-        //         //首先清空面板
-        //         $("#alr_panel").empty();
-        //         if (data.length==0){
-        //             $("#alr_panel").append("<div class=\"alert alert-info\" role=\"alert\">没有已提交的数据！</div>");
-        //         }else {
-        //             // $("#alr_panel").append("<ul class=\"breadcrumb\"><li>首页</li><li>已提交的问题</li></ul>");
-        //             //设置面板
-        //             for(var i in data){
-        //                 $("#alr_panel").append("<div class='pa_all panel panel-default' id="+i+">");
-        //                 $("#alr_panel").append(" <div class=\"panel-heading\">" + "<h3 class=\"panel-title\">问题查看：</h3>" + "</div>"+"<div class=\"panel-body\">"+"<form>");
-        //                 $("#alr_panel").append("<ul class=\"list-group\" >");
-        //                 $("#alr_panel").append("<li class=\"list-group-item\"><label for=\"select\">问题分类:</label>"+"<input type=\"text\" id=\"select\" readonly=\"readonly\" value=\""+data[i].question_type+"\"></li>");
-        //                 $("#alr_panel").append("<li class=\"list-group-item\"><label for=\"number\">项目编号:</label>"+"<input type=\"text\" id=\"number\" readonly=\"readonly\" value=\""+data[i].item_id+"\"></li>");
-        //                 $("#alr_panel").append("<li class=\"list-group-item\"><span class='lable_textarea'>问题详情:</span>"+"<textarea rows=\"6\" cols=\"50\" readonly=\"readonly\">"+data[i].question_detail+"</textarea></li>");
-        //                 $("#alr_panel").append("</ul>"+"</form>"+"</div>"+"</div>");
-        //             }
-        //         }
-        //     },
-        //     error: function (XMLHttpRequest) {
-        //         console.log(XMLHttpRequest.status);
-        //         console.log(XMLHttpRequest.readyState);
-        //     }
-        // });
+        //操作栏的格式化
+        function actionFormatter(value, row, index) {
+            var id = value;
+            var result = "";
+            result += "<button class='btn btn-primary RoleOfedit' title='查看图片'>查看图片</button>";
+            return result;
+        }
         $("#alr_top").show();
         $("#alr_panel").show();
         $(".message").show();
     });
+    //自定义规则
+    jQuery.validator.addMethod("isPhone", function(value, element) {
+        var length = value.length;
+        var mobile = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+        return this.optional(element) || (length == 11 && mobile.test(value));
+    }, "请填写正确的手机号码");//可以自定义默认提示信息
     // 修改基础信息验证
     $("#form_userinfo").validate({
         rules: {
@@ -245,8 +348,8 @@ $(document).ready(function () {
             },
             tel: {
                 required: true,
-                minlength: 7,
-                maxlength: 15
+                digits:true,
+                isPhone:true
             }
         },
         messages: {
@@ -257,8 +360,8 @@ $(document).ready(function () {
             },
             tel: {
                 required: "请输入电话",
-                minlength: "长度不能小于7",
-                maxlength: "长度不能大于15"
+                digits:"只能输入数字",
+                isPhone: "格式错误"
             },
             email: {
                 required: "请输入电子邮件",
@@ -275,9 +378,13 @@ $(document).ready(function () {
             methods: 'get',
             pagination: true,//显示分页
             striped: true,//显示行间距色
+            sidePagination: "true",
+            toolbar: "#toolbar",
             pageSize: 5,//每一页的行数
             pageList: [5, 10, 20],//每页可选择的行数
-            showRefresh: true,//显示刷新按钮
+            showRefresh: true,//显示刷新按钮]idField: 'question_id', //指定主键
+            singleSelect: true, //开启单选,想要获取被选中的行数据必须要有该参数
+
             columns: [{
                 field: 'question_type',
                 title: '问题分类'
@@ -286,7 +393,17 @@ $(document).ready(function () {
                 title: '项目名称'
             }, {
                 field: 'question_detail',
-                title: '问题详情'
+                title: '问题详情',
+                cellStyle:formatTableUnit1,
+                formatter:paramsMatter1,
+            },{
+                field: 'price',
+                title: '操作',
+                width: 120,
+                align: 'center',
+                valign: 'middle',
+                events:operateEvents,
+                formatter: actionFormatter,
             },],
             responseHandler: function (data) {
                 //**********注意**********\
@@ -297,37 +414,13 @@ $(document).ready(function () {
                 return data;
             }
         });
-        // //GET数据
-        // $.ajax({
-        //     type:'GET',
-        //     data:'',
-        //     contentType :'application/json',
-        //     dataType:'json',
-        //     url :'/question/checkQuestionfinished',
-        //     success :function(data) {
-        //         //动态生成面板
-        //         //首先清空面板
-        //         $("#fin_panel").empty();
-        //         if (data.length==0){
-        //             $("#fin_panel").append("<div class=\"alert alert-info\" role=\"alert\">没有已完成的数据！</div>");
-        //         }else{
-        //             //设置面板
-        //             for(var i in data){
-        //                 $("#fin_panel").append("<div class='pa_all panel panel-default' id="+i+">");
-        //                 $("#fin_panel").append(" <div class=\"panel-heading\">" + "<h3 class=\"panel-title\">问题查看：</h3>" + "</div>"+"<div class=\"panel-body\">"+"<form>");
-        //                 $("#fin_panel").append("<ul class=\"list-group\" >");
-        //                 $("#fin_panel").append("<li class=\"list-group-item\"><label for=\"select\">问题分类:</label>"+"<input type=\"text\" id=\"select\" readonly=\"readonly\" value=\""+data[i].question_type+"\"></li>");
-        //                 $("#fin_panel").append("<li class=\"list-group-item\"><label for=\"number\">项目编号:</label>"+"<input type=\"text\" id=\"number\" readonly=\"readonly\" value=\""+data[i].item_id+"\"></li>");
-        //                 $("#fin_panel").append("<li class=\"list-group-item\"><span class='lable_textarea'>问题详情:</span>"+"<textarea rows=\"6\" cols=\"50\" readonly=\"readonly\">"+data[i].question_detail+"</textarea></li>");
-        //                 $("#fin_panel").append("</ul>"+"</form>"+"</div>"+"</div>");
-        //             }
-        //         }
-        //     },
-        //     error: function (XMLHttpRequest) {
-        //         console.log(XMLHttpRequest.status);
-        //         console.log(XMLHttpRequest.readyState);
-        //     }
-        // });
+        //操作栏的格式化
+        function actionFormatter(value, row, index) {
+            var id = value;
+            var result = "";
+            result += "<button class='btn btn-primary RoleOfedit' title='查看图片'>查看图片</button>";
+            return result;
+        }
         $("#fin_top").show();
         $("#fin_panel").show();
         $(".message").show();
@@ -344,6 +437,12 @@ $(document).ready(function () {
             pageSize: 5,//每一页的行数
             pageList: [5, 10, 20],//每页可选择的行数
             showRefresh: true,//显示刷新按钮
+            sortable: true, // 是否启用排序
+            sidePagination: "true",
+            toolbar: "#toolbar",
+            idField: 'question_id', //指定主键
+            singleSelect: true, //开启单选,想要获取被选中的行数据必须要有该参数
+
             columns: [{
                 field: 'question_type',
                 title: '问题分类'
@@ -352,8 +451,19 @@ $(document).ready(function () {
                 title: '项目名称'
             }, {
                 field: 'question_detail',
-                title: '问题详情'
-            },],
+                title: '问题详情',
+                cellStyle:formatTableUnit1,
+                formatter:paramsMatter1,
+            },{
+                field: 'price',
+                title: '操作',
+                width: 120,
+                align: 'center',
+                valign: 'middle',
+                events:operateEvents,
+                formatter: actionFormatter,
+            },
+            ],
             responseHandler: function (data) {
                 //**********注意**********\
                 for (var i = 0; i < data.length; i++){
@@ -363,12 +473,17 @@ $(document).ready(function () {
                 return data;
             }
         });
+        //操作栏的格式化
+        function actionFormatter(value, row, index) {
+            var id = value;
+            var result = "";
+            result += "<button class='btn btn-primary RoleOfedit' title='查看图片'>查看图片</button>";
+            return result;
+        }
         $("#ing_top").show();
         $("#ing_panel").show();
         $(".message").show();
     });
-
-
     // 根据第一个选项决定第二个选项
     $("#first_select").click(function () {
         var value = $("#first_select").val();
@@ -470,80 +585,6 @@ $(document).ready(function () {
             }
         });
     });
-    //点击提交问题的提交按钮
-    $("#question_submit").click(function () {
-        var item_id = document.getElementById("item_id").value;
-        var question_detail = document.getElementById("select_form").value + ": " + document.getElementById("question_detail").value;
-        var question_type = $("#first_select").find("option:selected").val();
-        // question_type = filterXSS(question_type);
-        if (document.getElementById("question_detail").value == '') {
-            $("#failSubmitModal").modal();
-        } else {
-            var question = {
-                "item_id": item_id,
-                "question_detail": question_detail,
-                "question_type": question_type
-            };
-            $.ajax({
-                type: 'POST',
-
-                data: JSON.stringify(question),
-
-                contentType: 'application/json',
-
-                dataType: 'json',
-
-                url: '/question/addQuestion',
-
-                success: function (data) {
-                    //清空文本域
-                    $("#question_detail").val('');
-                    $("#item_id").val('');
-                },
-                error: function (XMLHttpRequest, textStatus) {
-                    // 状态码
-                    console.log(XMLHttpRequest.status);
-                    // 状态
-                    console.log(XMLHttpRequest.readyState);
-                    // 错误信息
-                    alert(textStatus);
-                }
-            });
-            //先检查项目ID对不对
-            var url1 = "/question/checkItemId?item_id=" + item_id;
-            $.ajax({
-                type: 'GET',
-
-                data: '',
-
-                contentType: 'application/json',
-
-                dataType: 'json',
-
-                url: url1,
-
-                success: function (data) {
-                    if (data == 0) {
-                        $("#iDfailSubmitModal").modal();
-                        //清空文本域
-                        $("#question_detail").val('');
-                        $("#item_id").val('');
-                    } else {
-                        $("#successSubmitModal").modal();
-                    }
-                },
-                error: function (XMLHttpRequest, textStatus, data) {
-                    console.log("4444444");
-                    // 状态码
-                    console.log(XMLHttpRequest.status);
-                    // 状态
-                    console.log(XMLHttpRequest.readyState);
-                    // 错误信息
-                    alert(textStatus);
-                }
-            });
-        }
-    });
     // 点击编辑按钮
     $("#edit_bt").click(function () {
         $("#username").attr("readonly", false);
@@ -582,16 +623,6 @@ $(document).ready(function () {
 
                 success: function (data, XMLHttpRequest) {
                     if (data.status) {      //登录成功
-                        // alert("编辑信息发送成功，请注意查收！");
-                        // console.log("post!!!");
-                        // console.log(userinfo['User_name']);
-                        // document.getElementById("username").value = data['user_name'];
-                        // document.getElementById("tel").value = userinfo['Tel'];
-                        // document.getElementById("email").value = data['email'];
-                        // console.log("post2222222222");
-                        // console.log(document.getElementById("username").value);
-                        // console.log(document.getElementById("tel").value);
-                        // console.log(document.getElementById("email").value);
                         $("#successModal").modal();
                         console.log(XMLHttpRequest.status);
                     } else {
@@ -628,12 +659,232 @@ $(document).ready(function () {
     $("#info_title").click(function () {
         $("#info").slideToggle("slow");
     });
+
+    //判断变量，用于表示图片是否上传成功
+    var picflag = false;
+    //用于获取上传成功后图片的id
+    var picresult;
+    //用于获取问题id
+    var que_id;
+    //富文本框
+    var editor;
+
+    /**
+     * 图片表和问题表联系函数
+     */
+    function que() {
+        // addImageQuestion
+        $.ajax({
+            type: 'POST',
+            // data: '',
+            contentType: 'application/json',
+            // dataType: 'json',
+            url: "/question/addImageQuestion",
+            success: function (data) {
+                console.log("联系成功！");
+            },
+            error: function (XMLHttpRequest) {
+                console.log(XMLHttpRequest.status);
+                console.log(XMLHttpRequest.readyState);
+            }
+        });
+    }
+
+    /**
+     * ajax上传多个图片
+     */
+    function uploadPic() {
+        var form=new FormData();
+        /**
+         * 特别注意：fileForm,file是指form表单属性name的值
+         * files是指一个数组
+         * */
+        var files = document.filesForm.files.files;
+        for (var i=0;i<files.length;i++){
+            form.append("files",files[i])
+        }
+        // //进行Ajax请求
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            // dataType: "json",//预期服务器返回的数据类型,可以不设置
+            url: "/question/addImage",//url
+            data: form,
+            async: false,
+            cache: false,
+            contentType: false, //禁止设置请求类型
+            processData: false, //禁止jquery对DAta数据的处理,默认会处理
+            success: function (data) {
+                // alert("上传成功");
+                picflag = true;
+                picresult = data;
+                // console.log(data);
+            },
+            error: function () {
+                picflag = false;
+                // alert("图片上传异常！");
+                console.log("上传失败！");
+            }
+        });
+    }
+    //创建富文本框
+    var E = window.wangEditor;
+    editor = new E("#question_clear");
+    // 自定义菜单配置
+    editor.customConfig.menus = [
+        'head',  // 标题
+        'bold',  // 粗体
+        'fontSize',  // 字号
+        'fontName',  // 字体
+        'italic',  // 斜体
+        'underline',  // 下划线
+        'strikeThrough',  // 删除线
+        'foreColor',  // 文字颜色
+        'justify',  // 对齐方式
+        'emoticon',  // 表情
+        // 'image',  // 插入图片
+        'undo'  // 撤销
+    ];
+
+    //上传图片
+    editor.customConfig.uploadImgServer = '/question/addImage'; // 上传图片到服务器
+
+    editor.customConfig.uploadImgHeaders = {
+        'Accept': 'text/x-json'
+    };
+    // 隐藏“网络图片”tab
+    editor.customConfig.showLinkImg = false;
+
+    // 通过 url 参数配置 debug 模式。url 中带有 wangeditor_debug_mode=1 才会开启 debug 模式
+    editor.customConfig.debug = location.href.indexOf('wangeditor_debug_mode=1') > 0;
+
+    // 限制一次最多上传 5 张图片
+    editor.customConfig.uploadImgMaxLength = 9;
+
+    editor.customConfig.debug = true; //是否开启Debug 默认为false 建议开启 可以看到错误
+    // editor.customConfig.debug = location.href.indexOf(‘wangeditor_debug_mode=1‘) > 0; // 同上 二选一
+
+    editor.create();
+
     //点击提交问题切换面板
     $("#wri_title").click(function () {
         $("#find_panel").children().hide();
         $("#wri_top").show();
         $("#wri_panel").show();
+        editor.txt.html("请在此输入问题详情描述");
         $(".message").show();
     });
+
+    //点击提交问题的提交按钮
+    $("#question_submit").click(function () {
+        var text = editor.txt.text();
+        var item_id = document.getElementById("item_id").value;
+        var question_detail = document.getElementById("select_form").value + ": "+text;
+        var question_type = $("#first_select").find("option:selected").val();
+        if (text == '') {
+            $("#failSubmitModal").modal();
+        } else {
+
+            var question = {
+                "item_id": item_id,
+                "question_detail": question_detail,
+                "question_type": question_type
+            };
+            $.ajax({
+                type: 'POST',
+
+                data: JSON.stringify(question),
+
+                contentType: 'application/json',
+
+                dataType: 'json',
+
+                url: '/question/addQuestion',
+
+                success: function (data) {
+                    //清空文本域
+                    // console.log("data:"+data);
+                    //获取问题id
+                    que_id = data;
+                    editor.txt.clear();
+                    // $("#question_detail").val('');
+                    $("#item_id").val('');
+                },
+                error: function (XMLHttpRequest, textStatus) {
+                    // 状态码
+                    console.log(XMLHttpRequest.status);
+                    // 状态
+                    console.log(XMLHttpRequest.readyState);
+                    // 错误信息
+                    alert(textStatus);
+                }
+            });
+            //先检查项目ID对不对
+            var url1 = "/question/checkItemId?item_id=" + item_id;
+            $.ajax({
+                type: 'GET',
+
+                data: '',
+
+                contentType: 'application/json',
+
+                dataType: 'json',
+
+                url: url1,
+
+                success: function (data) {
+                    // console.log("data2!:"+data);
+                    if (data == 0) {
+                        $("#iDfailSubmitModal").modal();
+                        //清空文本域
+                        editor.txt.clear();
+                        // $("#question_detail").val('');
+                        $("#item_id").val('');
+                    } else {
+                        //成功后再考虑图片
+                        //此时是选择了图片
+                        if (document.querySelector("input[type=file]").files.length!=0){
+                            //上传图片
+                            uploadPic();
+                            if(picflag==false){
+                                //图片上传失败了
+                                console.log("pic_fail!!!!");
+                                $("#picfailSubmitModal").modal();
+                            }else{
+                                console.log("pic_success!!!!");
+                                console.log(picresult);
+                                console.log(que_id);
+                                //联系图片和问题
+                                que();
+                                $("#successSubmitModal").modal();
+                                //清空文本域
+                                editor.txt.clear();
+                                // $("#question_detail").val('');
+                                $("#item_id").val('');
+                            }
+                        }else{
+                            console.log("no pic success!!!!!");
+                            //不上传图片，直接上传文本成功
+                            $("#successSubmitModal").modal();
+                            //清空文本域
+                            editor.txt.clear();
+                            // $("#question_detail").val('');
+                            $("#item_id").val('');
+                        }
+
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, data) {
+                    // 状态码
+                    console.log(XMLHttpRequest.status);
+                    // 状态
+                    console.log(XMLHttpRequest.readyState);
+                    // 错误信息
+                    // alert(textStatus);
+                }
+            });
+        }
+    });
+//
 
 });

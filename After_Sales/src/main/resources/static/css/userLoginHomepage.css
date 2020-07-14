@@ -169,6 +169,7 @@ li{
     box-sizing: border-box;
     justify-content: space-between;
     align-items: center;
+    border: none!important;
 }
 input{
     width: 60%;
@@ -204,11 +205,13 @@ input{
 .panel{
     box-shadow: 0px 1px 12px rgb(206, 203, 203);
 }
-.panel> .panel-heading{
+.panel-heading{
+    background-color:white !important;
+}
+/* .panel> .panel-heading{
     background-color: #323652;
     color: #fff;
-
-}
+} */
 .panel-title{
     font-weight: bolder;
 }
@@ -236,9 +239,7 @@ input{
     margin-top: 20px;
     margin-left: 100px;
 }
-.btn-primary{
-    margin-left: 20px;
-}
+
 .select_form{
     width: 300px;
     height: 40px;
@@ -259,13 +260,65 @@ input{
     border-color: #000000;
     margin-right: 40px!important;
 }
-.pagination-info{
-
+#item_id{
+    width: 500px;
+    border-color: black;
 }
-.table-hover{
-
+.id_que {
+    margin-left: 12px!important;
 }
-.th-inner {
 
+ .w-e-text-container {
+     position: relative;
+     height: 160px!important;
+ }
+ #question_clear{
+     height: 200px!important;
+ }
+ .pic_form{
+
+ }
+ .pic_file{
+    border: none!important;
+ }
+#ing_table tr:nth-child(even){
+    background:#f4f8fb;
 }
+#fin_table tr:nth-child(even){
+    background:#f4f8fb;
+}
+#arl_table tr:nth-child(even){
+    background:#f4f8fb;
+}
+#faq_table tr:nth-child(even){
+    background:#f4f8fb;
+}
+td{
+    height: 20px!important;
+}
+.table>tbody>tr>td{
+    height: 20px!important;
+}
+/*表格第一行*/
+thead{
+    background-color: #323652;
+    color: #fff;
+}
+.th-inner{
+    font-weight: normal!important;
+}
+
+.tooltip-inner{
+    width: 400px!important;
+    max-width:600px!important;
+    text-align: left!important;
+    /*自动换行*/
+    word-break:break-all!important;
+}
+
+.item > img{
+    height: 500px!important;
+    width: 500px!important;
+}
+
 

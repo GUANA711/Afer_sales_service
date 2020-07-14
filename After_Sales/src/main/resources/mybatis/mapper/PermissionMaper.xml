@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace=绑定一个对应的DAO/Mapper接口-->
+<mapper namespace="com.zgl.aftersales.dao.PermissionMapper">
+   <resultMap id="data" type="com.zgl.aftersales.pojo.Permission">
+      <result property="permission_id" column="permission_id"></result>
+      <result property="name" column="name"></result>
+      <result property="description" column="description"></result>
+      <result property="url" column="url"></result>
+      <result property="perms" column="perms"></result>
+      <result property="parent_id" column="parent_id"></result>
+      <result property="type" column="type"></result>
+   </resultMap>
+   <resultMap id="count_per" type="Integer">
+      <result column="count"/>
+   </resultMap>
+   <select id="saerchPer" parameterType="Map" resultMap="data,count_per">
+      select SQL_CALC_FOUND_ROWS * from permission
+      <where>
+         <if test="name!=null">
+            name like CONCAT(CONCAT('%', #{name}), '%')
+         </if>
+         <if test="perms!=null">
+            perms like CONCAT(CONCAT('%', #{perms}), '%')
+         </if>
+      </where>
+      limit #{currIndex},#{pageSize};
+      select FOUND_ROWS() as count;
+   </select>
+
+</mapper>

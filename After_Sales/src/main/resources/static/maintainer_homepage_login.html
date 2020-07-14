@@ -10,6 +10,8 @@
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="plugins/datatable/dataTables.bootstrap.min.css">
+<!--    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">-->
+
     <link rel="stylesheet" href="css/maintainerr.css">
 </head>
 <body>
@@ -18,7 +20,7 @@
 <nav class="navbar" role="navigation">
     <div class="right_info_heading">欢迎回来，维修员</div>
     <div class="right_info_right">
-<!--        <div class="right_info"><i class="sp glyphicon glyphicon-bullhorn"></i><a href="#" class="info">通知</a></div>-->
+<!--        <div class="right_info"><i class="sp glyphicon glyphicon-bullhorn"></i><a id="goMessage" href="#" class="info">通知<span id="msgNum" class="ii"></span></a></div>-->
 <!--        <div class="right_info"><i class="sp glyphicon glyphicon-question-sign"></i><a href="#" class="info">帮助</a></div>-->
         <div class="right_info"><i class="sp glyphicon glyphicon-user"></i><a href="index.html" class="info" id="loginOut">注销</a></div>
     </div>
@@ -50,76 +52,43 @@
                 <div class="container-fluid">
                     <div class="row find_panel">
                         <!-- 个人信息面板  -->
-                        <div class="pa_all col-md-8 panel panel-default" id="user_panel">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">个人信息</h3>
-                            </div>
-                            <div class="panel-body">
-                                <form id="form_userinfo">
-                                    <ul class="list-group" >
-                                        <li class="list-group-item">
-                                            <label for="userId">用户ID：</label>
-                                            <input type="text" readonly="readonly" id="userId" name="userId" value="">
-                                        </li>
-<!--                                        <li class="list-group-item">-->
-<!--                                            <label for="taskNum">任务量：</label>-->
-<!--                                            <input type="text" readonly="readonly" id="taskNum" name="taskNum" value="">-->
-<!--                                        </li>-->
-                                        <li class="list-group-item">
-                                            <label for="username">用户名：</label>
-                                            <input type="text" readonly="readonly" id="username" name="username" value="">
-                                        </li>
-                                        <li class="list-group-item">
-                                            <label for="tel">&ensp;&ensp;电话：</label>
-                                            <input type="tel" readonly="readonly" id="tel" name="tel" value="">
-                                        </li>
-                                        <li class="list-group-item">
-                                            <label for="email">&ensp;&ensp;邮箱：</label>
-                                            <input type="email" readonly="readonly" id="email" name="email" value="">
-                                        </li>
-                                        <li class="bt_list">
-                                            <button type="button" id="edit_bt" class="btn btn-primary" style="margin-left: 60px">编辑</button>
-                                            <button type="button" id="save_bt" class="btn btn-primary" style="margin-left: 60px">保存</button>
-                                        </li>
-                                    </ul>
-                                </form>
-
-                                <!-- 保存按钮弹出模态框 -->
-                                <!-- 成功 -->
-                                <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel">提交成功</h4>
-                                            </div>
-                                            <div class="modal-body">已成功修改个人信息</div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                                            </div>
-                                        </div><!-- /.modal-content -->
-                                    </div><!-- /.modal -->
-                                </div>
-
-                                <!-- 失败 -->
-                                <div class="modal fade" id="failModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                <h4 class="modal-title" id="myModalLabel">提交失败</h4>
-                                            </div>
-                                            <div class="modal-body">编辑内容有误，请重新编辑!</div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
-                                            </div>
-                                        </div><!-- /.modal-content -->
-                                    </div><!-- /.modal -->
-                                </div>
-
-                            </div>
+                        <div class="pa_all col-md-8 panel panel-default" id="user_panel"></div>
+                        <!-- 保存按钮弹出模态框 -->
+                        <!-- 成功 -->
+                        <div class="modal fade" id="successModal" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel">提交成功</h4>
+                                    </div>
+                                    <div class="modal-body">已成功修改个人信息</div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal -->
                         </div>
 
+                        <!-- 失败 -->
+                        <div class="modal fade" id="failModal" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"
+                                            aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel">提交失败</h4>
+                                    </div>
+                                    <div class="modal-body">编辑内容有误，请重新编辑!</div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal -->
+                        </div>
                         <!-- 反馈面板 -->
 
                         <!-- 未接收的任务 -->
@@ -128,13 +97,14 @@
                                 <h3 class="panel-title">未接收的任务</h3>
                             </div>
                             <div class="panel-body">
-                                <table id="table">
+                                <table id="table" class="dataTable" >
                                     <thead>
                                     <tr>
-                                        <th>问题ID</th>
-                                        <th>问题类型</th>
-                                        <th>问题描述</th>
-                                        <th>任务接收</th>
+                                        <th style="font-size: medium;width: 15%;height: 45px;">问题ID</th>
+                                        <th style="font-size: medium;width: 15%;height: 45px;">问题类型</th>
+                                        <th style="font-size: medium;width: 40%;height: 45px;text-align: center">问题描述</th>
+<!--                                        <th style="font-size: medium;width: 20%;height: 45px;">查看详情</th>-->
+                                        <th style="font-size: medium;width: 20%;height: 45px;">任务接收</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -166,14 +136,14 @@
                                 <h3 class="panel-title">正处理的任务</h3>
                             </div>
                             <div class="panel-body">
-                                <table id="table2">
+                                <table id="table2" class="dataTable">
                                     <thead>
                                     <tr>
-                                        <th>问题ID</th>
-                                        <th>问题描述</th>
-                                        <th>用户ID</th>
-                                        <th>用户提交时间</th>
-                                        <th>是否处理完成</th>
+                                        <th style="font-size: medium;width: 15%;height: 45px;">问题ID</th>
+                                        <th style="font-size: medium;width: 20%;height: 45px;">问题描述</th>
+                                        <th style="font-size: medium;width: 15%;height: 45px;">用户ID</th>
+                                        <th style="font-size: medium;width: 20%;height: 45px;">用户提交时间</th>
+                                        <th style="font-size: medium;width: 20%;height: 45px;">是否处理完成</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -188,13 +158,13 @@
                                 <h3 class="panel-title">已完成的任务</h3>
                             </div>
                             <div class="panel-body">
-                                <table id="table3">
+                                <table id="table3" class="dataTable" style="width: 604px;">
                                     <thead>
                                     <tr>
-                                        <th>问题ID</th>
-                                        <th>问题描述</th>
-                                        <th>问题类型</th>
-                                        <th>用户ID</th>
+                                        <th style="font-size: medium;width: 15%;height: 45px;">问题ID</th>
+                                        <th style="font-size: medium;width: 40%;height: 45px; text-align: center">问题描述</th>
+                                        <th style="font-size: medium;width: 20%;height: 45px;">问题类型</th>
+                                        <th style="font-size: medium;width: 15%;height: 45px;">用户ID</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -209,14 +179,14 @@
                                 <h3 class="panel-title">项目分配</h3>
                             </div>
                             <div class="panel-body">
-                                <table id="allocate_table">
+                                <table id="allocate_table" class="dataTable">
                                     <thead>
                                     <tr>
-                                        <th>负责人 ID</th>
-                                        <th>项目 ID</th>
-                                        <th>项目名称</th>
-                                        <th>移除对应维修人员</th>
-                                        <th>添加对应维修人员</th>
+                                        <th style="font-size: medium;width: 15%;height: 45px;">负责人 ID</th>
+                                        <th style="font-size: medium;width: 15%;height: 45px;">项目 ID</th>
+                                        <th style="font-size: medium;width: 20%;height: 45px;">项目名称</th>
+                                        <th style="font-size: medium;width: 25%;height: 45px;">移除对应维修人员</th>
+                                        <th style="font-size: medium;width: 25%;height: 45px;">添加对应维修人员</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -231,12 +201,12 @@
                                 <h3 class="panel-title">项目人员移除</h3>
                             </div>
                             <div class="panel-body">
-                                <table id="deleteAllocate_table">
+                                <table id="deleteAllocate_table" class="dataTable" style="width: 604px;">
                                     <thead>
                                     <tr>
-                                        <th>项目 ID </th>
-                                        <th>维修人员 ID</th>
-                                        <th>移除该修改人员</th>
+                                        <th style="font-size: medium;width: 30%;height: 45px;">项目 ID </th>
+                                        <th style="font-size: medium;width: 35%;height: 45px;">维修人员 ID</th>
+                                        <th style="font-size: medium;width: 35%;height: 45px;">移除该修改人员</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -251,12 +221,12 @@
                                 <h3 class="panel-title">项目人员添加</h3>
                             </div>
                             <div class="panel-body">
-                                <table id="addAllocate_table">
+                                <table id="addAllocate_table" class="dataTable" style="width: 604px;">
                                     <thead>
                                     <tr>
-                                        <th>项目 ID</th>
-                                        <th>维修人员 ID</th>
-                                        <th>添加该修改人员</th>
+                                        <th style="font-size: medium;width: 30%;height: 45px;">项目 ID</th>
+                                        <th style="font-size: medium;width: 35%;height: 45px;">维修人员 ID</th>
+                                        <th style="font-size: medium;width: 35%;height: 45px;">添加该修改人员</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -266,12 +236,12 @@
                             </div>
                         </div>
                         <!--FAQ  -->
-                        <div class="pa_all col-md-8 panel panel-default" id="faq_panel" style="display: none;">
+                        <div class="pa_all col-md-8 panel panel-default" id="faq_panel" style="display: none; height: 700px">
                             <div class="panel-heading">
                                 <h3 class="panel-title">常见问题</h3>
                             </div>
                             <div class="panel-body">
-                                <table id="faq_table">
+                                <table id="faq_table" ><style type="text/css">.table {table-layout:fixed;word-break:break-all;}</style>
                                     <thead>
                                     <tr>
                                         <th>FAQ ID</th>
@@ -347,6 +317,116 @@
                                 </li>
                             </div>
                         </div>
+
+                        <!--通知  -->
+<!--                        <div class="modal fade" id="MyMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+<!--                            <div class="modal-dialog">-->
+<!--                                <div class="modal-content">-->
+<!--                                    <div class="modal-header">-->
+<!--                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+<!--                                        <h4 class="modal-title" id="MyMessageModal1">消息通知</h4>-->
+<!--                                    </div>-->
+<!--                                    <div class="modal-body">您有新的消息，请及时查看</div>-->
+<!--                                    <div class="modal-footer">-->
+<!--                                        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>-->
+<!--                                    </div>-->
+<!--                                </div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
+<!--                            </div>&lt;!&ndash; /.modal &ndash;&gt;-->
+<!--                        </div>-->
+
+<!--                        &lt;!&ndash;发送通知 &ndash;&gt;-->
+<!--                        <div class="pa_all col-md-8 panel panel-default" id="sendMes_panel" style="display: none;">-->
+<!--                            <div class="panel-heading">-->
+<!--                                <h3 class="panel-title">发送通知</h3>-->
+<!--                            </div>-->
+<!--                            <div class="panel-body">-->
+<!--                                <ul class="list-group">-->
+<!--                                    &lt;!&ndash; 问题分类下拉栏 &ndash;&gt;-->
+<!--                                    <li class="list-group-item">-->
+<!--                                        <span class="select_lable">消息类型:</span>-->
+<!--                                        <select class="select_form" id="first_select">-->
+<!--                                            <option value="性能体验">用户问题处理完成</option>-->
+<!--                                            <option value="功能异常">软件版本更新</option>-->
+<!--                                        </select>-->
+<!--                                    </li>-->
+<!--                                    &lt;!&ndash; 第二个选项 &ndash;&gt;-->
+<!--                                    <div id="second_select" >-->
+<!--                                        <li class="list-group-item" id="firstshow">-->
+<!--                                            <span class="select_lable">发送人群:</span>-->
+<!--                                            <select class="select_form" id="select_form">-->
+<!--                                                <option value="问题处理完成用户">问题处理完成用户</option>-->
+<!--                                                <option value="群发">群发</option>-->
+<!--                                            </select>-->
+<!--                                        </li>-->
+<!--                                    </div>-->
+<!--                                    <li>-->
+<!--                                        <button type="button" id="send_bt" class="btn btn-primary" style="margin-left: 40%; margin-top: 5%">发送</button>-->
+<!--                                        &lt;!&ndash;                                    <button type="button" id="backFaq_bt" class="btn btn-primary" style="margin-left: 10%;">返回</button>&ndash;&gt;-->
+<!--                                    </li>-->
+<!--                                    &lt;!&ndash; 模态框（Modal） &ndash;&gt;-->
+<!--                                    &lt;!&ndash; 成功 &ndash;&gt;-->
+<!--                                    <div class="modal fade" id="successSubmitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+<!--                                        <div class="modal-dialog">-->
+<!--                                            <div class="modal-content">-->
+<!--                                                <div class="modal-header">-->
+<!--                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+<!--                                                    <h4 class="modal-title" id="successSendModal1">发送成功</h4>-->
+<!--                                                </div>-->
+<!--                                                <div class="modal-body">已成功发送消息</div>-->
+<!--                                                <div class="modal-footer">-->
+<!--                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>-->
+<!--                                                </div>-->
+<!--                                            </div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
+<!--                                        </div>&lt;!&ndash; /.modal &ndash;&gt;-->
+<!--                                    </div>-->
+<!--                                    &lt;!&ndash; 失败 &ndash;&gt;-->
+<!--                                    <div class="modal fade" id="failSubmitModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+<!--                                        <div class="modal-dialog">-->
+<!--                                            <div class="modal-content">-->
+<!--                                                <div class="modal-header">-->
+<!--                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">-->
+<!--                                                        &times;-->
+<!--                                                    </button>-->
+<!--                                                    <h4 class="modal-title" id="failSendModal1">-->
+<!--                                                        发送失败！-->
+<!--                                                    </h4>-->
+<!--                                                </div>-->
+<!--                                                <div class="modal-body">-->
+<!--                                                    发送失败，请重新发送！-->
+<!--                                                </div>-->
+<!--                                                <div class="modal-footer">-->
+<!--                                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
+<!--                                                </div>-->
+<!--                                            </div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
+<!--                                        </div>&lt;!&ndash; /.modal &ndash;&gt;-->
+<!--                                    </div>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        问题详情-->
+                        <div class="pa_all col-md-8 panel panel-default" id="detail_panel" style="display: none;">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">问题详情</h3>
+                            </div>
+                            <div class="panel-body">
+                                <form id="question_detail">
+                                    <li class="list-group-item">
+                                        <label >问题分类：</label>
+                                        <input type="text" readonly="readonly" id="question_category" style="width: 300px;height: 40px;">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <label >问题详情：</label>
+                                        <input type="text" readonly="readonly" id="question_details"  style="width: 300px;height: 80px;">
+                                    </li>
+                                    <li class="list-group-item">
+                                        <label >图片查看：</label>
+                                        <input type="text" readonly="readonly" id="" name="question_pic"  style="width: 300px;height: 220px;">
+                                    </li>
+                                </form>
+                            </div>
+
+                        </div>
                     <!-- 公告栏 -->
                     <div class="col-md-4 message">
                         <ul class="sidebar" id="notice">
@@ -393,11 +473,17 @@
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="plugins/datatable/jquery.dataTables.min.js"></script>
+    <script src="js/bootstrap-table.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
     <script src="plugins/datatable/dataTables.bootstrap.min.js"></script>
     <script src="js/jquery.validate.js"></script>
     <script src="js/axios.js"></script>
     <script src="js/vue.js"></script>
+<!--    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>-->
+<!--    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
     <script src="js/maintainerLoginHomepage.js"></script>
+
+
 </div>
 </body>
 </html>

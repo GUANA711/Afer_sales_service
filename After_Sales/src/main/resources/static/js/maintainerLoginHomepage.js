@@ -19,13 +19,14 @@ $(document).ready(function() {
             .replace(/'/g, '&#39;')
             .replace(/\r{0,}\n/g, '<br/>');
     }
+    $("#user_panel").load("info.html");
     // 加载维修人员页面信息
     $.ajax({
         type: 'GET',
         data: '',
         contentType: 'application/json',
         dataType: 'json',
-        url: 'http://localhost:5050/worker/worker_selectBy_Session_UserId',
+        url: '/worker/worker_selectBy_Session_UserId',
         // url2 :'http://localhost:5050/worker/worker_show_unaccepted',
         success: function (data) {
             console.dir(data);
@@ -85,7 +86,7 @@ $(document).ready(function() {
                 data: JSON.stringify(info),
                 contentType: 'application/json',
                 dataType: 'json',
-                url: 'http://localhost:5050/worker/worker_updateBy_Session_UserId',
+                url: '/worker/worker_updateBy_Session_UserId',
                 success: function (data) {
                     console.dir(data);
                     $("#username").attr("readonly", true);
@@ -152,7 +153,7 @@ $(document).ready(function() {
         $(".message").show();
 
         //加载未接收任务
-        dt_unaccepted = $('#table').DataTable({
+        dt_unaccepted = $("#table").DataTable({
             responsive: true,
             destroy: true,
             serviceSize: true,// 开启服务端模式
@@ -164,7 +165,7 @@ $(document).ready(function() {
                     dataSrc: '',
                     contentType: 'application/json',
                     dataType: 'json',
-                    url: 'http://localhost:5050/worker/worker_show_unaccepted'
+                    url: '/worker/worker_show_unaccepted'
 
                 },
             columns: [
@@ -173,18 +174,28 @@ $(document).ready(function() {
                 // 告诉 DataTables 每列对应的属性data
                 // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
                 {
-                    "data": filterXSS('question_id'),
+                    "data": 'question_id',
                     className: "Question_id",
-                    "searchable": false
+                    "searchable": false,
+                    height:"35px"
                 },
                 {
-                    "data": filterXSS('question_type'),
-                    className: "Question_type"
+                    "data": 'question_type',
+                    className: "Question_type",
+                    height:"35px"
                 },
                 {
-                    "data": filterXSS('question_detail'),
-                    className: "Question_detail"
+                    "data": 'question_detail',
+                    className: "Question_detail",
+                    height:"35px"
                 },
+                // {
+                //     "data": null,
+                //     render: function (data, type, row) {
+                //         var html = '<a href="javascript:void(0);" class="operate-btn-accept-pic">查看详情</a>';
+                //         return html;
+                //     }
+                // },
                 {
                     "data": null,
                     render: function (data, type, row) {
@@ -195,9 +206,8 @@ $(document).ready(function() {
             ],
             responseHandler: function (data) {
                 for (var i = 0; i < data.length; i++){
-                    data[i].faq_id = filterXSS(data[i].faq_id);
-                    data[i].faq_question = filterXSS(data[i].faq_question);
-                    data[i].faq_answer = filterXSS(data[i].faq_answer);
+                    data[i].question_detail = filterXSS(data[i].question_detail);
+                    data[i].commit_time = filterXSS(data[i].commit_time);
                 }
                 return data;
             },
@@ -212,7 +222,7 @@ $(document).ready(function() {
                     "sInfoPostFix": "",
                     "sSearch": "搜索:",
                     "sUrl": "",
-                    "sEmptyTable": "您目前没有未接收的任务",
+                    "sEmptyTable": "您目前没有正在处理的任务!",
                     "sLoadingRecords": "载入中...",
                     "sInfoThousands": ",",
                     "oPaginate":
@@ -227,11 +237,39 @@ $(document).ready(function() {
                             "sSortAscending": ": 以升序排列此列",
                             "sSortDescending": ": 以降序排列此列"
                         }
+                },
+            createdRow: function ( row, data, index ) {
+                if ( index %2 == 0 ) {
+                    $('td', row).css("background","#f0f0f0");
                 }
+            },
         });
     });
+    // $("body").on("click", ".operate-btn-accept-pic", function () {
+    //     var Item_id = $(this).parent().parent().find(".Item_id").text();
+    //     var info = {
+    //         "Item_id": Item_id
+    //     };
+    //     Itemm_id = Item_id;
+    //     // alert(Item_id);
+    //     $("#task_check_panel").hide();
+    //     $("#detail_panel").show();
+    //     // $.ajax({
+    //     //     type: "POST",
+    //     //     contentType: 'application/json',
+    //     //     url: "/worker/show_item_workers",
+    //     //     data: JSON.stringify(info),
+    //     //     success: function (data) {
+    //     //     },
+    //     //     error: function (XMLHttpRequest) {
+    //     //         console.log(XMLHttpRequest.status);
+    //     //         console.log(XMLHttpRequest.readyState);
+    //     //     }
+    //     // });
+    // });
     $("body").on("click", ".operate-btn-accept", function () {
         var question_id = $(this).parent().parent().find(".Question_id").text();
+        // alert(question_id);
         var info = {
             "questionID": question_id
         };
@@ -239,7 +277,7 @@ $(document).ready(function() {
             type: "POST",
             contentType: 'application/json',
             dataType: "json",
-            url: "http://localhost:5050/worker/worker_receive",
+            url: "/worker/worker_receive",
             data: JSON.stringify(info),
             success: function (data) {
                 // if (data.status==true)
@@ -267,7 +305,7 @@ $(document).ready(function() {
         $("#task_ing_panel").show();
         $(".message").show();
 
-        dt_ing = $('#table2').DataTable({
+        dt_ing = $("#table2").DataTable({
             responsive: true,
             destroy: true,
             serviceSize: true,// 开启服务端模式
@@ -279,7 +317,7 @@ $(document).ready(function() {
                     dataSrc: '',
                     contentType: 'application/json',
                     dataType: 'json',
-                    url: 'http://localhost:5050/worker/worker_show_accepted'
+                    url: '/worker/worker_show_accepted'
 
                 },
             columns: [
@@ -345,24 +383,30 @@ $(document).ready(function() {
                             "sSortAscending": ": 以升序排列此列",
                             "sSortDescending": ": 以降序排列此列"
                         }
+                },
+            createdRow: function ( row, data, index ) {
+                if ( index %2 == 0 ) {
+                    $('td', row).css("background","#f0f0f0");
                 }
+            },
         });
     });
     $("body").on("click", ".operate-btn-finish", function () {
         var question_id = $(this).parent().parent().find(".Question_id").text();
+        // alert(question_id);
         var info = {
             "questionID": question_id
         };
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            url: "http://localhost:5050/worker/worker_finish",
+            dataType: "json",
+            url: "/worker/worker_finish",
             data: JSON.stringify(info),
             success: function (data) {
-                // alert("???");
+                // if (data.status==true)
                 dt_ing.ajax.reload();
                 alert(data.msg);
-                // alert("...");
             },
             error: function (XMLHttpRequest) {
                 // 200: "OK"
@@ -398,7 +442,7 @@ $(document).ready(function() {
                     dataSrc: '',
                     contentType: 'application/json',
                     dataType: 'json',
-                    url: 'http://localhost:5050/worker/worker_show_done'
+                    url: '/worker/worker_show_done'
 
                 },
             columns: [
@@ -412,12 +456,12 @@ $(document).ready(function() {
                     "searchable": false
                 },
                 {
-                    "data": filterXSS('question_type'),
-                    className: "Question_type"
-                },
-                {
                     "data": filterXSS('question_detail'),
                     className: "Question_detail"
+                },
+                {
+                    "data": filterXSS('question_type'),
+                    className: "Question_type"
                 },
 
                 {
@@ -466,7 +510,12 @@ $(document).ready(function() {
                             "sSortAscending": ": 以升序排列此列",
                             "sSortDescending": ": 以降序排列此列"
                         }
+                },
+            createdRow: function ( row, data, index ) {
+                if ( index %2 == 0 ) {
+                    $('td', row).css("background","#f0f0f0");
                 }
+            },
         });
         if(dt_done.rows.count == 0){
             alert("您目前没有已经完成的任务！");
@@ -490,7 +539,7 @@ $(document).ready(function() {
                     dataSrc: '',
                     contentType: 'application/json',
                     dataType: 'json',
-                    url: 'http://localhost:5050/worker/show_items'
+                    url: '/worker/show_items'
                 },
             columns: [
                 // 配置columns
@@ -557,11 +606,16 @@ $(document).ready(function() {
                             "sSortAscending": ": 以升序排列此列",
                             "sSortDescending": ": 以降序排列此列"
                         }
+                },
+            createdRow: function ( row, data, index ) {
+                if ( index %2 == 0 ) {
+                    $('td', row).css("background","#f0f0f0");
                 }
+            },
         });
     });
     //选择移除按钮
-        $("body").on("click", ".operate-btn-choose-delete", function () {
+    $("body").on("click", ".operate-btn-choose-delete", function () {
         var Item_id = $(this).parent().parent().find(".Item_id").text();
         var info = {
             "Item_id": Item_id
@@ -573,7 +627,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             contentType: 'application/json',
-            url: "http://localhost:5050/worker/show_item_workers",
+            url: "/worker/show_item_workers",
             data: JSON.stringify(info),
             success: function (data) {
                 // alert(data);
@@ -628,7 +682,13 @@ $(document).ready(function() {
                                     "sSortAscending": ": 以升序排列此列",
                                     "sSortDescending": ": 以降序排列此列"
                                 }
+                        },
+                    createdRow: function ( row, data, index ) {
+                        if ( index %2 == 0 ) {
+                            $('td', row).css("background","#f0f0f0");
                         }
+                    },
+
                 });
                 if (jQuery.isEmptyObject(data)) {
                     alert("该项目没有维修人员，请添加！");
@@ -640,7 +700,7 @@ $(document).ready(function() {
             }
         });
     });
-        //选择添加按钮
+    //选择添加按钮
     $("body").on("click", ".operate-btn-choose-add", function () {
         var Item_id = $(this).parent().parent().find(".Item_id").text();
         var info = {
@@ -653,7 +713,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             contentType: 'application/json;charset=UTF-8',
-            url: "http://localhost:5050/worker/show_item_other_workers",
+            url: "/worker/show_item_other_workers",
             data: JSON.stringify(info),
             success: function (data) {
                 // alert(data);
@@ -668,7 +728,7 @@ $(document).ready(function() {
                             render:function(data, type, row){
                                 return Itemm_id;
                             },
-                                className : "Item_id"
+                            className : "Item_id"
                         },
                         {
                             data: filterXSS('User_id'),
@@ -681,7 +741,7 @@ $(document).ready(function() {
                                 return html;
                             }
                         }
-                        ],
+                    ],
                     language:
                         {// 配置
                             "sProcessing": "处理中...",
@@ -708,7 +768,12 @@ $(document).ready(function() {
                                     "sSortAscending": ": 以升序排列此列",
                                     "sSortDescending": ": 以降序排列此列"
                                 }
+                        },
+                    createdRow: function ( row, data, index ) {
+                        if ( index %2 == 0 ) {
+                            $('td', row).css("background","#f0f0f0");
                         }
+                    },
                 });
                 if (jQuery.isEmptyObject(data)) {
                     alert("该项目维修人员已满，无法继续添加！");
@@ -720,7 +785,7 @@ $(document).ready(function() {
             }
         });
     });
-        //点击移除按钮
+    //点击移除按钮
     $("body").on("click", ".operate-btn-delete", function () {
         var User_id = $(this).parent().parent().find(".User_id").text();
         var info = {
@@ -731,7 +796,7 @@ $(document).ready(function() {
             type: "POST",
             contentType: 'application/json',
             dataType: "json",
-            url: "http://localhost:5050/worker/delete_item_worker",
+            url: "/worker/delete_item_worker",
             data: JSON.stringify(info),
             success: function (data) {
                 // if (data.status==true)
@@ -744,7 +809,7 @@ $(document).ready(function() {
             console.log( 'An error has been reported by DataTables: ', message );
         }).DataTable();
     });
-        //点击添加人员按钮
+    //点击添加人员按钮
     $("body").on("click", ".operate-btn-add", function () {
         // var Item_id = $(this).parent().parent().find(".Item_id").text();
         var User_id = $(this).parent().parent().find(".User_id").text();
@@ -757,7 +822,7 @@ $(document).ready(function() {
             type: "POST",
             contentType: 'application/json',
             dataType: "json",
-            url: "http://localhost:5050/worker/insert_item_other_workers",
+            url: "/worker/insert_item_other_workers",
             data: JSON.stringify(info),
             success: function (data) {
                 // if (data.status==true)
@@ -775,83 +840,59 @@ $(document).ready(function() {
             console.log( 'An error has been reported by DataTables: ', message );
         }).DataTable();
     });
-        // 点击FAQ面板
+    // 点击FAQ面板
     $("#faq_present").click(function () {
         $(".find_panel").children().hide();
         $("#faq_panel").show();
-        $(".message").show();
-        dt_faq = $('#faq_table').DataTable({
-            responsive: true,
-            destroy: true,
-            serviceSize: true,// 开启服务端模式
-            ajax:
-                {
-                    // 使用ajax异步请求的方式加载数据
-                    type: 'GET',
-                    async: false,
-                    dataSrc: '',
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    url: 'http://localhost:5050/faq/selectAllFAQ'
-
-                },
-            columns: [
-                // 配置columns
-                // 使用对象数组，一定要配置columns
-                // 告诉 DataTables 每列对应的属性data
-                // 这里是固定不变的，name，position，salary，office 为你数据里对应的属性
-                {
-                    "data": filterXSS('faq_id'),
-                    className: "Faq_id",
-                    "searchable": false
-                },
-                {
-                    "data": filterXSS('faq_question'),
-                    className: "Faq_question"
-                },
-                {
-                    "data": filterXSS('faq_answer'),
-                    className: "Faq_answer"
-                },
-            ],
+        // $(".message").show();
+        // $("notice").hide();
+        dt_faq = $("#faq_table").bootstrapTable({
+            url: '/faq/selectAllFAQ',
+            methods: 'get',
+            pagination: true,//显示分页
+            striped: true,//显示行间距色
+            pageSize: 5,//每一页的行数
+            pageList: [5, 10, 20],//每页可选择的行数
+            showRefresh: true,//显示刷新按钮
+            search: true, //显示搜索框
+            columns: [{
+                field: 'faq_id',
+                width: '15%',
+                title: 'FAQ_ID',
+                searchable: true,
+            }, {
+                field: 'faq_question',
+                width: '15%',
+                title: 'FAQ问题',
+                searchable: true,
+            }, {
+                field: 'faq_answer',
+                width: '70',
+                title: 'FAQ答案',
+                searchable: true,
+            },],
+            queryParams : function (params) {
+                //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
+                var temp = {
+                    rows: params.limit,                         //页面大小
+                    page: (params.offset / params.limit) + 1,   //页码
+                    sort: params.sort,      //排序列名
+                    sortOrder: params.order //排位命令（desc，asc）
+                };
+                return temp;
+            },
             responseHandler: function (data) {
                 for (var i = 0; i < data.length; i++){
                     data[i].faq_question = filterXSS(data[i].faq_question);
                     data[i].faq_answer = filterXSS(data[i].faq_answer);
                 }
                 return data;
-            },
-            language:
-                {// 配置
-                    "sProcessing": "处理中...",
-                    "sLengthMenu": "共显示 _MENU_ 项结果",
-                    "sZeroRecords": "没有匹配结果",
-                    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-                    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-                    "sInfoPostFix": "",
-                    "sSearch": "搜索:",
-                    "sUrl": "",
-                    "sEmptyTable": "表中数据为空",
-                    "sLoadingRecords": "载入中...",
-                    "sInfoThousands": ",",
-                    "oPaginate":
-                        {
-                            "sFirst": "首页",
-                            "sPrevious": "上页",
-                            "sNext": "下页",
-                            "sLast": "末页"
-                        },
-                    "oAria":
-                        {
-                            "sSortAscending": ": 以升序排列此列",
-                            "sSortDescending": ": 以降序排列此列"
-                        }
-                }
+            }
         });
     });
 
-        // 点击Faq添加按钮
+
+    // 点击Faq添加按钮
     $("#addFaq_bt").click(function () {
         $("#faq_panel").hide();
         $("#addFaq_panel").show();
@@ -860,7 +901,7 @@ $(document).ready(function() {
 
     });
 
-        // 点击Faq保存按钮
+    // 点击Faq保存按钮
     $("#saveFaq_bt").click(function () {
         //大写都是后端数据，小写都是js约束
         var Faq_question = $("#faq_question").val();
@@ -875,19 +916,21 @@ $(document).ready(function() {
                 data: JSON.stringify(info),
                 contentType: 'application/json',
                 dataType: 'json',
-                url: 'http://localhost:5050/faq/addFAQ',
+                url: '/faq/addFAQ',
                 success: function (data) {
                     console.dir(data);
                     $("#faq_question").attr("readonly", true);
                     $("#faq_answer").attr("readonly", true);
                     // $(this).text($(this).text()==='添加');
-                    $("#faq_question").val(filterXSS(data.Faq_question));
-                    $("#faq_answer").val(filterXSS(data.Faq_answer));
+                    $("#faq_question").val(data.Faq_question);
+                    $("#faq_answer").val(data.Faq_answer);
                     alert(data.faqmsg);
-                    //保存之后返回到FAQ页面
+                    //保存之后返回到FAQ页
                     $("#faq_panel").show();
                     $("#addFaq_panel").hide();
-                    dt_faq.ajax.reload();
+                    // dt_faq.ajax.reload();
+                    dt_faq.bootstrapTable('refresh');
+
                 },
                 error: function (result) {
                     console.log(XMLHttpRequest.status);
@@ -899,16 +942,65 @@ $(document).ready(function() {
             alert(data.status);
         }
     });
-    // FAQ信息验证
-        // // 点击Faq返回按钮
-        // $("#backFaq_bt").click(function(){
-        //     $("#addFaq_panel").hide();
-        //     $("#faq_panel").show();
-        //     $("#faq_present")
-        //     dt_faq.refresh();
-        // })
 
-        // FAQ信息验证
+    // 点击通知按钮
+    $("#goMessage").click(function () {
+        $(".find_panel").children().hide();
+        $("#message_panel").show();
+        // $(".message").show();
+        // $("notice").hide();
+        $("#message_table").bootstrapTable({
+            url: '/faq/selectAllFAQ',
+            methods: 'get',
+            pagination: true,//显示分页
+            striped: true,//显示行间距色
+            pageSize: 5,//每一页的行数
+            pageList: [5, 10, 20],//每页可选择的行数
+            showRefresh: true,//显示刷新按钮
+            search: true, //显示搜索框
+            columns: [{
+                field: 'faq_id',
+                width: '15%',
+                title: 'FAQ_ID',
+                searchable: true,
+            }, {
+                field: 'faq_question',
+                width: '15%',
+                title: 'FAQ问题',
+                searchable: true,
+            }, {
+                field: 'faq_answer',
+                width: '70',
+                title: 'FAQ答案',
+                searchable: true,
+            },],
+            queryParams : function (params) {
+                //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
+                var temp = {
+                    rows: params.limit,                         //页面大小
+                    page: (params.offset / params.limit) + 1,   //页码
+                    sort: params.sort,      //排序列名
+                    sortOrder: params.order //排位命令（desc，asc）
+                };
+                return temp;
+            },
+            responseHandler: function (data) {
+                for (var i = 0; i < data.length; i++){
+                    data[i].faq_question = filterXSS(data[i].faq_question);
+                    data[i].faq_answer = filterXSS(data[i].faq_answer);
+                }
+                return data;
+            }
+        });
+    });
+
+    // 点击发送通知按钮
+    $("#sendMes_bt").click(function () {
+        $("#message_panel").hide();
+        $("#sendMes_panel").show();
+    });
+
+    // FAQ信息验证
     $("#form_addFaq").validate({
         rules: {
             faq_question: {
@@ -931,7 +1023,7 @@ $(document).ready(function() {
             }
         }
     });
-        // 根据第一个选项决定第二个选项
+    // 根据第一个选项决定第二个选项
     $("#first_select").click(function () {
         var value = $("#first_select").val();
         switch (value) {
@@ -1009,4 +1101,5 @@ var notices = new Vue({
         }
     }
 });
+
 

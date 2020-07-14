@@ -1,25 +1,31 @@
 package com.zgl.aftersales.dao;
 
 
-import com.zgl.aftersales.pojo.FAQs;
-import com.zgl.aftersales.pojo.Items;
-import com.zgl.aftersales.pojo.Question;
-import com.zgl.aftersales.pojo.Users;
+import com.zgl.aftersales.pojo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.sql.Blob;
 import java.util.List;
 import java.util.Map;
 
 @Mapper
 @Repository
 public interface QuestionMapper {
+    /**
+     * jqw
+     * @return
+     */
     int addQuestion(Question question);
     Question checkQuestion(int Question_id);
     List<Question> checkQuestionsubmited(Integer User_id);
     List<Question> checkQuestionfinished(Integer User_id);
     List<Question> checkQuestiondealing(Integer User_id);
+    //int addImage(List<Image> images);
+    int addImage(Image image);
+    int addImageQuestion(Map<String, Integer> map);
+    List<Image> checkImages(Integer Question_id);
 
     /**
      * zgl

@@ -1,30 +1,6 @@
 /* jshint esversion: 6 */
+// import Vue from 'vue';
 $(document).ready(function () {
-    //加载个人信息
-    $.ajax({
-        type: 'GET',
-        data: '',
-        contentType: 'application/json',
-        dataType: 'json',
-        url: '/worker/worker_selectBy_Session_UserId',
-        success: function (data) {
-            console.dir(data);
-            $("#userId").val(data.User_id);
-            $("#username").val(data.User_name);
-            $("#tel").val(data.Tel);
-            $("#email").val(data.Email);
-        },
-        error: function () {
-            alert("连接超时，请重试！");
-        }
-    });
-    items.searchFor(true);
-    questions.searchFor(true);
-    maintenances.searchFor(true);
-    faqs.searchFor(true);
-    roles.searchFor(true);
-    logs.searchFor(true);
-    selects.firstOptions();
     notices.showNotice();
 });
 $(window).ajaxStart(function () {
@@ -33,6 +9,54 @@ $(window).ajaxStart(function () {
 $(window).ajaxStop(function () {
     NProgress.done();
 });
+// 菜单
+var menu = new Vue({
+    el: "#menu",
+    data() {
+        return {
+            
+        };
+    },
+    methods: {
+        clickThis: function (i) {
+            $('#info li').removeClass('active');
+            $('#author li').removeClass('active');
+            $(".find_panel").children().hide();
+            $(".pa_all").eq(i).show();
+            $(".message").show();
+            switch (i-1) {
+                case 0:
+                    items.searchFor(0);
+                    break;
+                case 1:
+                    questions.searchFor(0);
+                    break;
+                case 2:
+                    maintenances.searchFor(0);
+                    break;
+                case 3:
+                    faqs.searchFor(0);
+                    break;
+                case 4:
+                    selects.firstOptions();
+                    break;
+                case 5:
+                    roles.searchFor(0);
+                    break;
+                case 6:
+                    resourceAllow.init();
+                    break;
+                case 7:
+                    resourceControl.searchFor(0);
+                    break;
+                default:
+                    logs.searchFor(0);
+                    break;
+            }
+        }
+    },
+});
+// 项目管理
 var items = new Vue({
     el: '#vueItem',
     data: {
@@ -50,6 +74,7 @@ var items = new Vue({
     },
     methods: {
         init_page: function (totalPage, currentPage) {
+            // 
             if (totalPage == 0) {
                 $("#items table tbody").html('');
                 $("#items table tbody").append("没有查询到相关数据！");
@@ -67,7 +92,7 @@ var items = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         items.page.pageNum = num;
-                        items.searchFor(false);
+                        items.searchFor(2);
                     }
                 }
             });
@@ -76,8 +101,12 @@ var items = new Vue({
             items.page.totalPage = Math.ceil(items.page.length / items.page.pageSize);
         },
         searchFor: function (initial) {
-            if (initial) {
+            if (initial == 1) {
                 this.page.pageNum = 1;
+            } else if (initial == 0) {
+                this.page.pageNum = 1;
+                this.key = '';
+                this.selected = 0;
             }
             axios
                 .post('/adminLoing/searchItems/' + this.page.pageNum + '/' + this.page.pageSize, {
@@ -110,12 +139,59 @@ var items = new Vue({
         }
     }
 });
+//项目管理的模态框
 var itemModal = new Vue({
     el: "#itemModal",
     data: {
         workers: ''
     },
 });
+//资源管理的模态框
+var alterResModal = new Vue({
+    el: "#alterResModal",
+    data: {
+        name: '',
+        description: '',
+        url: '',
+        perms: '',
+        parent_id: '',
+        type: '',
+        permission_id: '',
+    },
+    methods: {
+        comfirm: function () {
+            console.log(alterResModal);
+            axios
+                .post('/adminLoing/permission_update', {
+                    "name":alterResModal.name,
+                    "description": alterResModal.description,
+                    "url": alterResModal.url,
+                    "perms": alterResModal.perms,
+                    "parent_id": alterResModal.parent_id,
+                    "type": alterResModal.type,
+                    "permission_id": alterResModal.permission_id
+                })
+                .then(function (response) {
+                    console.log(response);
+                    if (response.data.status) {
+                        $('#successModal .modal-body').text(response.data.msg);
+                        $("#successModal").modal();
+                        resourceControl.searchFor(2);
+                    } else {
+                        $('#failModal .modal-body').text(response.data.msg);
+                        $("#failModal").modal();
+                    }
+                })
+                .catch(function (error) {
+                    $('#failModal .modal-body').text(error);
+                    $("#failModal").modal();
+                });
+            $("#alterResModal").modal('hide');
+
+        }
+    },
+});
+//用户问题
 var questions = new Vue({
     el: '#vueQuestion',
     data: {
@@ -136,6 +212,7 @@ var questions = new Vue({
     },
     methods: {
         init_page: function (totalPage, currentPage) {
+            // 
             if (totalPage == 0) {
                 $("#questions table tbody").html('');
                 $("#questions table tbody").append("没有查询到相关数据！");
@@ -153,7 +230,7 @@ var questions = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         questions.page.pageNum = num;
-                        questions.searchFor(false);
+                        questions.searchFor(2);
                     }
                 }
             });
@@ -162,8 +239,12 @@ var questions = new Vue({
             questions.page.totalPage = Math.ceil(questions.page.length / questions.page.pageSize);
         },
         searchFor: function (initial) {
-            if (initial) {
+            if (initial == 1) {
                 this.page.pageNum = 1;
+            } else if (initial == 0) {
+                this.page.pageNum = 1;
+                this.key = '';
+                this.selected = 0;
             }
             axios
                 .post('/adminLoing/searchquestion/' + this.page.pageNum + '/' + this.page.pageSize, {
@@ -186,6 +267,7 @@ var questions = new Vue({
         }
     }
 });
+//问题处理
 var maintenances = new Vue({
     el: '#dealVue',
     data: {
@@ -202,6 +284,7 @@ var maintenances = new Vue({
     },
     methods: {
         init_page: function (totalPage, currentPage) {
+            // 
             if (totalPage == 0) {
                 $("#maintenance table tbody").html('');
                 $("#maintenance table tbody").append("没有查询到相关数据！");
@@ -219,7 +302,7 @@ var maintenances = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         maintenances.page.pageNum = num;
-                        maintenances.searchFor(false);
+                        maintenances.searchFor(2);
                     }
                 }
             });
@@ -228,8 +311,12 @@ var maintenances = new Vue({
             maintenances.page.totalPage = Math.ceil(maintenances.page.length / maintenances.page.pageSize);
         },
         searchFor: function (initial) {
-            if (initial) {
+            if (initial == 1) {
                 this.page.pageNum = 1;
+            } else if (initial == 0) {
+                this.page.pageNum = 1;
+                this.key = '';
+                this.selected = 0;
             }
             axios
                 .post('/adminLoing/searchMaintenance/' + this.page.pageNum + '/' + this.page.pageSize, {
@@ -243,11 +330,13 @@ var maintenances = new Vue({
                     maintenances.init_page(maintenances.page.totalPage, maintenances.page.pageNum);
                 })
                 .catch(function (error) {
-                    alert(error);
+                    $('#failModal .modal-body').text(error);
+                    $("#failModal").modal();
                 });
         }
     }
 });
+//faq
 var faqs = new Vue({
     el: '#vueFaq',
     data: {
@@ -268,6 +357,7 @@ var faqs = new Vue({
     },
     methods: {
         init_page: function (totalPage, currentPage) {
+            // 
             if (totalPage == 0) {
                 $("#faq table tbody").html('');
                 $("#faq table tbody").append("没有查询到相关数据！");
@@ -285,7 +375,7 @@ var faqs = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         faqs.page.pageNum = num;
-                        faqs.searchFor(false);
+                        faqs.searchFor(2);
                     }
                 }
             });
@@ -294,8 +384,12 @@ var faqs = new Vue({
             faqs.page.totalPage = Math.ceil(faqs.page.length / faqs.page.pageSize);
         },
         searchFor: function (initial) {
-            if (initial) {
+            if (initial == 1) {
                 this.page.pageNum = 1;
+            } else if (initial == 0) {
+                this.page.pageNum = 1;
+                this.key = '';
+                this.selected = 0;
             }
             axios
                 .post('/adminLoing/showfaq/' + this.page.pageNum + '/' + this.page.pageSize, {
@@ -315,6 +409,7 @@ var faqs = new Vue({
         }
     }
 });
+//任务指派
 var selects = new Vue({
     el: '#selectVue',
     data: {
@@ -374,6 +469,7 @@ var selects = new Vue({
     }
 
 });
+//角色控制
 var roles = new Vue({
     el: '#roleControl',
     data: {
@@ -414,7 +510,7 @@ var roles = new Vue({
                             roles.data[i].Role_id -= 1;
                             roles.roleChoice[i] = roles.data[i].Role_id;
                         }
-                        roles.searchFor(false);
+                        roles.searchFor(2);
                     }
                 }
             });
@@ -423,8 +519,12 @@ var roles = new Vue({
             roles.page.totalPage = Math.ceil(roles.page.length / roles.page.pageSize);
         },
         searchFor: function (initial) {
-            if (initial) {
+            if (initial == 1) {
+                this.page.pageNum = 1;                
+            } else if (initial == 0) {
                 this.page.pageNum = 1;
+                this.key = '';
+                this.selected = 0;
             }
             if (this.selected == 2) {
                 this.key = this.roleSearch;
@@ -467,7 +567,7 @@ var roles = new Vue({
                         if (response.data.status) {
                             $('#successModal .modal-body').text(response.data.msg);
                             $("#successModal").modal();
-                            roles.searchFor(false);
+                            roles.searchFor(2);
                         } else {
                             $('#failModal .modal-body').text(response.data.msg);
                             $("#failModal").modal();
@@ -494,7 +594,7 @@ var roles = new Vue({
                         if (response.data.status) {
                             $('#successModal .modal-body').text(response.data.msg);
                             $("#successModal").modal();
-                            roles.searchFor(false);
+                            roles.searchFor(2);
                         } else {
                             $('#failModal .modal-body').text(response.data.msg);
                             $("#failModal").modal();
@@ -508,6 +608,295 @@ var roles = new Vue({
         }
     }
 });
+//资源分配
+var resourceAllow = new Vue({
+    el: "#resourceAllow",
+    data:{
+        roles: [],
+        roleNames: ["管理员", "维护人员", "普通用户", "负责人"],
+        hasRes: [],
+        notRes: [],
+        inputValue: '',
+        inputVisible: false,
+        showName: false,
+        roleName:'',
+        row:-1
+    },
+    methods: {
+        init: function () {
+            this.roles = [];  //清空数组
+            this.hasRes = [];
+            this.notRes.splice(0)
+            axios          //查角色this.set(this.arr,‘2’,’‘testStr’’) 即this.$set(obj,key,val)
+                .post('/adminLoing/role_show')
+                .then(function (response) {
+                    for (let i = 0; i < response.data.length; i++) {
+                        n = response.data[i].Role_id;
+                        if (n < 5 && n > 0) {
+                            n = n - 1;
+                            response.data[i].Role_name = resourceAllow.roleNames[n];
+                            n = n + 1;
+                        }
+                        Vue.set(resourceAllow.roles, i, response.data[i]);
+                        resFor(i, n);
+                    }
+                })
+                .catch(function (error) {
+                    $('#failModal .modal-body').text(error);
+                    $("#failModal").modal();
+                });
+            function resFor(x,id) {     
+                axios       //查角色拥有资源
+                    .post('/adminLoing/role_have_resource', {
+                        "roleID": id
+                    })
+                    .then(function (response) {
+                        Vue.set(resourceAllow.hasRes, x, response.data);
+                        // resourceAllow.[x] = response.data;
+                    })
+                    .catch(function (error) {
+                        $('#failModal .modal-body').text(error);
+                        $("#failModal").modal();
+                    });
+                axios       //查角色未有资源
+                    .post('/adminLoing/role_dont_ave_resource', {
+                        "roleID": id
+                    })
+                    .then(function (response) {
+                        Vue.set(resourceAllow.notRes, x, response.data);
+                        // resourceAllow.notRes[x] = response.data;
+                    })
+                    .catch(function (error) {
+                        $('#failModal .modal-body').text(error);
+                        $("#failModal").modal();
+                    });
+            }
+            // console.dir(resourceAllow.notRes);
+            // console.log(resourceAllow.hasRes);
+            // console.log(resourceAllow.roles);
+        },
+        showInput(index) {
+            this.row = index;
+            this.inputVisible = true;
+            // this.$nextTick(_ => {        结合@blur="handleInputConfirm(index)"使用
+            //     this.$refs.saveTagInput.$refs.input.focus();        //$nextTick
+            // });
+        },
+        handleInputConfirm(index) {                     //添加
+            let inputValue = this.inputValue;
+            isAble = false;
+            indexOf = resourceAllow.notRes[index].indexOf(inputValue);
+            if (indexOf != -1) {            //输入合法
+                axios
+                    .post('/adminLoing/delete_role_resource', {
+                        "roleID": this.roles[index].Role_id,
+                        "resource": inputValue
+                    })
+                    .then((response) => {
+                        if (response.data.status) {//修改视图
+                            resourceAllow.notRes[index].splice(indexOf, 1);
+                            Vue.set(resourceAllow.hasRes[index], resourceAllow.hasRes[index].length, inputValue);
+                        } else {
+                            $('#failModal .modal-body').text(response.data.msg);
+                            $("#failModal").modal();
+                        }
+                    }).catch((error) => {
+                        $('#failModal .modal-body').text(error);
+                        $("#failModal").modal();
+                    });
+                }else{          //输入权限不合法
+                    let allow = this.notRes[index].toString();
+                    $('#failModal .modal-body').text("输入权限不合法，当前角色可添加权限："+allow);
+                    $("#failModal").modal();
+                }
+            this.inputVisible = false;
+            this.row = -1;
+            this.inputValue = '';
+        },
+        handleClose: function (idIndex, tag) {          //删除角色对应权限
+            if (confirm("确定删除" + this.roles[idIndex].Role_name+"的" +
+                tag +
+                "的权限吗？")) {
+                axios
+                    .post('/adminLoing/delete_role_resource', {
+                        "roleID": resourceAllow.roles[idIndex].Role_id,
+                        "resource": tag
+                    })
+                    .then((response) => {
+                        if (response.data.status) {
+                            indexOf = resourceAllow.hasRes[idIndex].indexOf(tag);
+                            // console.log("id:" + indexOf);
+                            // console.log(idIndex);
+                            // console.log(resourceAllow.hasRes[idIndex]);
+                            resourceAllow.hasRes[idIndex].splice(indexOf, 1);       //修改视图
+                            Vue.set(resourceAllow.notRes[idIndex], resourceAllow.notRes[idIndex].length, tag);
+                        } else {
+                            $('#failModal .modal-body').text(response.data.msg);
+                            $("#failModal").modal();
+                        }
+                    }).catch((error) => {
+                        $('#failModal .modal-body').text(error);
+                        $("#failModal").modal();
+                    });
+                } 
+        },
+        deleteRoleRes: function (index) {
+            if (confirm("确定删除id为" +
+                resourceAllow.roles[index].Role_id +
+                "的角色吗？")) {
+                axios
+                    .post('/adminLoing/delete_role', {
+                        "roleID": resourceAllow.roles[index].Role_id,
+                    })
+                    .then(function (response) {
+                        if (response.data.status) {
+                            resourceAllow.init();
+                            $('#successModal .modal-body').text(response.data.msg);
+                            $("#successModal").modal();
+                        } else {
+                            $('#failModal .modal-body').text(response.data.msg);
+                            $("#failModal").modal();
+                        }
+                    })
+                    .catch(function (error) {
+                        $('#failModal .modal-body').text(error);
+                        $("#failModal").modal();
+                    });
+            }
+        },
+        createRole() {
+            axios
+                .post('/adminLoing/add_role', {
+                    "rolename": this.roleName,
+                })
+                .then(function (response) {
+                    if (response.data.status) {
+                        resourceAllow.init();
+                        $('#successModal .modal-body').text(response.data.msg);
+                        $("#successModal").modal();
+                    } else {
+                        $('#failModal .modal-body').text(response.data.msg);
+                        $("#failModal").modal();
+                    }
+                })
+                .catch(function (error) {
+                    $('#failModal .modal-body').text(error);
+                    $("#failModal").modal();
+                });
+            showName = false;
+            this.roleName = '';
+        }
+    }
+});
+//资源管理
+var resourceControl = new Vue({
+    el: "#resourceControl",
+    data() {
+        return {
+            selected: 0,
+            key: "",
+            placeholder: ["id", "资源名称", "资源描述", "路径", "权限", "父资源","类型"],
+            page: {
+                pageSize: 8,
+                pageNum: 1,
+                length: 1,
+                totalPage: 0
+            },
+            data: ''
+        };
+    },
+    methods: {
+        init_page: function (totalPage, currentPage) {
+            if (totalPage == 0) {
+                $("#resControl table tbody").html('');
+                $("#resControl table tbody").append("没有查询到相关数据！");
+                return;
+            }
+            $('#pagination8').jqPaginator({
+                totalPages: totalPage,        //页码整数
+                visiblePages: 6,
+                currentPage: currentPage,
+                first: '<li><a href="javascript:void(0);">首页</a></li>',
+                prev: '<li><a href="javascript:void(0);">上一页</a></li>',
+                next: '<li><a href="javascript:void(0);">下一页</a></li>',
+                last: '<li><a href="javascript:void(0);">末页</a></li>',
+                page: '<li><a href="javascript:void(0);">{{page}}</a></li>',
+                onPageChange: function (num, type) {
+                    if (type == 'change') {
+                        resourceControl.page.pageNum = num;
+                        resourceControl.searchFor(2);
+                    }
+                }
+            });
+        },
+        calPage: function () {
+            resourceControl.page.totalPage = Math.ceil(resourceControl.page.length / resourceControl.page.pageSize);
+        },
+        searchFor: function (initial) {
+            if (initial == 1) {
+                this.page.pageNum = 1;
+            } else if (initial == 0) {
+                this.page.pageNum = 1;
+                this.key = '';
+                this.selected = 0;
+            }
+            if (this.selected == 2) {
+                this.key = this.roleSearch;
+            }
+            axios
+                .post('/adminLoing/search_permission/' + this.page.pageNum + '/' + this.page.pageSize, {
+                    "key": this.key,
+                    "choice": this.selected
+                })
+                .then(function (response) {
+                    resourceControl.data = response.data[0];
+                    resourceControl.page.length = response.data[1];
+                    resourceControl.calPage();
+                    resourceControl.init_page(resourceControl.page.totalPage, resourceControl.page.pageNum);
+                })
+                .catch(function (error) {
+                    $('#failModal .modal-body').text(error);
+                    $("#failModal").modal();
+                });
+        },
+        deleteRes: function (index) {
+            if (confirm("确定删除id为" +
+                resourceControl.data[index].permission_id +
+                "的资源吗？")) {
+                axios
+                    .post('/adminLoing/delete_resource', {
+                        "permission_id": resourceControl.data[index].permission_id,
+                    })
+                    .then(function (response) {
+                        if (response.data.status) {
+                            $('#successModal .modal-body').text(response.data.msg);
+                            $("#successModal").modal();
+                            resourceControl.searchFor(2);
+                        } else {
+                            $('#failModal .modal-body').text(response.data.msg);
+                            $("#failModal").modal();
+                        }
+                    })
+                    .catch(function (error) {
+                        $('#failModal .modal-body').text(error);
+                        $("#failModal").modal();
+                    });
+            }
+        },
+        alterRes: function (index) {
+            $("#alterResModal").modal();
+            alterResModal.name=resourceControl.data[index].name;
+            alterResModal.description=resourceControl.data[index].description;
+            alterResModal.url=resourceControl.data[index].url;
+            alterResModal.perms=resourceControl.data[index].perms;
+            alterResModal.parent_id=resourceControl.data[index].parent_id;
+            alterResModal.type=resourceControl.data[index].type;
+            alterResModal.permission_id=resourceControl.data[index].permission_id;
+        },
+
+    }
+});
+//系统日志
 var logs = new Vue({
     el: '#logVue',
     data: {
@@ -568,7 +957,7 @@ var logs = new Vue({
                 onPageChange: function (num, type) {
                     if (type == 'change') {
                         logs.page.pageNum = num;
-                        logs.searchFor(false);
+                        logs.searchFor(2);
                     }
                 }
             });
@@ -577,8 +966,12 @@ var logs = new Vue({
             logs.page.totalPage = Math.ceil(logs.page.length / logs.page.pageSize);
         },
         searchFor: function (initial) {
-            if (initial) {
+            if (initial == 1) {
                 this.page.pageNum = 1;
+            } else if (initial == 0) {
+                this.page.pageNum = 1;
+                this.key = '';
+                this.selected = 0;
             }
             axios
                 .post('/adminLoing/searchLog/' + this.page.pageNum + '/' + this.page.pageSize, {
@@ -598,6 +991,7 @@ var logs = new Vue({
         }
     }
 });
+//消息通知
 var notices = new Vue({
     el: '#notice',
     data: {
@@ -669,9 +1063,9 @@ function filterXSS(str) {
 // console.log(filterXSS("<img src='/' onerror='alert(11)'/>"));
 
 /* 一些触发事件 */
+$("#personal").load("info.html"); 
 $(document).on('click', '#modalBtn', function () {
     var index = $("input[name='worker']:checked").val();
-    console.log(itemModal.workers);
     $("#itemModal").modal('hide');
     axios
         .post('/adminLoing/leaderEdit', {
@@ -680,7 +1074,7 @@ $(document).on('click', '#modalBtn', function () {
         })
         .then(function (response) {
             if (response.data.status) {
-                items.searchFor(false);
+                items.searchFor(2);
                 $("#successModal").modal();
                 $('#successModal .modal-body').text(response.data.msg);
             } else {
@@ -708,107 +1102,16 @@ $("#loginOut").click(function () {
             }
         },
         error: function () {
-            alert("连接超时，请重试！");
+            $('#failModal .modal-body').text("连接超时，请重试！");
+            $("#failModal").modal();
         }
     });
 });
-$("#edit_bt").click(function () {
-    var readonly = $("#username").attr("readonly") === 'readonly' ? false : true;
-    $("#username").attr("readonly", readonly);
-    $("#tel").attr("readonly", readonly);
-    $("#email").attr("readonly", readonly);
-    $("#form_userinfo").validate();
-    $(this).text($(this).text() === '编辑' ? '取消' : '编辑');
-});
-$("#save_bt").click(function () {
-    var User_name = $("#username").val();
-    var Tel = $("#tel").val();
-    var Email = $("#email").val();
-    var info = {
-        "User_name": User_name,
-        "Tel": Tel,
-        "Email": Email
-    };
-    $("#form_userinfo").validate();
-    if ($('#form_userinfo').valid()) {
-        $.ajax({
-            type: 'POST',
-            data: JSON.stringify(info),
-            contentType: 'application/json',
-            dataType: 'json',
-            url: '/worker/worker_updateBy_Session_UserId',
-            success: function (data) {
-                if (data.code == 0) {      //修改成功
-                    $("#successModal").modal();
-                    $('#successModal .modal-body').text("修改成功！");
-                } else {
-                    $('#failModal .modal-body').text(data.status);
-                    $("#failModal").modal();
-                }
-                $("#userId").val(data.User_id);
-                $("#username").attr("readonly", true).val(data.User_name);
-                $("#tel").attr("readonly", true).val(data.Tel);
-                $("#email").attr("readonly", true).val(data.Email);
-                $('#edit_bt').text('编辑');
-            },
-            error: function (textStatus) {
-                $("#failModal").modal();
-                $('#failModal .modal-body').text(textStatus);
-            }
-        });
-    }
-});
-$("#form_userinfo").validate({
-    rules: {
-        username: {
-            required: true,
-            minlength: 1,
-            maxlength: 20
-        },
-        email: {
-            email: true
-        },
-        tel: {
-            required: true,
-            minlength: 7,
-            maxlength: 15
-        }
-    },
-    messages: {
-        username: {
-            required: "请输入用户名",
-            minlength: "不能为空",
-            maxlength: "长度不能大于20",
-        },
-        tel: {
-            required: "请输入电话",
-            minlength: "长度不能小于7",
-            maxlength: "长度不能大于15",
-        },
-        email: {
-            email: "电子邮件格式错误"
-        }
-    }
-});
 $("#questions_check").click(function () {
     $("#info").slideToggle("slow");
+    $("#author").hide();
 });
-$('.nav-pills li[role="presentation"]').click(function () {
-    var i = $(this).index() - 1;
-    if (i != 2) {
-        i >= 4 ? i = i + 1 : i = i;
-        $(this).addClass('active').siblings().removeClass('active');
-        $('#info li').removeClass('active');
-        $(".find_panel").children().hide();
-        $(".pa_all").eq(i).show();
-        $(".message").show();
-    }
-});
-$('#info li').click(function (e) {
-    var i = $(this).index();
-    $('.nav-pills li[role="presentation"]').removeClass('active');
-    $(this).addClass('active').siblings().removeClass('active');
-    $(".find_panel").children().hide();
-    $(".pa_all").eq(i + 2).show();
-    $(".message").show();
+$("#authority").click(function () {
+    $("#author").slideToggle("slow");
+    $("#info").hide();
 });

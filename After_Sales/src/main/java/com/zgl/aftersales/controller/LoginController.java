@@ -4,6 +4,7 @@ package com.zgl.aftersales.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.zgl.aftersales.dao.MyLog;
 import com.zgl.aftersales.pojo.Status;
+import com.zgl.aftersales.pojo.UUIDUtils;
 import com.zgl.aftersales.pojo.Users;
 import com.zgl.aftersales.service.MailService;
 import com.zgl.aftersales.service.UserService;
@@ -16,21 +17,16 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -68,6 +64,12 @@ public class LoginController {
         user.setTel(StringEscapeUtils.escapeSql(userJson.getString("Tel")));
         user.setEmail(StringEscapeUtils.escapeSql(userJson.getString("Email")));
 
+        //邮箱验证生成激活码code
+        user.setStatus(0);
+        UUIDUtils uuidUtils = new UUIDUtils();
+        String code = uuidUtils.getUUID()+ uuidUtils.getUUID();
+        user.setCode(code);
+
         String repwd=json.getString("repwd");
 
 
@@ -92,6 +94,7 @@ public class LoginController {
                     if (Pattern.matches(patternTel, tel) && !tel.equals("")) {
                         if (Pattern.matches(patternMail, mail) && !mail.equals("")) {
                             try {
+
                                 userService.addUser(user);
                                 Users selectUser=userService.selectByUsername(userName);
                                 int userID=selectUser.getUser_id();
@@ -100,11 +103,12 @@ public class LoginController {
                                 map.put("Role_id","3");
                                 userService.insertRoleID(map);
                                 status.setStatus(true);
+
                                 status.setMsg("注册成功");
                             }
                             catch (Exception e){
                                 status.setMsg("注册失败,该用户已存在" );
-
+                                e.printStackTrace();
                             }
 
                         } else {
@@ -131,6 +135,66 @@ public class LoginController {
     }
 
     /**
+     * 发送激活邮件
+     * @return void
+     */
+    @PostMapping(value = "/sendMail")
+    public void sendeMail(String username) {
+        Users user = userService.selectByUsername(username);
+
+        System.out.println("email"+user.getEmail());
+        String codePwd=DesDecodeUtiles.getEncryptString(user.getPassword());
+        user.setPassword(codePwd);
+
+        //获取激活码
+        String code = user.getCode();
+        System.out.println("code:"+code);
+        //主题
+        String subject = "来自软件售后服务系统网站的激活邮件";
+        //user/checkCode?code=code(激活码)是我们点击邮件链接之后根据激活码查询用户，如果存在说明一致，将用户状态修改为“1”激活
+        //上面的激活码发送到用户注册邮箱
+        //String context = "<a href=\"/user/checkCode?code="+code+"\">激活请点击:"+code+"</a>";
+          String context = "激活请点击:"+"http://127.0.0.1:5050/user/checkCode?Code="+code;
+        //发送激活邮件
+        mailService.sendMail (user.getEmail(),subject,context);
+        //
+    }
+
+    /**
+     * 跳转到登录页面
+     * @return login
+     */
+    @RequestMapping(value = "/loginPage")
+    public String login(){
+        return "login";
+    }
+
+    /**
+     *校验邮箱中的code激活账户
+     * 首先根据激活码code查询用户，之后再把状态修改为"1"
+     */
+    @GetMapping("/checkCode")
+    public String checkCode(@RequestParam(value = "Code",required=false)String Code){
+        System.out.println("code"+Code);
+        Users user = userService.checkCode(Code);
+        System.out.println(user);
+        //如果用户不等于null，把用户状态修改status=1
+        if (user !=null){
+            user.setStatus(1);
+            //把code验证码清空，已经不需要了
+            user.setCode("");
+            System.out.println("user:"+user);
+            System.out.println("status:"+user.getStatus());
+            userService.updateUserStatus(user);
+        }
+        if(user.getStatus()==1){
+            return "激活成功，请重新登陆！";
+        }else {
+            return "激活失败！";
+        }
+    }
+
+    /**
      * 登录
      * @param json
      * @param req
@@ -148,6 +212,7 @@ public class LoginController {
         String loginPwd=StringEscapeUtils.escapeSql(json.getString("pwd"));
 
        Users user=userService.selectByUsername(loginUsername);
+
        String codPwd=DesDecodeUtiles.getEncryptString(loginPwd);
         //获取当前用户
 
@@ -168,6 +233,11 @@ public class LoginController {
                 status.setData("user_homepage_login.html");
             }else {
                 status.setCode(5);//没有权限
+            }
+            if(user.getStatus()==0){
+                status.setMsg("该用户未激活，请前往邮箱激活");
+                status.setCode(2);
+                return status;
             }
 
             status.setMsg("登录成功");
@@ -290,19 +360,26 @@ public class LoginController {
     }
 
     /**
-     * 传递用户角色
+     * 传递用户角色和权限
      * @param req
      * @return
      */
-    @PostMapping("/hasroles")
-    public List<String> hasRoles(HttpServletRequest req){
+    @PostMapping("/has_roles_pers")
+    public Map<String,?> hasRoles(HttpServletRequest req){
         HttpSession session=req.getSession(false);
-        int userID=(int)session.getAttribute("userID");
-        List<String> list=userService.showRolesByUserID(userID);
-        return list;
+        Subject subject= SecurityUtils.getSubject();
+        List<String> pers=( List<String>) session.getAttribute("permissions");
+        List<String> roles=(List<String>) session.getAttribute("roles");
+        Map<String, List<String>> map=new HashMap<>();
+        map.put("roles",roles);
+        map.put("pers",pers);
+
+
+        return map;
 
 
     }
+
 
 
 

@@ -4,94 +4,268 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>首页</title>
+    <script src="https://use.fontawesome.com/db14902947.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" href="css/userNotLogin.css">
-    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<!--    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>-->
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
     <!--VUE-->
     <script src="js/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
-    <script src="js/jq-paginator.min.js"></script>
+<!--    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>-->
+<!--    <script src="js/jq-paginator.min.js"></script>-->
+
 </head>
 <body>
+
 <!-- 导航栏 -->
-<nav class="navbar" role="navigation">
+<nav class="navbar top-nav" role="navigation">
     <div class="right_info_heading"><img src="img/logo (1).png" alt="logo" srcset=""><span class="tab"></span>软件公司售后系统</div>
     <div class="right_info_right">
-        <div class="right_info"><a href="login_tags.html" class="top">登录/注册</a></div>
-<!--        <div class="right_info"><a href="login_tags.html" class="top">注册</a></div>-->
+        <div class="right_info transition" id="sibling-transition">
+            <a href="login_tags.html" class="top">登录/注册</a>
+            <a href="#fourpagebg" class="top">服务</a>
+            <a href="#threepagebg" class="top">FAQ</a>
+        </div>
+<!--        <div class="stretch" id="sibling-stretch"></div>-->
+        <!--        <div class="right_info"><a href="login_tags.html" class="top">注册</a></div>-->
     </div>
 </nav>
-<!-- 主体 -->
-<div class="jumbotron">
-    <div class="container">
-        <h1>Hello, Welcome!</h1>
+<!--第一页页面-->
+    <div class="onepage">
+        <div class="onepage-bg" id="onepagebg"></div>
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-xl-7 col-lg-7">
+                    <h1 class="healthcontent">完善的售后服务</h1>
+                    <p class="onepage_content">我们将为您所购买的软件提供完善的售后服务，您可以放心使用本公司出售的软件产品。在售后承诺的售后时效内我们将为您提供高效且完善的售后服务，并且适当给予相应的后续维修方案</p>
+                    <a class="my-btn" href="#fourpagebg" id="btlearnmore">了解更多</a>
+                </div>
+                <div class="col-xl-5 col-lg-5 d-xl-flex d-lg-flex d-block align-items-center">
+                    <img src="http://v.bootstrapmb.com/2020/4/8r3or7843/assets/images/banner-img.png" alt="banner image" class="playerimg" id="onepageimg">
+                </div>
+            </div>
+        </div>
+    </div>
+<!--第二页页面-->
+<!--<div class="twopage">-->
+<!--    <div class="twopage-bg" id="twopagebg">-->
+<!--        <div class="container">-->
+<!--            <div class="row ">-->
+<!--               <div class="col-xl-12 col-lg-12">-->
+<!--                   <div id="demo" class="carousel slide col-xl-12 col-lg-12" data-ride="carousel">-->
+<!--                       &lt;!&ndash; 指示符 &ndash;&gt;-->
+<!--                       <ul class="carousel-indicators">-->
+<!--                           <li data-target="#demo" data-slide-to="0" class="active"></li>-->
+<!--                           <li data-target="#demo" data-slide-to="1"></li>-->
+<!--                           <li data-target="#demo" data-slide-to="2"></li>-->
+<!--                       </ul>-->
+
+<!--                       &lt;!&ndash; 轮播图片 &ndash;&gt;-->
+<!--                       <div class="carousel-inner">-->
+<!--                           <div class="carousel-item active">-->
+<!--                               <img src="https://static.runoob.com/images/mix/img_fjords_wide.jpg">-->
+<!--                           </div>-->
+<!--                           <div class="carousel-item">-->
+<!--                               <img src="https://static.runoob.com/images/mix/img_nature_wide.jpg">-->
+<!--                           </div>-->
+<!--                           <div class="carousel-item">-->
+<!--                               <img src="https://static.runoob.com/images/mix/img_mountains_wide.jpg">-->
+<!--                           </div>-->
+<!--                       </div>-->
+
+<!--                       &lt;!&ndash; 左右切换按钮 &ndash;&gt;-->
+<!--                       <a class="carousel-control-prev" href="#demo" data-slide="prev">-->
+<!--                           <span class="carousel-control-prev-icon"></span>-->
+<!--                       </a>-->
+<!--                       <a class="carousel-control-next" href="#demo" data-slide="next">-->
+<!--                           <span class="carousel-control-next-icon"></span>-->
+<!--                       </a>-->
+<!--                   </div>-->
+<!--               </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!-- 第三个页面FAQ-->
+<div class="threepage">
+    <div class="threepage-bg" id="threepagebg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-10">
+                    <div class="heading">
+<!--                        <p>faq</p>-->
+                        <h2 class="faq_heading">frequently asked questions</h2>
+                    </div>
+                </div>
+            </div>  <!--row-->
+            <!--            -->
+            <div class="row">
+                <!--文本区域-->
+                <div class="col-xl-7 col-lg-7 col-md-7">
+                    <div class="part-txt">
+                        <div class="container">
+                            <div id="accordion">
+                                <div class="card" id="pa">
+                                    <div class="card-header">
+                                        <a class="collapsed card-link faq_title"  >
+                                            {{fri}}
+                                        </a>
+                                        <button class="btn faq_bt" type="button" data-toggle="collapse" href="#collapseOne" id="judge_first"></button>
+                                    </div>
+                                    <div id="collapseOne" class="collapse" data-parent="#accordion">
+                                        <div class="card-body">
+                                            {{friBody}}
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <a class="collapsed card-link faq_title" >
+                                                {{sec}}
+                                            </a>
+                                            <button class="btn faq_bt" type="button" data-toggle="collapse" href="#collapseTwo" id="judge_second"></button>
+                                        </div>
+                                        <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                                            <div class="card-body">
+                                                {{secBody}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <a class="collapsed card-link faq_title">
+                                                {{thr}}
+                                            </a>
+                                            <button class="btn faq_bt" type="button"  data-toggle="collapse" href="#collapseThree" id="judge_third"></button>
+                                        </div>
+                                        <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                            <div class="card-body">
+                                                {{thrBody}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <a class="collapsed card-link faq_title" >
+                                                {{fou}}
+                                            </a>
+                                            <button class="btn faq_bt" type="button" data-toggle="collapse" href="#collapseFour" id="judge_fourth"></button>
+                                        </div>
+                                        <div id="collapseFour" class="collapse" data-parent="#accordion">
+                                            <div class="card-body">
+                                                {{fouBody}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!--图片区域-->
+                <div class="col-xl-5 col-lg-5">
+                    <img src="http://v.bootstrapmb.com/2020/4/8r3or7843/assets/images/about.png" alt="banner image" class="playerimg" id="threeimg">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<!--    -->
-<div class="container-fluid">
-    <div class="row-fluid">
-        <ul class="panelAll" id="pa">
-                <ul class="panel panel-defalut">
-                    <li>
-                        <div class="panel-heading" id="judge_first">
-                            {{fri}}
+<!--第四个页面-->
+<div class="fourpage">
+    <div class="fourpage-bg" id="fourpagebg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-10">
+                    <div class="heading">
+<!--                        <p>SERVICE</p>-->
+                        <h2 class="faq_heading">我们提供的服务</h2>
+                    </div>
+                </div>
+            </div>  <!--row-->
+            <div class="row">
+                <div class="col-xl-5 col-lg-5">
+                    <img src="http://v.bootstrapmb.com/2020/4/8r3or7843/assets/images/offer-img.png" alt="banner image" class="playerimg" id="fourimg">
+                </div>
+                <div class="content col-xl-7 col-lg-7 col-md-7">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="analyst-tab" data-toggle="tab" href="#analyst" role="tab" aria-controls="analyst" aria-selected="true">安全评估</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" id="optimization-tab" data-toggle="tab" href="#optimization" role="tab" aria-controls="optimization" aria-selected="false">疑难解答</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" id="security-tab" data-toggle="tab" href="#security" role="tab" aria-controls="security" aria-selected="false">售后维护</a></li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade active show" id="analyst" role="tabpanel" aria-labelledby="analyst-tab">
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="part-txt">
+                                        <h3>全面的软件安全评估</h3>
+                                        <p>由于各种平台、应用、连接与变更的速度和有限的资源组合在一起，因此采取所有必要措施保护组织的资产比以往任何时候都困难。环境越复杂，就越需要这种措施和控制来保证组织业务流程的连续性。我们提供完善且先进的软件安全评估方法，为您购买的软件产品安全保驾护航。</p>
+                                        <ul>
+                                            <li class="ic"><i class="fa fa-cog fa-spin fa-lg fa-fw"></i>定性评估</li>
+                                            <li class="ic"><i class="fa fa-cog fa-spin fa-lg fa-fw"></i>专业评估</li>
+                                            <li class="ic"><i class="fa fa-cog fa-spin fa-lg fa-fw"></i>危险与可操作性分析法</li>
+                                            <li class="ic"><i class="fa fa-cog fa-spin fa-lg fa-fw "></i>危害辨识</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </li>
-                    <li>
-                        <div class="panel-body" id="panel_first" style="display: none;">
-                            {{friBody}}
+                        <div class="tab-pane fade" id="optimization" role="tabpanel" aria-labelledby="optimization-tab">
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="part-txt">
+                                        <h3>及时解决疑难问题</h3>
+                                        <p>为解决软件故障，在维修期内用户可随时申请疑难解答，我们将为你解决相关疑难问题并为您提供相应的维护方案，如果您有额外需求也可以个性化定制您的维护方案</p>
+                                        <ul>
+                                            <li class="ic"><i class="fa fa-cog fa-spin fa-lg fa-fw"></i>软件兼容</li>
+                                            <li class="ic"><i class="fa fa-cog fa-spin fa-lg fa-fw"></i>非法操作</li>
+                                            <li class="ic"><i class="fa fa-cog fa-spin fa-lg fa-fw"></i>文件丢失</li>
+                                            <li class="ic"><i class="fa fa-cog fa-spin fa-lg fa-fw "></i>内存冲突</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </li>
-                </ul>
-                <ul class="panel panel-defalut">
-                    <li>
-                        <div class="panel-heading" id="judge_second">
-                            {{sec}}
+                        <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+                            <div class="row">
+                                <div class="col-xl-12 col-lg-12">
+                                    <div class="part-txt">
+                                        <h3>体验感绝佳的售后服务</h3>
+                                        <p>在售后期间您可以享受完善的售后服务，软件产品出现问题时您可以填写相关问题信息或上传图片添加描述提交问题给我们，我们将及时为您安排相应维修人员处理相应问题。在问题提交至问题解决期间您可以随时查看问题的状态以及问题解决的进度。对于常见问题或者最新问题也可以通过FAQ查看来自主解决相应问题</p>
+                                        <ul>
+                                            <li class="ic"><i class="fa fa-cog fa-spin fa-lg fa-fw"></i>问题提交</li>
+                                            <li class="ic"><i class="fa fa-cog fa-spin fa-lg fa-fw"></i>FAQ查看</li>
+                                            <li class="ic"><i class="fa fa-cog fa-spin fa-lg fa-fw"></i>图片描述</li>
+                                            <li class="ic"><i class="fa fa-cog fa-spin fa-lg fa-fw "></i>查看状态</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </li>
-                    <li>
-                        <div class="panel-body" id="panel_second" style="display: none;">
-                            {{secBody}}
-                        </div>
-                    </li>
-                </ul>
-                <ul class="panel panel-defalut">
-                    <li>
-                        <div class="panel-heading" id="judge_third">
-                            {{thr}}
-                        </div>
-                    </li>
-                    <li>
-                        <div class="panel-body" id="panel_third" style="display: none;">
-                            {{thrBody}}
-                        </div>
-                    </li>
-                </ul>
-                <ul class="panel panel-defalut">
-                    <li>
-                        <div class="panel-heading" id="judge_fourth">
-                            {{fou}}
-                        </div>
-                    </li>
-                    <li>
-                        <div class="panel-body" id="panel_fourth" style="display: none;">
-                            {{fouBody}}
-                        </div>
-                    </li>
-                </ul>
-            </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
 
 
 
 
 <!-- jQuery-->
-<script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>
-<script src="js/jquery.validate.js"></script>
+<!--<script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>-->
+
 <script src="js/userNotLogin.js"></script>
 
 </body>

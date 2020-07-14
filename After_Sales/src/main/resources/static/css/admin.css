@@ -1,23 +1,16 @@
 /* 登录后用户个人信息 */
 html,body { height: 100%; padding: 0; margin: 0; }
 li{list-style: none;}
-#info .index_title{
+.second_list .index_title {
     font-size: 15px;
 }
-ul#info {
+ul#info,
+ul#author {
     margin: -10px 0 10px 25px;
     height: 150px;
 }
-ul#info li{
-    height: 50px;
-}
-#form_userinfo{
-    margin-top:20px ;
-}
-#form_userinfo li{
-    padding: 15px;
-    display:flex;
-    justify-content: center;
+.second_list li {
+    height: 50px !important;
 }
 .left_frame{
     margin: 0;
@@ -45,6 +38,10 @@ ul#info li{
     height:20vh;
     background-color:#1c252e;
     margin: 0px;
+}
+#questions_check span.index_title,
+#authority span.index_title {
+    padding-left: 5px;
 }
 .logoImg{
     /* color: #B5C3D4; */
@@ -94,19 +91,6 @@ ul#info li{
     margin-top: 15px;
     color: rgb(131, 130, 130);
 }
-/* 个人信息 */
-.info{
-    color: rgb(131, 130, 130);
-}
-#userId{
-    cursor: default;
-}
-li.bt_list {
-    margin-top: 20px;
-}
-li.bt_list button {
-    margin-right: 30px;
-}
 /*项目管理模态框 */
 #itemModal .modal-content {
     height: 450px;
@@ -127,6 +111,7 @@ li.bt_list button {
     border: 1px solid rgb(255, 255, 255);
 }
 #itemModal table th{
+    border: 1px solid rgb(255, 255, 255);
     background-color: rgb(220, 220, 220);
     color: black;
 }
@@ -172,7 +157,7 @@ input[type="radio"]{
 }
 .tab_search{
     float: right;
-    margin: 0 40px 10px 0;
+    margin: 0 6px 10px 0;
 }
 .tab_search .glyphicon{
     margin: 0px;
@@ -187,17 +172,42 @@ table input{
     line-height: 1.5;
     border-radius: 3px;
 }
+
 .searchSel{
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     height: 30px;
+    border: 1px solid rgb(221, 221, 221);
     padding: 2px;
     font-size: 14px;
     border-radius: 3px;
 }
+#alterResModal .modal-body input {
+    border: 1px solid rgb(221, 221, 221);
+    width: 250px;
+    padding: 3px;
+    border-radius: 4px;
+}
+#alterResModal textarea{
+    border-radius: 4px;
+    border: 1px solid rgb(221, 221, 221);
+}
+#alterResModal ul {
+    /* margin: 0; */
+    display: block;
+    padding: 10px 0 0 100px;
+}
+#alterResModal .modal-body{
+    font-size: 15px;
+    color: rgb(95, 158, 160);
+}
+#alterResModal ul li {
+    margin-top: 20px;
+}
 .searchIn{
     height: 30px;
     padding: 2px 5px;
+    border: 1px solid rgb(221, 221, 221);
 }
 .searchBtn{
     width: 40px;
@@ -205,30 +215,37 @@ table input{
     margin: 0 0 1px -4px;
     border: none;
     border-radius: 1px;
-    background-color: #323652;
+    /* background-color: #323652; */
+    /* border: 1px solid rgb(221, 221, 221); */
 }
 table{
-    width: 90%;
+    width: 100%;
+    /* border: 1px solid gray;
+    border-radius: 1px; */
     table-layout: fixed;
 }
 table tr,td,th{
-    word-wrap: break-word;
+    word-wrap: break-word;          /* 隐藏超出内容 */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    border: 1px solid rgb(221, 221, 221);
     padding-left: 5px;
     cursor: default;
 }
-table tbody td:hover{
-    overflow: visible;
+table tbody td:hover,
+#role_resource td {
+    overflow: visible;              /* 恢复隐藏内容 */
     white-space: normal;
+    font-size: 15px;
     cursor: hand;
 }
 table th{
     font-size: 16px;
-    background-color: #364a5f;
-    color: white;
-    border: 1px solid white;
+    /* background-color: #364a5f; */
+    /* border: 1px solid rgb(221, 221, 221); */
+    color: #364a5f;
+    /* border: 1px solid white; */
 }
 table tbody tr:nth-child(even){
     background-color:#FFFFFF;
@@ -241,6 +258,60 @@ table tbody tr:hover td{background-color:none;}
 table tbody tr:hover{color:#fff;background-color:rgb(51, 122, 183);} 
 table tbody tr:hover a{color:#fff;}
 table tbody tr:hover .searchSel{background-color: #F8F8FF;color: black;}
+#role_resource{
+    height: 350px;
+    overflow-y: auto;
+}
+#role_resource tbody tr{
+    color: #364a5f;
+    background-color: transparent;
+}
+#role_resource tbody td{
+    padding: 0px;
+}
+#role_resource tbody tr:hover a {
+    color: rgb(51, 122, 183);
+}
+#resourceAllow {
+    overflow: auto;
+}
+
+/* tags */
+
+.button-new-tag {
+    /* margin-left: 5px; */
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.input-new-tag {
+    width: 90px;
+    margin-left: 5px;
+    vertical-align: bottom;
+}
+.button{
+    width: 100px;
+    line-height: 30px;
+    text-align: center;
+    font-weight: 500;
+    color: #fff;
+    text-shadow:1px 1px 1px #333;
+    border-radius: 5px;
+    margin:0 20px 0 0;
+    position: relative;
+    overflow: hidden;
+}
+.button.gray {
+    color: #8c96a0;
+    text-shadow: 1px 1px 1px #fff;
+    border: 1px solid #dce1e6;
+    box-shadow: 0 1px 2px #fff inset, 0 -1px 0 #a8abae inset;
+    background: -webkit-linear-gradient(top, #f2f3f7, #e4e8ec);
+    background: -moz-linear-gradient(top, #f2f3f7, #e4e8ec);
+    background: linear-gradient(top, #f2f3f7, #e4e8ec);
+}
 /* 任务指派按钮 */
 .assign_btn{
     padding-left: 100px;
@@ -284,13 +355,19 @@ label.error{
     padding: 5px 0 0 16px;
     background:url("../img/error.png") left no-repeat;
 }
+#notice th,
+#notice tr,
+#notice td {
+    font-weight:normal;
+    border: none;
+}
 .sidebar-widget {
     padding: 2.5rem;
     background: #f5f5f5!important;
 }
 .sidebar-widget-heading{
     color: #212529;
-    font-weight: bolder;
+    /* font-weight: bolder; */
     font-size: 24px;
 }
 #notice table {
@@ -325,10 +402,23 @@ label.error{
 .mm{
     width: 100%;
 }
+.breadcrumb {
+    font-size: 15px;
+    margin: 0;
+    background-color: transparent;
+}
+
+.breadcrumb>li {
+    font-weight: 16;
+}
+
+.panel-heading {
+    padding: 5px;
+}
 .panel{
     box-shadow: 0px 1px 12px rgb(206, 203, 203);
-    background-color:#F5F5F5;
     height: 500px;
+    padding: 0;
 }
 .message{
     margin-top: 20px;

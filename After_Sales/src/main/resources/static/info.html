@@ -1,0 +1,60 @@
+<div class="panel-heading">
+    <h3 class="panel-title">
+        <ul class="breadcrumb">
+            <li>个人主页</li>
+            <li>个人信息</li>
+        </ul>
+    </h3>
+</div>
+<div class="panel-body">
+    <form id="form_userinfo">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <label for="userId">用户ID：</label>
+                <input type="text" readonly="true" id="userId" name="userId" value="">
+            </li>
+            <li class="list-group-item">
+                <label for="username">用户名：</label>
+                <input type="text" readonly="true" id="username" name="username" value="">
+            </li>
+            <li class="list-group-item">
+                <label for="tel">&ensp;&ensp;电话：</label>
+                <input type="tel" readonly="true" id="tel" name="tel" value="">
+            </li>
+            <li class="list-group-item">
+                <label for="email">&ensp;&ensp;邮箱：</label>
+                <input type="email" readonly="true" id="email" name="email" value="">
+            </li>
+            <li class="bt_list">
+                <button type="button" id="edit_bt" class="btn btn-primary">编辑</button>
+                <button type="button" id="save_bt" class="btn btn-primary">保存</button>
+            </li>
+        </ul>
+    </form>
+</div>
+<style>
+    #form_userinfo{
+        margin-top:20px ;
+    }
+    #form_userinfo li{
+    padding: 15px;
+    display:flex;
+    justify-content: center;
+    }
+    /* 个人信息 */
+    .info{
+    color: rgb(131, 130, 130);
+    }
+    #userId{
+    cursor: default;
+    }
+    li.bt_list {
+    margin-top: 20px;
+    }
+    li.bt_list button {
+    margin-right: 30px;
+    }
+</style>
+<!-- <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script> -->
+<script src="js/jquery.validate.js"></script>
+<script src="js/info.js"></script>
