@@ -11,6 +11,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -317,6 +318,7 @@ public class AdminLoginController {
     UserService userService;
     @Autowired
     MailService mailService;
+    @Transactional
     @PostMapping("/allocation")
     @MyLog(value = "向maintenance表中添加数据，修改users中task_num字段，修改questions表中status字段")
     public Status allocationTask(@RequestBody JSONObject json){
@@ -545,7 +547,7 @@ public class AdminLoginController {
         return status;
 
     }
-
+    @MyLog("删除角色")
     @PostMapping("/delete_role")
     public Status deleteRole(@RequestBody JSONObject json){
         Status status=new Status();
@@ -592,6 +594,7 @@ public class AdminLoginController {
      * @param json
      * @return
      */
+    @MyLog("为角色添加资源")
     @PostMapping("/add_role_resource")
     public Status addRoleResource(@RequestBody JSONObject json) {
         Status status = new Status();
@@ -617,6 +620,7 @@ public class AdminLoginController {
      * @param json
      * @return
      */
+    @MyLog("删除角色资源")
     @PostMapping("/delete_role_resource")
     public Status deleteRoleResource(@RequestBody JSONObject json) {
         Status status = new Status();
@@ -665,6 +669,7 @@ public class AdminLoginController {
      * @param json
      * @return
      */
+    @MyLog("添加资源")
     @PostMapping("/permission_add")
     public Status permissionAdd(@RequestBody JSONObject json){
         Status status=new Status();
