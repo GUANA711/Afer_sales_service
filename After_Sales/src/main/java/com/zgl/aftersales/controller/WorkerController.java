@@ -12,6 +12,7 @@ import com.zgl.aftersales.service.WorkerService;
 import com.zgl.aftersales.utiles.DesDecodeUtiles;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -151,6 +152,7 @@ public class WorkerController {
     private MaintenanceService maintenanceService;
     @PostMapping("/worker_receive")
     @MyLog(value = "插入数据到maintenance表，修改question表的问题状态为accept，修改users表的task-Num+1")
+    @Transactional//springboot 事务注解（保证多表修改时同步，保证全部表修改成功）
     public WorkerStatus worker_receive(@RequestBody JSONObject json, HttpServletRequest req) {
 
         //true是没有session就新建一个  false是没有session就是null
@@ -194,6 +196,7 @@ public class WorkerController {
      */
     @PostMapping("/worker_finish")
     @MyLog(value = "修改question表的问题状态为done，修改users表的task-Num-1")
+    @Transactional//springboot 事务注解（保证多表修改时同步，保证全部表修改成功）
     public WorkerStatus worker_finish(@RequestBody JSONObject json, HttpServletRequest req) {
 
         //将登录的session的User_id取出来
